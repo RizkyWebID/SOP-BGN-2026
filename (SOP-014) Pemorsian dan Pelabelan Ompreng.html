@@ -1,0 +1,1154 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistem Laporan Kesesuaian Gramasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f3f4f6;
+        font-size: 12px;
+      }
+
+      /* Modal Background */
+      .modal-bg {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      /* Styling Canvas Tanda Tangan */
+      .signature-pad {
+        border: 2px dashed #cbd5e1;
+        border-radius: 0.5rem;
+        cursor: crosshair;
+        background-color: #ffffff;
+        touch-action: none;
+      }
+
+      /* --- CSS KHUSUS PRINT (PORTRAIT) --- */
+      @media print {
+        @page {
+          margin: 1cm;
+        }
+
+        body {
+          background-color: white;
+          font-family: Arial, sans-serif;
+          font-size: 11pt;
+          line-height: 1.25;
+        }
+        .no-print {
+          display: none !important;
+        }
+
+        #admin-view {
+          display: block !important;
+          padding: 0 !important;
+          margin: 0 auto !important;
+          box-shadow: none !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          min-height: auto !important;
+        }
+        #user-view,
+        #top-nav {
+          display: none !important;
+        }
+
+        .border-black {
+          border-color: #000 !important;
+        }
+        .border-2 {
+          border-width: 1.5px !important;
+        }
+
+        input,
+        select,
+        textarea {
+          border: none !important;
+          background-color: transparent !important;
+          appearance: none;
+          -webkit-appearance: none;
+          color: black !important;
+          padding: 0 !important;
+          margin: 0 !important;
+          font-size: 11pt !important;
+          font-family: Arial, sans-serif !important;
+          text-align: center;
+        }
+        ::-webkit-input-placeholder {
+          color: transparent !important;
+        }
+
+        table {
+          width: 100% !important;
+          table-layout: fixed;
+          border-collapse: collapse !important;
+        }
+        th,
+        td {
+          padding: 5px 3px !important;
+          word-wrap: break-word;
+          font-size: 11pt !important;
+          text-align: center;
+        }
+
+        /* Penyesuaian Lebar Kolom Print Tabel Gramasi */
+        th:nth-child(1) {
+          width: 22%;
+          text-align: left;
+        }
+        th:nth-child(2) {
+          width: 12%;
+        }
+        th:nth-child(3) {
+          width: 12%;
+        }
+        th:nth-child(4) {
+          width: 12%;
+        }
+        th:nth-child(5) {
+          width: 12%;
+        }
+        th:nth-child(6) {
+          width: 12%;
+        }
+        th:nth-child(7) {
+          width: 18%;
+        }
+
+        /* Kolom pertama (Nama Menu) rata kiri saat cetak */
+        td:nth-child(1) {
+          text-align: left !important;
+          font-weight: bold;
+          padding-left: 5px !important;
+        }
+
+        .print-name-input {
+          border-bottom: 1px solid black !important;
+        }
+        .print-name-input::-webkit-input-placeholder {
+          color: #555 !important;
+        }
+
+        .print-signature-area {
+          display: block !important;
+          text-align: center;
+        }
+        .print-signature-area img {
+          max-width: 120px;
+          max-height: 60px;
+          display: inline-block;
+        }
+        .canvas-container {
+          display: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="text-gray-800">
+    <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="font-bold text-sm sm:text-base flex items-center gap-2">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            ></path>
+          </svg>
+          Sistem Laporan Harian
+        </div>
+        <div class="flex gap-2">
+          <button
+            onclick="switchTab('user')"
+            id="btn-tab-user"
+            class="px-4 py-2 bg-indigo-700 hover:bg-indigo-600 rounded transition font-medium border border-indigo-500 text-xs sm:text-sm"
+          >
+            Mode User (Input)
+          </button>
+          <button
+            onclick="switchTab('admin')"
+            id="btn-tab-admin"
+            class="px-4 py-2 hover:bg-indigo-600 rounded transition font-medium border border-transparent text-xs sm:text-sm"
+          >
+            Mode Admin (Laporan)
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div
+      id="global-notif"
+      class="fixed top-5 right-5 z-50 hidden px-6 py-3 rounded shadow-xl text-white font-bold transition-all duration-300 no-print"
+    >
+      Pesan Notifikasi
+    </div>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-6 mb-20">
+      <!-- ========================================== -->
+      <!-- USER VIEW (INPUT) -->
+      <!-- ========================================== -->
+      <div id="user-view" class="space-y-6 block">
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+          <h2 class="text-lg font-bold text-indigo-900 mb-4 border-b pb-2">
+            Informasi Umum
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1"
+                >Pilih Tanggal Laporan</label
+              >
+              <input
+                type="date"
+                id="u_tanggal"
+                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                onchange="loadDataForDate()"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1"
+                >Shift / Regu</label
+              >
+              <select
+                id="u_shift"
+                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+              >
+                <option value="">Pilih...</option>
+                <option value="Pagi">Pagi</option>
+                <option value="Siang">Siang</option>
+                <option value="Malam">Malam</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1"
+                >Menu Hari Ini</label
+              >
+              <input
+                type="text"
+                id="u_menu"
+                placeholder="Cth: Nasi Ayam Geprek"
+                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1"
+                >Jml Porsi</label
+              >
+              <input
+                type="number"
+                id="u_porsi"
+                placeholder="Cth: 500"
+                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="status-banner"
+          class="hidden p-4 rounded-lg font-bold text-center text-xs"
+        ></div>
+
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+          <h3 class="text-base font-bold text-indigo-900 mb-4 border-b pb-2">
+            Input Sampel Gramasi Makanan
+          </h3>
+
+          <div class="overflow-x-auto">
+            <table
+              class="w-full text-xs text-left whitespace-nowrap border-collapse border border-gray-300"
+              id="u_tabel_gramasi"
+            >
+              <thead
+                class="bg-gray-100 text-gray-700 font-semibold text-center"
+              >
+                <tr>
+                  <th class="p-3 border border-gray-300 w-1/5">
+                    Komponen Menu
+                  </th>
+                  <th class="p-3 border border-gray-300">
+                    Standar Gramasi (gr)
+                  </th>
+                  <th class="p-3 border border-gray-300">Sampel 1 (gr)</th>
+                  <th class="p-3 border border-gray-300">Sampel 2 (gr)</th>
+                  <th class="p-3 border border-gray-300">Sampel 3 (gr)</th>
+                  <th class="p-3 border border-gray-300 bg-indigo-50">
+                    Rata-Rata (gr)
+                  </th>
+                  <th class="p-3 border border-gray-300">
+                    Keterangan / Kesesuaian
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="u_gramasi_body">
+                <!-- Rows akan di-generate via JS agar id-nya rapi -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mt-6 flex gap-4 justify-end border-t pt-4">
+            <button
+              type="button"
+              onclick="simpanDraftGlobal()"
+              id="btn-draft"
+              class="px-5 py-2 bg-amber-500 text-white font-bold text-xs rounded hover:bg-amber-600 transition"
+            >
+              Simpan Draft Sementara
+            </button>
+            <button
+              type="button"
+              onclick="bukaModalTtdUser()"
+              id="btn-final"
+              class="px-5 py-2 bg-green-600 text-white font-bold text-xs rounded hover:bg-green-700 transition shadow-md"
+            >
+              Simpan & Selesai (Final)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- ADMIN VIEW (CETAK) -->
+      <!-- ========================================== -->
+      <div
+        id="admin-view"
+        class="hidden bg-white p-6 md:p-10 shadow-lg mx-auto"
+        style="
+          max-width: 21cm;
+          min-height: 29.7cm;
+          font-family: Arial, sans-serif;
+        "
+      >
+        <div
+          class="no-print mb-6 flex justify-between items-center border-b pb-4"
+        >
+          <div>
+            <h2 class="text-xl font-bold text-gray-800">
+              Preview & Edit Admin
+            </h2>
+            <p class="text-xs text-gray-500">
+              Anda dapat memverifikasi atau mengedit data user sebelum cetak.
+            </p>
+          </div>
+          <div class="flex gap-2 items-center">
+            <input
+              type="date"
+              id="a_tanggal_pilih"
+              class="p-2 border border-gray-300 rounded text-xs"
+              onchange="loadDataAdmin()"
+            />
+            <button
+              id="btn-verifikasi-admin"
+              onclick="bukaModalTtdAdmin()"
+              class="px-4 py-2 bg-amber-500 text-white font-bold text-xs rounded hover:bg-amber-600 shadow transition flex items-center gap-2"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+              Verifikasi Laporan
+            </button>
+            <button
+              id="btn-print-admin"
+              onclick="window.print()"
+              class="hidden px-4 py-2 bg-blue-600 text-white font-bold text-xs rounded hover:bg-blue-700 shadow flex items-center gap-2"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+                ></path>
+              </svg>
+              Cetak Dokumen
+            </button>
+          </div>
+        </div>
+
+        <!-- Header Dokumen Cetak -->
+        <div class="flex mb-4">
+          <div class="flex items-center justify-center p-2 w-1/4">
+            <div class="flex flex-col items-center">
+              <img
+                src="https://placehold.co/100x100/1e3a8a/white?text=Logo+BGN"
+                alt="Logo"
+                class="w-16 h-16 object-contain mb-1"
+              />
+              <span class="text-[10px] font-bold text-center"
+                >Badan Gizi Nasional</span
+              >
+            </div>
+          </div>
+          <div
+            class="flex flex-col items-center justify-center border-2 border-black p-2 w-3/4 text-center"
+          >
+            <h1
+              class="font-bold text-sm sm:text-base leading-tight uppercase mb-1"
+            >
+              SPPG Kota Pekanbaru Binawidya Tobekgodang
+            </h1>
+            <h2
+              class="font-bold text-sm sm:text-base leading-tight uppercase mb-1"
+            >
+              Formulir Pengecekan Kesesuaian Gramasi
+            </h2>
+            <h3
+              class="font-semibold text-[11px] sm:text-xs leading-tight whitespace-nowrap"
+            >
+              No. Lap.SOP.001/02.14.71/IX/SPPG-BW01/2026
+            </h3>
+          </div>
+        </div>
+
+        <!-- Info Umum Cetak -->
+        <div
+          class="grid grid-cols-2 border-2 border-black mb-4 text-xs font-semibold"
+        >
+          <div class="border-r border-black flex flex-col">
+            <div class="flex border-b border-black h-8">
+              <label class="w-1/3 p-1 flex items-center">Hari / Tanggal</label>
+              <div class="w-2/3 p-1 flex items-center">
+                <span class="mr-1">:</span>
+                <span id="a_tanggal_txt" class="w-full"></span>
+              </div>
+            </div>
+            <div class="flex h-8">
+              <label class="w-1/3 p-1 flex items-center">Shift Kerja</label>
+              <div class="w-2/3 p-1 flex items-center">
+                <span class="mr-1">:</span>
+                <input
+                  type="text"
+                  id="a_shift"
+                  class="w-full bg-transparent font-bold"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex border-b border-black h-8">
+              <label class="w-1/3 p-1 flex items-center pl-2"
+                >Menu Hari Ini</label
+              >
+              <div class="w-2/3 p-1 flex items-center">
+                <span class="mr-1">:</span>
+                <input
+                  type="text"
+                  id="a_menu"
+                  class="w-full bg-transparent font-bold"
+                />
+              </div>
+            </div>
+            <div class="flex h-8">
+              <label class="w-1/3 p-1 flex items-center pl-2"
+                >Jumlah Porsi</label
+              >
+              <div class="w-2/3 p-1 flex items-center">
+                <span class="mr-1">:</span>
+                <input
+                  type="number"
+                  id="a_porsi"
+                  class="w-full bg-transparent font-bold"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabel Utama Print -->
+        <div class="mb-4">
+          <table
+            class="w-full border-collapse border-2 border-black text-center text-xs"
+          >
+            <thead class="bg-gray-50 print:bg-transparent">
+              <tr>
+                <th class="border border-black p-2">Komponen Menu</th>
+                <th class="border border-black p-2">Standar Gramasi (gr)</th>
+                <th class="border border-black p-2">Sampel 1<br />(gr)</th>
+                <th class="border border-black p-2">Sampel 2<br />(gr)</th>
+                <th class="border border-black p-2">Sampel 3<br />(gr)</th>
+                <th class="border border-black p-2">Rata-Rata<br />(gr)</th>
+                <th class="border border-black p-2">Keterangan / Kesesuaian</th>
+              </tr>
+            </thead>
+            <tbody id="a_table_body">
+              <!-- Di-generate via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Area Tanda Tangan Cetak -->
+        <div class="flex justify-between mt-10 text-xs gap-4">
+          <div class="flex flex-col items-center w-1/2">
+            <p class="font-bold">Dibuat Oleh</p>
+            <p class="font-bold">Jurutama Masak SPPG,</p>
+            <div
+              class="h-20 w-full flex items-center justify-center print-signature-area"
+              id="a_render_sig_user"
+            >
+              <span class="text-gray-300 italic text-[11px] no-print"
+                >Belum ditandatangani user</span
+              >
+            </div>
+            <input
+              type="text"
+              id="a_nama_jurutama"
+              placeholder="Nama Jurutama"
+              class="mt-1 text-center border-b border-gray-400 bg-transparent w-40 font-bold focus:outline-none focus:border-black print-name-input"
+            />
+          </div>
+
+          <div class="flex flex-col items-center w-1/2">
+            <p class="font-bold">Diverifikasi & Diawasi Oleh</p>
+            <p class="font-bold">Ahli Gizi SPPG,</p>
+            <div
+              class="h-20 w-full flex items-center justify-center print-signature-area"
+              id="a_render_sig_admin"
+            >
+              <span class="text-gray-300 italic text-[11px] no-print"
+                >Belum diverifikasi</span
+              >
+            </div>
+            <input
+              type="text"
+              id="a_nama_pengawas"
+              placeholder="Nama Admin"
+              class="mt-1 text-center border-b border-gray-400 bg-transparent w-40 font-bold focus:outline-none focus:border-black print-name-input"
+            />
+          </div>
+        </div>
+
+        <!-- Area Tanda Tangan Mengetahui -->
+        <div class="flex justify-center mt-8 text-xs">
+          <div class="flex flex-col items-center w-1/2">
+            <p class="font-bold">Mengetahui</p>
+            <p class="font-bold">
+              Kepala SPPG Kota Pekanbaru Binawidya Tobekgodang,
+            </p>
+            <div
+              class="h-20 w-full flex items-center justify-center print-signature-area"
+              id="a_render_sig_mengetahui"
+            >
+              <span class="text-gray-300 italic text-[11px] no-print"
+                >dibiarkan kosong tanda tangan manual</span
+              >
+            </div>
+            <input
+              type="text"
+              id="a_nama_kepala"
+              placeholder="Nama Kepala SPPG"
+              class="mt-1 text-center border-b border-gray-400 bg-transparent w-40 font-bold focus:outline-none focus:border-black print-name-input"
+            />
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal Tanda Tangan User -->
+    <div
+      id="modal-ttd"
+      class="fixed inset-0 modal-bg hidden z-50 flex items-center justify-center p-4"
+    >
+      <div class="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full">
+        <h3 class="text-lg font-bold mb-2 text-indigo-900">
+          Finalisasi Laporan
+        </h3>
+        <p class="text-xs text-gray-600 mb-4">
+          Mohon berikan tanda tangan Anda (Jurutama Masak) untuk mengunci
+          laporan hari ini.
+        </p>
+
+        <div class="mb-4">
+          <label class="block text-xs font-semibold text-gray-600 mb-1"
+            >Nama Jurutama Masak</label
+          >
+          <input
+            type="text"
+            id="m_nama_jurutama"
+            class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
+            placeholder="Ketik nama Anda di sini..."
+            required
+          />
+        </div>
+
+        <div class="relative mb-4 bg-gray-50 border border-gray-300 rounded">
+          <canvas
+            id="sig-user"
+            width="350"
+            height="150"
+            class="w-full signature-pad touch-none"
+          ></canvas>
+          <button
+            type="button"
+            onclick="clearSig('sig-user')"
+            class="absolute top-2 right-2 text-xs text-red-600 bg-white px-2 py-1 border border-red-200 rounded hover:bg-red-50"
+          >
+            Hapus
+          </button>
+        </div>
+
+        <div class="flex justify-end gap-3">
+          <button
+            type="button"
+            onclick="tutupModalTtd()"
+            class="px-4 py-2 text-xs text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            onclick="simpanFinalLaporan()"
+            class="px-4 py-2 text-xs bg-green-600 text-white font-bold rounded hover:bg-green-700"
+          >
+            Tandatangani & Kunci
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Tanda Tangan Admin -->
+    <div
+      id="modal-ttd-admin"
+      class="fixed inset-0 modal-bg hidden z-50 flex items-center justify-center p-4"
+    >
+      <div class="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full">
+        <h3 class="text-lg font-bold mb-2 text-amber-600">
+          Verifikasi Laporan Admin
+        </h3>
+        <p class="text-xs text-gray-600 mb-4">
+          Mohon berikan tanda tangan Anda sebagai bukti verifikasi. Laporan yang
+          diverifikasi akan dikunci dan siap dicetak.
+        </p>
+
+        <div class="mb-4">
+          <label class="block text-xs font-semibold text-gray-600 mb-1"
+            >Nama Pengawas Gizi</label
+          >
+          <input
+            type="text"
+            id="m_nama_pengawas"
+            class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-amber-500 outline-none"
+            placeholder="Ketik nama Anda di sini..."
+            required
+          />
+        </div>
+
+        <div class="relative mb-4 bg-gray-50 border border-gray-300 rounded">
+          <canvas
+            id="sig-admin"
+            width="350"
+            height="150"
+            class="w-full signature-pad touch-none"
+          ></canvas>
+          <button
+            type="button"
+            onclick="clearSig('sig-admin')"
+            class="absolute top-2 right-2 text-xs text-red-600 bg-white px-2 py-1 border border-red-200 rounded hover:bg-red-50"
+          >
+            Hapus
+          </button>
+        </div>
+
+        <div class="flex justify-end gap-3">
+          <button
+            type="button"
+            onclick="tutupModalTtdAdmin()"
+            class="px-4 py-2 text-xs text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
+          >
+            Batal
+          </button>
+          <button
+            type="button"
+            onclick="simpanVerifikasiAdmin()"
+            class="px-4 py-2 text-xs bg-amber-500 text-white font-bold rounded hover:bg-amber-600 shadow-md"
+          >
+            Verifikasi Sekarang
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let currentDate = new Date().toISOString().split("T")[0];
+
+      // Komponen Menu Sesuai Gambar
+      const KOMPONEN = [
+        { id: "pokok", nama: "Makanan Pokok (Nasi)", defaultStd: "gr" },
+        { id: "utama", nama: "Lauk Utama (Protein)", defaultStd: "gr" },
+        { id: "pendamping", nama: "Lauk Pendamping", defaultStd: "gr" },
+        { id: "sayur", nama: "Sayuran", defaultStd: "gr" },
+        { id: "buah", nama: "Buah Segar", defaultStd: "1 Buah" },
+      ];
+
+      window.onload = () => {
+        document.getElementById("u_tanggal").value = currentDate;
+        document.getElementById("a_tanggal_pilih").value = currentDate;
+
+        generateUserTable();
+        setupSignaturePad("sig-user");
+        setupSignaturePad("sig-admin");
+
+        loadDataForDate();
+      };
+
+      function showNotif(msg, type = "success") {
+        const notif = document.getElementById("global-notif");
+        notif.textContent = msg;
+        notif.className = `fixed top-5 right-5 z-50 px-6 py-3 rounded shadow-xl text-white font-bold text-xs transition-all duration-500 block ${type === "success" ? "bg-green-600" : "bg-red-500"}`;
+        setTimeout(() => {
+          notif.classList.replace("block", "hidden");
+        }, 3000);
+      }
+
+      function switchTab(tab) {
+        const vUser = document.getElementById("user-view");
+        const vAdmin = document.getElementById("admin-view");
+        const btnUser = document.getElementById("btn-tab-user");
+        const btnAdmin = document.getElementById("btn-tab-admin");
+
+        if (tab === "user") {
+          vUser.classList.replace("hidden", "block");
+          vAdmin.classList.replace("block", "hidden");
+          btnUser.classList.replace("border-transparent", "border-indigo-500");
+          btnUser.classList.add("bg-indigo-700");
+          btnAdmin.classList.remove("bg-indigo-700", "border-indigo-500");
+          loadDataForDate();
+        } else {
+          vUser.classList.replace("block", "hidden");
+          vAdmin.classList.replace("hidden", "block");
+          btnAdmin.classList.replace("border-transparent", "border-indigo-500");
+          btnAdmin.classList.add("bg-indigo-700");
+          btnUser.classList.remove("bg-indigo-700", "border-indigo-500");
+
+          document.getElementById("a_tanggal_pilih").value =
+            document.getElementById("u_tanggal").value;
+          loadDataAdmin();
+        }
+      }
+
+      // Generate Form Tabel User Dinamis agar rapi
+      function generateUserTable() {
+        const tbody = document.getElementById("u_gramasi_body");
+        tbody.innerHTML = "";
+
+        KOMPONEN.forEach((k) => {
+          tbody.innerHTML += `
+                    <tr class="hover:bg-gray-50 border-b border-gray-200">
+                        <td class="p-2 border border-gray-300 font-bold text-gray-700">${k.nama}</td>
+                        <td class="p-1 border border-gray-300"><input type="text" id="u_${k.id}_std" class="w-full text-center p-1 border rounded focus:ring-1 focus:ring-indigo-500 outline-none" value="${k.defaultStd}"></td>
+                        <td class="p-1 border border-gray-300"><input type="number" step="0.1" id="u_${k.id}_s1" oninput="hitungRata('${k.id}')" class="w-full text-center p-1 border rounded focus:ring-1 focus:ring-indigo-500 outline-none"></td>
+                        <td class="p-1 border border-gray-300"><input type="number" step="0.1" id="u_${k.id}_s2" oninput="hitungRata('${k.id}')" class="w-full text-center p-1 border rounded focus:ring-1 focus:ring-indigo-500 outline-none"></td>
+                        <td class="p-1 border border-gray-300"><input type="number" step="0.1" id="u_${k.id}_s3" oninput="hitungRata('${k.id}')" class="w-full text-center p-1 border rounded focus:ring-1 focus:ring-indigo-500 outline-none"></td>
+                        <td class="p-1 border border-gray-300 bg-indigo-50"><input type="text" id="u_${k.id}_rata" class="w-full text-center p-1 bg-transparent font-bold text-indigo-700" readonly tabindex="-1"></td>
+                        <td class="p-1 border border-gray-300"><input type="text" id="u_${k.id}_ket" class="w-full p-1 border rounded focus:ring-1 focus:ring-indigo-500 outline-none"></td>
+                    </tr>
+                `;
+        });
+      }
+
+      // Logika Menghitung Rata-rata Otomatis
+      function hitungRata(id) {
+        let s1 = parseFloat(document.getElementById(`u_${id}_s1`).value);
+        let s2 = parseFloat(document.getElementById(`u_${id}_s2`).value);
+        let s3 = parseFloat(document.getElementById(`u_${id}_s3`).value);
+
+        let count = 0;
+        let total = 0;
+
+        if (!isNaN(s1)) {
+          count++;
+          total += s1;
+        }
+        if (!isNaN(s2)) {
+          count++;
+          total += s2;
+        }
+        if (!isNaN(s3)) {
+          count++;
+          total += s3;
+        }
+
+        let rataEl = document.getElementById(`u_${id}_rata`);
+        if (count > 0) {
+          rataEl.value = (total / count).toFixed(1);
+        } else {
+          rataEl.value = "";
+        }
+      }
+
+      function getDB() {
+        let data = localStorage.getItem("db_gramasi_nasi"); // Ganti nama DB agar fresh
+        return data ? JSON.parse(data) : {};
+      }
+
+      function saveDB(dataObj) {
+        localStorage.setItem("db_gramasi_nasi", JSON.stringify(dataObj));
+      }
+
+      function getTodayData(date) {
+        const db = getDB();
+        if (!db[date]) {
+          db[date] = {
+            shift: "",
+            menu: "",
+            porsi: "",
+            status: "draft",
+            rows: {},
+            ttd_user: null,
+          };
+        }
+        return db[date];
+      }
+
+      function loadDataForDate() {
+        currentDate = document.getElementById("u_tanggal").value;
+        const data = getTodayData(currentDate);
+
+        document.getElementById("u_shift").value = data.shift;
+        document.getElementById("u_menu").value = data.menu;
+        document.getElementById("u_porsi").value = data.porsi;
+
+        // Load baris tabel
+        KOMPONEN.forEach((k) => {
+          let rowData = data.rows[k.id] || {};
+          document.getElementById(`u_${k.id}_std`).value =
+            rowData.std !== undefined ? rowData.std : k.defaultStd;
+          document.getElementById(`u_${k.id}_s1`).value = rowData.s1 || "";
+          document.getElementById(`u_${k.id}_s2`).value = rowData.s2 || "";
+          document.getElementById(`u_${k.id}_s3`).value = rowData.s3 || "";
+          document.getElementById(`u_${k.id}_rata`).value = rowData.rata || "";
+          document.getElementById(`u_${k.id}_ket`).value = rowData.ket || "";
+        });
+
+        checkFormLockStatus(data);
+      }
+
+      function checkFormLockStatus(data) {
+        const banner = document.getElementById("status-banner");
+        const formInputs = document.querySelectorAll(
+          "#user-view input:not(#u_tanggal), #user-view select, #user-view button:not(#btn-draft):not(#btn-final)",
+        );
+        const btnDraft = document.getElementById("btn-draft");
+        const btnFinal = document.getElementById("btn-final");
+
+        if (data.status === "verified") {
+          banner.textContent =
+            "LAPORAN TELAH DIVERIFIKASI OLEH PENGAWAS & TERKUNCI SEPENUHNYA";
+          banner.className =
+            "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
+          formInputs.forEach((el) => (el.disabled = true));
+          btnDraft.classList.add("hidden");
+          btnFinal.classList.add("hidden");
+        } else if (data.status === "final") {
+          banner.textContent =
+            "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI PENGAWAS)";
+          banner.className =
+            "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
+          formInputs.forEach((el) => (el.disabled = true));
+          btnDraft.classList.add("hidden");
+          btnFinal.classList.add("hidden");
+        } else {
+          banner.classList.replace("block", "hidden");
+          formInputs.forEach((el) => (el.disabled = false));
+          btnDraft.classList.remove("hidden");
+          btnFinal.classList.remove("hidden");
+        }
+      }
+
+      function extractTableData() {
+        let rowData = {};
+        KOMPONEN.forEach((k) => {
+          rowData[k.id] = {
+            std: document.getElementById(`u_${k.id}_std`).value,
+            s1: document.getElementById(`u_${k.id}_s1`).value,
+            s2: document.getElementById(`u_${k.id}_s2`).value,
+            s3: document.getElementById(`u_${k.id}_s3`).value,
+            rata: document.getElementById(`u_${k.id}_rata`).value,
+            ket: document.getElementById(`u_${k.id}_ket`).value,
+          };
+        });
+        return rowData;
+      }
+
+      function simpanDraftGlobal() {
+        const db = getDB();
+        const data = getTodayData(currentDate);
+
+        if (data.status === "final" || data.status === "verified")
+          return showNotif("Laporan sudah terkunci!", "error");
+
+        data.shift = document.getElementById("u_shift").value;
+        data.menu = document.getElementById("u_menu").value;
+        data.porsi = document.getElementById("u_porsi").value;
+        data.rows = extractTableData();
+
+        db[currentDate] = data;
+        saveDB(db);
+        showNotif("Draft laporan berhasil disimpan.");
+      }
+
+      function bukaModalTtdUser() {
+        simpanDraftGlobal();
+        document
+          .getElementById("modal-ttd")
+          .classList.replace("hidden", "flex");
+        setTimeout(() => {
+          const c = document.getElementById("sig-user");
+          c.width = c.parentElement.getBoundingClientRect().width;
+        }, 100);
+      }
+      function tutupModalTtd() {
+        document
+          .getElementById("modal-ttd")
+          .classList.replace("flex", "hidden");
+      }
+
+      function simpanFinalLaporan() {
+        const canvasUser = document.getElementById("sig-user");
+        const db = getDB();
+        const data = db[currentDate];
+
+        data.ttd_user = canvasUser.toDataURL();
+        data.status = "final";
+        data.nama_jurutama = document.getElementById("m_nama_jurutama").value;
+
+        db[currentDate] = data;
+        saveDB(db);
+        tutupModalTtd();
+        loadDataForDate();
+        showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
+      }
+
+      function loadDataAdmin() {
+        const dateStr = document.getElementById("a_tanggal_pilih").value;
+        const db = getDB();
+
+        let dateFormated = "";
+        if (dateStr) {
+          const [yyyy, mm, dd] = dateStr.split("-");
+          const dateObj = new Date(yyyy, mm - 1, dd);
+          dateFormated = dateObj.toLocaleDateString("id-ID", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        }
+        document.getElementById("a_tanggal_txt").textContent = dateFormated;
+
+        const data = db[dateStr] || {
+          shift: "",
+          menu: "",
+          porsi: "",
+          status: "draft",
+          rows: {},
+          ttd_user: null,
+        };
+
+        document.getElementById("a_shift").value = data.shift;
+        document.getElementById("a_menu").value = data.menu;
+        document.getElementById("a_porsi").value = data.porsi;
+        document.getElementById("a_nama_jurutama").value =
+          data.nama_jurutama || "";
+        document.getElementById("a_nama_pengawas").value =
+          data.nama_pengawas || "";
+        document.getElementById("a_nama_kepala").value = data.nama_kepala || "";
+
+        // Generate/Fill Tabel Admin
+        const tbody = document.getElementById("a_table_body");
+        tbody.innerHTML = "";
+
+        KOMPONEN.forEach((k) => {
+          let r = data.rows[k.id] || {};
+          tbody.innerHTML += `
+                    <tr>
+                        <td class="border border-black p-1 font-bold text-left pl-2">${k.nama}</td>
+                        <td class="border border-black p-0"><input type="text" id="a_${k.id}_std" value="${r.std || k.defaultStd}" class="w-full text-center bg-transparent"></td>
+                        <td class="border border-black p-0"><input type="text" id="a_${k.id}_s1" value="${r.s1 || ""}" class="w-full text-center bg-transparent"></td>
+                        <td class="border border-black p-0"><input type="text" id="a_${k.id}_s2" value="${r.s2 || ""}" class="w-full text-center bg-transparent"></td>
+                        <td class="border border-black p-0"><input type="text" id="a_${k.id}_s3" value="${r.s3 || ""}" class="w-full text-center bg-transparent"></td>
+                        <td class="border border-black p-0 font-bold"><input type="text" id="a_${k.id}_rata" value="${r.rata || ""}" class="w-full text-center bg-transparent"></td>
+                        <td class="border border-black p-0"><input type="text" id="a_${k.id}_ket" value="${r.ket || ""}" class="w-full text-center bg-transparent"></td>
+                    </tr>
+                `;
+        });
+
+        // Handle Tanda Tangan Rendering
+        const sigBoxUser = document.getElementById("a_render_sig_user");
+        sigBoxUser.innerHTML = data.ttd_user
+          ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 60px;">`
+          : `<span class="text-gray-300 italic text-[11px] no-print">Belum ditandatangani user</span>`;
+
+        const btnVerifikasi = document.getElementById("btn-verifikasi-admin");
+        const btnPrint = document.getElementById("btn-print-admin");
+        const sigBoxAdmin = document.getElementById("a_render_sig_admin");
+        const adminInputs = document.querySelectorAll("#admin-view input");
+
+        if (data.status === "verified") {
+          btnVerifikasi.classList.add("hidden");
+          btnPrint.classList.remove("hidden");
+          adminInputs.forEach((el) => (el.readOnly = true));
+          if (data.ttd_admin)
+            sigBoxAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 60px;">`;
+        } else {
+          btnVerifikasi.classList.remove("hidden");
+          btnPrint.classList.add("hidden");
+          adminInputs.forEach((el) => (el.readOnly = false));
+          sigBoxAdmin.innerHTML = `<span class="text-gray-300 italic text-[11px] no-print">Belum diverifikasi</span>`;
+        }
+      }
+
+      function bukaModalTtdAdmin() {
+        document.getElementById("m_nama_pengawas").value =
+          document.getElementById("a_nama_pengawas").value;
+        document
+          .getElementById("modal-ttd-admin")
+          .classList.replace("hidden", "flex");
+        setTimeout(() => {
+          const c = document.getElementById("sig-admin");
+          c.width = c.parentElement.getBoundingClientRect().width;
+        }, 100);
+      }
+      function tutupModalTtdAdmin() {
+        document
+          .getElementById("modal-ttd-admin")
+          .classList.replace("flex", "hidden");
+      }
+
+      function simpanVerifikasiAdmin() {
+        const canvasAdmin = document.getElementById("sig-admin");
+        const namaPengawas = document.getElementById("m_nama_pengawas").value;
+        if (!namaPengawas) return alert("Mohon isi Nama Pengawas.");
+
+        const dateStr = document.getElementById("a_tanggal_pilih").value;
+        const db = getDB();
+        const data = db[dateStr] || getTodayData(dateStr);
+
+        // Ekstrak data dari tabel admin sebelum dikunci
+        data.rows = {};
+        KOMPONEN.forEach((k) => {
+          data.rows[k.id] = {
+            std: document.getElementById(`a_${k.id}_std`).value,
+            s1: document.getElementById(`a_${k.id}_s1`).value,
+            s2: document.getElementById(`a_${k.id}_s2`).value,
+            s3: document.getElementById(`a_${k.id}_s3`).value,
+            rata: document.getElementById(`a_${k.id}_rata`).value,
+            ket: document.getElementById(`a_${k.id}_ket`).value,
+          };
+        });
+
+        data.shift = document.getElementById("a_shift").value;
+        data.menu = document.getElementById("a_menu").value;
+        data.porsi = document.getElementById("a_porsi").value;
+        data.nama_jurutama = document.getElementById("a_nama_jurutama").value;
+        data.nama_pengawas = namaPengawas;
+        data.nama_kepala = document.getElementById("a_nama_kepala").value;
+        data.ttd_admin = canvasAdmin.toDataURL();
+        data.status = "verified";
+
+        db[dateStr] = data;
+        saveDB(db);
+
+        tutupModalTtdAdmin();
+        loadDataAdmin();
+        showNotif("Laporan berhasil DIVERIFIKASI!");
+      }
+
+      // Fix Placeholder Print
+      window.addEventListener("beforeprint", () => {
+        document.querySelectorAll(".print-name-input").forEach((input) => {
+          if (!input.value && input.placeholder) {
+            input.setAttribute("data-empty", "true");
+            input.value = `(${input.placeholder})`;
+          }
+        });
+      });
+      window.addEventListener("afterprint", () => {
+        document.querySelectorAll(".print-name-input").forEach((input) => {
+          if (input.getAttribute("data-empty") === "true") {
+            input.value = "";
+            input.removeAttribute("data-empty");
+          }
+        });
+      });
+
+      // Setup Tanda Tangan Drawing Logic
+      function setupSignaturePad(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        let isDrawing = false;
+        ctx.strokeStyle = "#000033";
+        ctx.lineWidth = 2.5;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+        function getMousePos(e) {
+          const rect = canvas.getBoundingClientRect();
+          const scaleX = canvas.width / rect.width,
+            scaleY = canvas.height / rect.height;
+          let clientX = e.clientX,
+            clientY = e.clientY;
+          if (e.touches && e.touches.length > 0) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+          }
+          return {
+            x: (clientX - rect.left) * scaleX,
+            y: (clientY - rect.top) * scaleY,
+          };
+        }
+        const start = (e) => {
+          e.preventDefault();
+          isDrawing = true;
+          const pos = getMousePos(e);
+          ctx.beginPath();
+          ctx.moveTo(pos.x, pos.y);
+        };
+        const draw = (e) => {
+          if (!isDrawing) return;
+          e.preventDefault();
+          const pos = getMousePos(e);
+          ctx.lineTo(pos.x, pos.y);
+          ctx.stroke();
+        };
+        const stop = (e) => {
+          e.preventDefault();
+          isDrawing = false;
+        };
+        canvas.addEventListener("mousedown", start);
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", stop);
+        canvas.addEventListener("mouseout", stop);
+        canvas.addEventListener("touchstart", start, { passive: false });
+        canvas.addEventListener("touchmove", draw, { passive: false });
+        canvas.addEventListener("touchend", stop);
+      }
+      function clearSig(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+      }
+    </script>
+  </body>
+</html>
