@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistem Laporan Kesesuaian Gramasi</title>
+    <title>Sistem Laporan Kesesuaian Gramasi - SOP 18</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       /* =================================================
@@ -93,6 +93,7 @@
           word-wrap: break-word;
           font-size: 10pt !important;
           text-align: center;
+          vertical-align: middle;
         }
 
         .print-signature-area {
@@ -107,34 +108,37 @@
       }
     </style>
     <style>
-      /* --- STYLE KHUSUS SOP 18 --- */
+      /* --- STYLE KHUSUS SOP 18 (CETAK & PRINT) --- */
       @media print {
-        th:nth-child(1) {
-          width: 22%;
-          text-align: left;
+        #admin-view th:nth-child(1) {
+          width: 6% !important;
+          text-align: center !important;
         }
-        th:nth-child(2) {
-          width: 13%;
+        #admin-view th:nth-child(2) {
+          width: 22% !important;
+          text-align: left !important;
         }
-        th:nth-child(3),
-        th:nth-child(4),
-        th:nth-child(5) {
-          width: 11%;
+        #admin-view th:nth-child(3) {
+          width: 13% !important;
         }
-        th:nth-child(6) {
-          width: 12%;
+        #admin-view th:nth-child(4),
+        #admin-view th:nth-child(5),
+        #admin-view th:nth-child(6) {
+          width: 10% !important;
         }
-        th:nth-child(7) {
-          width: 20%;
-          text-align: left;
+        #admin-view th:nth-child(7) {
+          width: 11% !important;
+        }
+        #admin-view th:nth-child(8) {
+          width: 18% !important;
+          text-align: left !important;
         }
 
-        td:nth-child(1) {
+        #admin-view td:nth-child(2) {
           text-align: left !important;
-          font-weight: bold;
           padding-left: 5px !important;
         }
-        td:nth-child(7) {
+        #admin-view td:nth-child(8) {
           text-align: left !important;
           padding-left: 5px !important;
         }
@@ -159,7 +163,7 @@
               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
             ></path>
           </svg>
-          Laporan Pengecekan Kesesuaian Gramasi
+          Laporan Pengecekan Kesesuaian Gramasi (SOP 18)
         </div>
         <div class="flex gap-2">
           <button
@@ -192,6 +196,7 @@
       <!-- USER VIEW (INPUT) -->
       <!-- ========================================== -->
       <div id="user-view" class="space-y-6 block">
+        <!-- INFORMASI UMUM -->
         <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h2 class="text-lg font-bold text-indigo-900 mb-4 border-b pb-2">
             Informasi Umum
@@ -252,60 +257,174 @@
           class="hidden p-4 rounded-lg font-bold text-center text-xs"
         ></div>
 
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 class="text-base font-bold text-indigo-900 mb-4 border-b pb-2">
-            Input Sampel Gramasi Makanan
-          </h3>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- KOTAK KIRI: FORM INPUT SAMPEL GRAMASI DINAMIS -->
+          <div
+            class="lg:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-200"
+          >
+            <h3 class="text-base font-bold text-indigo-900 mb-4 border-b pb-2">
+              Input Komponen & Sampel
+            </h3>
 
-          <div class="overflow-x-auto">
-            <table
-              class="w-full text-xs text-left border-collapse border border-gray-300"
-              id="u_tabel_gramasi"
+            <form
+              id="form-input-baris"
+              onsubmit="tambahBarisGramasi(event)"
+              class="space-y-3"
             >
-              <thead
-                class="bg-gray-100 text-gray-700 font-semibold text-center"
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1"
+                  >Komponen Menu</label
+                >
+                <input
+                  type="text"
+                  id="u_nama_komponen"
+                  list="list-menu-opsi"
+                  placeholder="Pilih atau ketik komponen..."
+                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+                <datalist id="list-menu-opsi">
+                  <option value="Makanan Pokok (Nasi)"></option>
+                  <option value="Lauk Utama (Protein Hewani)"></option>
+                  <option value="Lauk Nabati"></option>
+                  <option value="Lauk Pendamping"></option>
+                  <option value="Sayuran"></option>
+                  <option value="Buah Segar"></option>
+                  <option value="Susu"></option>
+                  <option value="Puding / Snack"></option>
+                </datalist>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1"
+                  >Standar Gramasi</label
+                >
+                <input
+                  type="text"
+                  id="u_standar"
+                  placeholder="Cth: 150 gr / 1 Buah"
+                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+
+              <div class="grid grid-cols-3 gap-2">
+                <div>
+                  <label class="block text-xs font-semibold text-gray-600 mb-1"
+                    >Sampel 1</label
+                  >
+                  <input
+                    type="number"
+                    step="0.1"
+                    id="u_s1"
+                    placeholder="gr"
+                    class="w-full p-2 text-xs border border-gray-300 rounded"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-gray-600 mb-1"
+                    >Sampel 2</label
+                  >
+                  <input
+                    type="number"
+                    step="0.1"
+                    id="u_s2"
+                    placeholder="gr"
+                    class="w-full p-2 text-xs border border-gray-300 rounded"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-gray-600 mb-1"
+                    >Sampel 3</label
+                  >
+                  <input
+                    type="number"
+                    step="0.1"
+                    id="u_s3"
+                    placeholder="gr"
+                    class="w-full p-2 text-xs border border-gray-300 rounded"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1"
+                  >Keterangan / Kesesuaian</label
+                >
+                <input
+                  type="text"
+                  id="u_keterangan"
+                  placeholder="Cth: Sesuai Standar"
+                  class="w-full p-2 text-xs border border-gray-300 rounded"
+                />
+              </div>
+
+              <button
+                type="submit"
+                id="btn-tambah-baris"
+                class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded transition shadow"
               >
-                <tr>
-                  <th class="p-3 border border-gray-300 w-1/5">
-                    Komponen Menu
-                  </th>
-                  <th class="p-3 border border-gray-300">
-                    Standar Gramasi (gr)
-                  </th>
-                  <th class="p-3 border border-gray-300">Sampel 1 (gr)</th>
-                  <th class="p-3 border border-gray-300">Sampel 2 (gr)</th>
-                  <th class="p-3 border border-gray-300">Sampel 3 (gr)</th>
-                  <th class="p-3 border border-gray-300 bg-indigo-50">
-                    Rata-Rata (gr)
-                  </th>
-                  <th class="p-3 border border-gray-300">
-                    Keterangan / Kesesuaian
-                  </th>
-                </tr>
-              </thead>
-              <tbody id="u_gramasi_body">
-                <!-- Dynamic Rows -->
-              </tbody>
-            </table>
+                + Tambah ke Daftar Gramasi
+              </button>
+            </form>
           </div>
 
-          <div class="mt-6 flex gap-4 justify-end border-t pt-4">
-            <button
-              type="button"
-              onclick="simpanDraftGlobal()"
-              id="btn-draft"
-              class="px-5 py-2 bg-amber-500 text-white font-bold text-xs rounded hover:bg-amber-600 transition"
-            >
-              Simpan Draft Sementara
-            </button>
-            <button
-              type="button"
-              onclick="bukaModalTtdUser()"
-              id="btn-final"
-              class="px-5 py-2 bg-green-600 text-white font-bold text-xs rounded hover:bg-green-700 transition shadow-md"
-            >
-              Simpan & Selesai (Final)
-            </button>
+          <!-- KOTAK KANAN: TABEL DAFTAR INPUT USER (PREVIEW SEMENTARA) -->
+          <div
+            class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col justify-between"
+          >
+            <div>
+              <h3
+                class="text-base font-bold text-indigo-900 mb-4 border-b pb-2"
+              >
+                Daftar Pengecekan Gramasi Hari Ini
+              </h3>
+              <div class="overflow-x-auto">
+                <table
+                  class="w-full text-xs text-left border-collapse border border-gray-300"
+                >
+                  <thead
+                    class="bg-gray-100 text-gray-700 font-semibold text-center"
+                  >
+                    <tr>
+                      <th class="p-2 border border-gray-300 w-10">No</th>
+                      <th class="p-2 border border-gray-300">Komponen Menu</th>
+                      <th class="p-2 border border-gray-300">Standar (gr)</th>
+                      <th class="p-2 border border-gray-300">S1</th>
+                      <th class="p-2 border border-gray-300">S2</th>
+                      <th class="p-2 border border-gray-300">S3</th>
+                      <th class="p-2 border border-gray-300 bg-indigo-50">
+                        Rata-Rata
+                      </th>
+                      <th class="p-2 border border-gray-300">Keterangan</th>
+                      <th class="p-2 border border-gray-300 w-12">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="u_table_body">
+                    <!-- Dynamic Rows Rendered Here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="mt-6 flex gap-4 justify-end border-t pt-4">
+              <button
+                type="button"
+                onclick="simpanDraftGlobal()"
+                id="btn-draft"
+                class="px-5 py-2 bg-amber-500 text-white font-bold text-xs rounded hover:bg-amber-600 transition"
+              >
+                Simpan Draft Sementara
+              </button>
+              <button
+                type="button"
+                onclick="bukaModalTtdUser()"
+                id="btn-final"
+                class="px-5 py-2 bg-green-600 text-white font-bold text-xs rounded hover:bg-green-700 transition shadow-md"
+              >
+                Simpan & Selesai (Final)
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -505,20 +624,21 @@
           </div>
         </div>
 
-        <!-- TABEL UTAMA PRINT SOP 18 (DUAL-ELEMENT) -->
+        <!-- TABEL UTAMA PRINT SOP 18 (DUAL-ELEMENT DENGAN MIN_ROWS) -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
           >
             <thead class="bg-gray-50 print:bg-transparent">
               <tr>
-                <th class="border border-black p-2">Komponen Menu</th>
-                <th class="border border-black p-2">Standar Gramasi (gr)</th>
-                <th class="border border-black p-2">Sampel 1 (gr)</th>
-                <th class="border border-black p-2">Sampel 2 (gr)</th>
-                <th class="border border-black p-2">Sampel 3 (gr)</th>
-                <th class="border border-black p-2">Rata-Rata (gr)</th>
-                <th class="border border-black p-2">Keterangan / Kesesuaian</th>
+                <th class="border border-black p-1 w-8">No.</th>
+                <th class="border border-black p-1">Komponen Menu</th>
+                <th class="border border-black p-1">Standar Gramasi (gr)</th>
+                <th class="border border-black p-1">Sampel 1 (gr)</th>
+                <th class="border border-black p-1">Sampel 2 (gr)</th>
+                <th class="border border-black p-1">Sampel 3 (gr)</th>
+                <th class="border border-black p-1">Rata-Rata (gr)</th>
+                <th class="border border-black p-1">Keterangan / Kesesuaian</th>
               </tr>
             </thead>
             <tbody id="a_table_body">
@@ -533,12 +653,12 @@
         >
           <span class="font-bold underline">Keterangan:</span>
           <span
-            >Dokumen ini wajib diisi oleh petugas yang ditunjuk dan diserahkan
-            kepada kepala SPPG setiap akhir <i>shift</i>.</span
+            >Formulir ini diisi oleh petugas pemeriksa gramasi makanan harian
+            dan diserahkan kepada Ahli Gizi/Kepala SPPG.</span
           >
         </div>
 
-        <!-- AREA TANDA TANGAN (Lebar Garis w-56 proporsional) -->
+        <!-- AREA TANDA TANGAN -->
         <div
           class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
         >
@@ -669,7 +789,7 @@
             type="text"
             id="m_nama_jurutama"
             class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
-            placeholder="Ketik nama Anda di sini..."
+            placeholder="Ketik nama Anda..."
             required
           />
         </div>
@@ -717,8 +837,7 @@
           Verifikasi Laporan Admin
         </h3>
         <p class="text-xs text-gray-600 mb-4">
-          Mohon berikan tanda tangan Anda sebagai bukti verifikasi. Laporan yang
-          diverifikasi akan dikunci dan siap dicetak.
+          Mohon berikan tanda tangan Anda sebagai bukti verifikasi.
         </p>
         <div class="mb-4">
           <label class="block text-xs font-semibold text-gray-600 mb-1"
@@ -728,7 +847,7 @@
             type="text"
             id="m_nama_pengawas"
             class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-amber-500 outline-none"
-            placeholder="Ketik nama Anda di sini..."
+            placeholder="Ketik nama Anda..."
             required
           />
         </div>
@@ -766,10 +885,8 @@
       </div>
     </div>
 
+    <!-- SCRIPT LOGIKA & KONTROL LENGKAP -->
     <script>
-      // ==========================================
-      // SPPG - SHARED SCRIPT
-      // ==========================================
       function showNotif(msg, type = "success") {
         const notif = document.getElementById("global-notif");
         if (!notif) return;
@@ -889,73 +1006,27 @@
     </script>
 
     <script>
-      // ==========================================
-      // SOP 18 - SCRIPT KHUSUS (sop18.js)
-      // ==========================================
       let currentDate = new Date().toISOString().split("T")[0];
-      const STORAGE_KEY = "db_sop_18";
-
-      const KOMPONEN = [
-        { id: "pokok", nama: "Makanan Pokok (Nasi)", defaultStd: "150 gr" },
-        { id: "utama", nama: "Lauk Utama (Protein)", defaultStd: "80 gr" },
-        { id: "pendamping", nama: "Lauk Pendamping", defaultStd: "50 gr" },
-        { id: "sayur", nama: "Sayuran", defaultStd: "75 gr" },
-        { id: "buah", nama: "Buah Segar", defaultStd: "1 Buah" },
-      ];
+      let currentRows = [];
+      const STORAGE_KEY = "db_sop_18_dinamis";
+      const MIN_ROWS = 10;
 
       window.onload = () => {
         document.getElementById("u_tanggal").value = currentDate;
         document.getElementById("a_tanggal_pilih").value = currentDate;
 
-        generateUserTable();
         setupSignaturePad("sig-user");
         setupSignaturePad("sig-admin");
         loadDataForDate();
       };
 
-      // 1. GENERATE USER TABLE (FORM INPUT UTAMA) - DIPERBAIKI
-      function generateUserTable() {
-        const tbody = document.getElementById("u_gramasi_body");
-        if (!tbody) return;
-        tbody.innerHTML = "";
-
-        KOMPONEN.forEach((k) => {
-          tbody.innerHTML += `
-            <tr class="hover:bg-gray-50 border-b border-gray-200">
-              <td class="p-2 border border-gray-300 font-bold text-gray-700">${k.nama}</td>
-              <td class="p-1 border border-gray-300"><input type="text" id="u_${k.id}_std" class="w-full text-center p-1 border rounded focus:ring-1 focus:ring-indigo-500 outline-none" value="${k.defaultStd}"></td>
-              <td class="p-1 border border-gray-300"><input type="number" step="0.1" id="u_${k.id}_s1" oninput="hitungRata('${k.id}')" class="w-full text-center p-1 border rounded focus:ring-1 focus:ring-indigo-500 outline-none"></td>
-              <td class="p-1 border border-gray-300"><input type="number" step="0.1" id="u_${k.id}_s2" oninput="hitungRata('${k.id}')" class="w-full text-center p-1 border rounded focus:ring-1 focus:ring-indigo-500 outline-none"></td>
-              <td class="p-1 border border-gray-300"><input type="number" step="0.1" id="u_${k.id}_s3" oninput="hitungRata('${k.id}')" class="w-full text-center p-1 border rounded focus:ring-1 focus:ring-indigo-500 outline-none"></td>
-              <td class="p-1 border border-gray-300 bg-indigo-50"><input type="text" id="u_${k.id}_rata" class="w-full text-center p-1 bg-transparent font-bold text-indigo-700" readonly tabindex="-1"></td>
-              <td class="p-1 border border-gray-300"><input type="text" id="u_${k.id}_ket" class="w-full p-1 border rounded focus:ring-1 focus:ring-indigo-500 outline-none" placeholder="Cth: Sesuai"></td>
-            </tr>`;
-        });
-      }
-
-      function hitungRata(id) {
-        let s1 = parseFloat(document.getElementById(`u_${id}_s1`).value);
-        let s2 = parseFloat(document.getElementById(`u_${id}_s2`).value);
-        let s3 = parseFloat(document.getElementById(`u_${id}_s3`).value);
-
-        let count = 0;
-        let total = 0;
-
-        if (!isNaN(s1)) {
-          count++;
-          total += s1;
-        }
-        if (!isNaN(s2)) {
-          count++;
-          total += s2;
-        }
-        if (!isNaN(s3)) {
-          count++;
-          total += s3;
-        }
-
-        let rataEl = document.getElementById(`u_${id}_rata`);
-        rataEl.value = count > 0 ? (total / count).toFixed(1) : "";
+      function hitungRataRata(s1, s2, s3) {
+        let vals = [parseFloat(s1), parseFloat(s2), parseFloat(s3)].filter(
+          (v) => !isNaN(v),
+        );
+        if (vals.length === 0) return "";
+        let sum = vals.reduce((a, b) => a + b, 0);
+        return (sum / vals.length).toFixed(1);
       }
 
       function getTodayData(date) {
@@ -966,9 +1037,12 @@
             menu: "",
             porsi: "",
             status: "draft",
-            rows: {},
+            rows: [],
             ttd_user: null,
             ttd_admin: null,
+            nama_jurutama: "",
+            nama_pengawas: "",
+            nama_kepala: "",
           };
         }
         return db[date];
@@ -981,25 +1055,72 @@
         document.getElementById("u_shift").value = data.shift || "";
         document.getElementById("u_menu").value = data.menu || "";
         document.getElementById("u_porsi").value = data.porsi || "";
+        currentRows = data.rows || [];
 
-        KOMPONEN.forEach((k) => {
-          let rowData = data.rows[k.id] || {};
-          document.getElementById(`u_${k.id}_std`).value =
-            rowData.std !== undefined ? rowData.std : k.defaultStd;
-          document.getElementById(`u_${k.id}_s1`).value = rowData.s1 || "";
-          document.getElementById(`u_${k.id}_s2`).value = rowData.s2 || "";
-          document.getElementById(`u_${k.id}_s3`).value = rowData.s3 || "";
-          document.getElementById(`u_${k.id}_rata`).value = rowData.rata || "";
-          document.getElementById(`u_${k.id}_ket`).value = rowData.ket || "";
-        });
-
+        renderUserTable();
         checkFormLockStatus(data);
+      }
+
+      function renderUserTable() {
+        const tbody = document.getElementById("u_table_body");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        if (currentRows.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="9" class="p-4 text-center text-gray-400">Belum ada komponen menu yang ditambahkan. Gunakan form di sebelah kiri.</td></tr>`;
+          return;
+        }
+
+        currentRows.forEach((row, idx) => {
+          let rata = hitungRataRata(row.s1, row.s2, row.s3);
+          currentRows[idx].rata = rata;
+
+          tbody.innerHTML += `
+            <tr class="hover:bg-gray-50 border-b border-gray-200">
+              <td class="p-2 border border-gray-300 text-center font-bold">${idx + 1}</td>
+              <td class="p-2 border border-gray-300 font-semibold text-gray-700">${row.nama}</td>
+              <td class="p-2 border border-gray-300 text-center">${row.standar}</td>
+              <td class="p-2 border border-gray-300 text-center">${row.s1 || "-"}</td>
+              <td class="p-2 border border-gray-300 text-center">${row.s2 || "-"}</td>
+              <td class="p-2 border border-gray-300 text-center">${row.s3 || "-"}</td>
+              <td class="p-2 border border-gray-300 text-center bg-indigo-50 font-bold text-indigo-700">${rata || "-"}</td>
+              <td class="p-2 border border-gray-300">${row.keterangan || "-"}</td>
+              <td class="p-2 border border-gray-300 text-center">
+                <button type="button" onclick="hapusBaris(${idx})" class="text-red-600 hover:text-red-800 font-bold px-2 py-1 text-xs">Hapus</button>
+              </td>
+            </tr>`;
+        });
+      }
+
+      function tambahBarisGramasi(event) {
+        event.preventDefault();
+        const nama = document.getElementById("u_nama_komponen").value;
+        const standar = document.getElementById("u_standar").value;
+        const s1 = document.getElementById("u_s1").value;
+        const s2 = document.getElementById("u_s2").value;
+        const s3 = document.getElementById("u_s3").value;
+        const keterangan = document.getElementById("u_keterangan").value;
+
+        const rata = hitungRataRata(s1, s2, s3);
+
+        currentRows.push({ nama, standar, s1, s2, s3, rata, keterangan });
+        renderUserTable();
+
+        // Reset input form kecil di kiri
+        document.getElementById("form-input-baris").reset();
+        showNotif("Komponen berhasil ditambahkan ke daftar.");
+      }
+
+      function hapusBaris(index) {
+        currentRows.splice(index, 1);
+        renderUserTable();
+        showNotif("Komponen dihapus dari daftar.", "error");
       }
 
       function checkFormLockStatus(data) {
         const banner = document.getElementById("status-banner");
         const formInputs = document.querySelectorAll(
-          "#user-view input:not(#u_tanggal), #user-view select",
+          "#user-view input, #user-view select, #user-view button[type='submit']",
         );
         const btnDraft = document.getElementById("btn-draft");
         const btnFinal = document.getElementById("btn-final");
@@ -1010,7 +1131,6 @@
             "LAPORAN TELAH DIVERIFIKASI OLEH PENGAWAS & TERKUNCI SEPENUHNYA";
           banner.className =
             "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
-          formInputs.forEach((el) => (el.disabled = true));
           btnDraft?.classList.add("hidden");
           btnFinal?.classList.add("hidden");
         } else if (data.status === "final") {
@@ -1018,30 +1138,13 @@
             "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI PENGAWAS)";
           banner.className =
             "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
-          formInputs.forEach((el) => (el.disabled = true));
           btnDraft?.classList.add("hidden");
           btnFinal?.classList.add("hidden");
         } else {
           banner.classList.replace("block", "hidden");
-          formInputs.forEach((el) => (el.disabled = false));
           btnDraft?.classList.remove("hidden");
           btnFinal?.classList.remove("hidden");
         }
-      }
-
-      function extractTableData() {
-        let rowData = {};
-        KOMPONEN.forEach((k) => {
-          rowData[k.id] = {
-            std: document.getElementById(`u_${k.id}_std`).value,
-            s1: document.getElementById(`u_${k.id}_s1`).value,
-            s2: document.getElementById(`u_${k.id}_s2`).value,
-            s3: document.getElementById(`u_${k.id}_s3`).value,
-            rata: document.getElementById(`u_${k.id}_rata`).value,
-            ket: document.getElementById(`u_${k.id}_ket`).value,
-          };
-        });
-        return rowData;
       }
 
       function simpanDraftGlobal() {
@@ -1054,7 +1157,7 @@
         data.shift = document.getElementById("u_shift").value;
         data.menu = document.getElementById("u_menu").value;
         data.porsi = document.getElementById("u_porsi").value;
-        data.rows = extractTableData();
+        data.rows = currentRows;
 
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
@@ -1062,6 +1165,8 @@
       }
 
       function bukaModalTtdUser() {
+        if (currentRows.length === 0)
+          return alert("Belum ada data komponen menu yang diinput.");
         simpanDraftGlobal();
         const modal = document.getElementById("modal-ttd");
         if (modal) {
@@ -1075,12 +1180,15 @@
 
       function simpanFinalLaporan() {
         const canvasUser = document.getElementById("sig-user");
+        const namaJurutama = document.getElementById("m_nama_jurutama").value;
+        if (!namaJurutama) return alert("Mohon isi Nama Jurutama Masak.");
+
         const db = getDB(STORAGE_KEY);
-        const data = db[currentDate];
+        const data = db[currentDate] || getTodayData(currentDate);
 
         data.ttd_user = canvasUser.toDataURL();
         data.status = "final";
-        data.nama_jurutama = document.getElementById("m_nama_jurutama").value;
+        data.nama_jurutama = namaJurutama;
 
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
@@ -1089,7 +1197,7 @@
         showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
       }
 
-      // 2. LOAD DATA ADMIN (DUAL-ELEMENT TABLE & SIGNATURES)
+      // LOAD DATA ADMIN & PRINT VIEW
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
@@ -1114,9 +1222,12 @@
           menu: "",
           porsi: "",
           status: "draft",
-          rows: {},
+          rows: [],
           ttd_user: null,
           ttd_admin: null,
+          nama_jurutama: "",
+          nama_pengawas: "",
+          nama_kepala: "",
         };
 
         document.getElementById("a_shift").value = data.shift || "";
@@ -1130,54 +1241,70 @@
 
         document.getElementById("a_nama_jurutama").value =
           data.nama_jurutama || "";
-        const printJurutama = document.getElementById("print_a_nama_jurutama");
-        if (printJurutama) printJurutama.innerText = data.nama_jurutama || "";
+        document.getElementById("print_a_nama_jurutama").innerText =
+          data.nama_jurutama || "";
 
         document.getElementById("a_nama_pengawas").value =
           data.nama_pengawas || "";
-        const printPengawas = document.getElementById("print_a_nama_pengawas");
-        if (printPengawas) printPengawas.innerText = data.nama_pengawas || "";
+        document.getElementById("print_a_nama_pengawas").innerText =
+          data.nama_pengawas || "";
 
-        document.getElementById("a_nama_kepala").value = data.nama_kepala || "";
-        const printKepala = document.getElementById("print_a_nama_kepala");
-        if (printKepala) printKepala.innerText = data.nama_kepala || "";
+        document.getElementById("a_nama_kepala").value =
+          data.nama_kepala || "Rizky Arinanda. AR, S.Kom";
+        document.getElementById("print_a_nama_kepala").innerText =
+          data.nama_kepala || "Rizky Arinanda. AR, S.Kom";
 
         const tbody = document.getElementById("a_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
 
-        KOMPONEN.forEach((k) => {
-          let r = data.rows[k.id] || {};
+        let rowsToDisplay = data.rows || [];
+        // Padding baris minimum agar cetakan rapi minimal MIN_ROWS
+        while (rowsToDisplay.length < MIN_ROWS) {
+          rowsToDisplay.push({
+            nama: "",
+            standar: "",
+            s1: "",
+            s2: "",
+            s3: "",
+            rata: "",
+            keterangan: "",
+          });
+        }
+
+        rowsToDisplay.forEach((r, idx) => {
           tbody.innerHTML += `
             <tr>
-              <td class="border border-black p-1 font-bold text-left pl-2">${k.nama}</td>
+              <td class="border border-black p-1 text-center font-bold">${idx + 1}</td>
+              <td class="border border-black p-1 text-left pl-2 font-bold">${r.nama || ""}</td>
               <td class="border border-black p-0 relative">
-                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.std || k.defaultStd}</div>
-                <input type="text" id="a_${k.id}_std" value="${r.std || k.defaultStd}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+                <div class="hidden print:block w-full text-center">${r.standar || ""}</div>
+                <input type="text" value="${r.standar || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
               </td>
               <td class="border border-black p-0 relative">
-                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.s1 || ""}</div>
-                <input type="text" id="a_${k.id}_s1" value="${r.s1 || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+                <div class="hidden print:block w-full text-center">${r.s1 || ""}</div>
+                <input type="text" value="${r.s1 || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
               </td>
               <td class="border border-black p-0 relative">
-                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.s2 || ""}</div>
-                <input type="text" id="a_${k.id}_s2" value="${r.s2 || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+                <div class="hidden print:block w-full text-center">${r.s2 || ""}</div>
+                <input type="text" value="${r.s2 || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
               </td>
               <td class="border border-black p-0 relative">
-                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.s3 || ""}</div>
-                <input type="text" id="a_${k.id}_s3" value="${r.s3 || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+                <div class="hidden print:block w-full text-center">${r.s3 || ""}</div>
+                <input type="text" value="${r.s3 || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
               </td>
               <td class="border border-black p-0 relative font-bold">
-                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.rata || ""}</div>
-                <input type="text" id="a_${k.id}_rata" value="${r.rata || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+                <div class="hidden print:block w-full text-center">${r.rata || ""}</div>
+                <input type="text" value="${r.rata || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
               </td>
               <td class="border border-black p-0 relative">
-                <div class="hidden print:block w-full text-left whitespace-normal break-words px-1">${r.ket || ""}</div>
-                <input type="text" id="a_${k.id}_ket" value="${r.ket || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left bg-transparent px-1 print:hidden">
+                <div class="hidden print:block w-full text-left px-1">${r.keterangan || ""}</div>
+                <input type="text" value="${r.keterangan || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left bg-transparent px-1 print:hidden">
               </td>
             </tr>`;
         });
 
+        // Signature User
         const sigBoxUser = document.getElementById("a_render_sig_user");
         if (sigBoxUser) {
           sigBoxUser.innerHTML = data.ttd_user
@@ -1185,22 +1312,20 @@
             : ``;
         }
 
+        // Signature Admin
         const btnVerifikasi = document.getElementById("btn-verifikasi-admin");
         const btnPrint = document.getElementById("btn-print-admin");
         const sigBoxAdmin = document.getElementById("a_render_sig_admin");
-        const adminInputs = document.querySelectorAll("#admin-view input");
 
         if (data.status === "verified") {
           btnVerifikasi?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
-          adminInputs.forEach((el) => (el.readOnly = true));
           if (data.ttd_admin && sigBoxAdmin) {
             sigBoxAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
           }
         } else {
           btnVerifikasi?.classList.remove("hidden");
           btnPrint?.classList.add("hidden");
-          adminInputs.forEach((el) => (el.readOnly = false));
           if (sigBoxAdmin) sigBoxAdmin.innerHTML = ``;
         }
       }
@@ -1228,18 +1353,6 @@
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
         const data = db[dateStr] || getTodayData(dateStr);
-
-        data.rows = {};
-        KOMPONEN.forEach((k) => {
-          data.rows[k.id] = {
-            std: document.getElementById(`a_${k.id}_std`)?.value || "",
-            s1: document.getElementById(`a_${k.id}_s1`)?.value || "",
-            s2: document.getElementById(`a_${k.id}_s2`)?.value || "",
-            s3: document.getElementById(`a_${k.id}_s3`)?.value || "",
-            rata: document.getElementById(`a_${k.id}_rata`)?.value || "",
-            ket: document.getElementById(`a_${k.id}_ket`)?.value || "",
-          };
-        });
 
         data.shift = document.getElementById("a_shift").value;
         data.menu = document.getElementById("a_menu").value;
