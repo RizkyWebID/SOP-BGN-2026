@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
 
     <style>
-      /* Kartu menu utama */
       .dash-card {
         transition:
           transform 0.2s ease,
@@ -25,7 +24,6 @@
         transform: translateY(-4px);
         box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
       }
-      /* Badge nomor SOP di kartu */
       .dash-badge {
         width: 44px;
         height: 44px;
@@ -41,7 +39,9 @@
   </head>
 
   <body class="text-gray-800">
-    <!-- HEADER -->
+    <!-- ==========================================================
+       HEADER
+       ========================================================== -->
     <header class="bg-indigo-900 text-white shadow-md">
       <div class="max-w-7xl mx-auto px-4 py-6 flex items-center gap-4">
         <img
@@ -61,7 +61,9 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8">
-      <!-- Sambutan -->
+      <!-- ==========================================================
+         SAMBUTAN
+         ========================================================== -->
       <div
         class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-8"
       >
@@ -78,9 +80,109 @@
         </p>
       </div>
 
-      <!-- ===================================================
+      <!-- ==========================================================
+         PANEL MANAJEMEN DATA (Backup / Restore / Hapus)
+         ========================================================== -->
+      <section
+        class="bg-white rounded-lg shadow-sm border border-gray-200 p-5 mb-8"
+      >
+        <h3
+          class="text-base font-bold text-indigo-900 mb-4 flex items-center gap-2"
+        >
+          <span class="w-1.5 h-5 bg-rose-500 rounded"></span>
+          Manajemen Data
+        </h3>
+
+        <!-- Info storage -->
+        <div
+          id="storage-info"
+          class="bg-gray-50 border border-gray-200 rounded-lg p-3 text-xs text-gray-700 mb-4"
+        >
+          Memuat info penyimpanan...
+        </div>
+
+        <!-- Tombol-tombol -->
+        <div class="flex flex-wrap gap-3">
+          <!-- Backup / Export -->
+          <button
+            onclick="handleBackup()"
+            class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded transition shadow flex items-center gap-2"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4"
+              />
+            </svg>
+            Download Backup (JSON)
+          </button>
+
+          <!-- Restore / Import -->
+          <label
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded transition shadow cursor-pointer flex items-center gap-2"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M17 8l-5-5m0 0L7 8m5-5v12"
+              />
+            </svg>
+            Restore dari JSON
+            <input
+              type="file"
+              id="restore-file"
+              accept=".json,application/json"
+              class="hidden"
+              onchange="handleRestore(event)"
+            />
+          </label>
+
+          <!-- Hapus Semua -->
+          <button
+            onclick="handleClearAll()"
+            class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded transition shadow flex items-center gap-2"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3"
+              />
+            </svg>
+            Hapus Semua Data
+          </button>
+        </div>
+
+        <p class="text-[11px] text-gray-500 mt-3 leading-relaxed">
+          💡 <b>Tips:</b> Backup secara rutin (minimal 1× seminggu). Simpan file
+          JSON di cloud storage (Google Drive / OneDrive) agar data tidak hilang
+          jika browser dibersihkan.
+        </p>
+      </section>
+
+      <!-- ==========================================================
          GRUP: SOP PENGOLAHAN & PRODUKSI PANGAN
-         =================================================== -->
+         ========================================================== -->
       <section class="mb-8">
         <h3
           class="text-base font-bold text-indigo-900 mb-4 flex items-center gap-2"
@@ -90,7 +192,6 @@
         </h3>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <!-- SOP-014 -->
           <a
             href="SOP-014 (Pemorsian dan Pelabelan Ompreng).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
@@ -118,7 +219,6 @@
             </div>
           </a>
 
-          <!-- SOP-015 -->
           <a
             href="SOP-015 (Pendinginan Makanan).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
@@ -147,8 +247,6 @@
             </div>
           </a>
 
-          <!-- SOP-017 (Logistik) — pindah ke grup sendiri -->
-          <!-- SOP-026 -->
           <a
             href="SOP-026 (Persiapan dan Pengelolahan Nasi).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
@@ -179,9 +277,9 @@
         </div>
       </section>
 
-      <!-- ===================================================
-         GRUP: SOP PERSONAL HIGIENE (4 sub-form)
-         =================================================== -->
+      <!-- ==========================================================
+         GRUP: SOP PERSONAL HIGIENE
+         ========================================================== -->
       <section class="mb-8">
         <h3
           class="text-base font-bold text-indigo-900 mb-4 flex items-center gap-2"
@@ -191,7 +289,6 @@
         </h3>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <!-- SOP-040A -->
           <a
             href="SOP-040 (Personal Higiene 1).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
@@ -220,7 +317,6 @@
             </div>
           </a>
 
-          <!-- SOP-040B -->
           <a
             href="SOP-040 (Personal Higiene 2).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
@@ -249,7 +345,6 @@
             </div>
           </a>
 
-          <!-- SOP-040C -->
           <a
             href="SOP-040 (Personal Higiene 3).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
@@ -277,7 +372,6 @@
             </div>
           </a>
 
-          <!-- SOP-040D -->
           <a
             href="SOP-040 (Personal Higiene 4).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
@@ -308,9 +402,9 @@
         </div>
       </section>
 
-      <!-- ===================================================
+      <!-- ==========================================================
          GRUP: SOP LOGISTIK & PEMASOK
-         =================================================== -->
+         ========================================================== -->
       <section class="mb-8">
         <h3
           class="text-base font-bold text-indigo-900 mb-4 flex items-center gap-2"
@@ -320,7 +414,6 @@
         </h3>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <!-- SOP-017 -->
           <a
             href="SOP-017 (Survei Harga Pasar).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
@@ -351,7 +444,9 @@
         </div>
       </section>
 
-      <!-- Info bantuan -->
+      <!-- ==========================================================
+         PETUNJUK
+         ========================================================== -->
       <div
         class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-xs text-indigo-900 leading-relaxed"
       >
@@ -369,6 +464,10 @@
             Data tersimpan di browser (LocalStorage) —
             <b>jangan membersihkan data browser</b> agar riwayat tetap ada.
           </li>
+          <li>
+            Lakukan <b>Backup rutin</b> menggunakan tombol di panel Manajemen
+            Data di atas.
+          </li>
         </ul>
       </div>
     </main>
@@ -379,7 +478,159 @@
       © 2026 SPPG Kota Pekanbaru Binawidya Tobekgodang · Badan Gizi Nasional
     </footer>
 
+    <!-- Notifikasi global -->
+    <div id="global-notif"></div>
+
+    <!-- ==========================================================
+       SCRIPTS
+       ========================================================== -->
     <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
+
+    <script>
+      /* =====================================================================
+       * DASHBOARD - Script Import/Export
+       * ===================================================================== */
+
+      /** Hitung ukuran penyimpanan yang terpakai (dalam KB). */
+      function hitungUkuranStorage() {
+        let totalBytes = 0;
+        const keys = SopStorage.listKeysSync();
+        keys.forEach((k) => {
+          const raw = localStorage.getItem(SopStorage.namespace + k);
+          if (raw) totalBytes += raw.length;
+        });
+        return { keys, kb: (totalBytes / 1024).toFixed(2) };
+      }
+
+      /** Refresh panel info storage. */
+      function refreshStorageInfo() {
+        const el = document.getElementById("storage-info");
+        if (!el) return;
+        const { keys, kb } = hitungUkuranStorage();
+        const ns = SopStorage.namespace;
+        el.innerHTML = `
+        <div class="flex flex-wrap gap-x-4 gap-y-1">
+          <span>📦 <b>Total SOP tersimpan:</b> ${keys.length}</span>
+          <span>💾 <b>Ukuran data:</b> ${kb} KB</span>
+          <span>🔑 <b>Namespace:</b> <code class="bg-white px-1 rounded">${ns}</code></span>
+        </div>
+        ${
+          keys.length > 0
+            ? `<div class="mt-2 text-[10px] text-gray-500">Key: ${keys.join(", ")}</div>`
+            : `<div class="mt-2 text-[10px] text-gray-500 italic">Belum ada data yang tersimpan.</div>`
+        }
+      `;
+      }
+
+      /* =====================================================================
+       * BACKUP — Unduh semua data sebagai file JSON
+       * Nama otomatis: BackUP-SOP_yyyyMMdd_HHmmss.json
+       * Contoh: BackUP-SOP_20260121_210155.json
+       * ===================================================================== */
+      function handleBackup() {
+        const json = SopStorage.exportAll();
+        const filename = SopStorage.makeBackupFilename();
+        const blob = new Blob([json], {
+          type: "application/json;charset=utf-8",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showNotif(`✅ Backup terunduh: ${filename}`, "success");
+      }
+
+      /* =====================================================================
+       * RESTORE — Impor dari file JSON
+       * ===================================================================== */
+      function handleRestore(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          try {
+            const parsed = JSON.parse(ev.target.result);
+            const keys = Object.keys(parsed);
+            if (keys.length === 0) {
+              return showNotif(
+                "⚠️ File JSON kosong atau tidak valid.",
+                "error",
+              );
+            }
+
+            const konfirmasi = confirm(
+              `⚠️ PERHATIAN\n\n` +
+                `Anda akan mengimpor ${keys.length} file SOP.\n` +
+                `Data dengan key yang sama akan DITIMPA.\n\n` +
+                `SOP yang akan diimpor:\n` +
+                keys.map((k) => `  • ${k}`).join("\n") +
+                `\n\nLanjutkan?`,
+            );
+            if (!konfirmasi) {
+              event.target.value = ""; // reset input
+              return;
+            }
+
+            const count = SopStorage.importAll(ev.target.result);
+            showNotif(
+              `✅ Berhasil restore ${count} SOP. Refresh untuk melihat.`,
+              "success",
+            );
+            refreshStorageInfo();
+
+            setTimeout(() => location.reload(), 1500);
+          } catch (e) {
+            showNotif("❌ File JSON tidak valid: " + e.message, "error");
+          }
+          event.target.value = ""; // reset input
+        };
+        reader.readAsText(file);
+      }
+
+      /* =====================================================================
+       * HAPUS SEMUA — dengan konfirmasi 2 lapis
+       * ===================================================================== */
+      function handleClearAll() {
+        const { keys } = hitungUkuranStorage();
+        if (keys.length === 0) {
+          return showNotif("Tidak ada data yang perlu dihapus.", "error");
+        }
+
+        // Konfirmasi lapis 1
+        const konfirmasi1 = confirm(
+          `⚠️ PERINGATAN KERAS\n\n` +
+            `Anda akan MENGHAPUS SEMUA data SOP (${keys.length} file).\n` +
+            `Tindakan ini TIDAK DAPAT DIBATALKAN.\n\n` +
+            `Sangat disarankan untuk BACKUP terlebih dahulu.\n\n` +
+            `Lanjutkan?`,
+        );
+        if (!konfirmasi1) return;
+
+        // Konfirmasi lapis 2 — ketik "HAPUS"
+        const konfirmasi2 = prompt(
+          `Ketik kata HAPUS (huruf besar) untuk konfirmasi akhir:`,
+        );
+        if (konfirmasi2 !== "HAPUS") {
+          return showNotif("Penghapusan dibatalkan.", "error");
+        }
+
+        keys.forEach((k) => SopStorage.removeSync(k));
+        showNotif(`🗑️ Berhasil menghapus ${keys.length} file SOP.`, "error");
+        refreshStorageInfo();
+      }
+
+      /* =====================================================================
+       * INISIALISASI
+       * ===================================================================== */
+      window.addEventListener("DOMContentLoaded", () => {
+        refreshStorageInfo();
+      });
+    </script>
   </body>
 </html>
