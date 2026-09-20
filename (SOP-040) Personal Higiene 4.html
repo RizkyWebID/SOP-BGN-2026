@@ -109,7 +109,7 @@
     </style>
     <style>
       /* ==========================================================
-       * STYLE KHUSUS SOP 40 (PRESISI LEBAR 5 KOLOM CETAK & PRINT)
+       * STYLE KHUSUS SOP 40 (PENYESUAIAN LEBAR KOLOM RAPI)
        * ========================================================== */
       @media print {
         #admin-view table {
@@ -120,38 +120,64 @@
 
         #admin-view th,
         #admin-view td {
-          padding: 4px 2px !important;
-          font-size: 9pt !important;
+          padding: 3px 2px !important;
+          font-size: 8.5pt !important;
           vertical-align: middle !important;
           word-wrap: break-word !important;
           overflow-wrap: break-word !important;
           white-space: normal !important;
         }
 
-        /* Pengaturan Lebar 5 Kolom Presisi */
+        /* Penyesuaian Proporsi Kolom: Aspek Besar, Sesuai/Tidak Sesuai Ringkas, Keterangan Menyesuaikan */
         #admin-view td:nth-child(1) {
           width: 5% !important;
+          text-align: center !important;
         } /* 1. No */
         #admin-view td:nth-child(2) {
-          width: 45% !important;
+          width: 52% !important;
           text-align: left !important;
           padding-left: 6px !important;
-        } /* 2. Aspek */
+        } /* 2. Aspek (Lebar/Dominan) */
         #admin-view td:nth-child(3) {
-          width: 10% !important;
-        } /* 3. Sesuai */
+          width: 8% !important;
+          text-align: center !important;
+        } /* 3. Sesuai (Ala kadarnya/Centang) */
         #admin-view td:nth-child(4) {
-          width: 10% !important;
-        } /* 4. Tidak Sesuai */
+          width: 8% !important;
+          text-align: center !important;
+        } /* 4. Tidak Sesuai (Ala kadarnya/Centang) */
         #admin-view td:nth-child(5) {
-          width: 30% !important;
+          width: 27% !important;
           text-align: left !important;
           padding-left: 6px !important;
         } /* 5. Keterangan */
 
-        #admin-view td input {
+        #admin-view td input,
+        #admin-view td textarea {
           display: none !important;
         }
+      }
+
+      /* Tampilan Layar (Screen) Mode Admin */
+      #admin-view table th:nth-child(1),
+      #admin-view table td:nth-child(1) {
+        width: 5%;
+      }
+      #admin-view table th:nth-child(2),
+      #admin-view table td:nth-child(2) {
+        width: 52%;
+      }
+      #admin-view table th:nth-child(3),
+      #admin-view table td:nth-child(3) {
+        width: 8%;
+      }
+      #admin-view table th:nth-child(4),
+      #admin-view table td:nth-child(4) {
+        width: 8%;
+      }
+      #admin-view table th:nth-child(5),
+      #admin-view table td:nth-child(5) {
+        width: 27%;
       }
     </style>
   </head>
