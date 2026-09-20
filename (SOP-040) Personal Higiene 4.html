@@ -3,154 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistem Laporan Pemeriksaan Personal Higiene & Cuci Tangan</title>
+    <title>SOP-040-4 - Pemeriksaan Sarana Cuci Tangan & Penyimpanan</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
+
+    <!-- ===================================================================
+       STYLE KHUSUS SOP-040-4 (5 kolom cetak)
+       - Kolom "Aspek" lebar dominan (52%) karena berisi narasi panjang.
+       - Kolom "Sesuai" & "Tidak Sesuai" ringkas (masing-masing 8%).
+       =================================================================== -->
     <style>
-      /* =================================================
-       * SPPG - STYLE UMUM (SHARED STYLESHEET)
-       * ================================================= */
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f3f4f6;
-        font-size: 12px;
-      }
-
-      .modal-bg {
-        background-color: rgba(0, 0, 0, 0.5);
-      }
-
-      .signature-pad {
-        border: 2px dashed #cbd5e1;
-        border-radius: 0.5rem;
-        cursor: crosshair;
-        background-color: #ffffff;
-        touch-action: none;
-      }
-
-      /* --- CSS KHUSUS PRINT GLOBAL --- */
-      @media print {
-        @page {
-          margin: 1cm;
-        }
-        body {
-          background-color: white;
-          font-family: Arial, sans-serif;
-          font-size: 11pt;
-          line-height: 1.2;
-        }
-        .no-print {
-          display: none !important;
-        }
-
-        #admin-view {
-          display: block !important;
-          padding: 0 !important;
-          margin: 0 auto !important;
-          box-shadow: none !important;
-          width: 100% !important;
-          max-width: 100% !important;
-          min-height: auto !important;
-        }
-        #user-view,
-        #top-nav {
-          display: none !important;
-        }
-
-        .border-black {
-          border-color: #000 !important;
-        }
-        .border-2 {
-          border-width: 1.5px !important;
-        }
-
-        input,
-        select,
-        textarea {
-          border: none !important;
-          background-color: transparent !important;
-          appearance: none;
-          -webkit-appearance: none;
-          color: black !important;
-          padding: 0 !important;
-          margin: 0 !important;
-          font-size: 9.5pt !important;
-          font-family: Arial, sans-serif !important;
-          text-align: center;
-        }
-        ::-webkit-input-placeholder {
-          color: transparent !important;
-        }
-
-        table {
-          width: 100% !important;
-          table-layout: fixed;
-          border-collapse: collapse !important;
-        }
-
-        th,
-        td {
-          padding: 4px 2px !important;
-          word-wrap: break-word;
-          font-size: 9pt !important;
-          text-align: center;
-          vertical-align: middle;
-        }
-
-        .print-signature-area {
-          display: block !important;
-          text-align: center;
-        }
-        .print-signature-area img {
-          max-width: 100px;
-          max-height: 50px;
-          display: inline-block;
-        }
-      }
-    </style>
-    <style>
-      /* ==========================================================
-       * STYLE KHUSUS SOP 40 (PENYESUAIAN LEBAR KOLOM RAPI)
-       * ========================================================== */
       @media print {
         #admin-view table {
           width: 100% !important;
           table-layout: fixed !important;
           border-collapse: collapse !important;
         }
-
         #admin-view th,
         #admin-view td {
           padding: 3px 2px !important;
           font-size: 8.5pt !important;
           vertical-align: middle !important;
           word-wrap: break-word !important;
-          overflow-wrap: break-word !important;
           white-space: normal !important;
         }
 
-        /* Penyesuaian Proporsi Kolom: Aspek Besar, Sesuai/Tidak Sesuai Ringkas, Keterangan Menyesuaikan */
         #admin-view td:nth-child(1) {
           width: 5% !important;
           text-align: center !important;
-        } /* 1. No */
+        } /* No */
         #admin-view td:nth-child(2) {
           width: 52% !important;
-          text-align: left !important;
+          text-align: left;
           padding-left: 6px !important;
-        } /* 2. Aspek (Lebar/Dominan) */
+        } /* Aspek */
         #admin-view td:nth-child(3) {
           width: 8% !important;
           text-align: center !important;
-        } /* 3. Sesuai (Ala kadarnya/Centang) */
+        } /* Sesuai */
         #admin-view td:nth-child(4) {
           width: 8% !important;
           text-align: center !important;
-        } /* 4. Tidak Sesuai (Ala kadarnya/Centang) */
+        } /* Tidak Sesuai */
         #admin-view td:nth-child(5) {
           width: 27% !important;
-          text-align: left !important;
+          text-align: left;
           padding-left: 6px !important;
-        } /* 5. Keterangan */
+        } /* Ket */
 
         #admin-view td input,
         #admin-view td textarea {
@@ -158,7 +58,7 @@
         }
       }
 
-      /* Tampilan Layar (Screen) Mode Admin */
+      /* Tampilan layar mode admin — proporsi sama */
       #admin-view table th:nth-child(1),
       #admin-view table td:nth-child(1) {
         width: 5%;
@@ -181,8 +81,8 @@
       }
     </style>
   </head>
+
   <body class="text-gray-800">
-    <!-- TOP NAVIGATION -->
     <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="font-bold text-sm sm:text-base flex items-center gap-2">
@@ -197,9 +97,9 @@
               stroke-linejoin="round"
               stroke-width="2"
               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            ></path>
+            />
           </svg>
-          Laporan Pemeriksaan Personal Higiene
+          SOP-040-4: Pemeriksaan Sarana Cuci Tangan
         </div>
         <div class="flex gap-2">
           <button
@@ -220,19 +120,14 @@
       </div>
     </nav>
 
-    <div
-      id="global-notif"
-      class="fixed top-5 right-5 z-50 hidden px-6 py-3 rounded shadow-xl text-white font-bold transition-all duration-300 no-print"
-    >
-      Pesan Notifikasi
-    </div>
+    <div id="global-notif"></div>
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
-      <!-- ========================================== -->
-      <!-- USER VIEW (INPUT) -->
-      <!-- ========================================== -->
+      <!-- ==================================================================
+         USER VIEW - FORM INPUT (STRUKTUR SERAGAM)
+         ================================================================== -->
       <div id="user-view" class="space-y-6 block">
-        <!-- INFORMASI UMUM -->
+        <!-- [1] Informasi Umum -->
         <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h2 class="text-lg font-bold text-indigo-900 mb-4 border-b pb-2">
             Informasi Umum
@@ -245,8 +140,8 @@
               <input
                 type="date"
                 id="u_tanggal"
-                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
                 onchange="loadDataForDate()"
+                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
               />
             </div>
             <div>
@@ -288,11 +183,13 @@
           </div>
         </div>
 
+        <!-- [2] Banner status -->
         <div
           id="status-banner"
           class="hidden p-4 rounded-lg font-bold text-center text-xs"
         ></div>
 
+        <!-- [3] Grid utama -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <!-- FORM INPUT ASPEK -->
           <div
@@ -301,7 +198,6 @@
             <h3 class="text-base font-bold text-indigo-900 mb-4 border-b pb-2">
               Input Pemeriksaan
             </h3>
-
             <form
               id="form-input-baris"
               onsubmit="tambahBarisProses(event)"
@@ -403,7 +299,7 @@
                     </tr>
                   </thead>
                   <tbody id="u_table_body">
-                    <!-- Dynamic Rows -->
+                    <!-- Diisi oleh renderUserTable() -->
                   </tbody>
                 </table>
               </div>
@@ -431,14 +327,11 @@
         </div>
       </div>
 
-      <!-- ========================================== -->
-      <!-- ADMIN VIEW (CETAK) -->
-      <!-- ========================================== -->
-      <div
-        id="admin-view"
-        class="hidden bg-white p-6 md:p-8 shadow-lg mx-auto max-w-7xl"
-        style="font-family: Arial, sans-serif"
-      >
+      <!-- ==================================================================
+         ADMIN VIEW - CETAK (STRUKTUR SERAGAM)
+         ================================================================== -->
+      <div id="admin-view" class="hidden sop-print-view">
+        <!-- Toolbar admin -->
         <div
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
         >
@@ -454,27 +347,14 @@
             <input
               type="date"
               id="a_tanggal_pilih"
-              class="p-2 border border-gray-300 rounded text-xs"
               onchange="loadDataAdmin()"
+              class="p-2 border border-gray-300 rounded text-xs"
             />
             <button
               id="btn-verifikasi-admin"
               onclick="bukaModalTtdAdmin()"
               class="px-4 py-2 bg-amber-500 text-white font-bold text-xs rounded hover:bg-amber-600 shadow transition flex items-center gap-2"
             >
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
               Verifikasi Laporan
             </button>
             <button
@@ -482,31 +362,18 @@
               onclick="window.print()"
               class="hidden px-4 py-2 bg-blue-600 text-white font-bold text-xs rounded hover:bg-blue-700 shadow flex items-center gap-2"
             >
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
-                ></path>
-              </svg>
               Cetak Dokumen
             </button>
           </div>
         </div>
 
-        <!-- KOP HEADER -->
+        <!-- KOP HEADER SOP-040-4 -->
         <div class="flex mb-3">
           <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
               <img
                 src="https://placehold.co/100x100/1e3a8a/white?text=Logo+BGN"
-                alt="Logo Badan Gizi Nasional"
+                alt="Logo BGN"
                 class="w-14 h-14 object-contain mb-1"
               />
               <span
@@ -524,21 +391,19 @@
               SPPG KOTA PEKANBARU BINAWIDYA TOBEKGODANG
             </h1>
             <h2
-              id="judul-sop"
               class="font-bold text-[14px] print:text-[12pt] leading-tight uppercase mb-1"
             >
               Formulir Pemeriksaan Sarana Cuci Tangan & Penyimpanan
             </h2>
             <h3
-              id="nomor-dokumen-sop"
               class="font-semibold text-[12px] print:text-[10pt] leading-tight whitespace-nowrap"
             >
-              Lap.SOP.040-(Acak 3 Digit) / 02.14.71 / IX / SPPG-BW01 / 2026
+              Lap.SOP.040-4-000 / 02.14.71 / IX / SOP-BW01 / 2026
             </h3>
           </div>
         </div>
 
-        <!-- BINGKAI INFORMASI UMUM -->
+        <!-- Bingkai Informasi Umum -->
         <div
           class="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 border-2 border-black mb-3 text-xs print:text-[10pt] font-semibold"
         >
@@ -551,8 +416,8 @@
                 >Hari / Tanggal</label
               >
               <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
-                <span class="mr-1">:</span>
-                <span id="a_tanggal_txt" class="w-full"></span>
+                <span class="mr-1">:</span
+                ><span id="a_tanggal_txt" class="w-full"></span>
               </div>
             </div>
             <div class="flex h-7">
@@ -560,7 +425,7 @@
                 class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
                 >Shift Kerja</label
               >
-              <div class="w-3/5 sm:w-2/3 p-1 flex items-center relative">
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
                 <div
                   id="print_a_shift"
@@ -584,7 +449,7 @@
                 class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
                 >Menu Hari Ini</label
               >
-              <div class="w-3/5 sm:w-2/3 p-1 flex items-center relative">
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
                 <div
                   id="print_a_menu"
@@ -606,7 +471,7 @@
                 class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
                 >Jumlah Porsi</label
               >
-              <div class="w-3/5 sm:w-2/3 p-1 flex items-center relative">
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
                 <div
                   id="print_a_porsi"
@@ -626,7 +491,7 @@
           </div>
         </div>
 
-        <!-- TABEL UTAMA PRINT SOP 40 -->
+        <!-- Tabel Utama Cetak -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
@@ -641,12 +506,12 @@
               </tr>
             </thead>
             <tbody id="a_table_body">
-              <!-- Generated via JS -->
+              <!-- Diisi oleh loadDataAdmin() -->
             </tbody>
           </table>
         </div>
 
-        <!-- AREA KETERANGAN -->
+        <!-- Keterangan -->
         <div
           class="text-[10px] print:text-[7pt] text-justify leading-tight mb-4"
         >
@@ -657,10 +522,11 @@
           >
         </div>
 
-        <!-- AREA TANDA TANGAN -->
+        <!-- Area Tanda Tangan (3 kolom seragam) -->
         <div
           class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
         >
+          <!-- Kolom 1: Petugas Jaga -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -689,11 +555,12 @@
                   document.getElementById('print_a_nama_petugas').innerText =
                     this.value
                 "
-                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px]"
               />
             </div>
           </div>
 
+          <!-- Kolom 2: Asisten Lapangan -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -722,20 +589,18 @@
                   document.getElementById('print_a_nama_pengawas').innerText =
                     this.value
                 "
-                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px]"
               />
             </div>
           </div>
 
+          <!-- Kolom 3: Kepala SPPG -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
             >
               <p class="font-bold leading-tight">Mengetahui</p>
-              <p
-                id="label_nama_sppg"
-                class="font-bold leading-tight break-words whitespace-normal"
-              >
+              <p class="font-bold leading-tight break-words whitespace-normal">
                 Kepala SPPG Kota Pekanbaru Binawidya Tobekgodang,
               </p>
             </div>
@@ -758,7 +623,7 @@
                   document.getElementById('print_a_nama_kepala').innerText =
                     this.value
                 "
-                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px]"
               />
             </div>
           </div>
@@ -767,15 +632,10 @@
     </main>
 
     <!-- MODAL TTD USER -->
-    <div
-      id="modal-ttd"
-      class="fixed inset-0 modal-bg hidden z-50 flex items-center justify-center p-4"
-    >
-      <div class="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full">
-        <h3 class="text-lg font-bold mb-2 text-indigo-900">
-          Finalisasi Laporan
-        </h3>
-        <p class="text-xs text-gray-600 mb-4">
+    <div id="modal-ttd" class="sop-modal-bg">
+      <div class="sop-modal">
+        <h3 class="sop-modal-title text-indigo-900">Finalisasi Laporan</h3>
+        <p class="sop-modal-desc">
           Mohon berikan tanda tangan Anda (Petugas Jaga) untuk mengunci laporan
           hari ini.
         </p>
@@ -786,8 +646,8 @@
           <input
             type="text"
             id="m_nama_petugas"
-            class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
             placeholder="Ketik nama Anda..."
+            class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
             required
           />
         </div>
@@ -796,7 +656,7 @@
             id="sig-user"
             width="350"
             height="150"
-            class="w-full signature-pad touch-none"
+            class="sop-signature-pad"
           ></canvas>
           <button
             type="button"
@@ -806,10 +666,10 @@
             Hapus
           </button>
         </div>
-        <div class="flex justify-end gap-3">
+        <div class="sop-modal-actions">
           <button
             type="button"
-            onclick="tutupModalTtd()"
+            onclick="closeModal('modal-ttd')"
             class="px-4 py-2 text-xs text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
           >
             Batal
@@ -826,15 +686,10 @@
     </div>
 
     <!-- MODAL TTD ADMIN -->
-    <div
-      id="modal-ttd-admin"
-      class="fixed inset-0 modal-bg hidden z-50 flex items-center justify-center p-4"
-    >
-      <div class="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full">
-        <h3 class="text-lg font-bold mb-2 text-amber-600">
-          Verifikasi Laporan Admin
-        </h3>
-        <p class="text-xs text-gray-600 mb-4">
+    <div id="modal-ttd-admin" class="sop-modal-bg">
+      <div class="sop-modal">
+        <h3 class="sop-modal-title text-amber-600">Verifikasi Laporan Admin</h3>
+        <p class="sop-modal-desc">
           Mohon berikan tanda tangan Anda sebagai bukti verifikasi.
         </p>
         <div class="mb-4">
@@ -844,8 +699,8 @@
           <input
             type="text"
             id="m_nama_pengawas"
-            class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-amber-500 outline-none"
             placeholder="Ketik nama Anda..."
+            class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-amber-500 outline-none"
             required
           />
         </div>
@@ -854,7 +709,7 @@
             id="sig-admin"
             width="350"
             height="150"
-            class="w-full signature-pad touch-none"
+            class="sop-signature-pad"
           ></canvas>
           <button
             type="button"
@@ -864,10 +719,10 @@
             Hapus
           </button>
         </div>
-        <div class="flex justify-end gap-3">
+        <div class="sop-modal-actions">
           <button
             type="button"
-            onclick="tutupModalTtdAdmin()"
+            onclick="closeModal('modal-ttd-admin')"
             class="px-4 py-2 text-xs text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
           >
             Batal
@@ -883,141 +738,40 @@
       </div>
     </div>
 
-    <!-- SCRIPT UTAMA PUSAT -->
+    <script src="assets/js/sop-bgn-shared.js"></script>
+
+    <!-- ===================================================================
+       SCRIPT KHUSUS SOP-040-4
+       =================================================================== -->
     <script>
-      function showNotif(msg, type = "success") {
-        const notif = document.getElementById("global-notif");
-        if (!notif) return;
-        notif.textContent = msg;
-        notif.className = `fixed top-5 right-5 z-50 px-6 py-3 rounded shadow-xl text-white font-bold text-xs transition-all duration-500 block ${type === "success" ? "bg-green-600" : "bg-red-500"}`;
-        setTimeout(() => {
-          notif.classList.replace("block", "hidden");
-        }, 3000);
-      }
+      /* =====================================================================
+       * SOP-040-4 - SCRIPT KHUSUS (Sarana Cuci Tangan & Penyimpanan)
+       * ---------------------------------------------------------------------
+       * CATATAN: versi lama STORAGE_KEY="db_sop_40_master" (nama ambigu).
+       * Sudah diseragamkan menjadi "db_sop_040_4" agar konsisten dengan
+       * penomoran SOP baru.
+       *
+       * Setiap baris menyimpan field "sesuai" ("" atau "V") dan
+       * "tidak_sesuai" ("" atau "V"). Nilai diisi otomatis berdasarkan
+       * radio button yang dipilih user.
+       * ===================================================================== */
 
-      function switchTab(tab) {
-        const vUser = document.getElementById("user-view");
-        const vAdmin = document.getElementById("admin-view");
-        const btnUser = document.getElementById("btn-tab-user");
-        const btnAdmin = document.getElementById("btn-tab-admin");
-
-        if (tab === "user") {
-          vUser.classList.replace("hidden", "block");
-          vAdmin.classList.replace("block", "hidden");
-          btnUser.classList.replace("border-transparent", "border-indigo-500");
-          btnUser.classList.add("bg-indigo-700");
-          btnAdmin.classList.remove("bg-indigo-700", "border-indigo-500");
-          if (typeof loadDataForDate === "function") loadDataForDate();
-        } else {
-          vUser.classList.replace("block", "hidden");
-          vAdmin.classList.replace("hidden", "block");
-          btnAdmin.classList.replace("border-transparent", "border-indigo-500");
-          btnAdmin.classList.add("bg-indigo-700");
-          btnUser.classList.remove("bg-indigo-700", "border-indigo-500");
-
-          const uTanggal = document.getElementById("u_tanggal");
-          const aTanggalPilih = document.getElementById("a_tanggal_pilih");
-          if (uTanggal && aTanggalPilih) aTanggalPilih.value = uTanggal.value;
-          if (typeof loadDataAdmin === "function") loadDataAdmin();
-        }
-      }
-
-      function getDB(storageKey) {
-        let data = localStorage.getItem(storageKey);
-        return data ? JSON.parse(data) : {};
-      }
-
-      function saveDB(storageKey, dataObj) {
-        localStorage.setItem(storageKey, JSON.stringify(dataObj));
-      }
-
-      function setupSignaturePad(canvasId) {
-        const canvas = document.getElementById(canvasId);
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
-        let isDrawing = false;
-        ctx.strokeStyle = "#000033";
-        ctx.lineWidth = 2.5;
-        ctx.lineJoin = "round";
-        ctx.lineCap = "round";
-
-        function getMousePos(e) {
-          const rect = canvas.getBoundingClientRect();
-          const scaleX = canvas.width / rect.width,
-            scaleY = canvas.height / rect.height;
-          let clientX = e.clientX,
-            clientY = e.clientY;
-          if (e.touches && e.touches.length > 0) {
-            clientX = e.touches[0].clientX;
-            clientY = e.touches[0].clientY;
-          }
-          return {
-            x: (clientX - rect.left) * scaleX,
-            y: (clientY - rect.top) * scaleY,
-          };
-        }
-
-        const start = (e) => {
-          e.preventDefault();
-          isDrawing = true;
-          const pos = getMousePos(e);
-          ctx.beginPath();
-          ctx.moveTo(pos.x, pos.y);
-        };
-        const draw = (e) => {
-          if (!isDrawing) return;
-          e.preventDefault();
-          const pos = getMousePos(e);
-          ctx.lineTo(pos.x, pos.y);
-          ctx.stroke();
-        };
-        const stop = (e) => {
-          e.preventDefault();
-          isDrawing = false;
-        };
-
-        canvas.addEventListener("mousedown", start);
-        canvas.addEventListener("mousemove", draw);
-        canvas.addEventListener("mouseup", stop);
-        canvas.addEventListener("mouseout", stop);
-        canvas.addEventListener("touchstart", start, { passive: false });
-        canvas.addEventListener("touchmove", draw, { passive: false });
-        canvas.addEventListener("touchend", stop);
-      }
-
-      function clearSig(canvasId) {
-        const canvas = document.getElementById(canvasId);
-        if (canvas)
-          canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-      }
-
-      function tutupModalTtd() {
-        document
-          .getElementById("modal-ttd")
-          ?.classList.replace("flex", "hidden");
-      }
-      function tutupModalTtdAdmin() {
-        document
-          .getElementById("modal-ttd-admin")
-          ?.classList.replace("flex", "hidden");
-      }
-    </script>
-
-    <script>
-      let currentDate = new Date().toISOString().split("T")[0];
-      let currentRows = [];
-      const STORAGE_KEY = "db_sop_40_master";
+      const STORAGE_KEY = "db_sop_040_4";
       const MIN_ROWS = 10;
 
-      window.onload = () => {
+      let currentDate = new Date().toISOString().split("T")[0];
+      let currentRows = [];
+
+      /* ------- Life cycle ------- */
+      window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("u_tanggal").value = currentDate;
         document.getElementById("a_tanggal_pilih").value = currentDate;
-
         setupSignaturePad("sig-user");
         setupSignaturePad("sig-admin");
         loadDataForDate();
-      };
+      });
 
+      /* ------- Ambil/buat data hari ini ------- */
       function getTodayData(date) {
         const db = getDB(STORAGE_KEY);
         if (!db[date]) {
@@ -1029,11 +783,15 @@
             rows: [],
             ttd_user: null,
             ttd_admin: null,
+            nama_petugas: "",
+            nama_pengawas: "",
+            nama_kepala: "",
           };
         }
         return db[date];
       }
 
+      /* ------- Load data user ------- */
       function loadDataForDate() {
         currentDate = document.getElementById("u_tanggal").value;
         const data = getTodayData(currentDate);
@@ -1047,6 +805,7 @@
         checkFormLockStatus(data);
       }
 
+      /* ------- Render tabel user ------- */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
@@ -1058,21 +817,26 @@
         }
 
         currentRows.forEach((r, idx) => {
-          let statusText = r.sesuai ? "Sesuai" : "Tidak Sesuai";
-          let statusColor = r.sesuai ? "text-green-600" : "text-red-600";
-          tbody.innerHTML += `
-            <tr class="hover:bg-gray-50 border-b border-gray-200">
-              <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
-              <td class="p-2 border border-gray-300 whitespace-pre-wrap">${r.aspek || ""}</td>
-              <td class="p-2 border border-gray-300 text-center font-bold ${statusColor}">${statusText}</td>
-              <td class="p-2 border border-gray-300">${r.ket || "-"}</td>
-              <td class="p-2 border border-gray-300 text-center">
-                <button type="button" onclick="hapusBarisProses(${idx})" class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
-              </td>
-            </tr>`;
+          const statusText = r.sesuai ? "Sesuai" : "Tidak Sesuai";
+          const statusColor = r.sesuai ? "text-green-600" : "text-red-600";
+          tbody.insertAdjacentHTML(
+            "beforeend",
+            `
+          <tr class="hover:bg-gray-50 border-b border-gray-200">
+            <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
+            <td class="p-2 border border-gray-300 whitespace-pre-wrap">${r.aspek || ""}</td>
+            <td class="p-2 border border-gray-300 text-center font-bold ${statusColor}">${statusText}</td>
+            <td class="p-2 border border-gray-300">${r.ket || "-"}</td>
+            <td class="p-2 border border-gray-300 text-center">
+              <button type="button" onclick="hapusBarisProses(${idx})"
+                class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
+            </td>
+          </tr>`,
+          );
         });
       }
 
+      /* ------- Tambah baris pemeriksaan ------- */
       function tambahBarisProses(e) {
         e.preventDefault();
         const data = getTodayData(currentDate);
@@ -1083,16 +847,16 @@
           document.querySelector('input[name="u_status"]:checked').value ===
           "Sesuai";
 
-        const newRow = {
+        currentRows.push({
           aspek: document.getElementById("u_aspek").value,
           sesuai: isSesuai ? "V" : "",
           tidak_sesuai: isSesuai ? "" : "V",
           ket: document.getElementById("u_ket").value,
-        };
+        });
 
-        currentRows.push(newRow);
         renderUserTable();
 
+        // Reset form + kembalikan radio ke "Sesuai"
         document.getElementById("u_aspek").value = "";
         document.getElementById("u_ket").value = "";
         document.querySelector(
@@ -1102,24 +866,24 @@
         showNotif("Data pemeriksaan berhasil ditambahkan.");
       }
 
+      /* ------- Hapus baris ------- */
       function hapusBarisProses(index) {
         const data = getTodayData(currentDate);
         if (data.status === "final" || data.status === "verified")
           return showNotif("Laporan sudah terkunci!", "error");
-
         currentRows.splice(index, 1);
         renderUserTable();
-        showNotif("Baris pemeriksaan berhasil dihapus.");
+        showNotif("Baris pemeriksaan berhasil dihapus.", "error");
       }
 
+      /* ------- Kunci form ------- */
       function checkFormLockStatus(data) {
         const banner = document.getElementById("status-banner");
-        const formInputs = document.querySelectorAll(
+        const inputs = document.querySelectorAll(
           "#user-view input:not(#u_tanggal), #user-view select, #user-view textarea, #btn-tambah-proses",
         );
         const btnDraft = document.getElementById("btn-draft");
         const btnFinal = document.getElementById("btn-final");
-
         if (!banner) return;
 
         if (data.status === "verified") {
@@ -1127,7 +891,7 @@
             "LAPORAN TELAH DIVERIFIKASI & TERKUNCI SEPENUHNYA";
           banner.className =
             "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
-          formInputs.forEach((el) => (el.disabled = true));
+          inputs.forEach((el) => (el.disabled = true));
           btnDraft?.classList.add("hidden");
           btnFinal?.classList.add("hidden");
         } else if (data.status === "final") {
@@ -1135,17 +899,18 @@
             "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI)";
           banner.className =
             "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
-          formInputs.forEach((el) => (el.disabled = true));
+          inputs.forEach((el) => (el.disabled = true));
           btnDraft?.classList.add("hidden");
           btnFinal?.classList.add("hidden");
         } else {
           banner.classList.replace("block", "hidden");
-          formInputs.forEach((el) => (el.disabled = false));
+          inputs.forEach((el) => (el.disabled = false));
           btnDraft?.classList.remove("hidden");
           btnFinal?.classList.remove("hidden");
         }
       }
 
+      /* ------- Simpan draft ------- */
       function simpanDraftGlobal() {
         const db = getDB(STORAGE_KEY);
         const data = getTodayData(currentDate);
@@ -1162,47 +927,44 @@
         showNotif("Draft laporan berhasil disimpan.");
       }
 
+      /* ------- Buka modal ttd user ------- */
       function bukaModalTtdUser() {
+        if (currentRows.length === 0)
+          return alert("Belum ada data pemeriksaan yang diinput.");
         simpanDraftGlobal();
-        const modal = document.getElementById("modal-ttd");
-        if (modal) {
-          modal.classList.replace("hidden", "flex");
-          setTimeout(() => {
-            const c = document.getElementById("sig-user");
-            if (c) c.width = c.parentElement.getBoundingClientRect().width;
-          }, 100);
-        }
+        openModal("modal-ttd");
+        setTimeout(() => {
+          const c = document.getElementById("sig-user");
+          if (c) c.width = c.parentElement.getBoundingClientRect().width;
+        }, 100);
       }
 
+      /* ------- Simpan final ------- */
       function simpanFinalLaporan() {
         const canvasUser = document.getElementById("sig-user");
+        const nama = document.getElementById("m_nama_petugas").value;
+        if (!nama) return alert("Mohon isi Nama Petugas Jaga.");
+
         const db = getDB(STORAGE_KEY);
         const data = db[currentDate];
-
         data.ttd_user = canvasUser.toDataURL();
         data.status = "final";
-        data.nama_petugas = document.getElementById("m_nama_petugas").value;
+        data.nama_petugas = nama;
 
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
-        tutupModalTtd();
+        closeModal("modal-ttd");
         loadDataForDate();
         showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
       }
 
+      /* ------- Load data admin ------- */
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
 
-        let dateFormated = "";
-        if (dateStr) {
-          const [yyyy, mm, dd] = dateStr.split("-");
-          dateFormated = new Date(yyyy, mm - 1, dd).toLocaleDateString(
-            "id-ID",
-            { weekday: "long", year: "numeric", month: "long", day: "numeric" },
-          );
-        }
-        document.getElementById("a_tanggal_txt").textContent = dateFormated;
+        document.getElementById("a_tanggal_txt").textContent =
+          formatTanggalID(dateStr);
 
         const data = db[dateStr] || {
           shift: "",
@@ -1212,38 +974,37 @@
           rows: [],
           ttd_user: null,
           ttd_admin: null,
+          nama_petugas: "",
+          nama_pengawas: "",
+          nama_kepala: "",
         };
 
-        // Memuat Value ke Input Sekaligus ke Element Teks Print
         document.getElementById("a_shift").value = data.shift || "";
         document.getElementById("print_a_shift").innerText = data.shift || "";
-
         document.getElementById("a_menu").value = data.menu || "";
         document.getElementById("print_a_menu").innerText = data.menu || "";
-
         document.getElementById("a_porsi").value = data.porsi || "";
         document.getElementById("print_a_porsi").innerText = data.porsi || "";
 
         document.getElementById("a_nama_petugas").value =
           data.nama_petugas || "";
-        const printPetugas = document.getElementById("print_a_nama_petugas");
-        if (printPetugas) printPetugas.innerText = data.nama_petugas || "";
-
+        document.getElementById("print_a_nama_petugas").innerText =
+          data.nama_petugas || "";
         document.getElementById("a_nama_pengawas").value =
           data.nama_pengawas || "";
-        const printPengawas = document.getElementById("print_a_nama_pengawas");
-        if (printPengawas) printPengawas.innerText = data.nama_pengawas || "";
+        document.getElementById("print_a_nama_pengawas").innerText =
+          data.nama_pengawas || "";
 
-        document.getElementById("a_nama_kepala").value = data.nama_kepala || "";
-        const printKepala = document.getElementById("print_a_nama_kepala");
-        if (printKepala) printKepala.innerText = data.nama_kepala || "";
+        const kepala = data.nama_kepala || "Rizky Arinanda. AR, S.Kom";
+        document.getElementById("a_nama_kepala").value = kepala;
+        document.getElementById("print_a_nama_kepala").innerText = kepala;
 
+        /* ---- Render tabel admin (pakai textarea agar teks naratif multi-baris) ---- */
         const rowCount = Math.max(MIN_ROWS, data.rows.length);
         const tbody = document.getElementById("a_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
 
-        // Render tabel Admin menggunakan metode Dual-Element (Div Print + Input Edit)
         for (let i = 1; i <= rowCount; i++) {
           const r = data.rows[i - 1] || {
             aspek: "",
@@ -1251,82 +1012,89 @@
             tidak_sesuai: "",
             ket: "",
           };
-
-          tbody.innerHTML += `
-            <tr>
-              <td class="border border-black p-0.5 font-bold text-center">${i}</td>
-              <td class="border border-black p-0 relative">
-                <div class="hidden print:block w-full text-left whitespace-pre-wrap break-words px-2">${r.aspek || ""}</div>
-                <textarea id="a_aspek_${i}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left bg-transparent px-2 print:hidden resize-none overflow-hidden h-full" rows="2">${r.aspek || ""}</textarea>
-              </td>
-              <td class="border border-black p-0 relative">
-                <div class="hidden print:block w-full text-center font-bold">${r.sesuai || ""}</div>
-                <input type="text" id="a_sesuai_${i}" value="${r.sesuai || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center font-bold bg-transparent print:hidden">
-              </td>
-              <td class="border border-black p-0 relative">
-                <div class="hidden print:block w-full text-center font-bold">${r.tidak_sesuai || ""}</div>
-                <input type="text" id="a_tidak_sesuai_${i}" value="${r.tidak_sesuai || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center font-bold bg-transparent print:hidden">
-              </td>
-              <td class="border border-black p-0 relative">
-                <div class="hidden print:block w-full text-left whitespace-pre-wrap break-words px-2">${r.ket || ""}</div>
-                <textarea id="a_ket_${i}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left bg-transparent px-2 print:hidden resize-none overflow-hidden h-full" rows="2">${r.ket || ""}</textarea>
-              </td>
-            </tr>`;
+          tbody.insertAdjacentHTML(
+            "beforeend",
+            `
+          <tr>
+            <td class="border border-black p-0.5 font-bold text-center">${i}</td>
+            <td class="border border-black p-0 relative">
+              <div class="hidden print:block w-full text-left whitespace-pre-wrap break-words px-2">${r.aspek || ""}</div>
+              <textarea id="a_aspek_${i}" oninput="this.previousElementSibling.innerText = this.value"
+                class="w-full text-left bg-transparent px-2 print:hidden resize-none overflow-hidden h-full" rows="2">${r.aspek || ""}</textarea>
+            </td>
+            <td class="border border-black p-0 relative">
+              <div class="hidden print:block w-full text-center font-bold">${r.sesuai || ""}</div>
+              <input type="text" id="a_sesuai_${i}" value="${r.sesuai || ""}"
+                oninput="this.previousElementSibling.innerText = this.value"
+                class="w-full text-center font-bold bg-transparent print:hidden">
+            </td>
+            <td class="border border-black p-0 relative">
+              <div class="hidden print:block w-full text-center font-bold">${r.tidak_sesuai || ""}</div>
+              <input type="text" id="a_tidak_sesuai_${i}" value="${r.tidak_sesuai || ""}"
+                oninput="this.previousElementSibling.innerText = this.value"
+                class="w-full text-center font-bold bg-transparent print:hidden">
+            </td>
+            <td class="border border-black p-0 relative">
+              <div class="hidden print:block w-full text-left whitespace-pre-wrap break-words px-2">${r.ket || ""}</div>
+              <textarea id="a_ket_${i}" oninput="this.previousElementSibling.innerText = this.value"
+                class="w-full text-left bg-transparent px-2 print:hidden resize-none overflow-hidden h-full" rows="2">${r.ket || ""}</textarea>
+            </td>
+          </tr>`,
+          );
         }
 
-        const sigBoxUser = document.getElementById("a_render_sig_user");
-        if (sigBoxUser)
-          sigBoxUser.innerHTML = data.ttd_user
+        const sigUser = document.getElementById("a_render_sig_user");
+        if (sigUser) {
+          sigUser.innerHTML = data.ttd_user
             ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
-            : ``;
+            : "";
+        }
 
-        const btnVerifikasi = document.getElementById("btn-verifikasi-admin");
+        const btnVerif = document.getElementById("btn-verifikasi-admin");
         const btnPrint = document.getElementById("btn-print-admin");
-        const sigBoxAdmin = document.getElementById("a_render_sig_admin");
+        const sigAdmin = document.getElementById("a_render_sig_admin");
         const adminInputs = document.querySelectorAll(
           "#admin-view input, #admin-view textarea",
         );
 
         if (data.status === "verified") {
-          btnVerifikasi?.classList.add("hidden");
+          btnVerif?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
           adminInputs.forEach((el) => (el.readOnly = true));
-          if (data.ttd_admin && sigBoxAdmin)
-            sigBoxAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
+          if (data.ttd_admin && sigAdmin)
+            sigAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
         } else {
-          btnVerifikasi?.classList.remove("hidden");
+          btnVerif?.classList.remove("hidden");
           btnPrint?.classList.add("hidden");
           adminInputs.forEach((el) => (el.readOnly = false));
-          if (sigBoxAdmin) sigBoxAdmin.innerHTML = ``;
+          if (sigAdmin) sigAdmin.innerHTML = "";
         }
       }
 
+      /* ------- Buka modal ttd admin ------- */
       function bukaModalTtdAdmin() {
-        const pengawasInput = document.getElementById("m_nama_pengawas");
-        const aPengawas = document.getElementById("a_nama_pengawas");
-        if (pengawasInput && aPengawas) pengawasInput.value = aPengawas.value;
-
-        const modal = document.getElementById("modal-ttd-admin");
-        if (modal) {
-          modal.classList.replace("hidden", "flex");
-          setTimeout(() => {
-            const c = document.getElementById("sig-admin");
-            if (c) c.width = c.parentElement.getBoundingClientRect().width;
-          }, 100);
-        }
+        const mInput = document.getElementById("m_nama_pengawas");
+        const aInput = document.getElementById("a_nama_pengawas");
+        if (mInput && aInput) mInput.value = aInput.value;
+        openModal("modal-ttd-admin");
+        setTimeout(() => {
+          const c = document.getElementById("sig-admin");
+          if (c) c.width = c.parentElement.getBoundingClientRect().width;
+        }, 100);
       }
 
+      /* ------- Simpan verifikasi admin ------- */
       function simpanVerifikasiAdmin() {
         const canvasAdmin = document.getElementById("sig-admin");
         const namaPengawas = document.getElementById("m_nama_pengawas").value;
-        if (!namaPengawas) return alert("Mohon isi Nama Pengawas.");
+        if (!namaPengawas) return alert("Mohon isi Nama Asisten Lapangan.");
 
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
         const data = db[dateStr] || getTodayData(dateStr);
 
         const rowCount = Math.max(MIN_ROWS, data.rows ? data.rows.length : 0);
-        let updatedRows = [];
+        const updatedRows = [];
         for (let i = 1; i <= rowCount; i++) {
           updatedRows.push({
             aspek: document.getElementById(`a_aspek_${i}`)?.value || "",
@@ -1349,8 +1117,7 @@
 
         db[dateStr] = data;
         saveDB(STORAGE_KEY, db);
-
-        tutupModalTtdAdmin();
+        closeModal("modal-ttd-admin");
         loadDataAdmin();
         showNotif("Laporan berhasil DIVERIFIKASI!");
       }

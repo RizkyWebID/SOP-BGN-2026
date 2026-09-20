@@ -1,0 +1,219 @@
+/* =========================================================================
+ * SOP BGN - SHARED STYLESHEET (GLOBAL)
+ * -------------------------------------------------------------------------
+ * File    : assets/css/sop-bgn-shared.css
+ * Fungsi  : Menyimpan seluruh style GLOBAL yang dipakai bersama oleh
+ *           semua formulir SOP (SOP-014, SOP-015, SOP-017, SOP-026, SOP-040, dst).
+ *
+ * ATURAN PENTING:
+ *   - File ini HANYA berisi style global / umum.
+ *   - JANGAN menaruh style spesifik per SOP (mis. lebar kolom cetak
+ *     khusus SOP-014) di file ini.
+ *   - Style spesifik per SOP ditulis di tag <style> pada file HTML
+ *     SOP yang bersangkutan.
+ * ========================================================================= */
+
+/* -------------------------------------------------------------------------
+ * 1. RESET DASAR & BODY
+ * ------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f3f4f6;
+  color: #1f2937;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* -------------------------------------------------------------------------
+ * 2. NOTIFIKASI GLOBAL (pojok kanan atas)
+ *    Dipakai oleh: showNotif() di sop-bgn-shared.js
+ * ------------------------------------------------------------------------- */
+#global-notif {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 50;
+  padding: 12px 24px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: none;
+  transition: opacity 0.3s ease;
+}
+#global-notif.is-visible {
+  display: block;
+}
+#global-notif.is-success {
+  background-color: #16a34a;
+} /* green-600 */
+#global-notif.is-error {
+  background-color: #ef4444;
+} /* red-500   */
+
+/* -------------------------------------------------------------------------
+ * 3. MODAL & BACKDROP (Tanda Tangan User / Admin)
+ *    Dipakai oleh: openModal() / closeModal() di sop-bgn-shared.js
+ * ------------------------------------------------------------------------- */
+.sop-modal-bg {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.sop-modal-bg.is-open {
+  display: flex;
+}
+
+.sop-modal {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.sop-modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+.sop-modal-desc {
+  font-size: 12px;
+  color: #4b5563;
+  margin: 0 0 16px;
+}
+.sop-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* -------------------------------------------------------------------------
+ * 4. SIGNATURE PAD (Canvas tanda tangan digital)
+ *    Dipakai oleh: setupSignaturePad() di sop-bgn-shared.js
+ * ------------------------------------------------------------------------- */
+.sop-signature-pad {
+  border: 2px dashed #cbd5e1;
+  border-radius: 8px;
+  cursor: crosshair;
+  background: #fff;
+  touch-action: none;
+  width: 100%;
+  display: block;
+}
+
+/* -------------------------------------------------------------------------
+ * 5. PRINT VIEW (Kontainer hasil cetak admin)
+ * ------------------------------------------------------------------------- */
+.sop-print-view {
+  background: #fff;
+  padding: 24px 32px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 1280px;
+}
+
+/* -------------------------------------------------------------------------
+ * 6. ATURAN CETAK (PRINT MEDIA) - GLOBAL
+ *    Semua SOP akan menggunakan aturan cetak yang sama dari sini.
+ * ------------------------------------------------------------------------- */
+@media print {
+  @page {
+    margin: 1cm;
+  }
+
+  body {
+    background: #fff;
+    font-size: 11pt;
+    line-height: 1.2;
+    color: #000;
+  }
+
+  /* Sembunyikan elemen yang tidak perlu dicetak */
+  .no-print {
+    display: none !important;
+  }
+  #user-view,
+  #top-nav {
+    display: none !important;
+  }
+
+  /* Kontainer cetak penuh */
+  .sop-print-view {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Border hitam tegas saat cetak */
+  .border-black {
+    border-color: #000 !important;
+  }
+  .border-2 {
+    border-width: 1.5px !important;
+  }
+
+  /* Input menjadi teks polos tanpa border */
+  input,
+  select,
+  textarea {
+    border: none !important;
+    background: transparent !important;
+    appearance: none;
+    -webkit-appearance: none;
+    color: #000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-family: inherit !important;
+    text-align: center;
+  }
+  ::-webkit-input-placeholder {
+    color: transparent !important;
+  }
+
+  /* Tabel cetak */
+  table {
+    width: 100% !important;
+    table-layout: fixed;
+    border-collapse: collapse !important;
+  }
+  th,
+  td {
+    padding: 3px 2px !important;
+    word-wrap: break-word;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  /* Area tanda tangan */
+  .print-signature-area {
+    display: block !important;
+    text-align: center;
+  }
+  .print-signature-area img {
+    max-width: 100px;
+    max-height: 50px;
+    display: inline-block;
+  }
+}
