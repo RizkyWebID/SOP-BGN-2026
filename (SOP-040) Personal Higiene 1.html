@@ -3,19 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SOP-040-1 - Pemeriksaan Harian Personal Higiene</title>
+    <title>SOP-040A - Pemeriksaan Harian Personal Higiene</title>
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/logo/badan_gizi_nasional.png"
+    />
 
     <!-- Tailwind CDN untuk utility layout -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- ===================================================================
-       SHARED STYLESHEET GLOBAL (WAJIB DIMUAT SEMUA HALAMAN SOP)
-       =================================================================== -->
+    <!-- Shared stylesheet global -->
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
 
     <!-- ===================================================================
-       STYLE KHUSUS SOP-040-1 (SPESIFIK PER HALAMAN)
-       Mengatur lebar 9 kolom tabel cetak agar presisi & tidak berantakan.
+       STYLE KHUSUS SOP-040A (9 kolom cetak)
+       Kolom "No." SERAGAM = 5% (tabel <10 kolom)
        =================================================================== -->
     <style>
       @media print {
@@ -26,45 +31,46 @@
         }
         #admin-view th,
         #admin-view td {
-          padding: 3px 2px !important;
-          font-size: 9pt !important;
+          font-size: 8.5pt !important;
           vertical-align: middle !important;
           word-wrap: break-word !important;
           white-space: normal !important;
         }
 
-        /* Lebar 9 kolom cetak SOP-040-1 (total ~100%) */
+        /* Lebar 9 Kolom Cetak SOP-040A (total = 100%) */
         #admin-view th:nth-child(1) {
           width: 5% !important;
-        } /* No */
+        } /* No — SERAGAM */
         #admin-view th:nth-child(2) {
           width: 18% !important;
-          text-align: left;
-          padding-left: 4px !important;
         } /* Nama Petugas */
         #admin-view th:nth-child(3) {
-          width: 9% !important;
+          width: 8% !important;
         } /* Suhu */
         #admin-view th:nth-child(4) {
-          width: 8% !important;
+          width: 7% !important;
         } /* Sehat */
         #admin-view th:nth-child(5) {
-          width: 9% !important;
-        } /* Kuku/Rambut */
-        #admin-view th:nth-child(6) {
           width: 8% !important;
+        } /* Kuku */
+        #admin-view th:nth-child(6) {
+          width: 7% !important;
         } /* APD */
         #admin-view th:nth-child(7) {
-          width: 9% !important;
-        } /* Tanpa Luka */
+          width: 8% !important;
+        } /* Luka */
         #admin-view th:nth-child(8) {
           width: 11% !important;
-        } /* Status */
+        } /* Status Layak */
         #admin-view th:nth-child(9) {
-          width: 23% !important;
-          text-align: left;
-          padding-left: 4px !important;
+          width: 28% !important;
         } /* Keterangan */
+
+        #admin-view td:nth-child(2),
+        #admin-view td:nth-child(9) {
+          text-align: left !important;
+          padding-left: 5px !important;
+        }
 
         #admin-view td input {
           display: none !important;
@@ -74,6 +80,9 @@
   </head>
 
   <body class="text-gray-800">
+    <!-- =====================================================================
+       TOPBAR / NAVIGASI ATAS
+       ===================================================================== -->
     <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="font-bold text-sm sm:text-base flex items-center gap-2">
@@ -90,7 +99,7 @@
               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
             />
           </svg>
-          SOP-040-1: Pemeriksaan Personal Higiene
+          SOP-040A: Pemeriksaan Personal Higiene
         </div>
         <div class="flex gap-2">
           <button
@@ -115,7 +124,7 @@
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
       <!-- ==================================================================
-         USER VIEW - FORM INPUT (STRUKTUR SERAGAM)
+         USER VIEW
          ================================================================== -->
       <div id="user-view" class="space-y-6 block">
         <!-- [1] Informasi Umum -->
@@ -355,10 +364,9 @@
       </div>
 
       <!-- ==================================================================
-         ADMIN VIEW - CETAK (STRUKTUR SERAGAM)
+         ADMIN VIEW — CETAK
          ================================================================== -->
       <div id="admin-view" class="hidden sop-print-view">
-        <!-- Toolbar admin -->
         <div
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
         >
@@ -394,19 +402,20 @@
           </div>
         </div>
 
-        <!-- KOP HEADER SOP-040-1 -->
+        <!-- KOP HEADER SOP-040A -->
         <div class="flex mb-3">
           <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
               <img
-                src="https://placehold.co/100x100/1e3a8a/white?text=Logo+BGN"
+                src="assets/logo/badan_gizi_nasional.png"
                 alt="Logo BGN"
-                class="w-14 h-14 object-contain mb-1"
+                class="sop-logo-instansi"
               />
               <span
                 class="text-[9px] print:text-[8pt] font-bold text-center leading-tight uppercase"
-                >Badan Gizi Nasional</span
               >
+                Badan Gizi Nasional
+              </span>
             </div>
           </div>
           <div
@@ -425,7 +434,7 @@
             <h3
               class="font-semibold text-[12px] print:text-[10pt] leading-tight whitespace-nowrap"
             >
-              Lap.SOP.040-1-000 / 02.14.71 / IX / SOP-BW01 / 2026
+              Lap.SOP.040A-000 / 02.14.71 / IX / SOP-BW01 / 2026
             </h3>
           </div>
         </div>
@@ -518,7 +527,7 @@
           </div>
         </div>
 
-        <!-- Tabel Utama Cetak -->
+        <!-- Tabel Utama Cetak (9 kolom) -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
@@ -542,7 +551,7 @@
           </table>
         </div>
 
-        <!-- Keterangan -->
+        <!-- Keterangan (native SOP-040A) -->
         <div
           class="text-[10px] print:text-[7pt] text-justify leading-tight mb-4"
         >
@@ -556,11 +565,10 @@
           >
         </div>
 
-        <!-- Area Tanda Tangan (3 kolom seragam) -->
+        <!-- Area TTD Seragam -->
         <div
           class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
         >
-          <!-- Kolom 1: Petugas Jaga -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -594,7 +602,6 @@
             </div>
           </div>
 
-          <!-- Kolom 2: Asisten Lapangan -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -628,7 +635,6 @@
             </div>
           </div>
 
-          <!-- Kolom 3: Kepala SPPG -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -665,9 +671,7 @@
       </div>
     </main>
 
-    <!-- ===================================================================
-       MODAL TTD USER
-       =================================================================== -->
+    <!-- MODAL TTD USER -->
     <div id="modal-ttd" class="sop-modal-bg">
       <div class="sop-modal">
         <h3 class="sop-modal-title text-indigo-900">Finalisasi Laporan</h3>
@@ -721,9 +725,7 @@
       </div>
     </div>
 
-    <!-- ===================================================================
-       MODAL TTD ADMIN
-       =================================================================== -->
+    <!-- MODAL TTD ADMIN -->
     <div id="modal-ttd-admin" class="sop-modal-bg">
       <div class="sop-modal">
         <h3 class="sop-modal-title text-amber-600">Verifikasi Laporan Admin</h3>
@@ -776,22 +778,25 @@
       </div>
     </div>
 
-    <!-- SHARED JS -->
+    <!-- ===================================================================
+       SCRIPTS: storage → shared → SOP-specific
+       =================================================================== -->
+    <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
 
     <!-- ===================================================================
-       SCRIPT KHUSUS SOP-040-1
+       SCRIPT KHUSUS SOP-040A
        =================================================================== -->
     <script>
       /* =====================================================================
-       * SOP-040-1 - SCRIPT KHUSUS (Pemeriksaan Personal Higiene)
+       * SOP-040A - SCRIPT KHUSUS (Pemeriksaan Personal Higiene)
        * ---------------------------------------------------------------------
-       * CATATAN: Pada versi lama STORAGE_KEY="db_sop_29a_standar_v1"
-       * (menggunakan kode lama 29A). Sudah diseragamkan jadi "db_sop_040_1".
+       * Catatan: STORAGE_KEY diperbaiki dari "db_sop_29a_standar_v1" (kode lama 29A)
+       * → "db_sop_040_1" agar konsisten dengan skema baru.
        *
        * Logika: setiap baris menyimpan checklist (sehat, kuku, apd, luka)
-       * dalam bentuk boolean; status "Layak" jika suhu 36.5-37.5°C DAN
-       * keempat checklist = true.
+       * sebagai boolean. Status "Layak" jika suhu 36.5-37.5°C DAN keempat
+       * checklist tercentang (semua true).
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_040_1";
@@ -810,7 +815,7 @@
       });
 
       /* =====================================================================
-       * HELPER: Format boolean menjadi simbol centang
+       * HELPER: Format boolean → simbol centang (✓ / ✗)
        * ===================================================================== */
       function formatCheck(val) {
         if (val === true || val === "✓") return "✓";
@@ -896,7 +901,7 @@
 
       /* =====================================================================
        * TAMBAH PEMERIKSAAN BARU
-       * - Hitung status "Layak" secara otomatis dari kombinasi kriteria.
+       * - Hitung status "Layak" otomatis dari kombinasi kriteria.
        * ===================================================================== */
       function tambahBarisProses(e) {
         e.preventDefault();
@@ -918,7 +923,7 @@
 
         currentRows.push({
           nama: document.getElementById("u_nama").value,
-          suhu: suhu,
+          suhu,
           sehat,
           kuku,
           apd,

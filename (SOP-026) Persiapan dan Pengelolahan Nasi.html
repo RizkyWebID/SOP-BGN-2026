@@ -5,17 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SOP-026 - Laporan Pemantauan Pengolahan Nasi</title>
 
-    <!-- Tailwind CDN untuk utility layout -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/logo/badan_gizi_nasional.png"
+    />
 
-    <!-- ===================================================================
-       SHARED STYLESHEET GLOBAL (WAJIB DIMUAT SEMUA HALAMAN SOP)
-       =================================================================== -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
 
     <!-- ===================================================================
-       STYLE KHUSUS SOP-026 (SPESIFIK PER HALAMAN)
-       Mengatur lebar 9 kolom tabel cetak agar presisi & tidak berantakan.
+       STYLE KHUSUS SOP-026 (9 kolom cetak)
+       Kolom "No." SERAGAM = 5% (tabel <10 kolom, tidak pakai data-cols-wide)
        =================================================================== -->
     <style>
       @media print {
@@ -26,17 +28,16 @@
         }
         #admin-view th,
         #admin-view td {
-          padding: 3px 2px !important;
-          font-size: 9pt !important;
+          font-size: 8.5pt !important;
           vertical-align: middle !important;
           word-wrap: break-word !important;
           white-space: normal !important;
         }
 
-        /* Lebar 9 kolom cetak SOP-026 (total ~100%) */
+        /* Lebar 9 Kolom Cetak SOP-026 (total = 100%) */
         #admin-view th:nth-child(1) {
-          width: 6% !important;
-        } /* No */
+          width: 5% !important;
+        } /* No — SERAGAM */
         #admin-view th:nth-child(2) {
           width: 10% !important;
         } /* Beras */
@@ -50,7 +51,7 @@
           width: 10% !important;
         } /* Selesai */
         #admin-view th:nth-child(6) {
-          width: 12% !important;
+          width: 11% !important;
         } /* Suhu */
         #admin-view th:nth-child(7) {
           width: 11% !important;
@@ -59,9 +60,13 @@
           width: 11% !important;
         } /* Tekstur */
         #admin-view th:nth-child(9) {
-          width: 20% !important;
-          text-align: left !important;
+          width: 22% !important;
         } /* Catatan */
+
+        #admin-view td:nth-child(9) {
+          text-align: left !important;
+          padding-left: 5px !important;
+        }
 
         #admin-view td input {
           display: none !important;
@@ -71,9 +76,6 @@
   </head>
 
   <body class="text-gray-800">
-    <!-- =====================================================================
-       TOPBAR / NAVIGASI ATAS (di-skip saat cetak via .no-print)
-       ===================================================================== -->
     <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="font-bold text-sm sm:text-base flex items-center gap-2">
@@ -111,12 +113,11 @@
       </div>
     </nav>
 
-    <!-- Wadah notifikasi global -->
     <div id="global-notif"></div>
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
       <!-- ==================================================================
-         USER VIEW - FORM INPUT (STRUKTUR SERAGAM DENGAN SEMUA SOP)
+         USER VIEW
          ================================================================== -->
       <div id="user-view" class="space-y-6 block">
         <!-- [1] Informasi Umum -->
@@ -369,10 +370,9 @@
       </div>
 
       <!-- ==================================================================
-         ADMIN VIEW - CETAK (STRUKTUR SERAGAM DENGAN SEMUA SOP)
+         ADMIN VIEW — CETAK
          ================================================================== -->
       <div id="admin-view" class="hidden sop-print-view">
-        <!-- Toolbar admin (tidak dicetak) -->
         <div
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
         >
@@ -408,19 +408,20 @@
           </div>
         </div>
 
-        <!-- KOP HEADER SOP-026 -->
+        <!-- KOP HEADER -->
         <div class="flex mb-3">
           <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
               <img
-                src="https://placehold.co/100x100/1e3a8a/white?text=Logo+BGN"
+                src="assets/logo/badan_gizi_nasional.png"
                 alt="Logo BGN"
-                class="w-14 h-14 object-contain mb-1"
+                class="sop-logo-instansi"
               />
               <span
                 class="text-[9px] print:text-[8pt] font-bold text-center leading-tight uppercase"
-                >Badan Gizi Nasional</span
               >
+                Badan Gizi Nasional
+              </span>
             </div>
           </div>
           <div
@@ -532,7 +533,7 @@
           </div>
         </div>
 
-        <!-- Tabel Utama Cetak -->
+        <!-- Tabel Utama Cetak (9 kolom) -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
@@ -556,7 +557,7 @@
           </table>
         </div>
 
-        <!-- Keterangan -->
+        <!-- Keterangan (native SOP-026) -->
         <div
           class="text-[10px] print:text-[7pt] text-justify leading-tight mb-4"
         >
@@ -569,11 +570,10 @@
           >
         </div>
 
-        <!-- Area Tanda Tangan (3 kolom seragam) -->
+        <!-- Area TTD Seragam -->
         <div
           class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
         >
-          <!-- Kolom 1: Jurutama Masak -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -607,7 +607,6 @@
             </div>
           </div>
 
-          <!-- Kolom 2: Ahli Gizi -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -639,7 +638,6 @@
             </div>
           </div>
 
-          <!-- Kolom 3: Kepala SPPG -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -676,9 +674,7 @@
       </div>
     </main>
 
-    <!-- ===================================================================
-       MODAL TTD USER
-       =================================================================== -->
+    <!-- MODAL TTD USER -->
     <div id="modal-ttd" class="sop-modal-bg">
       <div class="sop-modal">
         <h3 class="sop-modal-title text-indigo-900">Finalisasi Laporan</h3>
@@ -732,9 +728,7 @@
       </div>
     </div>
 
-    <!-- ===================================================================
-       MODAL TTD ADMIN
-       =================================================================== -->
+    <!-- MODAL TTD ADMIN -->
     <div id="modal-ttd-admin" class="sop-modal-bg">
       <div class="sop-modal">
         <h3 class="sop-modal-title text-amber-600">Verifikasi Laporan Admin</h3>
@@ -788,8 +782,9 @@
     </div>
 
     <!-- ===================================================================
-       SHARED JAVASCRIPT GLOBAL
+       SCRIPTS: storage → shared → SOP-specific
        =================================================================== -->
+    <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
 
     <!-- ===================================================================
@@ -799,19 +794,23 @@
       /* =====================================================================
        * SOP-026 - SCRIPT KHUSUS (Pemantauan Pengolahan Nasi)
        * ---------------------------------------------------------------------
-       * CATATAN PENTING: Pada versi lama STORAGE_KEY="db_sop_14" (BENTROK dengan
-       * SOP-014). Sudah diperbaiki menjadi "db_sop_026" agar terisolasi.
+       * Catatan: STORAGE_KEY diperbaiki dari db_sop_14 (bentrok) → db_sop_026.
+       *
+       * Fungsi:
+       *   - getTodayData/loadDataForDate
+       *   - renderUserTable()       : render tabel proses (mode user)
+       *   - tambahBarisProses()/hapusBarisProses()
+       *   - checkFormLockStatus()/simpanDraftGlobal()
+       *   - bukaModalTtdUser()/simpanFinalLaporan()
+       *   - loadDataAdmin()/bukaModalTtdAdmin()/simpanVerifikasiAdmin()
        * ===================================================================== */
 
-      /* ------- Konstanta khusus SOP-026 ------- */
       const STORAGE_KEY = "db_sop_026";
       const MIN_ROWS = 10;
 
-      /* ------- State global ------- */
       let currentDate = new Date().toISOString().split("T")[0];
       let currentRows = [];
 
-      /* ------- Life cycle ------- */
       window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("u_tanggal").value = currentDate;
         document.getElementById("a_tanggal_pilih").value = currentDate;
@@ -820,9 +819,7 @@
         loadDataForDate();
       });
 
-      /* =====================================================================
-       * AMBIL/BUAT DATA HARI INI
-       * ===================================================================== */
+      /* ------- Ambil/buat data hari ini ------- */
       function getTodayData(date) {
         const db = getDB(STORAGE_KEY);
         if (!db[date]) {
@@ -842,25 +839,19 @@
         return db[date];
       }
 
-      /* =====================================================================
-       * LOAD DATA UNTUK TANGGAL (MODE USER)
-       * ===================================================================== */
+      /* ------- Load data user ------- */
       function loadDataForDate() {
         currentDate = document.getElementById("u_tanggal").value;
         const data = getTodayData(currentDate);
-
         document.getElementById("u_shift").value = data.shift || "";
         document.getElementById("u_menu").value = data.menu || "";
         document.getElementById("u_porsi").value = data.porsi || "";
-
         currentRows = data.rows || [];
         renderUserTable();
         checkFormLockStatus(data);
       }
 
-      /* =====================================================================
-       * RENDER TABEL DAFTAR PROSES (MODE USER)
-       * ===================================================================== */
+      /* ------- Render tabel user ------- */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
@@ -894,9 +885,7 @@
         });
       }
 
-      /* =====================================================================
-       * TAMBAH BARIS PROSES BARU DARI FORM
-       * ===================================================================== */
+      /* ------- Tambah baris proses ------- */
       function tambahBarisProses(e) {
         e.preventDefault();
         const data = getTodayData(currentDate);
@@ -919,9 +908,7 @@
         showNotif("Proses berhasil ditambahkan.");
       }
 
-      /* =====================================================================
-       * HAPUS BARIS PROSES
-       * ===================================================================== */
+      /* ------- Hapus baris ------- */
       function hapusBarisProses(index) {
         const data = getTodayData(currentDate);
         if (data.status === "final" || data.status === "verified")
@@ -931,9 +918,7 @@
         showNotif("Baris proses berhasil dihapus.", "error");
       }
 
-      /* =====================================================================
-       * CEK STATUS KUNCI FORM (draft/final/verified)
-       * ===================================================================== */
+      /* ------- Kunci form ------- */
       function checkFormLockStatus(data) {
         const banner = document.getElementById("status-banner");
         const inputs = document.querySelectorAll(
@@ -967,9 +952,7 @@
         }
       }
 
-      /* =====================================================================
-       * SIMPAN DRAFT
-       * ===================================================================== */
+      /* ------- Simpan draft ------- */
       function simpanDraftGlobal() {
         const db = getDB(STORAGE_KEY);
         const data = getTodayData(currentDate);
@@ -986,9 +969,7 @@
         showNotif("Draft laporan berhasil disimpan.");
       }
 
-      /* =====================================================================
-       * BUKA MODAL TTD USER
-       * ===================================================================== */
+      /* ------- Buka modal ttd user ------- */
       function bukaModalTtdUser() {
         if (currentRows.length === 0)
           return alert("Belum ada data proses pengolahan nasi yang diinput.");
@@ -1000,9 +981,7 @@
         }, 100);
       }
 
-      /* =====================================================================
-       * SIMPAN FINAL LAPORAN USER
-       * ===================================================================== */
+      /* ------- Simpan final ------- */
       function simpanFinalLaporan() {
         const canvasUser = document.getElementById("sig-user");
         const namaJurutama = document.getElementById("m_nama_jurutama").value;
@@ -1021,9 +1000,7 @@
         showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
       }
 
-      /* =====================================================================
-       * LOAD DATA UNTUK MODE ADMIN + TABEL CETAK
-       * ===================================================================== */
+      /* ------- Load data admin + tabel cetak ------- */
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
@@ -1044,7 +1021,6 @@
           nama_kepala: "",
         };
 
-        // Isi nilai input + versi teks cetak
         document.getElementById("a_shift").value = data.shift || "";
         document.getElementById("print_a_shift").innerText = data.shift || "";
         document.getElementById("a_menu").value = data.menu || "";
@@ -1064,13 +1040,12 @@
         document.getElementById("a_nama_kepala").value = kepala;
         document.getElementById("print_a_nama_kepala").innerText = kepala;
 
-        /* ---- Render tabel admin (dual-element + MIN_ROWS) ---- */
         const rowCount = Math.max(MIN_ROWS, data.rows.length);
         const tbody = document.getElementById("a_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
 
-        /** Helper inline pembuat sel dual-element (cetak + edit). */
+        /** Helper inline: buat sel dual-element. */
         const cell = (id, val, cls = "text-center") => `
         <td class="border border-black p-0 relative">
           <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${val || ""}</div>
@@ -1107,7 +1082,6 @@
           );
         }
 
-        /* ---- Tanda tangan user ---- */
         const sigUser = document.getElementById("a_render_sig_user");
         if (sigUser) {
           sigUser.innerHTML = data.ttd_user
@@ -1115,7 +1089,6 @@
             : "";
         }
 
-        /* ---- Kontrol tombol verifikasi / cetak ---- */
         const btnVerif = document.getElementById("btn-verifikasi-admin");
         const btnPrint = document.getElementById("btn-print-admin");
         const sigAdmin = document.getElementById("a_render_sig_admin");
@@ -1135,9 +1108,7 @@
         }
       }
 
-      /* =====================================================================
-       * BUKA MODAL VERIFIKASI ADMIN
-       * ===================================================================== */
+      /* ------- Buka modal ttd admin ------- */
       function bukaModalTtdAdmin() {
         const mInput = document.getElementById("m_nama_pengawas");
         const aInput = document.getElementById("a_nama_pengawas");
@@ -1149,9 +1120,7 @@
         }, 100);
       }
 
-      /* =====================================================================
-       * SIMPAN VERIFIKASI ADMIN (termasuk baca editan tabel)
-       * ===================================================================== */
+      /* ------- Simpan verifikasi admin ------- */
       function simpanVerifikasiAdmin() {
         const canvasAdmin = document.getElementById("sig-admin");
         const namaPengawas = document.getElementById("m_nama_pengawas").value;
@@ -1161,7 +1130,6 @@
         const db = getDB(STORAGE_KEY);
         const data = db[dateStr] || getTodayData(dateStr);
 
-        // Baca ulang semua editan dari tabel admin
         if (data.rows && data.rows.length > 0) {
           data.rows.forEach((r, idx) => {
             const i = idx + 1;

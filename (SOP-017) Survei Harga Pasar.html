@@ -5,10 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SOP-017 - Laporan Daftar Harga & Pemasok Bahan Baku</title>
 
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/logo/badan_gizi_nasional.png"
+    />
+
+    <!-- Tailwind CDN untuk utility layout -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Shared stylesheet global -->
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
 
-    <!-- STYLE KHUSUS SOP-017 (7 kolom cetak) -->
+    <!-- ===================================================================
+       STYLE KHUSUS SOP-017 (7 kolom cetak)
+       Kolom "No." SERAGAM = 5% (karena tabel <10 kolom, tidak pakai data-cols-wide)
+       =================================================================== -->
     <style>
       @media print {
         #admin-view table {
@@ -18,53 +31,54 @@
         }
         #admin-view th,
         #admin-view td {
-          padding: 3px 2px !important;
-          font-size: 8pt !important;
+          font-size: 8.5pt !important;
           vertical-align: middle !important;
           word-wrap: break-word !important;
           white-space: normal !important;
         }
 
-        /* Lebar 7 Kolom Cetak SOP-017 (total ~100%) */
-        #admin-view th:nth-child(1),
-        #admin-view td:nth-child(1) {
+        /* Lebar 7 Kolom Cetak SOP-017 (total = 100%) */
+        #admin-view th:nth-child(1) {
           width: 5% !important;
-          text-align: center !important;
-        } /* No */
-        #admin-view th:nth-child(2),
-        #admin-view td:nth-child(2) {
+        } /* No — SERAGAM */
+        #admin-view th:nth-child(2) {
           width: 25% !important;
-          text-align: left !important;
-          padding-left: 6px !important;
         } /* Nama Bahan */
-        #admin-view td:nth-child(3) {
+        #admin-view th:nth-child(3) {
           width: 8% !important;
-          text-align: center !important;
         } /* Satuan */
-        #admin-view td:nth-child(4) {
+        #admin-view th:nth-child(4) {
           width: 14% !important;
         } /* Harga */
-        #admin-view td:nth-child(5) {
+        #admin-view th:nth-child(5) {
           width: 20% !important;
-          text-align: left !important;
-          padding-left: 4px !important;
         } /* Supplier */
-        #admin-view td:nth-child(6) {
+        #admin-view th:nth-child(6) {
           width: 13% !important;
         } /* Kontak */
-        #admin-view td:nth-child(7) {
+        #admin-view th:nth-child(7) {
           width: 15% !important;
-          text-align: left !important;
-          padding-left: 4px !important;
         } /* Ket */
 
+        #admin-view td:nth-child(2),
+        #admin-view td:nth-child(5),
+        #admin-view td:nth-child(7) {
+          text-align: left !important;
+          padding-left: 6px !important;
+        }
+
+        /* Sembunyikan input edit saat cetak */
         #admin-view td input {
           display: none !important;
         }
       }
     </style>
   </head>
+
   <body class="text-gray-800">
+    <!-- =====================================================================
+       TOPBAR
+       ===================================================================== -->
     <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="font-bold text-sm sm:text-base flex items-center gap-2">
@@ -106,7 +120,7 @@
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
       <!-- ==================================================================
-         USER VIEW - FORM INPUT (STRUKTUR SERAGAM)
+         USER VIEW
          ================================================================== -->
       <div id="user-view" class="space-y-6 block">
         <!-- [1] Informasi Umum -->
@@ -202,7 +216,6 @@
                   <option value="LAIN-LAIN">LAIN-LAIN</option>
                 </select>
               </div>
-
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Nama Bahan Baku</label
@@ -215,7 +228,6 @@
                   required
                 />
               </div>
-
               <div class="grid grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-semibold text-gray-600 mb-1"
@@ -242,7 +254,6 @@
                   />
                 </div>
               </div>
-
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Nama Toko / Supplier</label
@@ -255,7 +266,6 @@
                   required
                 />
               </div>
-
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Kontak / No. Telp</label
@@ -267,7 +277,6 @@
                   class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
                 />
               </div>
-
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Keterangan</label
@@ -279,7 +288,6 @@
                   class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
                 />
               </div>
-
               <button
                 type="submit"
                 id="btn-tambah-proses"
@@ -324,7 +332,6 @@
                 </table>
               </div>
             </div>
-
             <div class="mt-6 flex gap-4 justify-end border-t pt-4">
               <button
                 type="button"
@@ -348,10 +355,9 @@
       </div>
 
       <!-- ==================================================================
-         ADMIN VIEW - CETAK (STRUKTUR SERAGAM)
+         ADMIN VIEW — CETAK
          ================================================================== -->
       <div id="admin-view" class="hidden sop-print-view">
-        <!-- Toolbar -->
         <div
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
         >
@@ -387,19 +393,20 @@
           </div>
         </div>
 
-        <!-- KOP HEADER SOP-017 -->
+        <!-- KOP HEADER -->
         <div class="flex mb-3">
           <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
               <img
-                src="https://placehold.co/100x100/1e3a8a/white?text=Logo+BGN"
+                src="assets/logo/badan_gizi_nasional.png"
                 alt="Logo BGN"
-                class="w-14 h-14 object-contain mb-1"
+                class="sop-logo-instansi"
               />
               <span
                 class="text-[9px] print:text-[8pt] font-bold text-center leading-tight uppercase"
-                >Badan Gizi Nasional</span
               >
+                Badan Gizi Nasional
+              </span>
             </div>
           </div>
           <div
@@ -511,7 +518,7 @@
           </div>
         </div>
 
-        <!-- Tabel Utama Cetak -->
+        <!-- Tabel Utama Cetak (7 kolom, tidak perlu data-cols-wide) -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
@@ -533,7 +540,7 @@
           </table>
         </div>
 
-        <!-- Keterangan -->
+        <!-- Keterangan (native SOP-017) -->
         <div
           class="text-[10px] print:text-[7pt] text-justify leading-tight mb-4"
         >
@@ -759,29 +766,34 @@
       </div>
     </div>
 
-    <!-- SHARED JS -->
+    <!-- ===================================================================
+       SCRIPTS: storage → shared → SOP-specific
+       =================================================================== -->
+    <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
 
-    <!-- SCRIPT KHUSUS SOP-017 -->
+    <!-- ===================================================================
+       SCRIPT KHUSUS SOP-017
+       =================================================================== -->
     <script>
       /* =====================================================================
-       * SOP-017 - SCRIPT KHUSUS
+       * SOP-017 - SCRIPT KHUSUS (Survei Harga Pasar)
        * ---------------------------------------------------------------------
-       * Logika spesifik SOP-017:
+       * Logika spesifik: pengelompokan per kategori (KARBOHIDRAT, HEWANI,
+       * NABATI, SAYURAN, BUAH, LAIN-LAIN) dengan header group di tabel.
+       *
+       * Fungsi:
        *   - formatRupiah()          : format angka ke "1.234.567"
-       *   - catOrderMap             : pemetaan urutan kategori agar selalu konsisten
+       *   - catOrderMap             : urutan kategori konsisten
        *   - getTodayData/loadDataForDate
-       *   - renderUserTable()       : render dengan HEADER GROUP per kategori
-       *   - tambahBarisProses()
-       *   - hapusBarisProses()
-       *   - checkFormLockStatus()
-       *   - simpanDraftGlobal()
-       *   - bukaModalTtdUser() / simpanFinalLaporan()
-       *   - loadDataAdmin()         : render tabel cetak dgn header group
-       *   - bukaModalTtdAdmin() / simpanVerifikasiAdmin()
+       *   - renderUserTable()       : render tabel dengan HEADER GROUP per kategori
+       *   - tambahBarisProses()/hapusBarisProses()
+       *   - checkFormLockStatus()/simpanDraftGlobal()
+       *   - bukaModalTtdUser()/simpanFinalLaporan()
+       *   - loadDataAdmin()/bukaModalTtdAdmin()/simpanVerifikasiAdmin()
        * ===================================================================== */
 
-      /* ------- Konstanta & helper khusus SOP-017 ------- */
+      /* ------- Konstanta khusus SOP-017 ------- */
       const STORAGE_KEY = "db_sop_017";
       const MIN_ROWS = 10;
 
@@ -808,16 +820,12 @@
         loadDataForDate();
       });
 
-      /* =====================================================================
-       * FORMAT RUPIAH (1000 → "1.000")
-       * ===================================================================== */
+      /* ------- Format Rupiah (1000 → "1.000") ------- */
       function formatRupiah(angka) {
         return new Intl.NumberFormat("id-ID").format(angka);
       }
 
-      /* =====================================================================
-       * AMBIL/BUAT DATA HARI INI
-       * ===================================================================== */
+      /* ------- Ambil/buat data hari ini ------- */
       function getTodayData(date) {
         const db = getDB(STORAGE_KEY);
         if (!db[date]) {
@@ -837,28 +845,19 @@
         return db[date];
       }
 
-      /* =====================================================================
-       * LOAD DATA UNTUK TANGGAL (MODE USER)
-       * ===================================================================== */
+      /* ------- Load data user ------- */
       function loadDataForDate() {
         currentDate = document.getElementById("u_tanggal").value;
         const data = getTodayData(currentDate);
-
         document.getElementById("u_shift").value = data.shift || "";
         document.getElementById("u_menu").value = data.menu || "";
         document.getElementById("u_porsi").value = data.porsi || "";
-
         currentRows = data.rows || [];
         renderUserTable();
         checkFormLockStatus(data);
       }
 
-      /* =====================================================================
-       * RENDER TABEL DAFTAR BAHAN BAKU (MODE USER)
-       * - Baris diurutkan berdasarkan kategori (catOrderMap).
-       * - Diberikan HEADER GROUP per kategori.
-       * - Nomor per-baris diulang dari 1 untuk tiap kategori.
-       * ===================================================================== */
+      /* ------- Render tabel user (dengan header group kategori) ------- */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
@@ -913,9 +912,7 @@
         });
       }
 
-      /* =====================================================================
-       * TAMBAH BARIS BAHAN BAKU
-       * ===================================================================== */
+      /* ------- Tambah baris bahan baku ------- */
       function tambahBarisProses(e) {
         e.preventDefault();
         const data = getTodayData(currentDate);
@@ -937,22 +934,17 @@
         showNotif("Bahan Baku berhasil ditambahkan.");
       }
 
-      /* =====================================================================
-       * HAPUS BARIS
-       * ===================================================================== */
+      /* ------- Hapus baris ------- */
       function hapusBarisProses(index) {
         const data = getTodayData(currentDate);
         if (data.status === "final" || data.status === "verified")
           return showNotif("Laporan sudah terkunci!", "error");
-
         currentRows.splice(index, 1);
         renderUserTable();
         showNotif("Data baris berhasil dihapus.", "error");
       }
 
-      /* =====================================================================
-       * CEK STATUS KUNCI FORM
-       * ===================================================================== */
+      /* ------- Kunci form ------- */
       function checkFormLockStatus(data) {
         const banner = document.getElementById("status-banner");
         const inputs = document.querySelectorAll(
@@ -986,9 +978,7 @@
         }
       }
 
-      /* =====================================================================
-       * SIMPAN DRAFT
-       * ===================================================================== */
+      /* ------- Simpan draft ------- */
       function simpanDraftGlobal() {
         const db = getDB(STORAGE_KEY);
         const data = getTodayData(currentDate);
@@ -998,7 +988,6 @@
         data.shift = document.getElementById("u_shift").value;
         data.menu = document.getElementById("u_menu").value;
         data.porsi = document.getElementById("u_porsi").value;
-
         // Simpan terurut agar konsisten saat diload kembali
         currentRows.sort(
           (a, b) =>
@@ -1011,9 +1000,7 @@
         showNotif("Draft laporan berhasil disimpan.");
       }
 
-      /* =====================================================================
-       * BUKA MODAL TTD USER
-       * ===================================================================== */
+      /* ------- Buka modal ttd user ------- */
       function bukaModalTtdUser() {
         simpanDraftGlobal();
         openModal("modal-ttd");
@@ -1023,9 +1010,7 @@
         }, 100);
       }
 
-      /* =====================================================================
-       * SIMPAN FINAL LAPORAN USER
-       * ===================================================================== */
+      /* ------- Simpan final ------- */
       function simpanFinalLaporan() {
         const canvasUser = document.getElementById("sig-user");
         const nama = document.getElementById("m_nama_petugas").value;
@@ -1044,11 +1029,7 @@
         showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
       }
 
-      /* =====================================================================
-       * LOAD DATA MODE ADMIN (TABEL CETAK)
-       * - Header group kategori ditampilkan juga di tabel admin.
-       * - Kolom editable "nama", "satuan", dll. (dual-element).
-       * ===================================================================== */
+      /* ------- Load data admin + tabel cetak ------- */
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
@@ -1080,7 +1061,6 @@
           data.nama_petugas || "";
         document.getElementById("print_a_nama_petugas").innerText =
           data.nama_petugas || "";
-
         document.getElementById("a_nama_pengawas").value =
           data.nama_pengawas || "";
         document.getElementById("print_a_nama_pengawas").innerText =
@@ -1106,6 +1086,15 @@
         let currentKat = "";
         let numInKat = 1;
 
+        /** Helper inline: buat sel dual-element (cetak + edit). */
+        const cell = (id, val, cls = "text-center") => `
+        <td class="border border-black p-0 relative">
+          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${val || ""}</div>
+          <input type="text" id="${id}" value="${val || ""}"
+            oninput="this.previousElementSibling.innerText = this.value"
+            class="w-full ${cls} bg-transparent print:hidden">
+        </td>`;
+
         for (let i = 1; i <= rowCount; i++) {
           const r = data.rows[i - 1] || {
             kategori: "",
@@ -1118,7 +1107,7 @@
           };
           const displayKat = r.kategori || "TAMBAHAN / LAINNYA";
 
-          // Header group kategori (jika ada isi kategori)
+          // Header group kategori
           if (
             displayKat !== currentKat &&
             displayKat !== "TAMBAHAN / LAINNYA"
@@ -1127,7 +1116,7 @@
             numInKat = 1;
             tbody.insertAdjacentHTML(
               "beforeend",
-              `<tr style="background-color: #fff2cc !important;" class="font-bold print:bg-[#fff2cc]">
+              `<tr style="background-color:#fff2cc !important;" class="font-bold print:bg-[#fff2cc]">
                <td colspan="7" class="border border-black p-1 text-center uppercase">${currentKat}</td>
              </tr>`,
             );
@@ -1145,41 +1134,20 @@
                 oninput="this.previousElementSibling.innerText = this.value"
                 class="w-full text-left bg-transparent px-1 print:hidden">
             </td>
-            <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.satuan || ""}</div>
-              <input type="text" id="a_satuan_${i}" value="${r.satuan || ""}"
-                oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-center bg-transparent print:hidden">
-            </td>
+            ${cell(`a_satuan_${i}`, r.satuan)}
             <td class="border border-black p-0 relative">
               <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.harga ? formatRupiah(r.harga) : ""}</div>
               <input type="text" id="a_harga_${i}" value="${r.harga || ""}"
                 oninput="this.previousElementSibling.innerText = this.value ? new Intl.NumberFormat('id-ID').format(this.value) : ''"
                 class="w-full text-center bg-transparent print:hidden">
             </td>
-            <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-left whitespace-normal break-words px-1">${r.supplier || ""}</div>
-              <input type="text" id="a_supplier_${i}" value="${r.supplier || ""}"
-                oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-left bg-transparent px-1 print:hidden">
-            </td>
-            <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.kontak || ""}</div>
-              <input type="text" id="a_kontak_${i}" value="${r.kontak || ""}"
-                oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-center bg-transparent print:hidden">
-            </td>
-            <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-left whitespace-normal break-words px-1">${r.ket || ""}</div>
-              <input type="text" id="a_ket_${i}" value="${r.ket || ""}"
-                oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-left bg-transparent px-1 print:hidden">
-            </td>
+            ${cell(`a_supplier_${i}`, r.supplier, "text-left px-1")}
+            ${cell(`a_kontak_${i}`, r.kontak)}
+            ${cell(`a_ket_${i}`, r.ket, "text-left px-1")}
           </tr>`,
           );
         }
 
-        /* ---- Tanda tangan user ---- */
         const sigUser = document.getElementById("a_render_sig_user");
         if (sigUser) {
           sigUser.innerHTML = data.ttd_user
@@ -1187,7 +1155,6 @@
             : "";
         }
 
-        /* ---- Kontrol tombol ---- */
         const btnVerif = document.getElementById("btn-verifikasi-admin");
         const btnPrint = document.getElementById("btn-print-admin");
         const sigAdmin = document.getElementById("a_render_sig_admin");
@@ -1209,9 +1176,7 @@
         }
       }
 
-      /* =====================================================================
-       * BUKA MODAL VERIFIKASI ADMIN
-       * ===================================================================== */
+      /* ------- Buka modal ttd admin ------- */
       function bukaModalTtdAdmin() {
         const mInput = document.getElementById("m_nama_pengawas");
         const aInput = document.getElementById("a_nama_pengawas");
@@ -1223,9 +1188,7 @@
         }, 100);
       }
 
-      /* =====================================================================
-       * SIMPAN VERIFIKASI ADMIN
-       * ===================================================================== */
+      /* ------- Simpan verifikasi admin ------- */
       function simpanVerifikasiAdmin() {
         const canvasAdmin = document.getElementById("sig-admin");
         const namaPengawas = document.getElementById("m_nama_pengawas").value;

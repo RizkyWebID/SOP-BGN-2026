@@ -2,15 +2,12 @@
  * SOP BGN - SHARED STYLESHEET (GLOBAL)
  * -------------------------------------------------------------------------
  * File    : assets/css/sop-bgn-shared.css
- * Fungsi  : Menyimpan seluruh style GLOBAL yang dipakai bersama oleh
- *           semua formulir SOP (SOP-014, SOP-015, SOP-017, SOP-026, SOP-040, dst).
+ * Fungsi  : Style GLOBAL yang dipakai semua formulir SOP.
+ * Versi   : v2 — penyeragaman kolom "No.", tinggi cell, dan print layout.
  *
- * ATURAN PENTING:
- *   - File ini HANYA berisi style global / umum.
- *   - JANGAN menaruh style spesifik per SOP (mis. lebar kolom cetak
- *     khusus SOP-014) di file ini.
- *   - Style spesifik per SOP ditulis di tag <style> pada file HTML
- *     SOP yang bersangkutan.
+ * ATURAN:
+ *   - File ini HANYA berisi style global.
+ *   - Style spesifik per SOP ditulis di tag <style> pada file HTML SOP.
  * ========================================================================= */
 
 /* -------------------------------------------------------------------------
@@ -36,8 +33,7 @@ body {
 }
 
 /* -------------------------------------------------------------------------
- * 2. NOTIFIKASI GLOBAL (pojok kanan atas)
- *    Dipakai oleh: showNotif() di sop-bgn-shared.js
+ * 2. NOTIFIKASI GLOBAL
  * ------------------------------------------------------------------------- */
 #global-notif {
   position: fixed;
@@ -58,14 +54,13 @@ body {
 }
 #global-notif.is-success {
   background-color: #16a34a;
-} /* green-600 */
+}
 #global-notif.is-error {
   background-color: #ef4444;
-} /* red-500   */
+}
 
 /* -------------------------------------------------------------------------
- * 3. MODAL & BACKDROP (Tanda Tangan User / Admin)
- *    Dipakai oleh: openModal() / closeModal() di sop-bgn-shared.js
+ * 3. MODAL & BACKDROP
  * ------------------------------------------------------------------------- */
 .sop-modal-bg {
   position: fixed;
@@ -89,7 +84,6 @@ body {
   width: 100%;
   max-width: 480px;
 }
-
 .sop-modal-title {
   font-size: 16px;
   font-weight: 700;
@@ -107,8 +101,7 @@ body {
 }
 
 /* -------------------------------------------------------------------------
- * 4. SIGNATURE PAD (Canvas tanda tangan digital)
- *    Dipakai oleh: setupSignaturePad() di sop-bgn-shared.js
+ * 4. SIGNATURE PAD
  * ------------------------------------------------------------------------- */
 .sop-signature-pad {
   border: 2px dashed #cbd5e1;
@@ -121,7 +114,7 @@ body {
 }
 
 /* -------------------------------------------------------------------------
- * 5. PRINT VIEW (Kontainer hasil cetak admin)
+ * 5. PRINT VIEW CONTAINER
  * ------------------------------------------------------------------------- */
 .sop-print-view {
   background: #fff;
@@ -132,8 +125,20 @@ body {
 }
 
 /* -------------------------------------------------------------------------
- * 6. ATURAN CETAK (PRINT MEDIA) - GLOBAL
- *    Semua SOP akan menggunakan aturan cetak yang sama dari sini.
+ * 6. LOGO INSTANSI (helper global)
+ *    Dipakai di semua kop header SOP agar seragam ukurannya.
+ * ------------------------------------------------------------------------- */
+.sop-logo-instansi {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 4px;
+}
+
+/* -------------------------------------------------------------------------
+ * 7. ATURAN CETAK (PRINT MEDIA) - GLOBAL
+ *    Semua SOP menggunakan aturan cetak yang sama dari sini.
  * ------------------------------------------------------------------------- */
 @media print {
   @page {
@@ -143,11 +148,11 @@ body {
   body {
     background: #fff;
     font-size: 11pt;
-    line-height: 1.2;
+    line-height: 1.25;
     color: #000;
   }
 
-  /* Sembunyikan elemen yang tidak perlu dicetak */
+  /* Sembunyikan elemen non-cetak */
   .no-print {
     display: none !important;
   }
@@ -166,7 +171,7 @@ body {
     max-width: 100% !important;
   }
 
-  /* Border hitam tegas saat cetak */
+  /* Border hitam tegas */
   .border-black {
     border-color: #000 !important;
   }
@@ -174,7 +179,7 @@ body {
     border-width: 1.5px !important;
   }
 
-  /* Input menjadi teks polos tanpa border */
+  /* Input jadi teks polos */
   input,
   select,
   textarea {
@@ -192,7 +197,7 @@ body {
     color: transparent !important;
   }
 
-  /* Tabel cetak */
+  /* ==== TABEL CETAK: TINGGI & PADDING SERAGAM SEMUA SOP ==== */
   table {
     width: 100% !important;
     table-layout: fixed;
@@ -200,10 +205,36 @@ body {
   }
   th,
   td {
-    padding: 3px 2px !important;
+    /* Tinggi cell SERAGAM — mencegah ada yang rapat/gembung */
+    height: 22px !important;
+    min-height: 22px !important;
+    line-height: 1.3 !important;
+    padding: 4px 3px !important;
     word-wrap: break-word;
     text-align: center;
     vertical-align: middle;
+    font-size: 9pt;
+  }
+
+  /* ==== KOLOM "No." SERAGAM ====
+   * Lebar "No." dikunci 5% untuk tabel dengan ≤9 kolom,
+   * dan 4% untuk tabel dengan ≥10 kolom (agar tabel lebar tetap muat).
+   * Tabel dengan kelas .sop-col-count-N dapat override secara eksplisit. */
+  #admin-view table:not([data-cols-wide]) th:first-child,
+  #admin-view table:not([data-cols-wide]) td:first-child {
+    width: 5% !important;
+    max-width: 5% !important;
+    min-width: 5% !important;
+    text-align: center !important;
+    padding: 4px 2px !important;
+  }
+  #admin-view table[data-cols-wide] th:first-child,
+  #admin-view table[data-cols-wide] td:first-child {
+    width: 4% !important;
+    max-width: 4% !important;
+    min-width: 4% !important;
+    text-align: center !important;
+    padding: 4px 1px !important;
   }
 
   /* Area tanda tangan */

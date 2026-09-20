@@ -3,14 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SOP-040-4 - Pemeriksaan Sarana Cuci Tangan & Penyimpanan</title>
+    <title>SOP-040D - Pemeriksaan Sarana Cuci Tangan & Penyimpanan</title>
 
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/logo/badan_gizi_nasional.png"
+    />
+
+    <!-- Tailwind CDN untuk utility layout -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Shared stylesheet global -->
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
 
     <!-- ===================================================================
-       STYLE KHUSUS SOP-040-4 (5 kolom cetak)
-       - Kolom "Aspek" lebar dominan (52%) karena berisi narasi panjang.
+       STYLE KHUSUS SOP-040D (5 kolom cetak)
+       - Kolom "Aspek" lebar dominan (52%) karena narasi panjang.
        - Kolom "Sesuai" & "Tidak Sesuai" ringkas (masing-masing 8%).
        =================================================================== -->
     <style>
@@ -22,35 +32,34 @@
         }
         #admin-view th,
         #admin-view td {
-          padding: 3px 2px !important;
           font-size: 8.5pt !important;
           vertical-align: middle !important;
           word-wrap: break-word !important;
           white-space: normal !important;
         }
 
-        #admin-view td:nth-child(1) {
+        /* Lebar 5 Kolom Cetak SOP-040D (total = 100%) */
+        #admin-view th:nth-child(1) {
           width: 5% !important;
-          text-align: center !important;
-        } /* No */
-        #admin-view td:nth-child(2) {
+        } /* No — SERAGAM */
+        #admin-view th:nth-child(2) {
           width: 52% !important;
-          text-align: left;
-          padding-left: 6px !important;
         } /* Aspek */
-        #admin-view td:nth-child(3) {
+        #admin-view th:nth-child(3) {
           width: 8% !important;
-          text-align: center !important;
         } /* Sesuai */
-        #admin-view td:nth-child(4) {
+        #admin-view th:nth-child(4) {
           width: 8% !important;
-          text-align: center !important;
         } /* Tidak Sesuai */
-        #admin-view td:nth-child(5) {
+        #admin-view th:nth-child(5) {
           width: 27% !important;
-          text-align: left;
-          padding-left: 6px !important;
         } /* Ket */
+
+        #admin-view td:nth-child(2),
+        #admin-view td:nth-child(5) {
+          text-align: left !important;
+          padding-left: 6px !important;
+        }
 
         #admin-view td input,
         #admin-view td textarea {
@@ -58,7 +67,7 @@
         }
       }
 
-      /* Tampilan layar mode admin — proporsi sama */
+      /* Tampilan layar mode admin — proporsi sama dengan print */
       #admin-view table th:nth-child(1),
       #admin-view table td:nth-child(1) {
         width: 5%;
@@ -99,7 +108,7 @@
               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
             />
           </svg>
-          SOP-040-4: Pemeriksaan Sarana Cuci Tangan
+          SOP-040D: Pemeriksaan Sarana Cuci Tangan
         </div>
         <div class="flex gap-2">
           <button
@@ -124,7 +133,7 @@
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
       <!-- ==================================================================
-         USER VIEW - FORM INPUT (STRUKTUR SERAGAM)
+         USER VIEW
          ================================================================== -->
       <div id="user-view" class="space-y-6 block">
         <!-- [1] Informasi Umum -->
@@ -328,10 +337,9 @@
       </div>
 
       <!-- ==================================================================
-         ADMIN VIEW - CETAK (STRUKTUR SERAGAM)
+         ADMIN VIEW — CETAK
          ================================================================== -->
       <div id="admin-view" class="hidden sop-print-view">
-        <!-- Toolbar admin -->
         <div
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
         >
@@ -367,19 +375,20 @@
           </div>
         </div>
 
-        <!-- KOP HEADER SOP-040-4 -->
+        <!-- KOP HEADER SOP-040D -->
         <div class="flex mb-3">
           <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
               <img
-                src="https://placehold.co/100x100/1e3a8a/white?text=Logo+BGN"
+                src="assets/logo/badan_gizi_nasional.png"
                 alt="Logo BGN"
-                class="w-14 h-14 object-contain mb-1"
+                class="sop-logo-instansi"
               />
               <span
                 class="text-[9px] print:text-[8pt] font-bold text-center leading-tight uppercase"
-                >Badan Gizi Nasional</span
               >
+                Badan Gizi Nasional
+              </span>
             </div>
           </div>
           <div
@@ -398,7 +407,7 @@
             <h3
               class="font-semibold text-[12px] print:text-[10pt] leading-tight whitespace-nowrap"
             >
-              Lap.SOP.040-4-000 / 02.14.71 / IX / SOP-BW01 / 2026
+              Lap.SOP.040D-000 / 02.14.71 / IX / SOP-BW01 / 2026
             </h3>
           </div>
         </div>
@@ -491,7 +500,7 @@
           </div>
         </div>
 
-        <!-- Tabel Utama Cetak -->
+        <!-- Tabel Utama Cetak (5 kolom, pakai textarea untuk Aspek & Ket) -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
@@ -511,7 +520,7 @@
           </table>
         </div>
 
-        <!-- Keterangan -->
+        <!-- Keterangan (native SOP-040D) -->
         <div
           class="text-[10px] print:text-[7pt] text-justify leading-tight mb-4"
         >
@@ -522,11 +531,10 @@
           >
         </div>
 
-        <!-- Area Tanda Tangan (3 kolom seragam) -->
+        <!-- Area TTD Seragam -->
         <div
           class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
         >
-          <!-- Kolom 1: Petugas Jaga -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -560,7 +568,6 @@
             </div>
           </div>
 
-          <!-- Kolom 2: Asisten Lapangan -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -594,7 +601,6 @@
             </div>
           </div>
 
-          <!-- Kolom 3: Kepala SPPG -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -738,22 +744,24 @@
       </div>
     </div>
 
+    <!-- ===================================================================
+       SCRIPTS: storage → shared → SOP-specific
+       =================================================================== -->
+    <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
 
     <!-- ===================================================================
-       SCRIPT KHUSUS SOP-040-4
+       SCRIPT KHUSUS SOP-040D
        =================================================================== -->
     <script>
       /* =====================================================================
-       * SOP-040-4 - SCRIPT KHUSUS (Sarana Cuci Tangan & Penyimpanan)
+       * SOP-040D - SCRIPT KHUSUS (Sarana Cuci Tangan & Penyimpanan)
        * ---------------------------------------------------------------------
-       * CATATAN: versi lama STORAGE_KEY="db_sop_40_master" (nama ambigu).
-       * Sudah diseragamkan menjadi "db_sop_040_4" agar konsisten dengan
-       * penomoran SOP baru.
+       * Catatan: STORAGE_KEY diperbaiki dari "db_sop_40_master" (nama ambigu)
+       * → "db_sop_040_4" agar konsisten dengan skema baru.
        *
-       * Setiap baris menyimpan field "sesuai" ("" atau "V") dan
-       * "tidak_sesuai" ("" atau "V"). Nilai diisi otomatis berdasarkan
-       * radio button yang dipilih user.
+       * Logika: setiap baris menyimpan field "sesuai" ("" atau "V") dan
+       * "tidak_sesuai" ("" atau "V"). Nilai diisi otomatis dari radio button.
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_040_4";
@@ -795,11 +803,9 @@
       function loadDataForDate() {
         currentDate = document.getElementById("u_tanggal").value;
         const data = getTodayData(currentDate);
-
         document.getElementById("u_shift").value = data.shift || "";
         document.getElementById("u_menu").value = data.menu || "";
         document.getElementById("u_porsi").value = data.porsi || "";
-
         currentRows = data.rows || [];
         renderUserTable();
         checkFormLockStatus(data);

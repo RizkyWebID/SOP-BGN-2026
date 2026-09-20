@@ -2,18 +2,16 @@
  * SOP BGN - SHARED JAVASCRIPT (GLOBAL)
  * -------------------------------------------------------------------------
  * File    : assets/js/sop-bgn-shared.js
- * Fungsi  : Menyimpan seluruh FUNGSI UTILITAS yang dipakai bersama oleh
- *           semua formulir SOP.
+ * Fungsi  : Helper utility untuk semua formulir SOP.
+ * Versi   : v2 — delegasi penyimpanan ke sop-bgn-storage.js
  *
- * ATURAN PENTING:
- *   - File ini HANYA berisi helper global.
- *   - JANGAN menaruh logika spesifik per SOP (mis. hitungRataRata untuk
- *     SOP-014) di file ini.
- *   - Logika spesifik per SOP ditulis di tag <script> pada file HTML
- *     SOP yang bersangkutan.
+ * ATURAN:
+ *   - HANYA berisi helper global.
+ *   - Logika spesifik per SOP ditulis di tag <script> file HTML SOP.
  *
- * Dependensi:
- *   - assets/css/sop-bgn-shared.css (untuk style .sop-modal-bg, #global-notif, dll)
+ * DEPENDENSI:
+ *   - assets/css/sop-bgn-shared.css
+ *   - assets/js/sop-bgn-storage.js  (untuk getDB/saveDB)
  * ========================================================================= */
 
 /* =========================================================================
@@ -22,31 +20,28 @@
 
 /**
  * Menampilkan notifikasi mengambang di pojok kanan atas.
- * @param {string} msg  - Pesan yang akan ditampilkan.
- * @param {string} type - "success" (hijau) atau "error" (merah). Default "success".
+ * @param {string} msg  - Pesan.
+ * @param {string} type - "success" atau "error". Default "success".
  */
 function showNotif(msg, type = "success") {
   const el = document.getElementById("global-notif");
   if (!el) return;
-
   el.textContent = msg;
   el.classList.remove("is-success", "is-error");
   el.classList.add(
     "is-visible",
     type === "success" ? "is-success" : "is-error",
   );
-
-  // Reset timer agar notifikasi baru selalu tampil 3 detik penuh
   clearTimeout(showNotif._timer);
   showNotif._timer = setTimeout(() => el.classList.remove("is-visible"), 3000);
 }
 
 /* =========================================================================
- * 2. TAB SWITCHING (Mode User / Mode Admin)
+ * 2. TAB SWITCHING
  * ========================================================================= */
 
 /**
- * Berpindah antara Mode User (Input) dan Mode Admin (Cetak).
+ * Berpindah antara Mode User dan Mode Admin.
  * @param {string} tab - "user" atau "admin".
  */
 function switchTab(tab) {
@@ -70,7 +65,6 @@ function switchTab(tab) {
     btnAdmin.classList.add("bg-indigo-700");
     btnUser.classList.remove("bg-indigo-700", "border-indigo-500");
 
-    // Sinkronkan tanggal antar-tab
     const uTanggal = document.getElementById("u_tanggal");
     const aTanggal = document.getElementById("a_tanggal_pilih");
     if (uTanggal && aTanggal) aTanggal.value = uTanggal.value;
@@ -80,35 +74,42 @@ function switchTab(tab) {
 }
 
 /* =========================================================================
- * 3. PENYIMPANAN LOKAL (LocalStorage)
+ * 3. PENYIMPANAN — DELEGASI KE sop-bgn-storage.js
  * ========================================================================= */
 
 /**
- * Mengambil seluruh database dari localStorage.
- * @param {string} key - Kunci localStorage.
- * @returns {Object} Objek database (kosong jika belum ada).
+ * Ambil seluruh database dari storage (wrapper sinkron untuk kompatibilitas).
+ * @param {string} key - Kunci penyimpanan.
+ * @returns {Object}
  */
 function getDB(key) {
+  if (typeof SopStorage !== "undefined") {
+    return SopStorage.getSync(key);
+  }
   const data = localStorage.getItem(key);
   return data ? JSON.parse(data) : {};
 }
 
 /**
- * Menyimpan seluruh database ke localStorage.
- * @param {string} key     - Kunci localStorage.
- * @param {Object} dataObj - Objek database yang akan disimpan.
+ * Simpan seluruh database ke storage.
+ * @param {string} key
+ * @param {Object} dataObj
  */
 function saveDB(key, dataObj) {
+  if (typeof SopStorage !== "undefined") {
+    SopStorage.setSync(key, dataObj);
+    return;
+  }
   localStorage.setItem(key, JSON.stringify(dataObj));
 }
 
 /* =========================================================================
- * 4. MODAL (Buka / Tutup)
+ * 4. MODAL (BUKA / TUTUP)
  * ========================================================================= */
 
 /**
- * Membuka modal berdasarkan ID element.
- * @param {string} id - ID elemen modal (mis. "modal-ttd").
+ * Membuka modal.
+ * @param {string} id - ID elemen modal.
  */
 function openModal(id) {
   const el = document.getElementById(id);
@@ -116,7 +117,7 @@ function openModal(id) {
 }
 
 /**
- * Menutup modal berdasarkan ID element.
+ * Menutup modal.
  * @param {string} id - ID elemen modal.
  */
 function closeModal(id) {
@@ -125,27 +126,24 @@ function closeModal(id) {
 }
 
 /* =========================================================================
- * 5. SIGNATURE PAD (Tanda Tangan Digital)
+ * 5. SIGNATURE PAD
  * ========================================================================= */
 
 /**
- * Mengaktifkan canvas sebagai papan tanda tangan (mouse + touch).
+ * Mengaktifkan canvas sebagai papan tanda tangan.
  * @param {string} canvasId - ID elemen canvas.
  */
 function setupSignaturePad(canvasId) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
-
   const ctx = canvas.getContext("2d");
   let isDrawing = false;
 
-  // Konfigurasi kuas
   ctx.strokeStyle = "#000033";
   ctx.lineWidth = 2.5;
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
 
-  /** Ambil posisi kursor/jari relatif terhadap canvas (dengan skala). */
   function getPos(e) {
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
@@ -188,8 +186,8 @@ function setupSignaturePad(canvasId) {
 }
 
 /**
- * Menghapus seluruh coretan pada canvas tanda tangan.
- * @param {string} canvasId - ID elemen canvas.
+ * Menghapus coretan pada canvas tanda tangan.
+ * @param {string} canvasId
  */
 function clearSig(canvasId) {
   const canvas = document.getElementById(canvasId);
@@ -202,9 +200,9 @@ function clearSig(canvasId) {
  * ========================================================================= */
 
 /**
- * Mengubah format tanggal "YYYY-MM-DD" menjadi "Senin, 1 Januari 2025".
- * @param {string} isoDate - Tanggal dalam format "YYYY-MM-DD".
- * @returns {string} Tanggal terformat lokal Indonesia.
+ * Format "YYYY-MM-DD" → "Senin, 1 Januari 2025".
+ * @param {string} isoDate
+ * @returns {string}
  */
 function formatTanggalID(isoDate) {
   if (!isoDate) return "";

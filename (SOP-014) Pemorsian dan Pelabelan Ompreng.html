@@ -5,46 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SOP-014 - Laporan Kesesuaian Gramasi</title>
 
-    <!-- Tailwind CDN untuk utility layout -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Favicon (icon versi kecil dari logo) -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/logo/badan_gizi_nasional.png"
+    />
 
-    <!-- ===================================================================
-       SHARED STYLESHEET GLOBAL (WAJIB DIMUAT SEMUA HALAMAN SOP)
-       Berisi: body, modal, signature, notifikasi, aturan cetak global.
-       =================================================================== -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
 
     <!-- ===================================================================
-       STYLE KHUSUS SOP-014 (SPESIFIK PER HALAMAN)
-       Berisi: pengaturan lebar kolom cetak yang khas untuk tabel SOP-014.
-       Style lain sebaiknya TIDAK ditaruh di sini.
+       STYLE KHUSUS SOP-014 (8 kolom cetak)
        =================================================================== -->
     <style>
       @media print {
-        /* Lebar kolom tabel cetak SOP-014 (total 100%, 8 kolom) */
+        /* Lebar kolom SOP-014 (8 kolom, total 100%) */
         #admin-view th:nth-child(1) {
-          width: 6% !important;
-          text-align: center !important;
-        }
+          width: 5% !important;
+        } /* No - SERAGAM */
         #admin-view th:nth-child(2) {
-          width: 22% !important;
-          text-align: left !important;
-        }
+          width: 23% !important;
+        } /* Komponen */
         #admin-view th:nth-child(3) {
           width: 13% !important;
-        }
+        } /* Standar */
         #admin-view th:nth-child(4),
         #admin-view th:nth-child(5),
         #admin-view th:nth-child(6) {
           width: 10% !important;
-        }
+        } /* S1/S2/S3 */
         #admin-view th:nth-child(7) {
           width: 11% !important;
-        }
+        } /* Rata-rata */
         #admin-view th:nth-child(8) {
           width: 18% !important;
-          text-align: left !important;
-        }
+        } /* Keterangan */
 
         #admin-view td:nth-child(2),
         #admin-view td:nth-child(8) {
@@ -57,12 +53,11 @@
 
   <body class="text-gray-800">
     <!-- =====================================================================
-       TOPBAR / NAVIGASI ATAS (di-skip saat cetak via .no-print)
+       TOPBAR
        ===================================================================== -->
     <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="font-bold text-sm sm:text-base flex items-center gap-2">
-          <!-- Ikon dokumen -->
           <svg
             class="w-6 h-6"
             fill="none"
@@ -97,15 +92,14 @@
       </div>
     </nav>
 
-    <!-- Wadah notifikasi global (diisi oleh showNotif) -->
     <div id="global-notif"></div>
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
       <!-- ==================================================================
-         USER VIEW - FORM INPUT
+         USER VIEW
          ================================================================== -->
       <div id="user-view" class="space-y-6 block">
-        <!-- Kartu Informasi Umum -->
+        <!-- [1] Informasi Umum -->
         <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h2 class="text-lg font-bold text-indigo-900 mb-4 border-b pb-2">
             Informasi Umum
@@ -161,21 +155,21 @@
           </div>
         </div>
 
-        <!-- Banner status (draft / final / verified) -->
+        <!-- [2] Banner status -->
         <div
           id="status-banner"
           class="hidden p-4 rounded-lg font-bold text-center text-xs"
         ></div>
 
+        <!-- [3] Grid utama -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <!-- FORM INPUT KOMPONEN -->
+          <!-- FORM INPUT -->
           <div
             class="lg:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-200"
           >
             <h3 class="text-base font-bold text-indigo-900 mb-4 border-b pb-2">
               Input Komponen & Sampel
             </h3>
-
             <form
               id="form-input-baris"
               onsubmit="tambahBarisGramasi(event)"
@@ -204,7 +198,6 @@
                   <option value="Puding / Snack"></option>
                 </datalist>
               </div>
-
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Standar Gramasi</label
@@ -217,7 +210,6 @@
                   required
                 />
               </div>
-
               <div class="grid grid-cols-3 gap-2">
                 <div>
                   <label class="block text-xs font-semibold text-gray-600 mb-1"
@@ -256,7 +248,6 @@
                   />
                 </div>
               </div>
-
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Keterangan / Kesesuaian</label
@@ -268,7 +259,6 @@
                   class="w-full p-2 text-xs border border-gray-300 rounded"
                 />
               </div>
-
               <button
                 type="submit"
                 class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded transition shadow"
@@ -278,7 +268,7 @@
             </form>
           </div>
 
-          <!-- TABEL DAFTAR INPUT USER -->
+          <!-- TABEL USER -->
           <div
             class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col justify-between"
           >
@@ -309,13 +299,10 @@
                       <th class="p-2 border border-gray-300 w-12">Aksi</th>
                     </tr>
                   </thead>
-                  <tbody id="u_table_body">
-                    <!-- Diisi oleh renderUserTable() -->
-                  </tbody>
+                  <tbody id="u_table_body"></tbody>
                 </table>
               </div>
             </div>
-
             <div class="mt-6 flex gap-4 justify-end border-t pt-4">
               <button
                 type="button"
@@ -339,10 +326,10 @@
       </div>
 
       <!-- ==================================================================
-         ADMIN VIEW - CETAK
+         ADMIN VIEW — CETAK
          ================================================================== -->
       <div id="admin-view" class="hidden sop-print-view">
-        <!-- Toolbar admin (tidak dicetak) -->
+        <!-- Toolbar admin -->
         <div
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
         >
@@ -378,14 +365,14 @@
           </div>
         </div>
 
-        <!-- KOP HEADER SOP-014 -->
+        <!-- KOP HEADER -->
         <div class="flex mb-3">
           <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
               <img
-                src="https://placehold.co/100x100/1e3a8a/white?text=Logo+BGN"
+                src="assets/logo/badan_gizi_nasional.png"
                 alt="Logo BGN"
-                class="w-14 h-14 object-contain mb-1"
+                class="sop-logo-instansi"
               />
               <span
                 class="text-[9px] print:text-[8pt] font-bold text-center leading-tight uppercase"
@@ -519,9 +506,7 @@
                 <th class="border border-black p-1">Keterangan / Kesesuaian</th>
               </tr>
             </thead>
-            <tbody id="a_table_body">
-              <!-- Diisi oleh loadDataAdmin() -->
-            </tbody>
+            <tbody id="a_table_body"></tbody>
           </table>
         </div>
 
@@ -536,11 +521,10 @@
           >
         </div>
 
-        <!-- Area Tanda Tangan (3 kolom seragam) -->
+        <!-- Area TTD -->
         <div
           class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
         >
-          <!-- Kolom 1: Jurutama Masak -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -573,8 +557,6 @@
               />
             </div>
           </div>
-
-          <!-- Kolom 2: Ahli Gizi -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -605,8 +587,6 @@
               />
             </div>
           </div>
-
-          <!-- Kolom 3: Kepala SPPG -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -643,9 +623,7 @@
       </div>
     </main>
 
-    <!-- ===================================================================
-       MODAL TTD USER (Jurutama Masak)
-       =================================================================== -->
+    <!-- MODAL TTD USER -->
     <div id="modal-ttd" class="sop-modal-bg">
       <div class="sop-modal">
         <h3 class="sop-modal-title text-indigo-900">Finalisasi Laporan</h3>
@@ -699,9 +677,7 @@
       </div>
     </div>
 
-    <!-- ===================================================================
-       MODAL TTD ADMIN (Ahli Gizi / Pengawas)
-       =================================================================== -->
+    <!-- MODAL TTD ADMIN -->
     <div id="modal-ttd-admin" class="sop-modal-bg">
       <div class="sop-modal">
         <h3 class="sop-modal-title text-amber-600">Verifikasi Laporan Admin</h3>
@@ -755,69 +731,47 @@
     </div>
 
     <!-- ===================================================================
-       SHARED JAVASCRIPT GLOBAL (WAJIB DIMUAT SEMUA HALAMAN SOP)
-       Berisi: showNotif, switchTab, getDB, saveDB, openModal, closeModal,
-               setupSignaturePad, clearSig, formatTanggalID.
+       SCRIPTS: shared → storage → SOP-specific
        =================================================================== -->
+    <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
 
-    <!-- ===================================================================
-       SCRIPT KHUSUS SOP-014 (LOGIKA SPESIFIK HALAMAN INI SAJA)
-       =================================================================== -->
     <script>
       /* =====================================================================
        * SOP-014 - SCRIPT KHUSUS
        * ---------------------------------------------------------------------
-       * Berisi logika yang hanya dipakai di SOP-014:
-       *   - hitungRataRata()      : hitung rata-rata dari 3 sampel
-       *   - getTodayData()        : ambil/init data 1 tanggal dari localStorage
-       *   - loadDataForDate()     : load data user berdasarkan tanggal terpilih
-       *   - renderUserTable()     : render tabel daftar gramasi (mode user)
-       *   - tambahBarisGramasi()  : tambah komponen baru ke daftar
-       *   - hapusBaris()          : hapus 1 baris dari daftar
-       *   - checkFormLockStatus() : cek status draft/final/verified & kunci form
-       *   - simpanDraftGlobal()   : simpan draft ke localStorage
-       *   - bukaModalTtdUser()    : buka modal tanda tangan user
-       *   - simpanFinalLaporan()  : simpan sebagai final + kunci
-       *   - loadDataAdmin()       : load data ke tampilan admin + cetak
-       *   - bukaModalTtdAdmin()   : buka modal verifikasi admin
-       *   - simpanVerifikasiAdmin(): simpan verifikasi + tanda tangan admin
+       * Fungsi utama (semua sudah didefinisikan di bawah):
+       *   - hitungRataRata()        : rata-rata 3 sampel
+       *   - getTodayData()          : ambil/init data 1 tanggal
+       *   - loadDataForDate()       : load data user
+       *   - renderUserTable()       : render tabel user
+       *   - tambahBarisGramasi()    : tambah komponen baru
+       *   - hapusBaris()            : hapus baris
+       *   - checkFormLockStatus()   : kunci form bila final/verified
+       *   - simpanDraftGlobal()     : simpan draft
+       *   - bukaModalTtdUser()      : buka modal ttd user
+       *   - simpanFinalLaporan()    : simpan final
+       *   - loadDataAdmin()         : load data admin + tabel cetak
+       *   - bukaModalTtdAdmin()     : buka modal verifikasi
+       *   - simpanVerifikasiAdmin() : simpan verifikasi
        * ===================================================================== */
 
-      /* ------- Konstanta khusus SOP-014 ------- */
-      const STORAGE_KEY = "db_sop_014"; // Kunci penyimpanan localStorage
-      const MIN_ROWS = 10; // Minimal baris pada tabel cetak
+      const STORAGE_KEY = "db_sop_014";
+      const MIN_ROWS = 10;
 
-      /* ------- State global (di-reset tiap tanggal) ------- */
       let currentDate = new Date().toISOString().split("T")[0];
       let currentRows = [];
 
-      /* =====================================================================
-       * LIFE CYCLE - Dijalankan saat halaman selesai dimuat
-       * ===================================================================== */
+      /* ------- Life cycle ------- */
       window.addEventListener("DOMContentLoaded", () => {
-        // Set tanggal default = hari ini
         document.getElementById("u_tanggal").value = currentDate;
         document.getElementById("a_tanggal_pilih").value = currentDate;
-
-        // Aktifkan canvas tanda tangan (fungsi dari shared JS)
         setupSignaturePad("sig-user");
         setupSignaturePad("sig-admin");
-
-        // Muat data untuk tanggal hari ini
         loadDataForDate();
       });
 
-      /* =====================================================================
-       * HITUNG RATA-RATA 3 SAMPEL
-       * ===================================================================== */
-      /**
-       * Menghitung rata-rata dari 3 nilai sampel, mengabaikan input kosong/NaN.
-       * @param {*} s1 - Nilai sampel 1.
-       * @param {*} s2 - Nilai sampel 2.
-       * @param {*} s3 - Nilai sampel 3.
-       * @returns {string} Rata-rata dalam format 1 desimal, atau "" jika tidak ada nilai.
-       */
+      /* ------- Hitung rata-rata 3 sampel ------- */
       function hitungRataRata(s1, s2, s3) {
         const vals = [parseFloat(s1), parseFloat(s2), parseFloat(s3)].filter(
           (v) => !isNaN(v),
@@ -827,15 +781,7 @@
         return (total / vals.length).toFixed(1);
       }
 
-      /* =====================================================================
-       * AMBIL ATAU BUAT DATA HARI INI
-       * ===================================================================== */
-      /**
-       * Mengambil data dari localStorage untuk tanggal tertentu.
-       * Jika belum ada, inisialisasi struktur kosong (belum disimpan).
-       * @param {string} date - Format "YYYY-MM-DD".
-       * @returns {Object} Data laporan untuk tanggal tersebut.
-       */
+      /* ------- Ambil/buat data hari ini ------- */
       function getTodayData(date) {
         const db = getDB(STORAGE_KEY);
         if (!db[date]) {
@@ -855,39 +801,30 @@
         return db[date];
       }
 
-      /* =====================================================================
-       * LOAD DATA UNTUK TANGGAL TERPILIH (MODE USER)
-       * ===================================================================== */
+      /* ------- Load data user ------- */
       function loadDataForDate() {
         currentDate = document.getElementById("u_tanggal").value;
         const data = getTodayData(currentDate);
-
         document.getElementById("u_shift").value = data.shift || "";
         document.getElementById("u_menu").value = data.menu || "";
         document.getElementById("u_porsi").value = data.porsi || "";
-
         currentRows = data.rows || [];
         renderUserTable();
         checkFormLockStatus(data);
       }
 
-      /* =====================================================================
-       * RENDER TABEL DAFTAR GRAMASI (MODE USER)
-       * ===================================================================== */
+      /* ------- Render tabel user ------- */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
-
         if (currentRows.length === 0) {
           tbody.innerHTML = `<tr><td colspan="9" class="p-4 text-center text-gray-400">Belum ada komponen menu. Gunakan form di sebelah kiri.</td></tr>`;
           return;
         }
-
         currentRows.forEach((row, idx) => {
           const rata = hitungRataRata(row.s1, row.s2, row.s3);
           currentRows[idx].rata = rata;
-
           tbody.insertAdjacentHTML(
             "beforeend",
             `
@@ -909,12 +846,9 @@
         });
       }
 
-      /* =====================================================================
-       * TAMBAH BARIS BARU DARI FORM
-       * ===================================================================== */
+      /* ------- Tambah baris ------- */
       function tambahBarisGramasi(event) {
         event.preventDefault();
-
         const nama = document.getElementById("u_nama_komponen").value;
         const standar = document.getElementById("u_standar").value;
         const s1 = document.getElementById("u_s1").value;
@@ -922,26 +856,20 @@
         const s3 = document.getElementById("u_s3").value;
         const keterangan = document.getElementById("u_keterangan").value;
         const rata = hitungRataRata(s1, s2, s3);
-
         currentRows.push({ nama, standar, s1, s2, s3, rata, keterangan });
         renderUserTable();
-
         document.getElementById("form-input-baris").reset();
         showNotif("Komponen berhasil ditambahkan ke daftar.");
       }
 
-      /* =====================================================================
-       * HAPUS BARIS
-       * ===================================================================== */
+      /* ------- Hapus baris ------- */
       function hapusBaris(index) {
         currentRows.splice(index, 1);
         renderUserTable();
         showNotif("Komponen dihapus dari daftar.", "error");
       }
 
-      /* =====================================================================
-       * CEK STATUS KUNCI FORM (draft / final / verified)
-       * ===================================================================== */
+      /* ------- Kunci form ------- */
       function checkFormLockStatus(data) {
         const banner = document.getElementById("status-banner");
         const inputs = document.querySelectorAll(
@@ -950,12 +878,12 @@
         const btnDraft = document.getElementById("btn-draft");
         const btnFinal = document.getElementById("btn-final");
         if (!banner) return;
-
         if (data.status === "verified") {
           banner.textContent =
             "LAPORAN TELAH DIVERIFIKASI OLEH PENGAWAS & TERKUNCI SEPENUHNYA";
           banner.className =
             "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
+          inputs.forEach((el) => (el.disabled = true));
           btnDraft?.classList.add("hidden");
           btnFinal?.classList.add("hidden");
         } else if (data.status === "final") {
@@ -963,6 +891,7 @@
             "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI PENGAWAS)";
           banner.className =
             "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
+          inputs.forEach((el) => (el.disabled = true));
           btnDraft?.classList.add("hidden");
           btnFinal?.classList.add("hidden");
         } else {
@@ -973,58 +902,43 @@
         }
       }
 
-      /* =====================================================================
-       * SIMPAN DRAFT KE LOCALSTORAGE
-       * ===================================================================== */
+      /* ------- Simpan draft ------- */
       function simpanDraftGlobal() {
         const db = getDB(STORAGE_KEY);
         const data = getTodayData(currentDate);
-
         if (data.status === "final" || data.status === "verified")
           return showNotif("Laporan sudah terkunci!", "error");
-
         data.shift = document.getElementById("u_shift").value;
         data.menu = document.getElementById("u_menu").value;
         data.porsi = document.getElementById("u_porsi").value;
         data.rows = currentRows;
-
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
         showNotif("Draft laporan berhasil disimpan.");
       }
 
-      /* =====================================================================
-       * BUKA MODAL TANDA TANGAN USER
-       * ===================================================================== */
+      /* ------- Buka modal ttd user ------- */
       function bukaModalTtdUser() {
         if (currentRows.length === 0)
           return alert("Belum ada data komponen menu yang diinput.");
-
         simpanDraftGlobal();
         openModal("modal-ttd");
-
-        // Sesuaikan ukuran canvas dengan lebar parent (responsive)
         setTimeout(() => {
           const c = document.getElementById("sig-user");
           if (c) c.width = c.parentElement.getBoundingClientRect().width;
         }, 100);
       }
 
-      /* =====================================================================
-       * SIMPAN FINAL LAPORAN USER + TANDA TANGAN
-       * ===================================================================== */
+      /* ------- Simpan final ------- */
       function simpanFinalLaporan() {
         const canvasUser = document.getElementById("sig-user");
         const namaJurutama = document.getElementById("m_nama_jurutama").value;
         if (!namaJurutama) return alert("Mohon isi Nama Jurutama Masak.");
-
         const db = getDB(STORAGE_KEY);
         const data = db[currentDate] || getTodayData(currentDate);
-
         data.ttd_user = canvasUser.toDataURL();
         data.status = "final";
         data.nama_jurutama = namaJurutama;
-
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
         closeModal("modal-ttd");
@@ -1032,17 +946,12 @@
         showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
       }
 
-      /* =====================================================================
-       * LOAD DATA UNTUK MODE ADMIN + TABEL CETAK
-       * ===================================================================== */
+      /* ------- Load data admin ------- */
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
-
-        // Tampilkan tanggal dalam format Indonesia
         document.getElementById("a_tanggal_txt").textContent =
           formatTanggalID(dateStr);
-
         const data = db[dateStr] || {
           shift: "",
           menu: "",
@@ -1055,36 +964,27 @@
           nama_pengawas: "",
           nama_kepala: "",
         };
-
-        // Isi value ke semua input + versi teks cetak
         document.getElementById("a_shift").value = data.shift || "";
         document.getElementById("print_a_shift").innerText = data.shift || "";
-
         document.getElementById("a_menu").value = data.menu || "";
         document.getElementById("print_a_menu").innerText = data.menu || "";
-
         document.getElementById("a_porsi").value = data.porsi || "";
         document.getElementById("print_a_porsi").innerText = data.porsi || "";
-
         document.getElementById("a_nama_jurutama").value =
           data.nama_jurutama || "";
         document.getElementById("print_a_nama_jurutama").innerText =
           data.nama_jurutama || "";
-
         document.getElementById("a_nama_pengawas").value =
           data.nama_pengawas || "";
         document.getElementById("print_a_nama_pengawas").innerText =
           data.nama_pengawas || "";
-
         const kepala = data.nama_kepala || "Rizky Arinanda. AR, S.Kom";
         document.getElementById("a_nama_kepala").value = kepala;
         document.getElementById("print_a_nama_kepala").innerText = kepala;
 
-        /* ---- Render tabel admin (menggunakan minimum MIN_ROWS baris) ---- */
         const tbody = document.getElementById("a_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
-
         const rowsToDisplay = data.rows.slice();
         while (rowsToDisplay.length < MIN_ROWS) {
           rowsToDisplay.push({
@@ -1097,6 +997,17 @@
             keterangan: "",
           });
         }
+        const cell = (val, cls = "text-center", id, bold = false) => `
+        <td class="border border-black p-0 relative">
+          <div class="hidden print:block w-full ${cls} whitespace-normal break-words ${bold ? "font-bold" : ""}">${val || ""}</div>
+          ${
+            id
+              ? `<input type="text" id="${id}" value="${val || ""}"
+            oninput="this.previousElementSibling.innerText = this.value"
+            class="w-full ${cls} bg-transparent print:hidden">`
+              : ""
+          }
+        </td>`;
 
         rowsToDisplay.forEach((r, idx) => {
           tbody.insertAdjacentHTML(
@@ -1104,60 +1015,26 @@
             `
           <tr>
             <td class="border border-black p-1 text-center font-bold">${idx + 1}</td>
-            <td class="border border-black p-1 text-left pl-2 font-bold">${r.nama || ""}</td>
-            <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-center">${r.standar || ""}</div>
-              <input type="text" value="${r.standar || ""}"
-                oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-center bg-transparent print:hidden">
-            </td>
-            <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-center">${r.s1 || ""}</div>
-              <input type="text" value="${r.s1 || ""}"
-                oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-center bg-transparent print:hidden">
-            </td>
-            <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-center">${r.s2 || ""}</div>
-              <input type="text" value="${r.s2 || ""}"
-                oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-center bg-transparent print:hidden">
-            </td>
-            <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-center">${r.s3 || ""}</div>
-              <input type="text" value="${r.s3 || ""}"
-                oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-center bg-transparent print:hidden">
-            </td>
-            <td class="border border-black p-0 relative font-bold">
-              <div class="hidden print:block w-full text-center">${r.rata || ""}</div>
-              <input type="text" value="${r.rata || ""}"
-                oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-center bg-transparent print:hidden">
-            </td>
-            <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-left px-1">${r.keterangan || ""}</div>
-              <input type="text" value="${r.keterangan || ""}"
-                oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-left bg-transparent px-1 print:hidden">
-            </td>
+            ${cell(r.nama, "text-left pl-2", `a_nama_${idx}`, true)}
+            ${cell(r.standar, "text-center", `a_standar_${idx}`)}
+            ${cell(r.s1, "text-center", `a_s1_${idx}`)}
+            ${cell(r.s2, "text-center", `a_s2_${idx}`)}
+            ${cell(r.s3, "text-center", `a_s3_${idx}`)}
+            ${cell(r.rata, "text-center", `a_rata_${idx}`, true)}
+            ${cell(r.keterangan, "text-left px-1", `a_ket_${idx}`)}
           </tr>`,
           );
         });
 
-        /* ---- Render tanda tangan user ---- */
         const sigUser = document.getElementById("a_render_sig_user");
-        if (sigUser) {
+        if (sigUser)
           sigUser.innerHTML = data.ttd_user
             ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
             : "";
-        }
 
-        /* ---- Kontrol tombol verifikasi / cetak ---- */
         const btnVerif = document.getElementById("btn-verifikasi-admin");
         const btnPrint = document.getElementById("btn-print-admin");
         const sigAdmin = document.getElementById("a_render_sig_admin");
-
         if (data.status === "verified") {
           btnVerif?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
@@ -1170,14 +1047,11 @@
         }
       }
 
-      /* =====================================================================
-       * BUKA MODAL VERIFIKASI ADMIN
-       * ===================================================================== */
+      /* ------- Buka modal ttd admin ------- */
       function bukaModalTtdAdmin() {
         const mInput = document.getElementById("m_nama_pengawas");
         const aInput = document.getElementById("a_nama_pengawas");
         if (mInput && aInput) mInput.value = aInput.value;
-
         openModal("modal-ttd-admin");
         setTimeout(() => {
           const c = document.getElementById("sig-admin");
@@ -1185,19 +1059,14 @@
         }, 100);
       }
 
-      /* =====================================================================
-       * SIMPAN VERIFIKASI ADMIN + TANDA TANGAN
-       * ===================================================================== */
+      /* ------- Simpan verifikasi admin ------- */
       function simpanVerifikasiAdmin() {
         const canvasAdmin = document.getElementById("sig-admin");
         const namaPengawas = document.getElementById("m_nama_pengawas").value;
         if (!namaPengawas) return alert("Mohon isi Nama Pengawas.");
-
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
         const data = db[dateStr] || getTodayData(dateStr);
-
-        // Ambil value terbaru dari semua input admin
         data.shift = document.getElementById("a_shift").value;
         data.menu = document.getElementById("a_menu").value;
         data.porsi = document.getElementById("a_porsi").value;
@@ -1206,10 +1075,8 @@
         data.nama_kepala = document.getElementById("a_nama_kepala").value;
         data.ttd_admin = canvasAdmin.toDataURL();
         data.status = "verified";
-
         db[dateStr] = data;
         saveDB(STORAGE_KEY, db);
-
         closeModal("modal-ttd-admin");
         loadDataAdmin();
         showNotif("Laporan berhasil DIVERIFIKASI!");

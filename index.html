@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard SOP - SPPG Binawidya Tobekgodang</title>
 
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/logo/badan_gizi_nasional.png"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- ===================================================================
-       SHARED STYLESHEET GLOBAL (WAJIB - walau minim komponen cetak)
-       =================================================================== -->
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
 
     <style>
-      /* =====================================================================
-     * Style khusus dashboard (kartu menu utama)
-     * ===================================================================== */
+      /* Kartu menu utama */
       .dash-card {
         transition:
           transform 0.2s ease,
@@ -26,18 +25,27 @@
         transform: translateY(-4px);
         box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
       }
+      /* Badge nomor SOP di kartu */
+      .dash-badge {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 13px;
+        flex-shrink: 0;
+      }
     </style>
   </head>
 
   <body class="text-gray-800">
-    <!-- =====================================================================
-       HEADER DASHBOARD
-       ===================================================================== -->
+    <!-- HEADER -->
     <header class="bg-indigo-900 text-white shadow-md">
       <div class="max-w-7xl mx-auto px-4 py-6 flex items-center gap-4">
-        <!-- Logo instansi -->
         <img
-          src="https://placehold.co/64x64/1e3a8a/white?text=BGN"
+          src="assets/logo/badan_gizi_nasional.png"
           alt="Logo BGN"
           class="w-14 h-14 object-contain rounded-lg bg-white p-1"
         />
@@ -52,11 +60,8 @@
       </div>
     </header>
 
-    <!-- =====================================================================
-       BODY DASHBOARD
-       ===================================================================== -->
     <main class="max-w-7xl mx-auto px-4 py-8">
-      <!-- Sambutan singkat -->
+      <!-- Sambutan -->
       <div
         class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 mb-8"
       >
@@ -66,14 +71,16 @@
         <p class="text-sm text-gray-600 leading-relaxed">
           Silakan pilih salah satu formulir SOP di bawah ini untuk memulai
           pencatatan harian. Setiap formulir memiliki
-          <span class="font-semibold text-indigo-700">Mode User</span> (untuk
-          input & tanda tangan petugas) dan
-          <span class="font-semibold text-amber-600">Mode Admin</span> (untuk
-          verifikasi dan cetak dokumen).
+          <span class="font-semibold text-indigo-700">Mode User</span> (input &
+          tanda tangan petugas) dan
+          <span class="font-semibold text-amber-600">Mode Admin</span>
+          (verifikasi & cetak dokumen).
         </p>
       </div>
 
-      <!-- Grup: SOP Pengolahan Pangan -->
+      <!-- ===================================================
+         GRUP: SOP PENGOLAHAN & PRODUKSI PANGAN
+         =================================================== -->
       <section class="mb-8">
         <h3
           class="text-base font-bold text-indigo-900 mb-4 flex items-center gap-2"
@@ -89,11 +96,7 @@
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
           >
             <div class="flex items-start gap-3 mb-3">
-              <div
-                class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm"
-              >
-                14
-              </div>
+              <div class="dash-badge bg-indigo-100 text-indigo-700">014</div>
               <div>
                 <p
                   class="text-[10px] font-semibold text-indigo-600 uppercase tracking-wide"
@@ -106,8 +109,7 @@
               </div>
             </div>
             <p class="text-xs text-gray-600 flex-grow">
-              Pengecekan kesesuaian gramasi tiap komponen menu pada ompreng
-              (makanan pokok, lauk, sayur, buah).
+              Pengecekan kesesuaian gramasi tiap komponen menu pada ompreng.
             </p>
             <div
               class="mt-3 text-xs text-indigo-600 font-semibold flex items-center gap-1"
@@ -122,11 +124,7 @@
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
           >
             <div class="flex items-start gap-3 mb-3">
-              <div
-                class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm"
-              >
-                15
-              </div>
+              <div class="dash-badge bg-indigo-100 text-indigo-700">015</div>
               <div>
                 <p
                   class="text-[10px] font-semibold text-indigo-600 uppercase tracking-wide"
@@ -140,7 +138,7 @@
             </div>
             <p class="text-xs text-gray-600 flex-grow">
               Pencatatan suhu & durasi proses pemasakan hingga pendinginan
-              makanan (mulai & selesai per tahap).
+              makanan.
             </p>
             <div
               class="mt-3 text-xs text-indigo-600 font-semibold flex items-center gap-1"
@@ -149,17 +147,14 @@
             </div>
           </a>
 
+          <!-- SOP-017 (Logistik) — pindah ke grup sendiri -->
           <!-- SOP-026 -->
           <a
             href="SOP-026 (Persiapan dan Pengelolahan Nasi).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
           >
             <div class="flex items-start gap-3 mb-3">
-              <div
-                class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-sm"
-              >
-                26
-              </div>
+              <div class="dash-badge bg-indigo-100 text-indigo-700">026</div>
               <div>
                 <p
                   class="text-[10px] font-semibold text-indigo-600 uppercase tracking-wide"
@@ -172,8 +167,8 @@
               </div>
             </div>
             <p class="text-xs text-gray-600 flex-grow">
-              Pemantauan berat beras, jumlah air, suhu nasi matang, serta
-              kualitas warna & tekstur nasi.
+              Pemantauan berat beras, jumlah air, suhu nasi, kualitas warna &
+              tekstur.
             </p>
             <div
               class="mt-3 text-xs text-indigo-600 font-semibold flex items-center gap-1"
@@ -184,7 +179,9 @@
         </div>
       </section>
 
-      <!-- Grup: SOP Personal Higiene -->
+      <!-- ===================================================
+         GRUP: SOP PERSONAL HIGIENE (4 sub-form)
+         =================================================== -->
       <section class="mb-8">
         <h3
           class="text-base font-bold text-indigo-900 mb-4 flex items-center gap-2"
@@ -194,31 +191,27 @@
         </h3>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <!-- SOP-040-1 -->
+          <!-- SOP-040A -->
           <a
             href="SOP-040 (Personal Higiene 1).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
           >
             <div class="flex items-start gap-3 mb-3">
-              <div
-                class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm"
-              >
-                40-1
-              </div>
+              <div class="dash-badge bg-emerald-100 text-emerald-700">040</div>
               <div>
                 <p
                   class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wide"
                 >
-                  Lap.SOP.040-1-000
+                  Lap.SOP.040A-000
                 </p>
                 <h4 class="text-sm font-bold text-gray-800 leading-tight">
-                  Pemeriksaan Personal Higiene
+                  A. Pemeriksaan Personal Higiene
                 </h4>
               </div>
             </div>
             <p class="text-xs text-gray-600 flex-grow">
               Pemeriksaan harian petugas: suhu tubuh, kondisi kesehatan,
-              kuku/rambut, APD, dan luka terbuka.
+              kuku/rambut, APD, luka.
             </p>
             <div
               class="mt-3 text-xs text-emerald-600 font-semibold flex items-center gap-1"
@@ -227,31 +220,27 @@
             </div>
           </a>
 
-          <!-- SOP-040-2 -->
+          <!-- SOP-040B -->
           <a
             href="SOP-040 (Personal Higiene 2).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
           >
             <div class="flex items-start gap-3 mb-3">
-              <div
-                class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm"
-              >
-                40-2
-              </div>
+              <div class="dash-badge bg-emerald-100 text-emerald-700">040</div>
               <div>
                 <p
                   class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wide"
                 >
-                  Lap.SOP.040-2-000
+                  Lap.SOP.040B-000
                 </p>
                 <h4 class="text-sm font-bold text-gray-800 leading-tight">
-                  Logbook Kesehatan Personil
+                  B. Logbook Kesehatan Personil
                 </h4>
               </div>
             </div>
             <p class="text-xs text-gray-600 flex-grow">
-              Pencatatan keluhan/gejala (batuk, demam, flu) beserta tindak
-              lanjut dan tanggal kembali bekerja.
+              Pencatatan keluhan/gejala beserta tindak lanjut dan tanggal
+              kembali bekerja.
             </p>
             <div
               class="mt-3 text-xs text-emerald-600 font-semibold flex items-center gap-1"
@@ -260,31 +249,26 @@
             </div>
           </a>
 
-          <!-- SOP-040-3 -->
+          <!-- SOP-040C -->
           <a
             href="SOP-040 (Personal Higiene 3).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
           >
             <div class="flex items-start gap-3 mb-3">
-              <div
-                class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm"
-              >
-                40-3
-              </div>
+              <div class="dash-badge bg-emerald-100 text-emerald-700">040</div>
               <div>
                 <p
                   class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wide"
                 >
-                  Lap.SOP.040-3-000
+                  Lap.SOP.040C-000
                 </p>
                 <h4 class="text-sm font-bold text-gray-800 leading-tight">
-                  Ketidaksesuaian Perlengkapan
+                  C. Ketidaksesuaian Perlengkapan
                 </h4>
               </div>
             </div>
             <p class="text-xs text-gray-600 flex-grow">
-              Catatan temuan kerusakan alat/sarana kerja beserta tindakan
-              perbaikan dan tanggal penyelesaian.
+              Catatan temuan kerusakan alat/sarana beserta tindakan perbaikan.
             </p>
             <div
               class="mt-3 text-xs text-emerald-600 font-semibold flex items-center gap-1"
@@ -293,31 +277,27 @@
             </div>
           </a>
 
-          <!-- SOP-040-4 -->
+          <!-- SOP-040D -->
           <a
             href="SOP-040 (Personal Higiene 4).html"
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
           >
             <div class="flex items-start gap-3 mb-3">
-              <div
-                class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm"
-              >
-                40-4
-              </div>
+              <div class="dash-badge bg-emerald-100 text-emerald-700">040</div>
               <div>
                 <p
                   class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wide"
                 >
-                  Lap.SOP.040-4-000
+                  Lap.SOP.040D-000
                 </p>
                 <h4 class="text-sm font-bold text-gray-800 leading-tight">
-                  Sarana Cuci Tangan
+                  D. Sarana Cuci Tangan
                 </h4>
               </div>
             </div>
             <p class="text-xs text-gray-600 flex-grow">
               Checklist pemeriksaan sarana cuci tangan (air mengalir, sabun,
-              wastafel, pengering) & penyimpanan.
+              wastafel, pengering).
             </p>
             <div
               class="mt-3 text-xs text-emerald-600 font-semibold flex items-center gap-1"
@@ -328,7 +308,9 @@
         </div>
       </section>
 
-      <!-- Grup: SOP Logistik & Pemasok -->
+      <!-- ===================================================
+         GRUP: SOP LOGISTIK & PEMASOK
+         =================================================== -->
       <section class="mb-8">
         <h3
           class="text-base font-bold text-indigo-900 mb-4 flex items-center gap-2"
@@ -344,11 +326,7 @@
             class="dash-card bg-white rounded-lg shadow-sm border border-gray-200 p-5 flex flex-col"
           >
             <div class="flex items-start gap-3 mb-3">
-              <div
-                class="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm"
-              >
-                17
-              </div>
+              <div class="dash-badge bg-amber-100 text-amber-700">017</div>
               <div>
                 <p
                   class="text-[10px] font-semibold text-amber-600 uppercase tracking-wide"
@@ -361,8 +339,8 @@
               </div>
             </div>
             <p class="text-xs text-gray-600 flex-grow">
-              Survei harga pasar harian untuk bahan baku (karbohidrat, hewani,
-              nabati, sayuran, buah) beserta kontak supplier.
+              Survei harga pasar harian untuk bahan baku beserta kontak
+              supplier.
             </p>
             <div
               class="mt-3 text-xs text-amber-600 font-semibold flex items-center gap-1"
@@ -380,7 +358,7 @@
         <p class="font-bold mb-1">📌 Petunjuk Penggunaan</p>
         <ul class="list-disc list-inside space-y-1 text-indigo-800">
           <li>
-            Klik <b>Mode User</b> untuk input data harian, kemudian tekan
+            Klik <b>Mode User</b> untuk input data harian, lalu tekan
             <b>Simpan Draft</b> atau <b>Simpan & Selesai (Final)</b>.
           </li>
           <li>
@@ -388,25 +366,20 @@
             mencetak dokumen.
           </li>
           <li>
-            Data tersimpan otomatis di browser (LocalStorage) —
+            Data tersimpan di browser (LocalStorage) —
             <b>jangan membersihkan data browser</b> agar riwayat tetap ada.
           </li>
         </ul>
       </div>
     </main>
 
-    <!-- =====================================================================
-       FOOTER
-       ===================================================================== -->
     <footer
       class="mt-12 py-6 border-t border-gray-200 text-center text-xs text-gray-500"
     >
       © 2026 SPPG Kota Pekanbaru Binawidya Tobekgodang · Badan Gizi Nasional
     </footer>
 
-    <!-- ===================================================================
-       SHARED JS (opsional, untuk showNotif jika diperlukan)
-       =================================================================== -->
+    <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
   </body>
 </html>
