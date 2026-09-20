@@ -6,12 +6,17 @@
     <title>Sistem Laporan Pemantauan Resting Food</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+      /* =================================================sh
+ * SPPG - STYLE UMUM (SHARED STYLESHEET)
+ * Berlaku untuk SOP 14, 18, 22, dan form sejenis
+ * ================================================= */
       body {
         font-family: Arial, sans-serif;
         background-color: #f3f4f6;
         font-size: 12px;
       }
 
+      /* Modal & Signature Pad */
       .modal-bg {
         background-color: rgba(0, 0, 0, 0.5);
       }
@@ -24,13 +29,16 @@
         touch-action: none;
       }
 
-      /* --- CSS KHUSUS PRINT --- */
+      /* --- CSS KHUSUS PRINT GLOBAL --- */
       @media print {
+        @page {
+          margin: 1cm;
+        }
         body {
           background-color: white;
           font-family: Arial, sans-serif;
-          font-size: 8pt;
-          line-height: 1.2;
+          font-size: 12pt;
+          line-height: 1.25;
         }
         .no-print {
           display: none !important;
@@ -67,7 +75,7 @@
           color: black !important;
           padding: 0 !important;
           margin: 0 !important;
-          font-size: 7.5pt !important;
+          font-size: 12pt !important;
           font-family: Arial, sans-serif !important;
           text-align: center;
         }
@@ -80,54 +88,14 @@
           table-layout: fixed;
           border-collapse: collapse !important;
         }
+
         th,
         td {
-          padding: 2px !important;
+          padding: 3px 2px !important;
           word-wrap: break-word;
-          font-size: 7.5pt !important;
+          font-size: 10pt !important;
           text-align: center;
         }
-
-        /* Lebar Kolom Cetak - Disesuaikan untuk Portrait */
-        th:nth-child(1) {
-          width: 4%;
-        } /* No */
-        th:nth-child(2) {
-          width: 6%;
-        } /* Tahap */
-        th:nth-child(3) {
-          width: 10%;
-        } /* Jenis Menu */
-        th:nth-child(4) {
-          width: 14%;
-        } /* Nama Menu */
-        th:nth-child(5) {
-          width: 7%;
-        } /* Jml Produksi */
-        th:nth-child(6) {
-          width: 6%;
-        } /* Mulai - Pukul */
-        th:nth-child(7) {
-          width: 7%;
-        } /* Mulai - Suhu */
-        th:nth-child(8) {
-          width: 6%;
-        } /* Selesai - Pukul */
-        th:nth-child(9) {
-          width: 7%;
-        } /* Selesai - Suhu */
-        th:nth-child(10) {
-          width: 7%;
-        } /* Durasi */
-        th:nth-child(11) {
-          width: 7%;
-        } /* Suhu Ruang */
-        th:nth-child(12) {
-          width: 12%;
-        } /* Keterangan */
-        th:nth-child(13) {
-          width: 7%;
-        } /* Paraf */
 
         .print-name-input {
           border-bottom: 1px solid black !important;
@@ -150,8 +118,53 @@
         }
       }
     </style>
+    <style>
+      /* --- STYLE KHUSUS SOP 22 --- */
+      @media print {
+        th:nth-child(1) {
+          width: 4%;
+        } /* No */
+        th:nth-child(2) {
+          width: 6%;
+        } /* Tahap */
+        th:nth-child(3) {
+          width: 10%;
+        } /* Jenis Menu */
+        th:nth-child(4) {
+          width: 14%;
+          text-align: left;
+        } /* Nama Menu */
+        th:nth-child(5) {
+          width: 7%;
+        } /* Jml Produksi */
+        th:nth-child(6),
+        th:nth-child(8) {
+          width: 6%;
+        } /* Pukul */
+        th:nth-child(7),
+        th:nth-child(9),
+        th:nth-child(10),
+        th:nth-child(11) {
+          width: 7%;
+        } /* Suhu & Durasi */
+        th:nth-child(12) {
+          width: 12%;
+          text-align: left;
+        } /* Keterangan */
+        th:nth-child(13) {
+          width: 7%;
+        } /* Paraf */
+
+        td:nth-child(4),
+        td:nth-child(12) {
+          text-align: left !important;
+          padding-left: 3px !important;
+        }
+      }
+    </style>
   </head>
   <body class="text-gray-800">
+    <!-- TOP NAVIGATION -->
     <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="font-bold text-sm sm:text-base flex items-center gap-2">
@@ -213,7 +226,7 @@
               <input
                 type="date"
                 id="u_tanggal"
-                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
+                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
                 onchange="loadDataForDate()"
               />
             </div>
@@ -223,7 +236,7 @@
               >
               <select
                 id="u_shift"
-                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
+                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
               >
                 <option value="">Pilih...</option>
                 <option value="Pagi">Pagi</option>
@@ -238,8 +251,8 @@
               <input
                 type="text"
                 id="u_menu"
-                placeholder="Cth: Paket Nasi Ayam & Sayur"
-                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
+                placeholder="Cth: Nasi Ayam & Sayur"
+                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
               />
             </div>
             <div>
@@ -250,7 +263,7 @@
                 type="number"
                 id="u_porsi"
                 placeholder="Cth: 500"
-                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
+                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
               />
             </div>
           </div>
@@ -319,18 +332,18 @@
                     Pukul
                   </th>
                   <th class="p-2 border border-gray-300 bg-amber-50 w-20">
-                    Suhu Makanan (°C)
+                    Suhu (°C)
                   </th>
                   <th class="p-2 border border-gray-300 bg-blue-50 w-16">
                     Pukul
                   </th>
                   <th class="p-2 border border-gray-300 bg-blue-50 w-20">
-                    Suhu Makanan (°C)
+                    Suhu (°C)
                   </th>
                 </tr>
               </thead>
               <tbody id="u_table_body">
-                <!-- Rows di-generate via JS -->
+                <!-- Rows Generated via JS -->
               </tbody>
             </table>
           </div>
@@ -341,11 +354,7 @@
             Suhu dicatat menggunakan termometer probe yang telah dikalibrasi.
             "Waktu mulai resting" adalah saat makanan selesai dimasak dan
             dipindahkan ke wadah resting; "waktu selesai resting" adalah saat
-            komponen siap dilakukan pemorsian. <br /><br />
-            <strong>Catatan penting:</strong> Formulir ini merekam proses per
-            tahap. Nomor tahap harus konsisten dengan identifikasi tahap pada
-            proses memasak, pemorsian, dan pencatatan penyaluran agar
-            keterlacakan (<em>traceability</em>) terjaga.
+            komponen siap dilakukan pemorsian.
           </div>
 
           <div class="mt-6 flex gap-4 justify-end border-t pt-4">
@@ -438,99 +447,117 @@
           </div>
         </div>
 
-        <!-- Header Dokumen Cetak -->
+        <!-- KOP HEADER SOP 22 -->
         <div class="flex mb-3">
           <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
               <img
                 src="https://placehold.co/100x100/1e3a8a/white?text=Logo+BGN"
-                alt="Logo"
+                alt="Logo Badan Gizi Nasional"
                 class="w-14 h-14 object-contain mb-1"
               />
-              <span class="text-[9px] font-bold text-center"
+              <span
+                class="text-[9px] print:text-[8pt] font-bold text-center leading-tight uppercase"
                 >Badan Gizi Nasional</span
               >
             </div>
           </div>
           <div
-            class="flex flex-col items-center justify-center border-2 border-black p-2 w-4/5 text-center"
+            class="flex flex-col items-center justify-center p-2 w-4/5 border-2 border-black text-center"
           >
             <h1
-              class="font-bold text-sm sm:text-base leading-tight uppercase mb-0.5"
+              class="font-bold text-[16px] print:text-[14pt] leading-tight uppercase mb-1"
             >
-              SPPG Kota Pekanbaru Binawidya Tobekgodang
+              SPPG KOTA PEKANBARU BINAWIDYA TOBEKGODANG
             </h1>
             <h2
-              class="font-bold text-xs sm:text-sm leading-tight uppercase mb-0.5"
+              id="judul-sop"
+              class="font-bold text-[14px] print:text-[12pt] leading-tight uppercase mb-1"
             >
               Formulir Pemantauan Resting Makanan (Suhu & Durasi)
             </h2>
             <h3
-              class="font-semibold text-[10px] sm:text-xs leading-tight whitespace-nowrap"
+              id="nomor-dokumen-sop"
+              class="font-semibold text-[12px] print:text-[10pt] leading-tight whitespace-nowrap"
             >
-              No. Lap.SOP.003/02.14.71/IX/SPPG-BW01/2026
+              Lap.SOP.022-(Acak 3 Digit) / 02.14.71 / IX / SPPG-BW01 / 2026
             </h3>
           </div>
         </div>
 
-        <!-- Info Umum Cetak -->
+        <!-- BINGKAI INFORMASI UMUM SERAGAM (Hasil Revisi) -->
         <div
-          class="grid grid-cols-2 border-2 border-black mb-3 text-xs font-semibold"
+          class="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 border-2 border-black mb-3 text-xs print:text-[10pt] font-semibold"
         >
-          <div class="border-r border-black flex flex-col">
+          <!-- Kolom Kiri -->
+          <div
+            class="flex flex-col border-b-2 border-black sm:border-b-0 sm:border-r-2 print:border-b-0 print:border-r-2"
+          >
             <div class="flex border-b border-black h-7">
-              <label class="w-1/3 p-1 flex items-center">Hari / Tanggal</label>
-              <div class="w-2/3 p-1 flex items-center">
+              <label
+                class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
+                >Hari / Tanggal</label
+              >
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
                 <span id="a_tanggal_txt" class="w-full"></span>
               </div>
             </div>
+
             <div class="flex h-7">
-              <label class="w-1/3 p-1 flex items-center">Shift Kerja</label>
-              <div class="w-2/3 p-1 flex items-center">
+              <label
+                class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
+                >Shift Kerja</label
+              >
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
                 <input
                   type="text"
                   id="a_shift"
-                  class="w-full bg-transparent font-bold"
+                  class="w-full bg-transparent font-bold outline-none print:appearance-none"
                 />
               </div>
             </div>
           </div>
+
+          <!-- Kolom Kanan -->
           <div class="flex flex-col">
             <div class="flex border-b border-black h-7">
-              <label class="w-1/3 p-1 flex items-center pl-2"
+              <label
+                class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
                 >Menu Hari Ini</label
               >
-              <div class="w-2/3 p-1 flex items-center">
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
                 <input
                   type="text"
                   id="a_menu"
-                  class="w-full bg-transparent font-bold"
+                  class="w-full bg-transparent font-bold outline-none print:appearance-none"
                 />
               </div>
             </div>
+
             <div class="flex h-7">
-              <label class="w-1/3 p-1 flex items-center pl-2"
+              <label
+                class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
                 >Jumlah Porsi</label
               >
-              <div class="w-2/3 p-1 flex items-center">
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
                 <input
                   type="number"
                   id="a_porsi"
-                  class="w-full bg-transparent font-bold"
+                  class="w-full bg-transparent font-bold outline-none print:appearance-none"
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Tabel Utama Print -->
-        <div class="mb-2">
+        <!-- TABEL UTAMA PRINT SOP 22 -->
+        <div class="w-full overflow-x-auto mb-3">
           <table
-            class="w-full border-collapse border-2 border-black text-center text-xs"
+            class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
           >
             <thead class="bg-gray-50 print:bg-transparent">
               <tr>
@@ -550,95 +577,139 @@
                   Selesai Resting
                 </th>
                 <th rowspan="2" class="border border-black p-1">
-                  Total Durasi Resting (menit)
+                  Total Durasi (menit)
                 </th>
                 <th rowspan="2" class="border border-black p-1">
                   Suhu Ruang (°C)
                 </th>
                 <th rowspan="2" class="border border-black p-1">
-                  Keterangan / Tindakan Koreksi
+                  Keterangan / Koreksi
                 </th>
                 <th rowspan="2" class="border border-black p-1">Paraf</th>
               </tr>
               <tr>
                 <th class="border border-black p-1">Pukul</th>
-                <th class="border border-black p-1">Suhu Makanan (°C)</th>
+                <th class="border border-black p-1">Suhu (°C)</th>
                 <th class="border border-black p-1">Pukul</th>
-                <th class="border border-black p-1">Suhu Makanan (°C)</th>
+                <th class="border border-black p-1">Suhu (°C)</th>
               </tr>
             </thead>
             <tbody id="a_table_body">
-              <!-- Di-generate via JS -->
+              <!-- Generated via JS -->
             </tbody>
           </table>
         </div>
 
-        <!-- Catatan Pengisian Gabungan Bagian Bawah saat Print -->
-        <div class="text-[8pt] leading-tight mb-6 text-justify">
-          <strong>Petunjuk pengisian:</strong> Catat setiap tahap pengolahan
-          secara terpisah. Satu baris = satu komponen menu dalam satu tahap.
-          Suhu dicatat menggunakan termometer probe yang telah dikalibrasi.
-          "Waktu mulai resting" adalah saat makanan selesai dimasak dan
-          dipindahkan ke wadah resting; "waktu selesai resting" adalah saat
-          komponen siap dilakukan pemorsian.
-          <br />
-          <strong>Catatan penting:</strong> Formulir ini merekam proses per
-          tahap. Nomor tahap harus konsisten dengan identifikasi tahap pada
-          proses memasak, pemorsian, dan pencatatan penyaluran agar keterlacakan
-          (<em>traceability</em>) terjaga.
+        <!-- AREA CATATAN / KETERANGAN SERAGAM -->
+        <div class="text-[10px] print:text-[7pt] text-justify leading-tight">
+          <span class="font-bold underline">Keterangan:</span>
+          <span id="teks_keterangan">
+            Catat setiap tahap pengolahan secara terpisah. Satu baris = satu
+            komponen menu dalam satu tahap. Suhu dicatat menggunakan termometer
+            probe yang telah dikalibrasi. "Waktu mulai resting" adalah saat
+            makanan selesai dimasak dan dipindahkan ke wadah resting; "waktu
+            selesai resting" adalah saat omponen siap dilakukan pemorsian.
+          </span>
         </div>
 
-        <!-- Area Tanda Tangan Cetak -->
-        <div class="flex justify-between mt-6 text-xs gap-4">
-          <div class="flex flex-col items-center w-1/3">
-            <p class="font-bold">Dimasak Oleh</p>
-            <p class="font-bold">Jurutama Masak SPPG,</p>
+        <!-- AREA TANDA TANGAN SERAGAM (Fix Rata Atas & Bawah Mutlak) -->
+        <div
+          class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
+        >
+          <!-- Kolom 1: Jurutama Masak -->
+          <!-- h-32 (128px) adalah tinggi fix/kunci untuk semua kolom -->
+          <div class="relative w-full h-32">
+            <!-- Layer Teks Jabatan (Dipaku di atas) -->
+            <!-- pointer-events-none agar klik mouse tembus ke area tanda tangan jika teks menimpanya -->
             <div
-              class="h-16 w-full flex items-center justify-center print-signature-area"
+              class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
+            >
+              <p class="font-bold leading-tight">Dibuat / Dimasak Oleh</p>
+              <p class="font-bold leading-tight break-words">
+                Jurutama Masak SPPG,
+              </p>
+            </div>
+
+            <!-- Layer Gambar Tanda Tangan (Dipaku di tengah, ukuran terkunci) -->
+            <div
+              class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
               id="a_render_sig_user"
             ></div>
-            <input
-              type="text"
-              id="a_nama_jurutama"
-              placeholder="Nama Jurutama"
-              class="mt-1 text-center border-b border-gray-400 bg-transparent w-40 font-bold focus:outline-none focus:border-black print-name-input"
-            />
+
+            <!-- Layer Input Nama (Dipaku di bawah) -->
+            <div
+              class="absolute bottom-0 left-0 w-full flex justify-center z-20"
+            >
+              <input
+                type="text"
+                id="a_nama_jurutama"
+                placeholder="Nama Jurutama Masak"
+                class="w-[95%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:border-black print:appearance-none text-[10px] print:text-[8pt]"
+              />
+            </div>
           </div>
 
-          <div class="flex flex-col items-center w-1/3">
-            <p class="font-bold">Diverifikasi & Diawasi Oleh</p>
-            <p class="font-bold">Ahli Gizi SPPG,</p>
+          <!-- Kolom 2: Ahli Gizi / Pengawas -->
+          <div class="relative w-full h-32">
             <div
-              class="h-16 w-full flex items-center justify-center print-signature-area"
+              class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
+            >
+              <p class="font-bold leading-tight">Diverifikasi & Diawasi Oleh</p>
+              <p class="font-bold leading-tight break-words">Ahli Gizi SPPG,</p>
+            </div>
+
+            <div
+              class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
               id="a_render_sig_admin"
             ></div>
-            <input
-              type="text"
-              id="a_nama_pengawas"
-              placeholder="Nama Admin"
-              class="mt-1 text-center border-b border-gray-400 bg-transparent w-40 font-bold focus:outline-none focus:border-black print-name-input"
-            />
+
+            <div
+              class="absolute bottom-0 left-0 w-full flex justify-center z-20"
+            >
+              <input
+                type="text"
+                id="a_nama_pengawas"
+                placeholder="Nama Ahli Gizi"
+                class="w-[95%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:border-black print:appearance-none text-[10px] print:text-[8pt]"
+              />
+            </div>
           </div>
 
-          <div class="flex flex-col items-center w-1/3">
-            <p class="font-bold">Mengetahui</p>
-            <p class="font-bold">Kepala SPPG Kota Pekanbaru,</p>
+          <!-- Kolom 3: Kepala SPPG -->
+          <div class="relative w-full h-32">
             <div
-              class="h-16 w-full flex items-center justify-center print-signature-area"
+              class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
+            >
+              <p class="font-bold leading-tight">Mengetahui</p>
+              <p
+                id="label_nama_sppg"
+                class="font-bold leading-tight break-words whitespace-normal"
+              >
+                Kepala SPPG Kota Pekanbaru Binawidya Tobekgodang,
+              </p>
+            </div>
+
+            <div
+              class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
               id="a_render_sig_mengetahui"
             ></div>
-            <input
-              type="text"
-              id="a_nama_kepala"
-              placeholder="Nama Kepala SPPG"
-              class="mt-1 text-center border-b border-gray-400 bg-transparent w-40 font-bold focus:outline-none focus:border-black print-name-input"
-            />
+
+            <div
+              class="absolute bottom-0 left-0 w-full flex justify-center z-20"
+            >
+              <input
+                type="text"
+                id="a_nama_kepala"
+                placeholder="Rizky Arinanda. AR, S.Kom"
+                class="w-[95%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:border-black print:appearance-none text-[10px] print:text-[8pt]"
+              />
+            </div>
           </div>
         </div>
       </div>
     </main>
 
-    <!-- Modal Tanda Tangan User -->
+    <!-- MODAL TTD USER -->
     <div
       id="modal-ttd"
       class="fixed inset-0 modal-bg hidden z-50 flex items-center justify-center p-4"
@@ -700,7 +771,7 @@
       </div>
     </div>
 
-    <!-- Modal Tanda Tangan Admin -->
+    <!-- MODAL TTD ADMIN -->
     <div
       id="modal-ttd-admin"
       class="fixed inset-0 modal-bg hidden z-50 flex items-center justify-center p-4"
@@ -716,7 +787,7 @@
 
         <div class="mb-4">
           <label class="block text-xs font-semibold text-gray-600 mb-1"
-            >Nama Pengawas Gizi</label
+            >Nama Pengawas / Ahli Gizi</label
           >
           <input
             type="text"
@@ -763,9 +834,144 @@
     </div>
 
     <script>
-      let currentDate = new Date().toISOString().split("T")[0];
+      // ==========================================
+      // SPPG - SHARED SCRIPT (sop-shared.js)
+      // Berlaku untuk SOP 14, 18, dan 22
+      // ==========================================
 
-      // Struktur Default 9 Baris Sesuai Gambar
+      // 1. Notifikasi Global
+      function showNotif(msg, type = "success") {
+        const notif = document.getElementById("global-notif");
+        if (!notif) return;
+        notif.textContent = msg;
+        notif.className = `fixed top-5 right-5 z-50 px-6 py-3 rounded shadow-xl text-white font-bold text-xs transition-all duration-500 block ${type === "success" ? "bg-green-600" : "bg-red-500"}`;
+        setTimeout(() => {
+          notif.classList.replace("block", "hidden");
+        }, 3000);
+      }
+
+      // 2. Tab Switching (Mode User & Mode Admin)
+      function switchTab(tab) {
+        const vUser = document.getElementById("user-view");
+        const vAdmin = document.getElementById("admin-view");
+        const btnUser = document.getElementById("btn-tab-user");
+        const btnAdmin = document.getElementById("btn-tab-admin");
+
+        if (tab === "user") {
+          vUser.classList.replace("hidden", "block");
+          vAdmin.classList.replace("block", "hidden");
+          btnUser.classList.replace("border-transparent", "border-indigo-500");
+          btnUser.classList.add("bg-indigo-700");
+          btnAdmin.classList.remove("bg-indigo-700", "border-indigo-500");
+          if (typeof loadDataForDate === "function") loadDataForDate();
+        } else {
+          vUser.classList.replace("block", "hidden");
+          vAdmin.classList.replace("hidden", "block");
+          btnAdmin.classList.replace("border-transparent", "border-indigo-500");
+          btnAdmin.classList.add("bg-indigo-700");
+          btnUser.classList.remove("bg-indigo-700", "border-indigo-500");
+
+          const uTanggal = document.getElementById("u_tanggal");
+          const aTanggalPilih = document.getElementById("a_tanggal_pilih");
+          if (uTanggal && aTanggalPilih) {
+            aTanggalPilih.value = uTanggal.value;
+          }
+          if (typeof loadDataAdmin === "function") loadDataAdmin();
+        }
+      }
+
+      // 3. Helper Database LocalStorage Dinamis
+      function getDB(storageKey) {
+        let data = localStorage.getItem(storageKey);
+        return data ? JSON.parse(data) : {};
+      }
+
+      function saveDB(storageKey, dataObj) {
+        localStorage.setItem(storageKey, JSON.stringify(dataObj));
+      }
+
+      // 4. Signature Pad Handler (Tanda Tangan Digital)
+      function setupSignaturePad(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        let isDrawing = false;
+        ctx.strokeStyle = "#000033";
+        ctx.lineWidth = 2.5;
+        ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+
+        function getMousePos(e) {
+          const rect = canvas.getBoundingClientRect();
+          const scaleX = canvas.width / rect.width,
+            scaleY = canvas.height / rect.height;
+          let clientX = e.clientX,
+            clientY = e.clientY;
+          if (e.touches && e.touches.length > 0) {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+          }
+          return {
+            x: (clientX - rect.left) * scaleX,
+            y: (clientY - rect.top) * scaleY,
+          };
+        }
+
+        const start = (e) => {
+          e.preventDefault();
+          isDrawing = true;
+          const pos = getMousePos(e);
+          ctx.beginPath();
+          ctx.moveTo(pos.x, pos.y);
+        };
+        const draw = (e) => {
+          if (!isDrawing) return;
+          e.preventDefault();
+          const pos = getMousePos(e);
+          ctx.lineTo(pos.x, pos.y);
+          ctx.stroke();
+        };
+        const stop = (e) => {
+          e.preventDefault();
+          isDrawing = false;
+        };
+
+        canvas.addEventListener("mousedown", start);
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", stop);
+        canvas.addEventListener("mouseout", stop);
+        canvas.addEventListener("touchstart", start, { passive: false });
+        canvas.addEventListener("touchmove", draw, { passive: false });
+        canvas.addEventListener("touchend", stop);
+      }
+
+      function clearSig(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (canvas) {
+          canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      // 5. Modal Tanda Tangan Toggles
+      function tutupModalTtd() {
+        const modal = document.getElementById("modal-ttd");
+        if (modal) modal.classList.replace("flex", "hidden");
+      }
+
+      function tutupModalTtdAdmin() {
+        const modal = document.getElementById("modal-ttd-admin");
+        if (modal) modal.classList.replace("flex", "hidden");
+      }
+    </script>
+
+    <script>
+      // ==========================================
+      // SOP 22 - SCRIPT KHUSUS (sop22.js)
+      // ==========================================
+
+      let currentDate = new Date().toISOString().split("T")[0];
+      const STORAGE_KEY = "db_sop_22";
+
       const DEFAULT_ROWS = [
         { no: 1, tahap: "T01", jenis: "Karbohidrat" },
         { no: 2, tahap: "T01", jenis: "Protein" },
@@ -789,69 +995,32 @@
         loadDataForDate();
       };
 
-      function showNotif(msg, type = "success") {
-        const notif = document.getElementById("global-notif");
-        notif.textContent = msg;
-        notif.className = `fixed top-5 right-5 z-50 px-6 py-3 rounded shadow-xl text-white font-bold text-xs transition-all duration-500 block ${type === "success" ? "bg-green-600" : "bg-red-500"}`;
-        setTimeout(() => {
-          notif.classList.replace("block", "hidden");
-        }, 3000);
-      }
-
-      function switchTab(tab) {
-        const vUser = document.getElementById("user-view");
-        const vAdmin = document.getElementById("admin-view");
-        const btnUser = document.getElementById("btn-tab-user");
-        const btnAdmin = document.getElementById("btn-tab-admin");
-
-        if (tab === "user") {
-          vUser.classList.replace("hidden", "block");
-          vAdmin.classList.replace("block", "hidden");
-          btnUser.classList.replace("border-transparent", "border-indigo-500");
-          btnUser.classList.add("bg-indigo-700");
-          btnAdmin.classList.remove("bg-indigo-700", "border-indigo-500");
-          loadDataForDate();
-        } else {
-          vUser.classList.replace("block", "hidden");
-          vAdmin.classList.replace("hidden", "block");
-          btnAdmin.classList.replace("border-transparent", "border-indigo-500");
-          btnAdmin.classList.add("bg-indigo-700");
-          btnUser.classList.remove("bg-indigo-700", "border-indigo-500");
-
-          document.getElementById("a_tanggal_pilih").value =
-            document.getElementById("u_tanggal").value;
-          loadDataAdmin();
-        }
-      }
-
-      // Generate Form User Dinamis
       function generateUserTable() {
         const tbody = document.getElementById("u_table_body");
+        if (!tbody) return;
         tbody.innerHTML = "";
 
         DEFAULT_ROWS.forEach((r, idx) => {
           const i = idx + 1;
           tbody.innerHTML += `
-                    <tr class="hover:bg-gray-50 border-b border-gray-200">
-                        <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${r.no}</td>
-                        <td class="p-1 border border-gray-300"><input type="text" id="u_tahap_${i}" value="${r.tahap}" class="w-full text-center font-bold border rounded p-1"></td>
-                        <td class="p-1 border border-gray-300"><input type="text" id="u_jenis_${i}" value="${r.jenis}" class="w-full text-center font-medium border rounded p-1"></td>
-                        <td class="p-1 border border-gray-300"><input type="text" id="u_nama_${i}" placeholder="Cth: Nasi Putih" class="w-full border rounded p-1"></td>
-                        <td class="p-1 border border-gray-300"><input type="text" id="u_porsi_prod_${i}" placeholder="Cth: 50 kg" class="w-full text-center border rounded p-1"></td>
-                        <td class="p-1 border border-gray-300 bg-amber-50"><input type="time" id="u_m_pukul_${i}" onchange="hitungDurasi(${i})" class="w-full text-center border rounded p-1"></td>
-                        <td class="p-1 border border-gray-300 bg-amber-50"><input type="number" step="0.1" id="u_m_suhu_${i}" placeholder="°C" class="w-full text-center border rounded p-1"></td>
-                        <td class="p-1 border border-gray-300 bg-blue-50"><input type="time" id="u_s_pukul_${i}" onchange="hitungDurasi(${i})" class="w-full text-center border rounded p-1"></td>
-                        <td class="p-1 border border-gray-300 bg-blue-50"><input type="number" step="0.1" id="u_s_suhu_${i}" placeholder="°C" class="w-full text-center border rounded p-1"></td>
-                        <td class="p-1 border border-gray-300 bg-green-50"><input type="number" id="u_durasi_${i}" class="w-full text-center font-bold text-green-700 bg-transparent p-1" placeholder="0"></td>
-                        <td class="p-1 border border-gray-300"><input type="number" step="0.1" id="u_suhu_ruang_${i}" placeholder="°C" class="w-full text-center border rounded p-1"></td>
-                        <td class="p-1 border border-gray-300"><input type="text" id="u_ket_${i}" placeholder="Opsional" class="w-full border rounded p-1"></td>
-                        <td class="p-1 border border-gray-300"><input type="text" id="u_paraf_${i}" placeholder="Paraf" class="w-full text-center border rounded p-1"></td>
-                    </tr>
-                `;
+    <tr class="hover:bg-gray-50 border-b border-gray-200">
+      <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${r.no}</td>
+      <td class="p-1 border border-gray-300"><input type="text" id="u_tahap_${i}" value="${r.tahap}" class="w-full text-center font-bold border rounded p-1"></td>
+      <td class="p-1 border border-gray-300"><input type="text" id="u_jenis_${i}" value="${r.jenis}" class="w-full text-center font-medium border rounded p-1"></td>
+      <td class="p-1 border border-gray-300"><input type="text" id="u_nama_${i}" placeholder="Cth: Nasi Putih" class="w-full border rounded p-1"></td>
+      <td class="p-1 border border-gray-300"><input type="text" id="u_porsi_prod_${i}" placeholder="Cth: 50 kg" class="w-full text-center border rounded p-1"></td>
+      <td class="p-1 border border-gray-300 bg-amber-50"><input type="time" id="u_m_pukul_${i}" onchange="hitungDurasi(${i})" class="w-full text-center border rounded p-1"></td>
+      <td class="p-1 border border-gray-300 bg-amber-50"><input type="number" step="0.1" id="u_m_suhu_${i}" placeholder="°C" class="w-full text-center border rounded p-1"></td>
+      <td class="p-1 border border-gray-300 bg-blue-50"><input type="time" id="u_s_pukul_${i}" onchange="hitungDurasi(${i})" class="w-full text-center border rounded p-1"></td>
+      <td class="p-1 border border-gray-300 bg-blue-50"><input type="number" step="0.1" id="u_s_suhu_${i}" placeholder="°C" class="w-full text-center border rounded p-1"></td>
+      <td class="p-1 border border-gray-300 bg-green-50"><input type="number" id="u_durasi_${i}" class="w-full text-center font-bold text-green-700 bg-transparent p-1" placeholder="0"></td>
+      <td class="p-1 border border-gray-300"><input type="number" step="0.1" id="u_suhu_ruang_${i}" placeholder="°C" class="w-full text-center border rounded p-1"></td>
+      <td class="p-1 border border-gray-300"><input type="text" id="u_ket_${i}" placeholder="Opsional" class="w-full border rounded p-1"></td>
+      <td class="p-1 border border-gray-300"><input type="text" id="u_paraf_${i}" placeholder="Paraf" class="w-full text-center border rounded p-1"></td>
+    </tr>`;
         });
       }
 
-      // Kalkulasi Otomatis Durasi Resting (menit)
       function hitungDurasi(i) {
         const tMulai = document.getElementById(`u_m_pukul_${i}`).value;
         const tSelesai = document.getElementById(`u_s_pukul_${i}`).value;
@@ -864,7 +1033,7 @@
           let date2 = new Date(2000, 0, 1, h2, m2);
 
           if (date2 < date1) {
-            date2.setDate(date2.getDate() + 1); // Lewat tengah malam
+            date2.setDate(date2.getDate() + 1);
           }
 
           const diffMs = date2 - date1;
@@ -874,17 +1043,8 @@
         }
       }
 
-      function getDB() {
-        let data = localStorage.getItem("db_resting_food");
-        return data ? JSON.parse(data) : {};
-      }
-
-      function saveDB(dataObj) {
-        localStorage.setItem("db_resting_food", JSON.stringify(dataObj));
-      }
-
       function getTodayData(date) {
-        const db = getDB();
+        const db = getDB(STORAGE_KEY);
         if (!db[date]) {
           db[date] = {
             shift: "",
@@ -902,9 +1062,9 @@
         currentDate = document.getElementById("u_tanggal").value;
         const data = getTodayData(currentDate);
 
-        document.getElementById("u_shift").value = data.shift;
-        document.getElementById("u_menu").value = data.menu;
-        document.getElementById("u_porsi").value = data.porsi;
+        document.getElementById("u_shift").value = data.shift || "";
+        document.getElementById("u_menu").value = data.menu || "";
+        document.getElementById("u_porsi").value = data.porsi || "";
 
         DEFAULT_ROWS.forEach((r, idx) => {
           const i = idx + 1;
@@ -936,7 +1096,7 @@
       function checkFormLockStatus(data) {
         const banner = document.getElementById("status-banner");
         const formInputs = document.querySelectorAll(
-          "#user-view input:not(#u_tanggal), #user-view select, #user-view button:not(#btn-draft):not(#btn-final)",
+          "#user-view input:not(#u_tanggal), #user-view select",
         );
         const btnDraft = document.getElementById("btn-draft");
         const btnFinal = document.getElementById("btn-final");
@@ -989,7 +1149,7 @@
       }
 
       function simpanDraftGlobal() {
-        const db = getDB();
+        const db = getDB(STORAGE_KEY);
         const data = getTodayData(currentDate);
 
         if (data.status === "final" || data.status === "verified")
@@ -1001,29 +1161,25 @@
         data.rows = extractTableData();
 
         db[currentDate] = data;
-        saveDB(db);
+        saveDB(STORAGE_KEY, db);
         showNotif("Draft laporan berhasil disimpan.");
       }
 
       function bukaModalTtdUser() {
         simpanDraftGlobal();
-        document
-          .getElementById("modal-ttd")
-          .classList.replace("hidden", "flex");
-        setTimeout(() => {
-          const c = document.getElementById("sig-user");
-          c.width = c.parentElement.getBoundingClientRect().width;
-        }, 100);
-      }
-      function tutupModalTtd() {
-        document
-          .getElementById("modal-ttd")
-          .classList.replace("flex", "hidden");
+        const modal = document.getElementById("modal-ttd");
+        if (modal) {
+          modal.classList.replace("hidden", "flex");
+          setTimeout(() => {
+            const c = document.getElementById("sig-user");
+            if (c) c.width = c.parentElement.getBoundingClientRect().width;
+          }, 100);
+        }
       }
 
       function simpanFinalLaporan() {
         const canvasUser = document.getElementById("sig-user");
-        const db = getDB();
+        const db = getDB(STORAGE_KEY);
         const data = db[currentDate];
 
         data.ttd_user = canvasUser.toDataURL();
@@ -1031,7 +1187,7 @@
         data.nama_jurutama = document.getElementById("m_nama_jurutama").value;
 
         db[currentDate] = data;
-        saveDB(db);
+        saveDB(STORAGE_KEY, db);
         tutupModalTtd();
         loadDataForDate();
         showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
@@ -1039,7 +1195,7 @@
 
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
-        const db = getDB();
+        const db = getDB(STORAGE_KEY);
 
         let dateFormated = "";
         if (dateStr) {
@@ -1063,17 +1219,17 @@
           ttd_user: null,
         };
 
-        document.getElementById("a_shift").value = data.shift;
-        document.getElementById("a_menu").value = data.menu;
-        document.getElementById("a_porsi").value = data.porsi;
+        document.getElementById("a_shift").value = data.shift || "";
+        document.getElementById("a_menu").value = data.menu || "";
+        document.getElementById("a_porsi").value = data.porsi || "";
         document.getElementById("a_nama_jurutama").value =
           data.nama_jurutama || "";
         document.getElementById("a_nama_pengawas").value =
           data.nama_pengawas || "";
         document.getElementById("a_nama_kepala").value = data.nama_kepala || "";
 
-        // Render Tabel Admin Cetak
         const tbody = document.getElementById("a_table_body");
+        if (!tbody) return;
         tbody.innerHTML = "";
 
         DEFAULT_ROWS.forEach((r, idx) => {
@@ -1081,29 +1237,29 @@
           const rowData = data.rows[idx] || {};
 
           tbody.innerHTML += `
-                    <tr>
-                        <td class="border border-black p-1 font-bold">${r.no}</td>
-                        <td class="border border-black p-0"><input type="text" id="a_tahap_${i}" value="${rowData.tahap || r.tahap}" class="w-full text-center font-bold bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_jenis_${i}" value="${rowData.jenis || r.jenis}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_nama_${i}" value="${rowData.nama || ""}" class="w-full bg-transparent px-1"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_porsi_prod_${i}" value="${rowData.porsi_prod || ""}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_m_pukul_${i}" value="${rowData.m_pukul || ""}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_m_suhu_${i}" value="${rowData.m_suhu || ""}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_s_pukul_${i}" value="${rowData.s_pukul || ""}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_s_suhu_${i}" value="${rowData.s_suhu || ""}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0 font-bold"><input type="text" id="a_durasi_${i}" value="${rowData.durasi || ""}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_suhu_ruang_${i}" value="${rowData.suhu_ruang || ""}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_ket_${i}" value="${rowData.ket || ""}" class="w-full bg-transparent px-1"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_paraf_${i}" value="${rowData.paraf || ""}" class="w-full text-center bg-transparent"></td>
-                    </tr>
-                `;
+    <tr>
+      <td class="border border-black p-1 font-bold">${r.no}</td>
+      <td class="border border-black p-0"><input type="text" id="a_tahap_${i}" value="${rowData.tahap || r.tahap}" class="w-full text-center font-bold bg-transparent"></td>
+      <td class="border border-black p-0"><input type="text" id="a_jenis_${i}" value="${rowData.jenis || r.jenis}" class="w-full text-center bg-transparent"></td>
+      <td class="border border-black p-0"><input type="text" id="a_nama_${i}" value="${rowData.nama || ""}" class="w-full bg-transparent px-1"></td>
+      <td class="border border-black p-0"><input type="text" id="a_porsi_prod_${i}" value="${rowData.porsi_prod || ""}" class="w-full text-center bg-transparent"></td>
+      <td class="border border-black p-0"><input type="text" id="a_m_pukul_${i}" value="${rowData.m_pukul || ""}" class="w-full text-center bg-transparent"></td>
+      <td class="border border-black p-0"><input type="text" id="a_m_suhu_${i}" value="${rowData.m_suhu || ""}" class="w-full text-center bg-transparent"></td>
+      <td class="border border-black p-0"><input type="text" id="a_s_pukul_${i}" value="${rowData.s_pukul || ""}" class="w-full text-center bg-transparent"></td>
+      <td class="border border-black p-0"><input type="text" id="a_s_suhu_${i}" value="${rowData.s_suhu || ""}" class="w-full text-center bg-transparent"></td>
+      <td class="border border-black p-0 font-bold"><input type="text" id="a_durasi_${i}" value="${rowData.durasi || ""}" class="w-full text-center bg-transparent"></td>
+      <td class="border border-black p-0"><input type="text" id="a_suhu_ruang_${i}" value="${rowData.suhu_ruang || ""}" class="w-full text-center bg-transparent"></td>
+      <td class="border border-black p-0"><input type="text" id="a_ket_${i}" value="${rowData.ket || ""}" class="w-full bg-transparent px-1"></td>
+      <td class="border border-black p-0"><input type="text" id="a_paraf_${i}" value="${rowData.paraf || ""}" class="w-full text-center bg-transparent"></td>
+    </tr>`;
         });
 
-        // Status Signatures
         const sigBoxUser = document.getElementById("a_render_sig_user");
-        sigBoxUser.innerHTML = data.ttd_user
-          ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
-          : ``;
+        if (sigBoxUser) {
+          sigBoxUser.innerHTML = data.ttd_user
+            ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
+            : ``;
+        }
 
         const btnVerifikasi = document.getElementById("btn-verifikasi-admin");
         const btnPrint = document.getElementById("btn-print-admin");
@@ -1111,34 +1267,32 @@
         const adminInputs = document.querySelectorAll("#admin-view input");
 
         if (data.status === "verified") {
-          btnVerifikasi.classList.add("hidden");
-          btnPrint.classList.remove("hidden");
+          if (btnVerifikasi) btnVerifikasi.classList.add("hidden");
+          if (btnPrint) btnPrint.classList.remove("hidden");
           adminInputs.forEach((el) => (el.readOnly = true));
-          if (data.ttd_admin)
+          if (data.ttd_admin && sigBoxAdmin)
             sigBoxAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
         } else {
-          btnVerifikasi.classList.remove("hidden");
-          btnPrint.classList.add("hidden");
+          if (btnVerifikasi) btnVerifikasi.classList.remove("hidden");
+          if (btnPrint) btnPrint.classList.add("hidden");
           adminInputs.forEach((el) => (el.readOnly = false));
-          sigBoxAdmin.innerHTML = ``;
+          if (sigBoxAdmin) sigBoxAdmin.innerHTML = ``;
         }
       }
 
       function bukaModalTtdAdmin() {
-        document.getElementById("m_nama_pengawas").value =
-          document.getElementById("a_nama_pengawas").value;
-        document
-          .getElementById("modal-ttd-admin")
-          .classList.replace("hidden", "flex");
-        setTimeout(() => {
-          const c = document.getElementById("sig-admin");
-          c.width = c.parentElement.getBoundingClientRect().width;
-        }, 100);
-      }
-      function tutupModalTtdAdmin() {
-        document
-          .getElementById("modal-ttd-admin")
-          .classList.replace("flex", "hidden");
+        const pengawasInput = document.getElementById("m_nama_pengawas");
+        const aPengawas = document.getElementById("a_nama_pengawas");
+        if (pengawasInput && aPengawas) pengawasInput.value = aPengawas.value;
+
+        const modal = document.getElementById("modal-ttd-admin");
+        if (modal) {
+          modal.classList.replace("hidden", "flex");
+          setTimeout(() => {
+            const c = document.getElementById("sig-admin");
+            if (c) c.width = c.parentElement.getBoundingClientRect().width;
+          }, 100);
+        }
       }
 
       function simpanVerifikasiAdmin() {
@@ -1147,10 +1301,9 @@
         if (!namaPengawas) return alert("Mohon isi Nama Pengawas.");
 
         const dateStr = document.getElementById("a_tanggal_pilih").value;
-        const db = getDB();
+        const db = getDB(STORAGE_KEY);
         const data = db[dateStr] || getTodayData(dateStr);
 
-        // Ekstrak data admin saat verifikasi
         data.rows = [];
         DEFAULT_ROWS.forEach((r, idx) => {
           const i = idx + 1;
@@ -1181,85 +1334,11 @@
         data.status = "verified";
 
         db[dateStr] = data;
-        saveDB(db);
+        saveDB(STORAGE_KEY, db);
 
         tutupModalTtdAdmin();
         loadDataAdmin();
         showNotif("Laporan berhasil DIVERIFIKASI!");
-      }
-
-      // Fix Placeholder Print
-      window.addEventListener("beforeprint", () => {
-        document.querySelectorAll(".print-name-input").forEach((input) => {
-          if (!input.value && input.placeholder) {
-            input.setAttribute("data-empty", "true");
-            input.value = `(${input.placeholder})`;
-          }
-        });
-      });
-      window.addEventListener("afterprint", () => {
-        document.querySelectorAll(".print-name-input").forEach((input) => {
-          if (input.getAttribute("data-empty") === "true") {
-            input.value = "";
-            input.removeAttribute("data-empty");
-          }
-        });
-      });
-
-      // Setup Signature Pad
-      function setupSignaturePad(canvasId) {
-        const canvas = document.getElementById(canvasId);
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
-        let isDrawing = false;
-        ctx.strokeStyle = "#000033";
-        ctx.lineWidth = 2.5;
-        ctx.lineJoin = "round";
-        ctx.lineCap = "round";
-        function getMousePos(e) {
-          const rect = canvas.getBoundingClientRect();
-          const scaleX = canvas.width / rect.width,
-            scaleY = canvas.height / rect.height;
-          let clientX = e.clientX,
-            clientY = e.clientY;
-          if (e.touches && e.touches.length > 0) {
-            clientX = e.touches[0].clientX;
-            clientY = e.touches[0].clientY;
-          }
-          return {
-            x: (clientX - rect.left) * scaleX,
-            y: (clientY - rect.top) * scaleY,
-          };
-        }
-        const start = (e) => {
-          e.preventDefault();
-          isDrawing = true;
-          const pos = getMousePos(e);
-          ctx.beginPath();
-          ctx.moveTo(pos.x, pos.y);
-        };
-        const draw = (e) => {
-          if (!isDrawing) return;
-          e.preventDefault();
-          const pos = getMousePos(e);
-          ctx.lineTo(pos.x, pos.y);
-          ctx.stroke();
-        };
-        const stop = (e) => {
-          e.preventDefault();
-          isDrawing = false;
-        };
-        canvas.addEventListener("mousedown", start);
-        canvas.addEventListener("mousemove", draw);
-        canvas.addEventListener("mouseup", stop);
-        canvas.addEventListener("mouseout", stop);
-        canvas.addEventListener("touchstart", start, { passive: false });
-        canvas.addEventListener("touchmove", draw, { passive: false });
-        canvas.addEventListener("touchend", stop);
-      }
-      function clearSig(canvasId) {
-        const canvas = document.getElementById(canvasId);
-        canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
       }
     </script>
   </body>
