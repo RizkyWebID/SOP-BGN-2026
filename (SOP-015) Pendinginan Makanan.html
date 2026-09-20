@@ -6,17 +6,15 @@
     <title>Sistem Laporan Pemantauan Resting Food</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* =================================================sh
- * SPPG - STYLE UMUM (SHARED STYLESHEET)
- * Berlaku untuk SOP 14, 18, 22, dan form sejenis
- * ================================================= */
+      /* =================================================
+       * SPPG - STYLE UMUM (SHARED STYLESHEET)
+       * ================================================= */
       body {
         font-family: Arial, sans-serif;
         background-color: #f3f4f6;
         font-size: 12px;
       }
 
-      /* Modal & Signature Pad */
       .modal-bg {
         background-color: rgba(0, 0, 0, 0.5);
       }
@@ -37,8 +35,8 @@
         body {
           background-color: white;
           font-family: Arial, sans-serif;
-          font-size: 12pt;
-          line-height: 1.25;
+          font-size: 11pt;
+          line-height: 1.2;
         }
         .no-print {
           display: none !important;
@@ -75,7 +73,7 @@
           color: black !important;
           padding: 0 !important;
           margin: 0 !important;
-          font-size: 12pt !important;
+          font-size: 9.5pt !important;
           font-family: Arial, sans-serif !important;
           text-align: center;
         }
@@ -91,17 +89,11 @@
 
         th,
         td {
-          padding: 3px 2px !important;
+          padding: 4px 2px !important;
           word-wrap: break-word;
-          font-size: 10pt !important;
+          font-size: 9pt !important;
           text-align: center;
-        }
-
-        .print-name-input {
-          border-bottom: 1px solid black !important;
-        }
-        .print-name-input::-webkit-input-placeholder {
-          color: #555 !important;
+          vertical-align: middle;
         }
 
         .print-signature-area {
@@ -113,52 +105,76 @@
           max-height: 50px;
           display: inline-block;
         }
-        .canvas-container {
-          display: none !important;
-        }
       }
     </style>
     <style>
-      /* --- STYLE KHUSUS SOP 22 --- */
+      /* ==========================================================
+       * STYLE KHUSUS SOP 22 (PRESISI LEBAR 13 KOLOM CETAK & PRINT)
+       * ========================================================== */
       @media print {
-        th:nth-child(1) {
-          width: 4%;
-        } /* No */
-        th:nth-child(2) {
-          width: 6%;
-        } /* Tahap */
-        th:nth-child(3) {
-          width: 10%;
-        } /* Jenis Menu */
-        th:nth-child(4) {
-          width: 14%;
-          text-align: left;
-        } /* Nama Menu */
-        th:nth-child(5) {
-          width: 7%;
-        } /* Jml Produksi */
-        th:nth-child(6),
-        th:nth-child(8) {
-          width: 6%;
-        } /* Pukul */
-        th:nth-child(7),
-        th:nth-child(9),
-        th:nth-child(10),
-        th:nth-child(11) {
-          width: 7%;
-        } /* Suhu & Durasi */
-        th:nth-child(12) {
-          width: 12%;
-          text-align: left;
-        } /* Keterangan */
-        th:nth-child(13) {
-          width: 7%;
-        } /* Paraf */
+        #admin-view table {
+          width: 100% !important;
+          table-layout: fixed !important;
+          border-collapse: collapse !important;
+        }
 
-        td:nth-child(4),
-        td:nth-child(12) {
+        #admin-view th,
+        #admin-view td {
+          padding: 3px 2px !important;
+          font-size: 8pt !important;
+          vertical-align: middle !important;
+          word-wrap: break-word !important;
+          overflow-wrap: break-word !important;
+          white-space: normal !important;
+        }
+
+        /* Pengaturan Lebar 13 Kolom Presisi (Total 100%) */
+        #admin-view td:nth-child(1) {
+          width: 1% !important;
+        } /* 1. No */
+        #admin-view td:nth-child(2) {
+          width: 4% !important;
+        } /* 2. Tahap */
+        #admin-view td:nth-child(3) {
+          width: 10% !important;
+        } /* 3. Jenis Menu */
+        #admin-view td:nth-child(4) {
+          width: 15% !important;
+          text-align: center !important;
+        } /* 4. Nama Menu */
+        #admin-view td:nth-child(5) {
+          width: 7% !important;
+        } /* 5. Jumlah Produksi */
+        #admin-view td:nth-child(6) {
+          width: 5.5% !important;
+        } /* 6. Mulai Pukul */
+        #admin-view td:nth-child(7) {
+          width: 6% !important;
+        } /* 7. Mulai Suhu */
+        #admin-view td:nth-child(8) {
+          width: 5.5% !important;
+        } /* 8. Selesai Pukul */
+        #admin-view td:nth-child(9) {
+          width: 6% !important;
+        } /* 9. Selesai Suhu */
+        #admin-view td:nth-child(10) {
+          width: 5.5% !important;
+        } /* 10. Total Durasi */
+        #admin-view td:nth-child(11) {
+          width: 5.5% !important;
+        } /* 11. Suhu Ruang */
+        #admin-view td:nth-child(12) {
+          width: 24% !important;
           text-align: left !important;
-          padding-left: 3px !important;
+          padding-left: 4px !important;
+        } /* 12. Keterangan */
+        #admin-view td:nth-child(13) {
+          width: 5% !important;
+        } /* 13. Paraf */
+
+        /* Input pada print disembunyikan karena diganti teks biasa */
+        #admin-view td input {
+          display: none !important;
         }
       }
     </style>
@@ -214,6 +230,7 @@
       <!-- USER VIEW (INPUT) -->
       <!-- ========================================== -->
       <div id="user-view" class="space-y-6 block">
+        <!-- INFORMASI UMUM -->
         <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h2 class="text-lg font-bold text-indigo-900 mb-4 border-b pb-2">
             Informasi Umum
@@ -274,106 +291,275 @@
           class="hidden p-4 rounded-lg font-bold text-center text-xs"
         ></div>
 
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 class="text-base font-bold text-indigo-900 mb-4 border-b pb-2">
-            Formulir Pemantauan Suhu & Durasi Resting
-          </h3>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- FORM INPUT PROSES RESTING -->
+          <div
+            class="lg:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-200"
+          >
+            <h3 class="text-base font-bold text-indigo-900 mb-4 border-b pb-2">
+              Input Proses Resting
+            </h3>
 
-          <div class="overflow-x-auto">
-            <table
-              class="w-full text-xs text-left border-collapse border border-gray-300"
+            <form
+              id="form-input-baris"
+              onsubmit="tambahBarisProses(event)"
+              class="space-y-3"
             >
-              <thead
-                class="bg-gray-100 text-gray-700 font-semibold text-center"
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-gray-600 mb-1"
+                    >Tahap</label
+                  >
+                  <select
+                    id="u_tahap"
+                    class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+                    required
+                  >
+                    <option value="T01">T01</option>
+                    <option value="T02">T02</option>
+                    <option value="T03">T03</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-gray-600 mb-1"
+                    >Jenis Menu</label
+                  >
+                  <select
+                    id="u_jenis"
+                    class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+                    required
+                  >
+                    <option value="Karbohidrat">Karbohidrat</option>
+                    <option value="Protein">Protein</option>
+                    <option value="Sayur">Sayur</option>
+                    <option value="Lainnya">Lainnya</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1"
+                  >Nama Menu / Olahan</label
+                >
+                <input
+                  type="text"
+                  id="u_nama"
+                  placeholder="Cth: Nasi Putih"
+                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+
+              <!-- Jml Produksi & Suhu Ruang Disejajarkan -->
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-gray-600 mb-1"
+                    >Jumlah Produksi</label
+                  >
+                  <input
+                    type="text"
+                    id="u_porsi_prod"
+                    placeholder="Cth: 50 kg"
+                    class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-gray-600 mb-1"
+                    >Suhu Ruang (°C)</label
+                  >
+                  <input
+                    type="number"
+                    step="0.1"
+                    id="u_suhu_ruang"
+                    placeholder="Cth: 28.5"
+                    class="w-full p-2 text-xs border border-gray-300 rounded"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div
+                class="grid grid-cols-2 gap-3 bg-amber-50 p-2 rounded border border-amber-200"
               >
-                <tr>
-                  <th rowspan="2" class="p-2 border border-gray-300 w-10">
-                    No
-                  </th>
-                  <th rowspan="2" class="p-2 border border-gray-300 w-16">
-                    Tahap
-                  </th>
-                  <th rowspan="2" class="p-2 border border-gray-300 w-28">
-                    Jenis Menu
-                  </th>
-                  <th rowspan="2" class="p-2 border border-gray-300">
-                    Nama Menu / Olahan
-                  </th>
-                  <th rowspan="2" class="p-2 border border-gray-300 w-20">
-                    Jumlah Produksi
-                  </th>
-                  <th
-                    colspan="2"
-                    class="p-2 border border-gray-300 bg-amber-50"
+                <div>
+                  <label class="block text-xs font-semibold text-amber-900 mb-1"
+                    >Mulai Pukul</label
                   >
-                    Mulai Resting
-                  </th>
-                  <th colspan="2" class="p-2 border border-gray-300 bg-blue-50">
-                    Selesai Resting
-                  </th>
-                  <th
-                    rowspan="2"
-                    class="p-2 border border-gray-300 w-20 bg-green-50"
+                  <input
+                    type="time"
+                    id="u_m_pukul"
+                    class="w-full p-1.5 text-xs border border-gray-300 rounded bg-white"
+                    required
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-amber-900 mb-1"
+                    >Suhu Mulai (°C)</label
                   >
-                    Total Durasi Resting (menit)
-                  </th>
-                  <th rowspan="2" class="p-2 border border-gray-300 w-16">
-                    Suhu Ruang (°C)
-                  </th>
-                  <th rowspan="2" class="p-2 border border-gray-300">
-                    Keterangan / Tindakan Koreksi
-                  </th>
-                  <th rowspan="2" class="p-2 border border-gray-300 w-16">
-                    Paraf
-                  </th>
-                </tr>
-                <tr>
-                  <th class="p-2 border border-gray-300 bg-amber-50 w-16">
-                    Pukul
-                  </th>
-                  <th class="p-2 border border-gray-300 bg-amber-50 w-20">
-                    Suhu (°C)
-                  </th>
-                  <th class="p-2 border border-gray-300 bg-blue-50 w-16">
-                    Pukul
-                  </th>
-                  <th class="p-2 border border-gray-300 bg-blue-50 w-20">
-                    Suhu (°C)
-                  </th>
-                </tr>
-              </thead>
-              <tbody id="u_table_body">
-                <!-- Rows Generated via JS -->
-              </tbody>
-            </table>
+                  <input
+                    type="number"
+                    step="0.1"
+                    id="u_m_suhu"
+                    placeholder="Cth: 85.0"
+                    class="w-full p-1.5 text-xs border border-gray-300 rounded bg-white"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div
+                class="grid grid-cols-2 gap-3 bg-blue-50 p-2 rounded border border-blue-200"
+              >
+                <div>
+                  <label class="block text-xs font-semibold text-blue-900 mb-1"
+                    >Selesai Pukul</label
+                  >
+                  <input
+                    type="time"
+                    id="u_s_pukul"
+                    class="w-full p-1.5 text-xs border border-gray-300 rounded bg-white"
+                    required
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-blue-900 mb-1"
+                    >Suhu Selesai (°C)</label
+                  >
+                  <input
+                    type="number"
+                    step="0.1"
+                    id="u_s_suhu"
+                    placeholder="Cth: 65.0"
+                    class="w-full p-1.5 text-xs border border-gray-300 rounded bg-white"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1"
+                  >Keterangan / Koreksi</label
+                >
+                <input
+                  type="text"
+                  id="u_ket"
+                  placeholder="Opsional"
+                  class="w-full p-2 text-xs border border-gray-300 rounded"
+                />
+              </div>
+
+              <button
+                type="submit"
+                id="btn-tambah-proses"
+                class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded transition shadow"
+              >
+                + Tambah Ke Daftar Proses
+              </button>
+            </form>
           </div>
 
-          <div class="mt-4 text-xs text-gray-800 leading-relaxed text-justify">
-            <strong>Petunjuk pengisian:</strong> Catat setiap tahap pengolahan
-            secara terpisah. Satu baris = satu komponen menu dalam satu tahap.
-            Suhu dicatat menggunakan termometer probe yang telah dikalibrasi.
-            "Waktu mulai resting" adalah saat makanan selesai dimasak dan
-            dipindahkan ke wadah resting; "waktu selesai resting" adalah saat
-            komponen siap dilakukan pemorsian.
-          </div>
+          <!-- TABEL HASIL INPUT USER -->
+          <div
+            class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col justify-between"
+          >
+            <div>
+              <h3
+                class="text-base font-bold text-indigo-900 mb-4 border-b pb-2"
+              >
+                Daftar Pemantauan Resting Food Hari Ini
+              </h3>
+              <div class="overflow-x-auto">
+                <table
+                  class="w-full text-xs text-left border-collapse border border-gray-300"
+                >
+                  <thead
+                    class="bg-gray-100 text-gray-700 font-semibold text-center"
+                  >
+                    <tr>
+                      <th rowspan="2" class="p-2 border border-gray-300 w-8">
+                        No
+                      </th>
+                      <th rowspan="2" class="p-2 border border-gray-300">
+                        Tahap
+                      </th>
+                      <th rowspan="2" class="p-2 border border-gray-300">
+                        Jenis
+                      </th>
+                      <th rowspan="2" class="p-2 border border-gray-300">
+                        Nama Menu
+                      </th>
+                      <th rowspan="2" class="p-2 border border-gray-300">
+                        Jumlah
+                      </th>
+                      <th
+                        colspan="2"
+                        class="p-2 border border-gray-300 bg-amber-50"
+                      >
+                        Mulai Resting
+                      </th>
+                      <th
+                        colspan="2"
+                        class="p-2 border border-gray-300 bg-blue-50"
+                      >
+                        Selesai Resting
+                      </th>
+                      <th
+                        rowspan="2"
+                        class="p-2 border border-gray-300 bg-green-50"
+                      >
+                        Durasi (m)
+                      </th>
+                      <th rowspan="2" class="p-2 border border-gray-300">
+                        Suhu R.
+                      </th>
+                      <th rowspan="2" class="p-2 border border-gray-300">
+                        Ket
+                      </th>
+                      <th rowspan="2" class="p-2 border border-gray-300 w-12">
+                        Aksi
+                      </th>
+                    </tr>
+                    <tr>
+                      <th class="p-1 border border-gray-300 bg-amber-50">
+                        Pukul
+                      </th>
+                      <th class="p-1 border border-gray-300 bg-amber-50">
+                        Suhu
+                      </th>
+                      <th class="p-1 border border-gray-300 bg-blue-50">
+                        Pukul
+                      </th>
+                      <th class="p-1 border border-gray-300 bg-blue-50">
+                        Suhu
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="u_table_body">
+                    <!-- Dynamic Rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
-          <div class="mt-6 flex gap-4 justify-end border-t pt-4">
-            <button
-              type="button"
-              onclick="simpanDraftGlobal()"
-              id="btn-draft"
-              class="px-5 py-2 bg-amber-500 text-white font-bold text-xs rounded hover:bg-amber-600 transition"
-            >
-              Simpan Draft Sementara
-            </button>
-            <button
-              type="button"
-              onclick="bukaModalTtdUser()"
-              id="btn-final"
-              class="px-5 py-2 bg-green-600 text-white font-bold text-xs rounded hover:bg-green-700 transition shadow-md"
-            >
-              Simpan & Selesai (Final)
-            </button>
+            <div class="mt-6 flex gap-4 justify-end border-t pt-4">
+              <button
+                type="button"
+                onclick="simpanDraftGlobal()"
+                id="btn-draft"
+                class="px-5 py-2 bg-amber-500 text-white font-bold text-xs rounded hover:bg-amber-600 transition"
+              >
+                Simpan Draft Sementara
+              </button>
+              <button
+                type="button"
+                onclick="bukaModalTtdUser()"
+                id="btn-final"
+                class="px-5 py-2 bg-green-600 text-white font-bold text-xs rounded hover:bg-green-700 transition shadow-md"
+              >
+                Simpan & Selesai (Final)
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -485,11 +671,10 @@
           </div>
         </div>
 
-        <!-- BINGKAI INFORMASI UMUM SERAGAM (Hasil Revisi) -->
+        <!-- BINGKAI INFORMASI UMUM -->
         <div
           class="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 border-2 border-black mb-3 text-xs print:text-[10pt] font-semibold"
         >
-          <!-- Kolom Kiri -->
           <div
             class="flex flex-col border-b-2 border-black sm:border-b-0 sm:border-r-2 print:border-b-0 print:border-r-2"
           >
@@ -503,51 +688,71 @@
                 <span id="a_tanggal_txt" class="w-full"></span>
               </div>
             </div>
-
             <div class="flex h-7">
               <label
                 class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
                 >Shift Kerja</label
               >
-              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center relative">
                 <span class="mr-1">:</span>
+                <div
+                  id="print_a_shift"
+                  class="hidden print:block w-full font-bold ml-1"
+                ></div>
                 <input
                   type="text"
                   id="a_shift"
-                  class="w-full bg-transparent font-bold outline-none print:appearance-none"
+                  oninput="
+                    document.getElementById('print_a_shift').innerText =
+                      this.value
+                  "
+                  class="w-full bg-transparent font-bold outline-none print:hidden ml-1"
                 />
               </div>
             </div>
           </div>
-
-          <!-- Kolom Kanan -->
           <div class="flex flex-col">
             <div class="flex border-b border-black h-7">
               <label
                 class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
                 >Menu Hari Ini</label
               >
-              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center relative">
                 <span class="mr-1">:</span>
+                <div
+                  id="print_a_menu"
+                  class="hidden print:block w-full font-bold ml-1"
+                ></div>
                 <input
                   type="text"
                   id="a_menu"
-                  class="w-full bg-transparent font-bold outline-none print:appearance-none"
+                  oninput="
+                    document.getElementById('print_a_menu').innerText =
+                      this.value
+                  "
+                  class="w-full bg-transparent font-bold outline-none print:hidden ml-1"
                 />
               </div>
             </div>
-
             <div class="flex h-7">
               <label
                 class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
                 >Jumlah Porsi</label
               >
-              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center relative">
                 <span class="mr-1">:</span>
+                <div
+                  id="print_a_porsi"
+                  class="hidden print:block w-full font-bold ml-1"
+                ></div>
                 <input
                   type="number"
                   id="a_porsi"
-                  class="w-full bg-transparent font-bold outline-none print:appearance-none"
+                  oninput="
+                    document.getElementById('print_a_porsi').innerText =
+                      this.value
+                  "
+                  class="w-full bg-transparent font-bold outline-none print:hidden ml-1"
                 />
               </div>
             </div>
@@ -563,12 +768,14 @@
               <tr>
                 <th rowspan="2" class="border border-black p-1">No.</th>
                 <th rowspan="2" class="border border-black p-1">Tahap</th>
-                <th rowspan="2" class="border border-black p-1">Jenis Menu</th>
                 <th rowspan="2" class="border border-black p-1">
-                  Nama Menu / Olahan
+                  Jenis<br />Menu
                 </th>
                 <th rowspan="2" class="border border-black p-1">
-                  Jumlah Produksi
+                  Nama Menu<br />Olahan
+                </th>
+                <th rowspan="2" class="border border-black p-1">
+                  Jumlah<br />Produksi
                 </th>
                 <th colspan="2" class="border border-black p-1">
                   Mulai Resting
@@ -577,14 +784,12 @@
                   Selesai Resting
                 </th>
                 <th rowspan="2" class="border border-black p-1">
-                  Total Durasi (menit)
+                  Total<br />Durasi<br />(menit)
                 </th>
                 <th rowspan="2" class="border border-black p-1">
-                  Suhu Ruang (°C)
+                  Suhu<br />Ruang<br />(°C)
                 </th>
-                <th rowspan="2" class="border border-black p-1">
-                  Keterangan / Koreksi
-                </th>
+                <th rowspan="2" class="border border-black p-1">Ket</th>
                 <th rowspan="2" class="border border-black p-1">Paraf</th>
               </tr>
               <tr>
@@ -600,27 +805,23 @@
           </table>
         </div>
 
-        <!-- AREA CATATAN / KETERANGAN SERAGAM -->
-        <div class="text-[10px] print:text-[7pt] text-justify leading-tight">
+        <!-- AREA KETERANGAN -->
+        <div
+          class="text-[10px] print:text-[7pt] text-justify leading-tight mb-4"
+        >
           <span class="font-bold underline">Keterangan:</span>
-          <span id="teks_keterangan">
-            Catat setiap tahap pengolahan secara terpisah. Satu baris = satu
+          <span
+            >Catat setiap tahap pengolahan secara terpisah. Satu baris = satu
             komponen menu dalam satu tahap. Suhu dicatat menggunakan termometer
-            probe yang telah dikalibrasi. "Waktu mulai resting" adalah saat
-            makanan selesai dimasak dan dipindahkan ke wadah resting; "waktu
-            selesai resting" adalah saat omponen siap dilakukan pemorsian.
-          </span>
+            probe yang telah dikalibrasi.</span
+          >
         </div>
 
-        <!-- AREA TANDA TANGAN SERAGAM (Fix Rata Atas & Bawah Mutlak) -->
+        <!-- AREA TANDA TANGAN -->
         <div
           class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
         >
-          <!-- Kolom 1: Jurutama Masak -->
-          <!-- h-32 (128px) adalah tinggi fix/kunci untuk semua kolom -->
           <div class="relative w-full h-32">
-            <!-- Layer Teks Jabatan (Dipaku di atas) -->
-            <!-- pointer-events-none agar klik mouse tembus ke area tanda tangan jika teks menimpanya -->
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
             >
@@ -629,27 +830,30 @@
                 Jurutama Masak SPPG,
               </p>
             </div>
-
-            <!-- Layer Gambar Tanda Tangan (Dipaku di tengah, ukuran terkunci) -->
             <div
               class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
               id="a_render_sig_user"
             ></div>
-
-            <!-- Layer Input Nama (Dipaku di bawah) -->
             <div
               class="absolute bottom-0 left-0 w-full flex justify-center z-20"
             >
+              <div
+                id="print_a_nama_jurutama"
+                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+              ></div>
               <input
                 type="text"
                 id="a_nama_jurutama"
                 placeholder="Nama Jurutama Masak"
-                class="w-[95%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:border-black print:appearance-none text-[10px] print:text-[8pt]"
+                oninput="
+                  document.getElementById('print_a_nama_jurutama').innerText =
+                    this.value
+                "
+                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
               />
             </div>
           </div>
 
-          <!-- Kolom 2: Ahli Gizi / Pengawas -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -657,25 +861,30 @@
               <p class="font-bold leading-tight">Diverifikasi & Diawasi Oleh</p>
               <p class="font-bold leading-tight break-words">Ahli Gizi SPPG,</p>
             </div>
-
             <div
               class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
               id="a_render_sig_admin"
             ></div>
-
             <div
               class="absolute bottom-0 left-0 w-full flex justify-center z-20"
             >
+              <div
+                id="print_a_nama_pengawas"
+                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+              ></div>
               <input
                 type="text"
                 id="a_nama_pengawas"
                 placeholder="Nama Ahli Gizi"
-                class="w-[95%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:border-black print:appearance-none text-[10px] print:text-[8pt]"
+                oninput="
+                  document.getElementById('print_a_nama_pengawas').innerText =
+                    this.value
+                "
+                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
               />
             </div>
           </div>
 
-          <!-- Kolom 3: Kepala SPPG -->
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -688,20 +897,26 @@
                 Kepala SPPG Kota Pekanbaru Binawidya Tobekgodang,
               </p>
             </div>
-
             <div
               class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
               id="a_render_sig_mengetahui"
             ></div>
-
             <div
               class="absolute bottom-0 left-0 w-full flex justify-center z-20"
             >
+              <div
+                id="print_a_nama_kepala"
+                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+              ></div>
               <input
                 type="text"
                 id="a_nama_kepala"
                 placeholder="Rizky Arinanda. AR, S.Kom"
-                class="w-[95%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:border-black print:appearance-none text-[10px] print:text-[8pt]"
+                oninput="
+                  document.getElementById('print_a_nama_kepala').innerText =
+                    this.value
+                "
+                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
               />
             </div>
           </div>
@@ -722,7 +937,6 @@
           Mohon berikan tanda tangan Anda (Jurutama Masak) untuk mengunci
           laporan hari ini.
         </p>
-
         <div class="mb-4">
           <label class="block text-xs font-semibold text-gray-600 mb-1"
             >Nama Jurutama Masak</label
@@ -735,7 +949,6 @@
             required
           />
         </div>
-
         <div class="relative mb-4 bg-gray-50 border border-gray-300 rounded">
           <canvas
             id="sig-user"
@@ -751,7 +964,6 @@
             Hapus
           </button>
         </div>
-
         <div class="flex justify-end gap-3">
           <button
             type="button"
@@ -781,10 +993,8 @@
           Verifikasi Laporan Admin
         </h3>
         <p class="text-xs text-gray-600 mb-4">
-          Mohon berikan tanda tangan Anda sebagai bukti verifikasi. Laporan yang
-          diverifikasi akan dikunci dan siap dicetak.
+          Mohon berikan tanda tangan Anda sebagai bukti verifikasi.
         </p>
-
         <div class="mb-4">
           <label class="block text-xs font-semibold text-gray-600 mb-1"
             >Nama Pengawas / Ahli Gizi</label
@@ -797,7 +1007,6 @@
             required
           />
         </div>
-
         <div class="relative mb-4 bg-gray-50 border border-gray-300 rounded">
           <canvas
             id="sig-admin"
@@ -813,7 +1022,6 @@
             Hapus
           </button>
         </div>
-
         <div class="flex justify-end gap-3">
           <button
             type="button"
@@ -833,13 +1041,8 @@
       </div>
     </div>
 
+    <!-- SCRIPT UTAMA -->
     <script>
-      // ==========================================
-      // SPPG - SHARED SCRIPT (sop-shared.js)
-      // Berlaku untuk SOP 14, 18, dan 22
-      // ==========================================
-
-      // 1. Notifikasi Global
       function showNotif(msg, type = "success") {
         const notif = document.getElementById("global-notif");
         if (!notif) return;
@@ -850,7 +1053,6 @@
         }, 3000);
       }
 
-      // 2. Tab Switching (Mode User & Mode Admin)
       function switchTab(tab) {
         const vUser = document.getElementById("user-view");
         const vAdmin = document.getElementById("admin-view");
@@ -873,14 +1075,11 @@
 
           const uTanggal = document.getElementById("u_tanggal");
           const aTanggalPilih = document.getElementById("a_tanggal_pilih");
-          if (uTanggal && aTanggalPilih) {
-            aTanggalPilih.value = uTanggal.value;
-          }
+          if (uTanggal && aTanggalPilih) aTanggalPilih.value = uTanggal.value;
           if (typeof loadDataAdmin === "function") loadDataAdmin();
         }
       }
 
-      // 3. Helper Database LocalStorage Dinamis
       function getDB(storageKey) {
         let data = localStorage.getItem(storageKey);
         return data ? JSON.parse(data) : {};
@@ -890,7 +1089,6 @@
         localStorage.setItem(storageKey, JSON.stringify(dataObj));
       }
 
-      // 4. Signature Pad Handler (Tanda Tangan Digital)
       function setupSignaturePad(canvasId) {
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
@@ -947,84 +1145,38 @@
 
       function clearSig(canvasId) {
         const canvas = document.getElementById(canvasId);
-        if (canvas) {
+        if (canvas)
           canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-        }
       }
 
-      // 5. Modal Tanda Tangan Toggles
       function tutupModalTtd() {
-        const modal = document.getElementById("modal-ttd");
-        if (modal) modal.classList.replace("flex", "hidden");
+        document
+          .getElementById("modal-ttd")
+          ?.classList.replace("flex", "hidden");
       }
-
       function tutupModalTtdAdmin() {
-        const modal = document.getElementById("modal-ttd-admin");
-        if (modal) modal.classList.replace("flex", "hidden");
+        document
+          .getElementById("modal-ttd-admin")
+          ?.classList.replace("flex", "hidden");
       }
     </script>
 
     <script>
-      // ==========================================
-      // SOP 22 - SCRIPT KHUSUS (sop22.js)
-      // ==========================================
-
       let currentDate = new Date().toISOString().split("T")[0];
+      let currentRows = [];
       const STORAGE_KEY = "db_sop_22";
-
-      const DEFAULT_ROWS = [
-        { no: 1, tahap: "T01", jenis: "Karbohidrat" },
-        { no: 2, tahap: "T01", jenis: "Protein" },
-        { no: 3, tahap: "T01", jenis: "Sayur" },
-        { no: 4, tahap: "T02", jenis: "Karbohidrat" },
-        { no: 5, tahap: "T02", jenis: "Protein" },
-        { no: 6, tahap: "T02", jenis: "Sayur" },
-        { no: 7, tahap: "T03", jenis: "Karbohidrat" },
-        { no: 8, tahap: "T03", jenis: "Protein" },
-        { no: 9, tahap: "T03", jenis: "Sayur" },
-      ];
+      const MIN_ROWS = 10;
 
       window.onload = () => {
         document.getElementById("u_tanggal").value = currentDate;
         document.getElementById("a_tanggal_pilih").value = currentDate;
 
-        generateUserTable();
         setupSignaturePad("sig-user");
         setupSignaturePad("sig-admin");
-
         loadDataForDate();
       };
 
-      function generateUserTable() {
-        const tbody = document.getElementById("u_table_body");
-        if (!tbody) return;
-        tbody.innerHTML = "";
-
-        DEFAULT_ROWS.forEach((r, idx) => {
-          const i = idx + 1;
-          tbody.innerHTML += `
-    <tr class="hover:bg-gray-50 border-b border-gray-200">
-      <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${r.no}</td>
-      <td class="p-1 border border-gray-300"><input type="text" id="u_tahap_${i}" value="${r.tahap}" class="w-full text-center font-bold border rounded p-1"></td>
-      <td class="p-1 border border-gray-300"><input type="text" id="u_jenis_${i}" value="${r.jenis}" class="w-full text-center font-medium border rounded p-1"></td>
-      <td class="p-1 border border-gray-300"><input type="text" id="u_nama_${i}" placeholder="Cth: Nasi Putih" class="w-full border rounded p-1"></td>
-      <td class="p-1 border border-gray-300"><input type="text" id="u_porsi_prod_${i}" placeholder="Cth: 50 kg" class="w-full text-center border rounded p-1"></td>
-      <td class="p-1 border border-gray-300 bg-amber-50"><input type="time" id="u_m_pukul_${i}" onchange="hitungDurasi(${i})" class="w-full text-center border rounded p-1"></td>
-      <td class="p-1 border border-gray-300 bg-amber-50"><input type="number" step="0.1" id="u_m_suhu_${i}" placeholder="°C" class="w-full text-center border rounded p-1"></td>
-      <td class="p-1 border border-gray-300 bg-blue-50"><input type="time" id="u_s_pukul_${i}" onchange="hitungDurasi(${i})" class="w-full text-center border rounded p-1"></td>
-      <td class="p-1 border border-gray-300 bg-blue-50"><input type="number" step="0.1" id="u_s_suhu_${i}" placeholder="°C" class="w-full text-center border rounded p-1"></td>
-      <td class="p-1 border border-gray-300 bg-green-50"><input type="number" id="u_durasi_${i}" class="w-full text-center font-bold text-green-700 bg-transparent p-1" placeholder="0"></td>
-      <td class="p-1 border border-gray-300"><input type="number" step="0.1" id="u_suhu_ruang_${i}" placeholder="°C" class="w-full text-center border rounded p-1"></td>
-      <td class="p-1 border border-gray-300"><input type="text" id="u_ket_${i}" placeholder="Opsional" class="w-full border rounded p-1"></td>
-      <td class="p-1 border border-gray-300"><input type="text" id="u_paraf_${i}" placeholder="Paraf" class="w-full text-center border rounded p-1"></td>
-    </tr>`;
-        });
-      }
-
-      function hitungDurasi(i) {
-        const tMulai = document.getElementById(`u_m_pukul_${i}`).value;
-        const tSelesai = document.getElementById(`u_s_pukul_${i}`).value;
-
+      function hitungDurasi(tMulai, tSelesai) {
         if (tMulai && tSelesai) {
           const [h1, m1] = tMulai.split(":").map(Number);
           const [h2, m2] = tSelesai.split(":").map(Number);
@@ -1032,15 +1184,15 @@
           let date1 = new Date(2000, 0, 1, h1, m1);
           let date2 = new Date(2000, 0, 1, h2, m2);
 
+          // Jika jam selesai lebih kecil dari jam mulai, asumsikan melewati tengah malam (+1 hari)
           if (date2 < date1) {
             date2.setDate(date2.getDate() + 1);
           }
 
-          const diffMs = date2 - date1;
-          const diffMins = Math.round(diffMs / 60000);
-          document.getElementById(`u_durasi_${i}`).value =
-            diffMins >= 0 ? diffMins : 0;
+          const diffMins = Math.round((date2 - date1) / 60000);
+          return diffMins >= 0 ? diffMins : 0;
         }
+        return 0;
       }
 
       function getTodayData(date) {
@@ -1053,6 +1205,7 @@
             status: "draft",
             rows: [],
             ttd_user: null,
+            ttd_admin: null,
           };
         }
         return db[date];
@@ -1066,40 +1219,93 @@
         document.getElementById("u_menu").value = data.menu || "";
         document.getElementById("u_porsi").value = data.porsi || "";
 
-        DEFAULT_ROWS.forEach((r, idx) => {
-          const i = idx + 1;
-          const rowData = data.rows[idx] || {};
-
-          document.getElementById(`u_tahap_${i}`).value =
-            rowData.tahap || r.tahap;
-          document.getElementById(`u_jenis_${i}`).value =
-            rowData.jenis || r.jenis;
-          document.getElementById(`u_nama_${i}`).value = rowData.nama || "";
-          document.getElementById(`u_porsi_prod_${i}`).value =
-            rowData.porsi_prod || "";
-          document.getElementById(`u_m_pukul_${i}`).value =
-            rowData.m_pukul || "";
-          document.getElementById(`u_m_suhu_${i}`).value = rowData.m_suhu || "";
-          document.getElementById(`u_s_pukul_${i}`).value =
-            rowData.s_pukul || "";
-          document.getElementById(`u_s_suhu_${i}`).value = rowData.s_suhu || "";
-          document.getElementById(`u_durasi_${i}`).value = rowData.durasi || "";
-          document.getElementById(`u_suhu_ruang_${i}`).value =
-            rowData.suhu_ruang || "";
-          document.getElementById(`u_ket_${i}`).value = rowData.ket || "";
-          document.getElementById(`u_paraf_${i}`).value = rowData.paraf || "";
-        });
-
+        currentRows = data.rows || [];
+        renderUserTable();
         checkFormLockStatus(data);
+      }
+
+      function renderUserTable() {
+        const tbody = document.getElementById("u_table_body");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        if (currentRows.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="13" class="p-4 text-center text-gray-400 italic">Belum ada proses resting yang dicatat hari ini.</td></tr>`;
+          return;
+        }
+
+        currentRows.forEach((r, idx) => {
+          tbody.innerHTML += `
+            <tr class="hover:bg-gray-50 border-b border-gray-200">
+              <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
+              <td class="p-2 border border-gray-300 text-center font-bold">${r.tahap || ""}</td>
+              <td class="p-2 border border-gray-300 text-center">${r.jenis || ""}</td>
+              <td class="p-2 border border-gray-300 text-center">${r.nama || ""}</td>
+              <td class="p-2 border border-gray-300 text-center">${r.porsi_prod || ""}</td>
+              <td class="p-2 border border-gray-300 text-center">${r.m_pukul || ""}</td>
+              <td class="p-2 border border-gray-300 text-center">${r.m_suhu || ""}°C</td>
+              <td class="p-2 border border-gray-300 text-center">${r.s_pukul || ""}</td>
+              <td class="p-2 border border-gray-300 text-center">${r.s_suhu || ""}°C</td>
+              <td class="p-2 border border-gray-300 text-center font-bold text-green-700">${r.durasi || "0"}</td>
+              <td class="p-2 border border-gray-300 text-center">${r.suhu_ruang || "-"}°C</td>
+              <td class="p-2 border border-gray-300 text-left pl-2">${r.ket || "-"}</td>
+              <td class="p-2 border border-gray-300 text-center">
+                <button type="button" onclick="hapusBarisProses(${idx})" class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
+              </td>
+            </tr>`;
+        });
+      }
+
+      function tambahBarisProses(e) {
+        e.preventDefault();
+        const data = getTodayData(currentDate);
+        if (data.status === "final" || data.status === "verified")
+          return showNotif("Laporan sudah terkunci!", "error");
+
+        const mPukul = document.getElementById("u_m_pukul").value;
+        const sPukul = document.getElementById("u_s_pukul").value;
+        const durasiHitung = hitungDurasi(mPukul, sPukul);
+
+        const newRow = {
+          tahap: document.getElementById("u_tahap").value,
+          jenis: document.getElementById("u_jenis").value,
+          nama: document.getElementById("u_nama").value,
+          porsi_prod: document.getElementById("u_porsi_prod").value,
+          m_pukul: mPukul,
+          m_suhu: document.getElementById("u_m_suhu").value,
+          s_pukul: sPukul,
+          s_suhu: document.getElementById("u_s_suhu").value,
+          durasi: durasiHitung,
+          suhu_ruang: document.getElementById("u_suhu_ruang").value,
+          ket: document.getElementById("u_ket").value,
+          paraf: "",
+        };
+
+        currentRows.push(newRow);
+        renderUserTable();
+        document.getElementById("form-input-baris").reset();
+        showNotif("Data resting berhasil ditambahkan.");
+      }
+
+      function hapusBarisProses(index) {
+        const data = getTodayData(currentDate);
+        if (data.status === "final" || data.status === "verified")
+          return showNotif("Laporan sudah terkunci!", "error");
+
+        currentRows.splice(index, 1);
+        renderUserTable();
+        showNotif("Baris proses berhasil dihapus.");
       }
 
       function checkFormLockStatus(data) {
         const banner = document.getElementById("status-banner");
         const formInputs = document.querySelectorAll(
-          "#user-view input:not(#u_tanggal), #user-view select",
+          "#user-view input:not(#u_tanggal), #user-view select, #btn-tambah-proses",
         );
         const btnDraft = document.getElementById("btn-draft");
         const btnFinal = document.getElementById("btn-final");
+
+        if (!banner) return;
 
         if (data.status === "verified") {
           banner.textContent =
@@ -1107,58 +1313,34 @@
           banner.className =
             "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
           formInputs.forEach((el) => (el.disabled = true));
-          btnDraft.classList.add("hidden");
-          btnFinal.classList.add("hidden");
+          btnDraft?.classList.add("hidden");
+          btnFinal?.classList.add("hidden");
         } else if (data.status === "final") {
           banner.textContent =
             "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI PENGAWAS)";
           banner.className =
             "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
           formInputs.forEach((el) => (el.disabled = true));
-          btnDraft.classList.add("hidden");
-          btnFinal.classList.add("hidden");
+          btnDraft?.classList.add("hidden");
+          btnFinal?.classList.add("hidden");
         } else {
           banner.classList.replace("block", "hidden");
           formInputs.forEach((el) => (el.disabled = false));
-          btnDraft.classList.remove("hidden");
-          btnFinal.classList.remove("hidden");
+          btnDraft?.classList.remove("hidden");
+          btnFinal?.classList.remove("hidden");
         }
-      }
-
-      function extractTableData() {
-        let rows = [];
-        DEFAULT_ROWS.forEach((r, idx) => {
-          const i = idx + 1;
-          rows.push({
-            no: r.no,
-            tahap: document.getElementById(`u_tahap_${i}`).value,
-            jenis: document.getElementById(`u_jenis_${i}`).value,
-            nama: document.getElementById(`u_nama_${i}`).value,
-            porsi_prod: document.getElementById(`u_porsi_prod_${i}`).value,
-            m_pukul: document.getElementById(`u_m_pukul_${i}`).value,
-            m_suhu: document.getElementById(`u_m_suhu_${i}`).value,
-            s_pukul: document.getElementById(`u_s_pukul_${i}`).value,
-            s_suhu: document.getElementById(`u_s_suhu_${i}`).value,
-            durasi: document.getElementById(`u_durasi_${i}`).value,
-            suhu_ruang: document.getElementById(`u_suhu_ruang_${i}`).value,
-            ket: document.getElementById(`u_ket_${i}`).value,
-            paraf: document.getElementById(`u_paraf_${i}`).value,
-          });
-        });
-        return rows;
       }
 
       function simpanDraftGlobal() {
         const db = getDB(STORAGE_KEY);
         const data = getTodayData(currentDate);
-
         if (data.status === "final" || data.status === "verified")
           return showNotif("Laporan sudah terkunci!", "error");
 
         data.shift = document.getElementById("u_shift").value;
         data.menu = document.getElementById("u_menu").value;
         data.porsi = document.getElementById("u_porsi").value;
-        data.rows = extractTableData();
+        data.rows = currentRows;
 
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
@@ -1200,13 +1382,10 @@
         let dateFormated = "";
         if (dateStr) {
           const [yyyy, mm, dd] = dateStr.split("-");
-          const dateObj = new Date(yyyy, mm - 1, dd);
-          dateFormated = dateObj.toLocaleDateString("id-ID", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          });
+          dateFormated = new Date(yyyy, mm - 1, dd).toLocaleDateString(
+            "id-ID",
+            { weekday: "long", year: "numeric", month: "long", day: "numeric" },
+          );
         }
         document.getElementById("a_tanggal_txt").textContent = dateFormated;
 
@@ -1217,49 +1396,114 @@
           status: "draft",
           rows: [],
           ttd_user: null,
+          ttd_admin: null,
         };
 
+        // Memuat Value ke Input Sekaligus ke Element Teks Print
         document.getElementById("a_shift").value = data.shift || "";
+        document.getElementById("print_a_shift").innerText = data.shift || "";
+
         document.getElementById("a_menu").value = data.menu || "";
+        document.getElementById("print_a_menu").innerText = data.menu || "";
+
         document.getElementById("a_porsi").value = data.porsi || "";
+        document.getElementById("print_a_porsi").innerText = data.porsi || "";
+
         document.getElementById("a_nama_jurutama").value =
           data.nama_jurutama || "";
+        const printJurutama = document.getElementById("print_a_nama_jurutama");
+        if (printJurutama) printJurutama.innerText = data.nama_jurutama || "";
+
         document.getElementById("a_nama_pengawas").value =
           data.nama_pengawas || "";
-        document.getElementById("a_nama_kepala").value = data.nama_kepala || "";
+        const printPengawas = document.getElementById("print_a_nama_pengawas");
+        if (printPengawas) printPengawas.innerText = data.nama_pengawas || "";
 
+        document.getElementById("a_nama_kepala").value = data.nama_kepala || "";
+        const printKepala = document.getElementById("print_a_nama_kepala");
+        if (printKepala) printKepala.innerText = data.nama_kepala || "";
+
+        const rowCount = Math.max(MIN_ROWS, data.rows.length);
         const tbody = document.getElementById("a_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
 
-        DEFAULT_ROWS.forEach((r, idx) => {
-          const i = idx + 1;
-          const rowData = data.rows[idx] || {};
+        // Render tabel Admin menggunakan metode Dual-Element (Div Print + Input Edit)
+        for (let i = 1; i <= rowCount; i++) {
+          const r = data.rows[i - 1] || {
+            tahap: "",
+            jenis: "",
+            nama: "",
+            porsi_prod: "",
+            m_pukul: "",
+            m_suhu: "",
+            s_pukul: "",
+            s_suhu: "",
+            durasi: "",
+            suhu_ruang: "",
+            ket: "",
+            paraf: "",
+          };
 
           tbody.innerHTML += `
-    <tr>
-      <td class="border border-black p-1 font-bold">${r.no}</td>
-      <td class="border border-black p-0"><input type="text" id="a_tahap_${i}" value="${rowData.tahap || r.tahap}" class="w-full text-center font-bold bg-transparent"></td>
-      <td class="border border-black p-0"><input type="text" id="a_jenis_${i}" value="${rowData.jenis || r.jenis}" class="w-full text-center bg-transparent"></td>
-      <td class="border border-black p-0"><input type="text" id="a_nama_${i}" value="${rowData.nama || ""}" class="w-full bg-transparent px-1"></td>
-      <td class="border border-black p-0"><input type="text" id="a_porsi_prod_${i}" value="${rowData.porsi_prod || ""}" class="w-full text-center bg-transparent"></td>
-      <td class="border border-black p-0"><input type="text" id="a_m_pukul_${i}" value="${rowData.m_pukul || ""}" class="w-full text-center bg-transparent"></td>
-      <td class="border border-black p-0"><input type="text" id="a_m_suhu_${i}" value="${rowData.m_suhu || ""}" class="w-full text-center bg-transparent"></td>
-      <td class="border border-black p-0"><input type="text" id="a_s_pukul_${i}" value="${rowData.s_pukul || ""}" class="w-full text-center bg-transparent"></td>
-      <td class="border border-black p-0"><input type="text" id="a_s_suhu_${i}" value="${rowData.s_suhu || ""}" class="w-full text-center bg-transparent"></td>
-      <td class="border border-black p-0 font-bold"><input type="text" id="a_durasi_${i}" value="${rowData.durasi || ""}" class="w-full text-center bg-transparent"></td>
-      <td class="border border-black p-0"><input type="text" id="a_suhu_ruang_${i}" value="${rowData.suhu_ruang || ""}" class="w-full text-center bg-transparent"></td>
-      <td class="border border-black p-0"><input type="text" id="a_ket_${i}" value="${rowData.ket || ""}" class="w-full bg-transparent px-1"></td>
-      <td class="border border-black p-0"><input type="text" id="a_paraf_${i}" value="${rowData.paraf || ""}" class="w-full text-center bg-transparent"></td>
-    </tr>`;
-        });
+            <tr>
+              <td class="border border-black p-0.5 font-bold text-center">${i}</td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.tahap || ""}</div>
+                <input type="text" id="a_tahap_${i}" value="${r.tahap || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center font-bold bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.jenis || ""}</div>
+                <input type="text" id="a_jenis_${i}" value="${r.jenis || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words px-1">${r.nama || ""}</div>
+                <input type="text" id="a_nama_${i}" value="${r.nama || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent px-1 print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.porsi_prod || ""}</div>
+                <input type="text" id="a_porsi_prod_${i}" value="${r.porsi_prod || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.m_pukul || ""}</div>
+                <input type="text" id="a_m_pukul_${i}" value="${r.m_pukul || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.m_suhu || ""}</div>
+                <input type="text" id="a_m_suhu_${i}" value="${r.m_suhu || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.s_pukul || ""}</div>
+                <input type="text" id="a_s_pukul_${i}" value="${r.s_pukul || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.s_suhu || ""}</div>
+                <input type="text" id="a_s_suhu_${i}" value="${r.s_suhu || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center font-bold whitespace-normal break-words">${r.durasi || ""}</div>
+                <input type="text" id="a_durasi_${i}" value="${r.durasi || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center font-bold bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.suhu_ruang || ""}</div>
+                <input type="text" id="a_suhu_ruang_${i}" value="${r.suhu_ruang || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-left whitespace-normal break-words pl-1 pr-1">${r.ket || ""}</div>
+                <input type="text" id="a_ket_${i}" value="${r.ket || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left bg-transparent px-1 print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.paraf || ""}</div>
+                <input type="text" id="a_paraf_${i}" value="${r.paraf || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+            </tr>`;
+        }
 
         const sigBoxUser = document.getElementById("a_render_sig_user");
-        if (sigBoxUser) {
+        if (sigBoxUser)
           sigBoxUser.innerHTML = data.ttd_user
             ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
             : ``;
-        }
 
         const btnVerifikasi = document.getElementById("btn-verifikasi-admin");
         const btnPrint = document.getElementById("btn-print-admin");
@@ -1267,14 +1511,14 @@
         const adminInputs = document.querySelectorAll("#admin-view input");
 
         if (data.status === "verified") {
-          if (btnVerifikasi) btnVerifikasi.classList.add("hidden");
-          if (btnPrint) btnPrint.classList.remove("hidden");
+          btnVerifikasi?.classList.add("hidden");
+          btnPrint?.classList.remove("hidden");
           adminInputs.forEach((el) => (el.readOnly = true));
           if (data.ttd_admin && sigBoxAdmin)
             sigBoxAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
         } else {
-          if (btnVerifikasi) btnVerifikasi.classList.remove("hidden");
-          if (btnPrint) btnPrint.classList.add("hidden");
+          btnVerifikasi?.classList.remove("hidden");
+          btnPrint?.classList.add("hidden");
           adminInputs.forEach((el) => (el.readOnly = false));
           if (sigBoxAdmin) sigBoxAdmin.innerHTML = ``;
         }
@@ -1304,26 +1548,28 @@
         const db = getDB(STORAGE_KEY);
         const data = db[dateStr] || getTodayData(dateStr);
 
-        data.rows = [];
-        DEFAULT_ROWS.forEach((r, idx) => {
-          const i = idx + 1;
-          data.rows.push({
-            no: r.no,
-            tahap: document.getElementById(`a_tahap_${i}`).value,
-            jenis: document.getElementById(`a_jenis_${i}`).value,
-            nama: document.getElementById(`a_nama_${i}`).value,
-            porsi_prod: document.getElementById(`a_porsi_prod_${i}`).value,
-            m_pukul: document.getElementById(`a_m_pukul_${i}`).value,
-            m_suhu: document.getElementById(`a_m_suhu_${i}`).value,
-            s_pukul: document.getElementById(`a_s_pukul_${i}`).value,
-            s_suhu: document.getElementById(`a_s_suhu_${i}`).value,
-            durasi: document.getElementById(`a_durasi_${i}`).value,
-            suhu_ruang: document.getElementById(`a_suhu_ruang_${i}`).value,
-            ket: document.getElementById(`a_ket_${i}`).value,
-            paraf: document.getElementById(`a_paraf_${i}`).value,
+        const rowCount = Math.max(MIN_ROWS, data.rows ? data.rows.length : 0);
+        let updatedRows = [];
+        for (let i = 1; i <= rowCount; i++) {
+          updatedRows.push({
+            tahap: document.getElementById(`a_tahap_${i}`)?.value || "",
+            jenis: document.getElementById(`a_jenis_${i}`)?.value || "",
+            nama: document.getElementById(`a_nama_${i}`)?.value || "",
+            porsi_prod:
+              document.getElementById(`a_porsi_prod_${i}`)?.value || "",
+            m_pukul: document.getElementById(`a_m_pukul_${i}`)?.value || "",
+            m_suhu: document.getElementById(`a_m_suhu_${i}`)?.value || "",
+            s_pukul: document.getElementById(`a_s_pukul_${i}`)?.value || "",
+            s_suhu: document.getElementById(`a_s_suhu_${i}`)?.value || "",
+            durasi: document.getElementById(`a_durasi_${i}`)?.value || "",
+            suhu_ruang:
+              document.getElementById(`a_suhu_ruang_${i}`)?.value || "",
+            ket: document.getElementById(`a_ket_${i}`)?.value || "",
+            paraf: document.getElementById(`a_paraf_${i}`)?.value || "",
           });
-        });
+        }
 
+        data.rows = updatedRows;
         data.shift = document.getElementById("a_shift").value;
         data.menu = document.getElementById("a_menu").value;
         data.porsi = document.getElementById("a_porsi").value;
