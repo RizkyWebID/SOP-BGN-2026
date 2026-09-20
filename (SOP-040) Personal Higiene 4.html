@@ -120,7 +120,7 @@
       }
     </style>
     <style>
-      /* --- STYLE KHUSUS SOP 29D --- */
+      /* --- STYLE KHUSUS SOP 29D (PRINT LEBAR KOLOM) --- */
       @media print {
         th:nth-child(1) {
           width: 6%;
@@ -224,6 +224,7 @@
               <select
                 id="u_shift"
                 class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                onchange="simpanDraftOtomatis()"
               >
                 <option value="">Pilih...</option>
                 <option value="Pagi">Pagi</option>
@@ -238,8 +239,9 @@
               <input
                 type="text"
                 id="u_menu"
-                placeholder="Cth: Menu Utama"
+                placeholder="Cth: Nasi Goreng Spesial"
                 class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                onchange="simpanDraftOtomatis()"
               />
             </div>
             <div>
@@ -251,6 +253,7 @@
                 id="u_porsi"
                 placeholder="Cth: 500"
                 class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                onchange="simpanDraftOtomatis()"
               />
             </div>
           </div>
@@ -261,195 +264,137 @@
           class="hidden p-4 rounded-lg font-bold text-center text-xs"
         ></div>
 
-        <!-- FORM INPUT ASPEK PEMERIKSAAN -->
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h3 class="text-base font-bold text-indigo-900 mb-4 border-b pb-2">
-            Aspek Pemeriksaan Sarana Cuci Tangan & Penyimpanan
-          </h3>
-          <div class="overflow-x-auto">
-            <table
-              class="w-full text-xs text-left border-collapse border border-gray-300"
-            >
-              <thead
-                class="bg-gray-100 text-gray-700 font-semibold text-center"
+        <!-- FORM & TABEL INPUT ASPEK (KIRI & KANAN) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- KIRI: PANEL INPUT -->
+          <div
+            class="md:col-span-1 bg-white p-5 rounded-lg shadow-sm border border-gray-200 self-start"
+          >
+            <h3 class="text-sm font-bold text-indigo-900 mb-4 border-b pb-2">
+              Tambah Aspek Pemeriksaan
+            </h3>
+
+            <div class="mb-3">
+              <label class="block text-xs font-semibold text-gray-700 mb-1"
+                >Aspek yang Diperiksa</label
               >
-                <tr>
-                  <th class="p-2 border border-gray-300 w-10">No</th>
-                  <th class="p-2 border border-gray-300">
-                    Aspek yang Diperiksa
-                  </th>
-                  <th class="p-2 border border-gray-300 w-28">Sesuai (✓)</th>
-                  <th class="p-2 border border-gray-300 w-28">
-                    Tidak Sesuai (✗)
-                  </th>
-                  <th class="p-2 border border-gray-300">Keterangan</th>
-                </tr>
-              </thead>
-              <tbody id="u_table_body">
-                <tr class="hover:bg-gray-50">
-                  <td
-                    class="p-2 border border-gray-300 text-center font-bold text-gray-500"
-                  >
-                    1
-                  </td>
-                  <td class="p-2 border border-gray-300 font-medium">
-                    Air mengalir, sabun cair, dan tisu tersedia di sarana cuci
-                    tangan
-                  </td>
-                  <td class="p-2 border border-gray-300 text-center">
-                    <input
-                      type="radio"
-                      name="sarana_1"
-                      value="Sesuai"
-                      checked
-                      class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                    />
-                  </td>
-                  <td class="p-2 border border-gray-300 text-center">
-                    <input
-                      type="radio"
-                      name="sarana_1"
-                      value="Tidak Sesuai"
-                      class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                    />
-                  </td>
-                  <td class="p-2 border border-gray-300">
-                    <input
-                      type="text"
-                      id="ket_1"
-                      class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
-                      placeholder="Keterangan..."
-                    />
-                  </td>
-                </tr>
-                <tr class="hover:bg-gray-50">
-                  <td
-                    class="p-2 border border-gray-300 text-center font-bold text-gray-500"
-                  >
-                    2
-                  </td>
-                  <td class="p-2 border border-gray-300 font-medium">
-                    Tempat sampah bertutup tersedia dan tidak penuh di area
-                    pengolahan
-                  </td>
-                  <td class="p-2 border border-gray-300 text-center">
-                    <input
-                      type="radio"
-                      name="sarana_2"
-                      value="Sesuai"
-                      checked
-                      class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                    />
-                  </td>
-                  <td class="p-2 border border-gray-300 text-center">
-                    <input
-                      type="radio"
-                      name="sarana_2"
-                      value="Tidak Sesuai"
-                      class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                    />
-                  </td>
-                  <td class="p-2 border border-gray-300">
-                    <input
-                      type="text"
-                      id="ket_2"
-                      class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
-                      placeholder="Keterangan..."
-                    />
-                  </td>
-                </tr>
-                <tr class="hover:bg-gray-50">
-                  <td
-                    class="p-2 border border-gray-300 text-center font-bold text-gray-500"
-                  >
-                    3
-                  </td>
-                  <td class="p-2 border border-gray-300 font-medium">
-                    Perlengkapan bersih disimpan dalam kondisi tertutup dan
-                    kering
-                  </td>
-                  <td class="p-2 border border-gray-300 text-center">
-                    <input
-                      type="radio"
-                      name="sarana_3"
-                      value="Sesuai"
-                      checked
-                      class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                    />
-                  </td>
-                  <td class="p-2 border border-gray-300 text-center">
-                    <input
-                      type="radio"
-                      name="sarana_3"
-                      value="Tidak Sesuai"
-                      class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                    />
-                  </td>
-                  <td class="p-2 border border-gray-300">
-                    <input
-                      type="text"
-                      id="ket_3"
-                      class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
-                      placeholder="Keterangan..."
-                    />
-                  </td>
-                </tr>
-                <tr class="hover:bg-gray-50">
-                  <td
-                    class="p-2 border border-gray-300 text-center font-bold text-gray-500"
-                  >
-                    4
-                  </td>
-                  <td class="p-2 border border-gray-300 font-medium">
-                    Perlengkapan kotor dipisahkan dengan jelas dari perlengkapan
-                    bersih
-                  </td>
-                  <td class="p-2 border border-gray-300 text-center">
-                    <input
-                      type="radio"
-                      name="sarana_4"
-                      value="Sesuai"
-                      checked
-                      class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                    />
-                  </td>
-                  <td class="p-2 border border-gray-300 text-center">
-                    <input
-                      type="radio"
-                      name="sarana_4"
-                      value="Tidak Sesuai"
-                      class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                    />
-                  </td>
-                  <td class="p-2 border border-gray-300">
-                    <input
-                      type="text"
-                      id="ket_4"
-                      class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
-                      placeholder="Keterangan..."
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+              <textarea
+                id="in_aspek"
+                rows="3"
+                placeholder="Ketik aspek yang diperiksa. Cth: Air mengalir pada wastafel..."
+                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="block text-xs font-semibold text-gray-700 mb-1"
+                >Status Kesesuaian</label
+              >
+              <div
+                class="flex gap-4 p-2 border border-gray-200 rounded bg-gray-50"
+              >
+                <label class="flex items-center gap-1 cursor-pointer text-xs">
+                  <input
+                    type="radio"
+                    name="in_status"
+                    value="Sesuai"
+                    checked
+                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                  />
+                  Sesuai
+                </label>
+                <label class="flex items-center gap-1 cursor-pointer text-xs">
+                  <input
+                    type="radio"
+                    name="in_status"
+                    value="Tidak Sesuai"
+                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                  />
+                  Tidak Sesuai
+                </label>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="block text-xs font-semibold text-gray-700 mb-1"
+                >Keterangan (Opsional)</label
+              >
+              <input
+                type="text"
+                id="in_ket"
+                placeholder="Keterangan tambahan..."
+                class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+              />
+            </div>
+
+            <button
+              type="button"
+              id="btn-tambah-aspek"
+              onclick="tambahAspek()"
+              class="w-full py-2 bg-indigo-600 text-white font-bold text-xs rounded hover:bg-indigo-700 transition shadow"
+            >
+              + Tambahkan ke Daftar
+            </button>
           </div>
-          <div class="mt-6 flex gap-4 justify-end border-t pt-4">
-            <button
-              type="button"
-              onclick="simpanDraftGlobal()"
-              id="btn-draft"
-              class="px-5 py-2 bg-amber-500 text-white font-bold text-xs rounded hover:bg-amber-600 transition"
-            >
-              Simpan Draft Sementara
-            </button>
-            <button
-              type="button"
-              onclick="bukaModalTtdUser()"
-              id="btn-final"
-              class="px-5 py-2 bg-green-600 text-white font-bold text-xs rounded hover:bg-green-700 transition shadow-md"
-            >
-              Simpan & Selesai (Final)
-            </button>
+
+          <!-- KANAN: PANEL DAFTAR -->
+          <div
+            class="md:col-span-2 bg-white p-5 rounded-lg shadow-sm border border-gray-200"
+          >
+            <div class="flex justify-between items-center mb-4 border-b pb-2">
+              <h3 class="text-sm font-bold text-indigo-900">
+                Daftar Hasil Pemeriksaan
+              </h3>
+              <span
+                id="badge-total"
+                class="bg-indigo-100 text-indigo-800 text-[10px] px-2 py-1 rounded font-bold"
+                >Total: 0 Aspek</span
+              >
+            </div>
+
+            <div class="overflow-x-auto min-h-[200px]">
+              <table
+                class="w-full text-xs text-left border-collapse border border-gray-300"
+              >
+                <thead
+                  class="bg-gray-100 text-gray-700 font-semibold text-center"
+                >
+                  <tr>
+                    <th class="p-2 border border-gray-300 w-10">No</th>
+                    <th class="p-2 border border-gray-300 text-left pl-2">
+                      Aspek yang Diperiksa
+                    </th>
+                    <th class="p-2 border border-gray-300 w-20">Status</th>
+                    <th class="p-2 border border-gray-300 text-left pl-2">
+                      Keterangan
+                    </th>
+                    <th class="p-2 border border-gray-300 w-16" id="th-aksi">
+                      Aksi
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="u_table_body">
+                  <!-- Baris akan dirender secara dinamis lewat JS -->
+                </tbody>
+              </table>
+              <div
+                id="empty-state"
+                class="text-center text-gray-400 py-8 hidden font-medium text-xs"
+              >
+                Belum ada data pemeriksaan yang ditambahkan.
+              </div>
+            </div>
+
+            <div class="mt-6 flex gap-3 justify-end border-t pt-4">
+              <button
+                type="button"
+                onclick="bukaModalTtdUser()"
+                id="btn-final"
+                class="px-5 py-2 bg-green-600 text-white font-bold text-xs rounded hover:bg-green-700 transition shadow-md"
+              >
+                Simpan & Selesai (Final)
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -470,7 +415,7 @@
               Preview & Edit Admin
             </h2>
             <p class="text-xs text-gray-500">
-              Verifikasi dan edit data laporan sebelum dicetak.
+              Verifikasi dan periksa laporan dinamis sebelum dicetak.
             </p>
           </div>
           <div class="flex gap-2 items-center">
@@ -625,8 +570,8 @@
           </div>
         </div>
 
-        <!-- TABEL UTAMA PRINT SOP 29D -->
-        <div class="w-full overflow-x-auto mb-3">
+        <!-- TABEL UTAMA PRINT SOP 29D DINAMIS -->
+        <div class="w-full mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
           >
@@ -636,133 +581,15 @@
                 <th class="border border-black p-1 text-left pl-2">
                   Aspek yang Diperiksa
                 </th>
-                <th class="border border-black p-1">Sesuai</th>
-                <th class="border border-black p-1">Tidak Sesuai</th>
-                <th class="border border-black p-1 text-left pl-2">
+                <th class="border border-black p-1 w-[12%]">Sesuai</th>
+                <th class="border border-black p-1 w-[12%]">Tidak Sesuai</th>
+                <th class="border border-black p-1 text-left pl-2 w-[25%]">
                   Keterangan
                 </th>
               </tr>
             </thead>
             <tbody id="a_table_body">
-              <tr>
-                <td class="border border-black p-2 text-center font-bold">1</td>
-                <td class="border border-black p-2 text-left pl-2">
-                  Air mengalir, sabun cair, dan tisu tersedia di sarana cuci
-                  tangan
-                </td>
-                <td
-                  class="border border-black p-2 text-center text-lg"
-                  id="a_s1_s"
-                ></td>
-                <td
-                  class="border border-black p-2 text-center text-lg"
-                  id="a_s1_ts"
-                ></td>
-                <td class="border border-black p-0 relative">
-                  <div
-                    class="hidden print:block w-full text-left whitespace-normal break-words px-2"
-                    id="print_a_ket_1"
-                  ></div>
-                  <input
-                    type="text"
-                    id="a_ket_1"
-                    class="w-full text-left bg-transparent px-2 py-2 print:hidden"
-                    oninput="
-                      document.getElementById('print_a_ket_1').innerText =
-                        this.value
-                    "
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-black p-2 text-center font-bold">2</td>
-                <td class="border border-black p-2 text-left pl-2">
-                  Tempat sampah bertutup tersedia dan tidak penuh di area
-                  pengolahan
-                </td>
-                <td
-                  class="border border-black p-2 text-center text-lg"
-                  id="a_s2_s"
-                ></td>
-                <td
-                  class="border border-black p-2 text-center text-lg"
-                  id="a_s2_ts"
-                ></td>
-                <td class="border border-black p-0 relative">
-                  <div
-                    class="hidden print:block w-full text-left whitespace-normal break-words px-2"
-                    id="print_a_ket_2"
-                  ></div>
-                  <input
-                    type="text"
-                    id="a_ket_2"
-                    class="w-full text-left bg-transparent px-2 py-2 print:hidden"
-                    oninput="
-                      document.getElementById('print_a_ket_2').innerText =
-                        this.value
-                    "
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-black p-2 text-center font-bold">3</td>
-                <td class="border border-black p-2 text-left pl-2">
-                  Perlengkapan bersih disimpan dalam kondisi tertutup dan kering
-                </td>
-                <td
-                  class="border border-black p-2 text-center text-lg"
-                  id="a_s3_s"
-                ></td>
-                <td
-                  class="border border-black p-2 text-center text-lg"
-                  id="a_s3_ts"
-                ></td>
-                <td class="border border-black p-0 relative">
-                  <div
-                    class="hidden print:block w-full text-left whitespace-normal break-words px-2"
-                    id="print_a_ket_3"
-                  ></div>
-                  <input
-                    type="text"
-                    id="a_ket_3"
-                    class="w-full text-left bg-transparent px-2 py-2 print:hidden"
-                    oninput="
-                      document.getElementById('print_a_ket_3').innerText =
-                        this.value
-                    "
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-black p-2 text-center font-bold">4</td>
-                <td class="border border-black p-2 text-left pl-2">
-                  Perlengkapan kotor dipisahkan dengan jelas dari perlengkapan
-                  bersih
-                </td>
-                <td
-                  class="border border-black p-2 text-center text-lg"
-                  id="a_s4_s"
-                ></td>
-                <td
-                  class="border border-black p-2 text-center text-lg"
-                  id="a_s4_ts"
-                ></td>
-                <td class="border border-black p-0 relative">
-                  <div
-                    class="hidden print:block w-full text-left whitespace-normal break-words px-2"
-                    id="print_a_ket_4"
-                  ></div>
-                  <input
-                    type="text"
-                    id="a_ket_4"
-                    class="w-full text-left bg-transparent px-2 py-2 print:hidden"
-                    oninput="
-                      document.getElementById('print_a_ket_4').innerText =
-                        this.value
-                    "
-                  />
-                </td>
-              </tr>
+              <!-- Render via JavaScript -->
             </tbody>
           </table>
         </div>
@@ -1003,9 +830,7 @@
     <script>
       // ==========================================
       // SPPG - SHARED SCRIPT (sop-shared.js)
-      // Berlaku untuk SOP 14, 18, 22, 29D
       // ==========================================
-
       function showNotif(msg, type = "success") {
         const notif = document.getElementById("global-notif");
         if (!notif) return;
@@ -1121,11 +946,12 @@
 
     <script>
       // ==========================================
-      // SOP 29D - SCRIPT KHUSUS (Disesuaikan dengan format SOP 14)
+      // SOP 29D - LOGIKA DINAMIS ARRAY (Baru)
       // ==========================================
 
+      // Menggunakan Key Baru agar data lama tidak error (migrasi struktur Objek ke Array)
+      const STORAGE_KEY = "db_sop_29d_v4_dinamis";
       let currentDate = new Date().toISOString().split("T")[0];
-      const STORAGE_KEY = "db_sop_29d_v3";
 
       window.onload = () => {
         document.getElementById("u_tanggal").value = currentDate;
@@ -1143,12 +969,7 @@
             menu: "",
             porsi: "",
             status: "draft",
-            items: {
-              1: { val: "Sesuai", ket: "" },
-              2: { val: "Sesuai", ket: "" },
-              3: { val: "Sesuai", ket: "" },
-              4: { val: "Sesuai", ket: "" },
-            },
+            items: [], // Format data sekarang adalah Array Kosong
             ttd_user: null,
             ttd_admin: null,
             nama_petugas: "",
@@ -1156,7 +977,113 @@
             nama_kepala: "Rizky Arinanda. AR, S.Kom",
           };
         }
+        // Fallback jika tidak sengaja terbaca sebagai objek
+        if (!Array.isArray(db[date].items)) db[date].items = [];
         return db[date];
+      }
+
+      function simpanDraftOtomatis() {
+        const db = getDB(STORAGE_KEY);
+        const data = db[currentDate] || getTodayData(currentDate);
+        if (data.status === "final" || data.status === "verified") return;
+
+        data.shift = document.getElementById("u_shift").value;
+        data.menu = document.getElementById("u_menu").value;
+        data.porsi = document.getElementById("u_porsi").value;
+
+        db[currentDate] = data;
+        saveDB(STORAGE_KEY, db);
+      }
+
+      function tambahAspek() {
+        const inputAspek = document.getElementById("in_aspek");
+        const inputStatus = document.querySelector(
+          'input[name="in_status"]:checked',
+        );
+        const inputKet = document.getElementById("in_ket");
+
+        if (!inputAspek.value.trim()) {
+          return showNotif(
+            "Kolom Aspek yang Diperiksa tidak boleh kosong!",
+            "error",
+          );
+        }
+
+        const db = getDB(STORAGE_KEY);
+        const data = db[currentDate] || getTodayData(currentDate);
+
+        data.items.push({
+          aspek: inputAspek.value.trim(),
+          status: inputStatus ? inputStatus.value : "Sesuai",
+          ket: inputKet.value.trim(),
+        });
+
+        db[currentDate] = data;
+        saveDB(STORAGE_KEY, db);
+
+        // Reset Form
+        inputAspek.value = "";
+        inputKet.value = "";
+        document.querySelector(
+          'input[name="in_status"][value="Sesuai"]',
+        ).checked = true;
+
+        loadDataForDate();
+        showNotif("Aspek berhasil ditambahkan ke daftar.");
+      }
+
+      function hapusAspek(index) {
+        const db = getDB(STORAGE_KEY);
+        const data = db[currentDate];
+        if (!data || data.status === "final" || data.status === "verified")
+          return;
+
+        data.items.splice(index, 1);
+        db[currentDate] = data;
+        saveDB(STORAGE_KEY, db);
+        loadDataForDate();
+      }
+
+      function renderUserTable(data) {
+        const tbody = document.getElementById("u_table_body");
+        const emptyState = document.getElementById("empty-state");
+        const badgeTotal = document.getElementById("badge-total");
+
+        tbody.innerHTML = "";
+        badgeTotal.textContent = `Total: ${data.items.length} Aspek`;
+
+        if (data.items.length === 0) {
+          emptyState.classList.replace("hidden", "block");
+          return;
+        } else {
+          emptyState.classList.replace("block", "hidden");
+        }
+
+        const isLocked = data.status === "final" || data.status === "verified";
+
+        data.items.forEach((item, index) => {
+          const rowClass =
+            item.status === "Sesuai"
+              ? "hover:bg-gray-50"
+              : "bg-red-50 hover:bg-red-100";
+          const btnHapus = isLocked
+            ? ""
+            : `
+                <button onclick="hapusAspek(${index})" class="text-red-500 hover:text-red-700 bg-red-100 hover:bg-red-200 px-2 py-1 rounded text-[10px] font-bold transition">
+                    Hapus
+                </button>
+            `;
+
+          tbody.innerHTML += `
+                <tr class="${rowClass} border-b border-gray-200">
+                  <td class="p-2 border-r border-gray-300 text-center font-bold text-gray-500">${index + 1}</td>
+                  <td class="p-2 border-r border-gray-300 font-medium whitespace-pre-wrap">${item.aspek}</td>
+                  <td class="p-2 border-r border-gray-300 text-center font-bold ${item.status === "Sesuai" ? "text-green-600" : "text-red-600"}">${item.status}</td>
+                  <td class="p-2 border-r border-gray-300 whitespace-pre-wrap">${item.ket || "-"}</td>
+                  <td class="p-2 text-center text-aksi">${btnHapus}</td>
+                </tr>
+            `;
+        });
       }
 
       function loadDataForDate() {
@@ -1167,84 +1094,62 @@
         document.getElementById("u_menu").value = data.menu || "";
         document.getElementById("u_porsi").value = data.porsi || "";
 
-        for (let i = 1; i <= 4; i++) {
-          const item =
-            data.items && data.items[i]
-              ? data.items[i]
-              : { val: "Sesuai", ket: "" };
-          document
-            .querySelectorAll(`input[name="sarana_${i}"]`)
-            .forEach((el) => {
-              el.checked = el.value === item.val;
-            });
-          document.getElementById(`ket_${i}`).value = item.ket || "";
-        }
-
+        renderUserTable(data);
         checkFormLockStatus(data);
       }
 
       function checkFormLockStatus(data) {
         const banner = document.getElementById("status-banner");
-        const formInputs = document.querySelectorAll(
-          "#user-view input:not(#u_tanggal), #user-view select, #user-view input[type='radio']",
-        );
-        const btnDraft = document.getElementById("btn-draft");
         const btnFinal = document.getElementById("btn-final");
+        const panelInput = document
+          .getElementById("in_aspek")
+          .closest("div.md\\:col-span-1"); // Memilih kolom kiri
+        const thAksi = document.getElementById("th-aksi");
+        const tdAksi = document.querySelectorAll(".text-aksi");
 
         if (!banner) return;
+
+        // Reset state
+        panelInput.style.display = "block";
+        document.getElementById("btn-tambah-aspek").disabled = false;
+        thAksi.style.display = "table-cell";
+        tdAksi.forEach((td) => (td.style.display = "table-cell"));
 
         if (data.status === "verified") {
           banner.textContent =
             "LAPORAN TELAH DIVERIFIKASI OLEH PENGAWAS & TERKUNCI SEPENUHNYA";
           banner.className =
             "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
-          formInputs.forEach((el) => (el.disabled = true));
-          if (btnDraft) btnDraft.classList.add("hidden");
           if (btnFinal) btnFinal.classList.add("hidden");
+          panelInput.style.display = "none";
+          thAksi.style.display = "none";
+          tdAksi.forEach((td) => (td.style.display = "none"));
         } else if (data.status === "final") {
           banner.textContent =
             "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI PENGAWAS)";
           banner.className =
             "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
-          formInputs.forEach((el) => (el.disabled = true));
-          if (btnDraft) btnDraft.classList.add("hidden");
           if (btnFinal) btnFinal.classList.add("hidden");
+          panelInput.style.display = "none";
+          thAksi.style.display = "none";
+          tdAksi.forEach((td) => (td.style.display = "none"));
         } else {
           banner.classList.replace("block", "hidden");
-          formInputs.forEach((el) => (el.disabled = false));
-          if (btnDraft) btnDraft.classList.remove("hidden");
           if (btnFinal) btnFinal.classList.remove("hidden");
         }
       }
 
-      function simpanDraftGlobal() {
+      function bukaModalTtdUser() {
         const db = getDB(STORAGE_KEY);
-        const data = getTodayData(currentDate);
+        const data = db[currentDate] || getTodayData(currentDate);
 
-        if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan sudah terkunci!", "error");
-
-        data.shift = document.getElementById("u_shift").value;
-        data.menu = document.getElementById("u_menu").value;
-        data.porsi = document.getElementById("u_porsi").value;
-
-        for (let i = 1; i <= 4; i++) {
-          const checkedEl = document.querySelector(
-            `input[name="sarana_${i}"]:checked`,
+        if (data.items.length === 0) {
+          return alert(
+            "Daftar laporan masih kosong! Silakan tambahkan minimal 1 aspek pemeriksaan.",
           );
-          data.items[i] = {
-            val: checkedEl ? checkedEl.value : "Sesuai",
-            ket: document.getElementById(`ket_${i}`).value,
-          };
         }
 
-        db[currentDate] = data;
-        saveDB(STORAGE_KEY, db);
-        showNotif("Draft laporan berhasil disimpan.");
-      }
-
-      function bukaModalTtdUser() {
-        simpanDraftGlobal();
+        simpanDraftOtomatis();
         const modal = document.getElementById("modal-ttd");
         if (modal) {
           modal.classList.replace("hidden", "flex");
@@ -1272,6 +1177,32 @@
         tutupModalTtd();
         loadDataForDate();
         showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
+      }
+
+      /* --- FUNGSI RENDER TABEL ADMIN (CETAK) --- */
+      function renderAdminTable(data) {
+        const tbody = document.getElementById("a_table_body");
+        tbody.innerHTML = "";
+
+        if (data.items.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" class="border border-black p-4 text-center font-bold text-gray-400">Tidak ada data aspek yang diperiksa pada tanggal ini.</td></tr>`;
+          return;
+        }
+
+        data.items.forEach((item, index) => {
+          const cSesuai = item.status === "Sesuai" ? "<b>✓</b>" : "";
+          const cTidakSesuai = item.status === "Tidak Sesuai" ? "<b>✗</b>" : "";
+
+          tbody.innerHTML += `
+              <tr>
+                <td class="border border-black p-2 text-center font-bold">${index + 1}</td>
+                <td class="border border-black p-2 text-left pl-2 whitespace-pre-wrap">${item.aspek}</td>
+                <td class="border border-black p-2 text-center text-lg">${cSesuai}</td>
+                <td class="border border-black p-2 text-center text-lg">${cTidakSesuai}</td>
+                <td class="border border-black p-2 text-left pl-2 whitespace-pre-wrap">${item.ket || ""}</td>
+              </tr>
+            `;
+        });
       }
 
       function loadDataAdmin() {
@@ -1313,21 +1244,8 @@
           printKepala.innerText =
             data.nama_kepala || "Rizky Arinanda. AR, S.Kom";
 
-        for (let i = 1; i <= 4; i++) {
-          const item =
-            data.items && data.items[i]
-              ? data.items[i]
-              : { val: "Sesuai", ket: "" };
-          document.getElementById(`a_s${i}_s`).innerHTML =
-            item.val === "Sesuai" ? "<b>✓</b>" : "";
-          document.getElementById(`a_s${i}_ts`).innerHTML =
-            item.val === "Tidak Sesuai" ? "<b>✗</b>" : "";
-
-          const aKet = document.getElementById(`a_ket_${i}`);
-          const pKet = document.getElementById(`print_a_ket_${i}`);
-          if (aKet) aKet.value = item.ket || "";
-          if (pKet) pKet.innerText = item.ket || "";
-        }
+        // Render Tabel Array ke View Cetak Admin
+        renderAdminTable(data);
 
         const sigBoxUser = document.getElementById("a_render_sig_user");
         if (sigBoxUser) {
@@ -1379,13 +1297,6 @@
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
         const data = db[dateStr] || getTodayData(dateStr);
-
-        for (let i = 1; i <= 4; i++) {
-          const elKet = document.getElementById(`a_ket_${i}`);
-          if (elKet && data.items && data.items[i]) {
-            data.items[i].ket = elKet.value;
-          }
-        }
 
         data.shift = document.getElementById("a_shift").value;
         data.menu = document.getElementById("a_menu").value;
