@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       /* =================================================
-       * SPPG - STYLE UMUM
+       * SPPG - STYLE UMUM (SHARED STYLESHEET)
        * ================================================= */
       body {
         font-family: Arial, sans-serif;
@@ -27,15 +27,19 @@
         touch-action: none;
       }
 
-      /* --- CSS KHUSUS PRINT GLOBAL & PEMBAKUAN TABEL (SOP 15) --- */
+      /* --- CSS KHUSUS PRINT GLOBAL --- */
       @media print {
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
         @page {
-          margin: 0.8cm;
+          margin: 1cm;
         }
         body {
           background-color: white;
           font-family: Arial, sans-serif;
-          font-size: 10pt;
+          font-size: 11pt;
           line-height: 1.2;
         }
         .no-print {
@@ -49,6 +53,7 @@
           box-shadow: none !important;
           width: 100% !important;
           max-width: 100% !important;
+          min-height: auto !important;
         }
         #user-view,
         #top-nav {
@@ -72,7 +77,7 @@
           color: black !important;
           padding: 0 !important;
           margin: 0 !important;
-          font-size: 9pt !important;
+          font-size: 9.5pt !important;
           font-family: Arial, sans-serif !important;
           text-align: center;
         }
@@ -82,69 +87,17 @@
 
         table {
           width: 100% !important;
+          table-layout: fixed;
           border-collapse: collapse !important;
-          table-layout: fixed !important;
         }
+
         th,
         td {
-          padding: 3px 2px !important;
-          word-wrap: break-word !important;
-          overflow-wrap: break-word !important;
-          white-space: normal !important;
-          font-size: 8.5pt !important;
-          vertical-align: middle !important;
-        }
-
-        /* Presisi Lebar Kolom Tabel Utama Saat Dicetak (Dibakukan) */
-        .main-table {
-          table-layout: fixed !important;
-          width: 100% !important;
-        }
-        .main-table th:nth-child(1),
-        .main-table td:nth-child(1) {
-          width: 3% !important;
-          text-align: center !important;
-        } /* No */
-        .main-table th:nth-child(2),
-        .main-table td:nth-child(2) {
-          width: 29% !important;
-          text-align: left !important;
-          padding-left: 5px !important;
-        } /* Nama Bahan */
-        .main-table th:nth-child(3),
-        .main-table td:nth-child(3) {
-          width: 9% !important;
-          text-align: center !important;
-        } /* Satuan */
-        .main-table th:nth-child(4),
-        .main-table td:nth-child(4) {
-          width: 14% !important;
-          text-align: center !important;
-        } /* Harga */
-        .main-table th:nth-child(5),
-        .main-table td:nth-child(5) {
-          width: 21% !important;
-          text-align: left !important;
-          padding-left: 5px !important;
-        } /* Supplier */
-        .main-table th:nth-child(6),
-        .main-table td:nth-child(6) {
-          width: 12% !important;
-          text-align: center !important;
-        } /* Kontak */
-        .main-table th:nth-child(7),
-        .main-table td:nth-child(7) {
-          width: 12% !important;
-          text-align: left !important;
-          padding-left: 5px !important;
-        } /* Keterangan */
-
-        .cat-header td {
-          background-color: #fef08a !important;
-          -webkit-print-color-adjust: exact !important;
-          print-color-adjust: exact !important;
-          font-weight: bold !important;
-          text-align: center !important;
+          padding: 4px 2px !important;
+          word-wrap: break-word;
+          font-size: 9pt !important;
+          text-align: center;
+          vertical-align: middle;
         }
 
         .print-signature-area {
@@ -155,6 +108,67 @@
           max-width: 100px;
           max-height: 50px;
           display: inline-block;
+        }
+      }
+    </style>
+    <style>
+      /* ==========================================================
+       * STYLE KHUSUS DAFTAR HARGA & PEMASOK BAHAN BAKU (SOP)
+       * ========================================================== */
+      @media print {
+        #admin-view table {
+          width: 100% !important;
+          table-layout: fixed !important;
+        }
+
+        #admin-view th,
+        #admin-view td {
+          padding: 3px 2px !important;
+          font-size: 8pt !important;
+          vertical-align: middle !important;
+          word-wrap: break-word !important;
+          overflow-wrap: break-word !important;
+          white-space: normal !important;
+        }
+
+        /* Pengaturan Lebar Kolom Presisi (Total 100%, 7 Kolom) */
+        /* Contoh untuk Kolom 1 (Nomor) */
+        #admin-view table th:nth-child(1),
+        #admin-view table td:nth-child(1) {
+          width: 5% !important;
+          text-align: center !important;
+        }
+
+        /* Contoh untuk Kolom 2 (Aspek / Komponen - Lebar Dominan) */
+        #admin-view table th:nth-child(2),
+        #admin-view table td:nth-child(2) {
+          width: 25% !important;
+          text-align: left !important;
+          padding-left: 6px !important;
+        }
+        #admin-view td:nth-child(3) {
+          width: 3% !important;
+          text-align: center !important;
+        } /* Satuan */
+        #admin-view td:nth-child(4) {
+          width: 14% !important;
+        } /* Harga */
+        #admin-view td:nth-child(5) {
+          width: 20% !important;
+          text-align: left !important;
+          padding-left: 4px !important;
+        } /* Supplier */
+        #admin-view td:nth-child(6) {
+          width: 13% !important;
+        } /* Kontak */
+        #admin-view td:nth-child(7) {
+          width: 15% !important;
+          text-align: left !important;
+          padding-left: 4px !important;
+        } /* Keterangan */
+
+        #admin-view td input {
+          display: none !important;
         }
       }
     </style>
@@ -201,7 +215,9 @@
     <div
       id="global-notif"
       class="fixed top-5 right-5 z-50 hidden px-6 py-3 rounded shadow-xl text-white font-bold transition-all duration-300 no-print"
-    ></div>
+    >
+      Pesan Notifikasi
+    </div>
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
       <!-- ========================================== -->
@@ -232,15 +248,11 @@
               <select
                 id="u_shift"
                 class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
-                onchange="simpanDraftGlobal()"
               >
                 <option value="">Pilih...</option>
-                <option value="Shift 1 (Pagi)">Shift 1 (Pagi)</option>
-                <option value="Shift 2 (Siang)">Shift 2 (Siang)</option>
-                <option value="Shift 3 (Malam)">Shift 3 (Malam)</option>
-                <option value="Regu A">Regu A</option>
-                <option value="Regu B">Regu B</option>
-                <option value="Regu C">Regu C</option>
+                <option value="Pagi">Pagi</option>
+                <option value="Siang">Siang</option>
+                <option value="Malam">Malam</option>
               </select>
             </div>
             <div>
@@ -252,7 +264,6 @@
                 id="u_menu"
                 placeholder="Cth: Nasi Ayam & Sayur"
                 class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
-                onchange="simpanDraftGlobal()"
               />
             </div>
             <div>
@@ -260,11 +271,10 @@
                 >Jml Porsi</label
               >
               <input
-                type="text"
+                type="number"
                 id="u_porsi"
                 placeholder="Cth: 500"
                 class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
-                onchange="simpanDraftGlobal()"
               />
             </div>
           </div>
@@ -275,14 +285,15 @@
           class="hidden p-4 rounded-lg font-bold text-center text-xs"
         ></div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <!-- FORM INPUT BARIS -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- FORM INPUT PROSES RESTING -->
           <div
-            class="lg:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-200 h-fit"
+            class="lg:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-200"
           >
             <h3 class="text-base font-bold text-indigo-900 mb-4 border-b pb-2">
               Tambah Bahan Baku
             </h3>
+
             <form
               id="form-input-baris"
               onsubmit="tambahBarisProses(event)"
@@ -294,7 +305,7 @@
                 >
                 <select
                   id="u_kategori"
-                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
                   required
                 >
                   <option value="KARBOHIDRAT">KARBOHIDRAT</option>
@@ -302,9 +313,10 @@
                   <option value="NABATI">NABATI</option>
                   <option value="SAYURAN">SAYURAN</option>
                   <option value="BUAH">BUAH</option>
-                  <option value="Lain-lain">Lain-lain</option>
+                  <option value="LAIN-LAIN">LAIN-LAIN</option>
                 </select>
               </div>
+
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Nama Bahan Baku</label
@@ -312,12 +324,13 @@
                 <input
                   type="text"
                   id="u_nama"
-                  placeholder="Cth: Minyak Goreng"
-                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Cth: Beras Pandan Wangi"
+                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
                   required
                 />
               </div>
-              <div class="grid grid-cols-2 gap-2">
+
+              <div class="grid grid-cols-2 gap-3">
                 <div>
                   <label class="block text-xs font-semibold text-gray-600 mb-1"
                     >Satuan</label
@@ -325,32 +338,25 @@
                   <input
                     type="text"
                     id="u_satuan"
-                    placeholder="Cth: Liter"
-                    class="w-full p-2 text-xs border border-gray-300 rounded"
+                    placeholder="Cth: Kg"
+                    class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
                     required
                   />
                 </div>
                 <div>
                   <label class="block text-xs font-semibold text-gray-600 mb-1"
-                    >Harga</label
+                    >Harga (Rp)</label
                   >
-                  <div
-                    class="flex items-center border border-gray-300 rounded bg-white px-2 py-1.5 focus-within:ring-2 focus-within:ring-indigo-500"
-                  >
-                    <span
-                      class="text-xs text-gray-500 mr-1 select-none font-semibold"
-                      >Rp</span
-                    >
-                    <input
-                      type="text"
-                      id="u_harga"
-                      placeholder="15.000"
-                      class="w-full text-xs text-right outline-none bg-transparent font-semibold"
-                      onkeyup="formatRupiah(this)"
-                    />
-                  </div>
+                  <input
+                    type="number"
+                    id="u_harga"
+                    placeholder="Cth: 15000"
+                    class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                    required
+                  />
                 </div>
               </div>
+
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Nama Toko / Supplier</label
@@ -358,21 +364,24 @@
                 <input
                   type="text"
                   id="u_supplier"
-                  placeholder="Nama supplier"
-                  class="w-full p-2 text-xs border border-gray-300 rounded"
+                  placeholder="Cth: Toko Sembako Berkah"
+                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                  required
                 />
               </div>
+
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
-                  >Kontak</label
+                  >Kontak / No. Telp</label
                 >
                 <input
                   type="text"
                   id="u_kontak"
-                  placeholder="No HP/Telp"
-                  class="w-full p-2 text-xs border border-gray-300 rounded"
+                  placeholder="Cth: 0812-3456-7890"
+                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
                 />
               </div>
+
               <div>
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Keterangan</label
@@ -381,44 +390,43 @@
                   type="text"
                   id="u_ket"
                   placeholder="Opsional"
-                  class="w-full p-2 text-xs border border-gray-300 rounded"
+                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
                 />
               </div>
+
               <button
                 type="submit"
                 id="btn-tambah-proses"
                 class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded transition shadow"
               >
-                + Tambah Bahan
+                + Tambah Ke Daftar Bahan
               </button>
             </form>
           </div>
 
           <!-- TABEL HASIL INPUT USER -->
           <div
-            class="lg:col-span-3 bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col justify-between"
+            class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col justify-between"
           >
             <div>
               <div class="flex justify-between items-center mb-4 border-b pb-2">
                 <h3 class="text-base font-bold text-indigo-900">
                   Daftar Bahan Baku Hari Ini
                 </h3>
-                <span class="text-xs text-gray-500 italic"
-                  >*Data siap diisi dari input/database</span
-                >
               </div>
-              <div class="overflow-x-auto" style="max-height: 60vh">
+              <div class="overflow-x-auto">
                 <table
                   class="w-full text-xs text-left border-collapse border border-gray-300"
                 >
                   <thead
-                    class="bg-gray-100 text-gray-700 font-semibold text-center sticky top-0 shadow-sm"
+                    class="bg-gray-100 text-gray-700 font-semibold text-center"
                   >
                     <tr>
-                      <th class="p-2 border border-gray-300">Kat.</th>
+                      <th class="p-2 border border-gray-300 w-8">No</th>
+                      <!-- Kategori dihapus sebagai kolom, dijadikan pemisah baris -->
                       <th class="p-2 border border-gray-300">Nama Bahan</th>
                       <th class="p-2 border border-gray-300">Satuan</th>
-                      <th class="p-2 border border-gray-300">Harga</th>
+                      <th class="p-2 border border-gray-300">Harga (Rp)</th>
                       <th class="p-2 border border-gray-300">Toko/Supplier</th>
                       <th class="p-2 border border-gray-300">Kontak</th>
                       <th class="p-2 border border-gray-300">Ket</th>
@@ -431,6 +439,7 @@
                 </table>
               </div>
             </div>
+
             <div class="mt-6 flex gap-4 justify-end border-t pt-4">
               <button
                 type="button"
@@ -465,16 +474,18 @@
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
         >
           <div>
-            <h2 class="text-xl font-bold text-gray-800">Preview Cetak Admin</h2>
+            <h2 class="text-xl font-bold text-gray-800">
+              Preview & Edit Admin
+            </h2>
             <p class="text-xs text-gray-500">
-              Verifikasi dan edit data sebelum dicetak.
+              Verifikasi dan edit data laporan sebelum dicetak.
             </p>
           </div>
           <div class="flex gap-2 items-center">
             <input
               type="date"
               id="a_tanggal_pilih"
-              class="p-2 border border-gray-300 rounded text-xs"
+              class="p-2 border border-gray-300 rounded text-xs outline-none focus:ring-2 focus:ring-amber-500"
               onchange="loadDataAdmin()"
             />
             <button
@@ -520,13 +531,13 @@
           </div>
         </div>
 
-        <!-- KOP HEADER -->
+        <!-- KOP HEADER SOP -->
         <div class="flex mb-3">
           <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
               <img
                 src="https://placehold.co/100x100/1e3a8a/white?text=Logo+BGN"
-                alt="Logo"
+                alt="Logo Badan Gizi Nasional"
                 class="w-14 h-14 object-contain mb-1"
               />
               <span
@@ -572,7 +583,7 @@
               >
               <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
-                <span id="a_tanggal_txt" class="w-full"></span>
+                <span id="a_tanggal_txt" class="w-full pl-1"></span>
               </div>
             </div>
             <div class="flex h-7">
@@ -633,7 +644,7 @@
                   class="hidden print:block w-full font-bold ml-1"
                 ></div>
                 <input
-                  type="text"
+                  type="number"
                   id="a_porsi"
                   oninput="
                     document.getElementById('print_a_porsi').innerText =
@@ -646,61 +657,38 @@
           </div>
         </div>
 
-        <!-- TABEL UTAMA PRINT (BAKU / FIXED LAYOUT) -->
-        <div class="w-full mb-3">
+        <!-- TABEL UTAMA PRINT SOP 002 -->
+        <div class="w-full overflow-x-auto mb-3">
           <table
-            class="main-table w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
+            class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
           >
             <thead class="bg-gray-50 print:bg-transparent">
               <tr>
-                <th
-                  class="border border-black p-1 bg-blue-100 print:bg-[#dbeafe]"
-                  style="-webkit-print-color-adjust: exact"
-                >
-                  No.
-                </th>
-                <th
-                  class="border border-black p-1 bg-blue-100 print:bg-[#dbeafe]"
-                  style="-webkit-print-color-adjust: exact"
-                >
-                  Nama Bahan Baku
-                </th>
-                <th
-                  class="border border-black p-1 bg-blue-100 print:bg-[#dbeafe]"
-                  style="-webkit-print-color-adjust: exact"
-                >
-                  Satuan
-                </th>
-                <th
-                  class="border border-black p-1 bg-blue-100 print:bg-[#dbeafe]"
-                  style="-webkit-print-color-adjust: exact"
-                >
-                  Harga
-                </th>
-                <th
-                  class="border border-black p-1 bg-blue-100 print:bg-[#dbeafe]"
-                  style="-webkit-print-color-adjust: exact"
-                >
-                  Nama Toko/ Supplier
-                </th>
-                <th
-                  class="border border-black p-1 bg-blue-100 print:bg-[#dbeafe]"
-                  style="-webkit-print-color-adjust: exact"
-                >
-                  Kontak
-                </th>
-                <th
-                  class="border border-black p-1 bg-blue-100 print:bg-[#dbeafe]"
-                  style="-webkit-print-color-adjust: exact"
-                >
-                  Keterangan
-                </th>
+                <th class="border border-black p-1">No.</th>
+                <th class="border border-black p-1">Nama Bahan Baku</th>
+                <th class="border border-black p-1">Satuan</th>
+                <th class="border border-black p-1">Harga (Rp)</th>
+                <th class="border border-black p-1">Nama Toko/ Supplier</th>
+                <th class="border border-black p-1">Kontak</th>
+                <th class="border border-black p-1">Keterangan</th>
               </tr>
             </thead>
             <tbody id="a_table_body">
               <!-- Generated via JS -->
             </tbody>
           </table>
+        </div>
+
+        <!-- AREA KETERANGAN -->
+        <div
+          class="text-[10px] print:text-[7pt] text-justify leading-tight mb-4"
+        >
+          <span class="font-bold underline">Keterangan:</span>
+          <span
+            >Daftar harga dan pemasok (supplier) diperbarui secara berkala dan
+            diverifikasi silang dengan kondisi pasar oleh petugas bagian
+            pembelian atau ahli gizi.</span
+          >
         </div>
 
         <!-- AREA TANDA TANGAN -->
@@ -711,9 +699,9 @@
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
             >
-              <p class="font-bold leading-tight">Dibuat Oleh</p>
+              <p class="font-bold leading-tight">Dibuat / Dicatat Oleh</p>
               <p class="font-bold leading-tight break-words">
-                Bagian Logistik / Pembelian,
+                Petugas Pembelian/Gudang,
               </p>
             </div>
             <div
@@ -724,18 +712,18 @@
               class="absolute bottom-0 left-0 w-full flex justify-center z-20"
             >
               <div
-                id="print_a_nama_jurutama"
-                class="hidden print:block w-[70%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5"
+                id="print_a_nama_petugas"
+                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
               ></div>
               <input
                 type="text"
-                id="a_nama_jurutama"
+                id="a_nama_petugas"
                 placeholder="Nama Petugas"
                 oninput="
-                  document.getElementById('print_a_nama_jurutama').innerText =
+                  document.getElementById('print_a_nama_petugas').innerText =
                     this.value
                 "
-                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
               />
             </div>
           </div>
@@ -745,9 +733,7 @@
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
             >
               <p class="font-bold leading-tight">Diverifikasi Oleh</p>
-              <p class="font-bold leading-tight break-words">
-                Kepala Dapur / Ahli Gizi,
-              </p>
+              <p class="font-bold leading-tight break-words">Ahli Gizi SPPG,</p>
             </div>
             <div
               class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
@@ -758,17 +744,17 @@
             >
               <div
                 id="print_a_nama_pengawas"
-                class="hidden print:block w-[70%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5"
+                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
               ></div>
               <input
                 type="text"
                 id="a_nama_pengawas"
-                placeholder="Nama Pengawas"
+                placeholder="Nama Ahli Gizi"
                 oninput="
                   document.getElementById('print_a_nama_pengawas').innerText =
                     this.value
                 "
-                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
               />
             </div>
           </div>
@@ -778,8 +764,11 @@
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
             >
               <p class="font-bold leading-tight">Mengetahui</p>
-              <p class="font-bold leading-tight break-words whitespace-normal">
-                Kepala SPPG,
+              <p
+                id="label_nama_sppg"
+                class="font-bold leading-tight break-words whitespace-normal"
+              >
+                Kepala SPPG Kota Pekanbaru Binawidya Tobekgodang,
               </p>
             </div>
             <div
@@ -791,7 +780,7 @@
             >
               <div
                 id="print_a_nama_kepala"
-                class="hidden print:block w-[70%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5"
+                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
               ></div>
               <input
                 type="text"
@@ -801,7 +790,7 @@
                   document.getElementById('print_a_nama_kepala').innerText =
                     this.value
                 "
-                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
               />
             </div>
           </div>
@@ -816,18 +805,19 @@
     >
       <div class="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full">
         <h3 class="text-lg font-bold mb-2 text-indigo-900">
-          Finalisasi Daftar
+          Finalisasi Laporan
         </h3>
         <p class="text-xs text-gray-600 mb-4">
-          Tanda tangan petugas pembuat daftar.
+          Mohon berikan tanda tangan Anda (Petugas Pencatat) untuk mengunci
+          laporan hari ini.
         </p>
         <div class="mb-4">
           <label class="block text-xs font-semibold text-gray-600 mb-1"
-            >Nama Petugas Logistik</label
+            >Nama Petugas</label
           >
           <input
             type="text"
-            id="m_nama_jurutama"
+            id="m_nama_petugas"
             class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
             placeholder="Ketik nama Anda..."
             required
@@ -843,7 +833,7 @@
           <button
             type="button"
             onclick="clearSig('sig-user')"
-            class="absolute top-2 right-2 text-xs text-red-600 bg-white px-2 py-1 border border-red-200 rounded"
+            class="absolute top-2 right-2 text-xs text-red-600 bg-white px-2 py-1 border border-red-200 rounded hover:bg-red-50"
           >
             Hapus
           </button>
@@ -852,16 +842,16 @@
           <button
             type="button"
             onclick="tutupModalTtd()"
-            class="px-4 py-2 text-xs text-gray-600 bg-gray-100 rounded"
+            class="px-4 py-2 text-xs text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
           >
             Batal
           </button>
           <button
             type="button"
             onclick="simpanFinalLaporan()"
-            class="px-4 py-2 text-xs bg-green-600 text-white font-bold rounded shadow-md"
+            class="px-4 py-2 text-xs bg-green-600 text-white font-bold rounded hover:bg-green-700"
           >
-            Kunci Data
+            Tandatangani & Kunci
           </button>
         </div>
       </div>
@@ -873,15 +863,21 @@
       class="fixed inset-0 modal-bg hidden z-50 flex items-center justify-center p-4"
     >
       <div class="bg-white rounded-xl shadow-2xl p-6 max-w-md w-full">
-        <h3 class="text-lg font-bold mb-2 text-amber-600">Verifikasi Admin</h3>
+        <h3 class="text-lg font-bold mb-2 text-amber-600">
+          Verifikasi Laporan Admin
+        </h3>
+        <p class="text-xs text-gray-600 mb-4">
+          Mohon berikan tanda tangan Anda sebagai bukti verifikasi.
+        </p>
         <div class="mb-4">
           <label class="block text-xs font-semibold text-gray-600 mb-1"
-            >Nama Verifikator</label
+            >Nama Pengawas / Ahli Gizi</label
           >
           <input
             type="text"
             id="m_nama_pengawas"
             class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-amber-500 outline-none"
+            placeholder="Ketik nama Anda..."
             required
           />
         </div>
@@ -895,7 +891,7 @@
           <button
             type="button"
             onclick="clearSig('sig-admin')"
-            class="absolute top-2 right-2 text-xs text-red-600 bg-white px-2 py-1 border border-red-200 rounded"
+            class="absolute top-2 right-2 text-xs text-red-600 bg-white px-2 py-1 border border-red-200 rounded hover:bg-red-50"
           >
             Hapus
           </button>
@@ -904,21 +900,22 @@
           <button
             type="button"
             onclick="tutupModalTtdAdmin()"
-            class="px-4 py-2 text-xs text-gray-600 bg-gray-100 rounded"
+            class="px-4 py-2 text-xs text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
           >
             Batal
           </button>
           <button
             type="button"
             onclick="simpanVerifikasiAdmin()"
-            class="px-4 py-2 text-xs bg-amber-500 text-white font-bold rounded shadow-md"
+            class="px-4 py-2 text-xs bg-amber-500 text-white font-bold rounded hover:bg-amber-600 shadow-md"
           >
-            Verifikasi
+            Verifikasi Sekarang
           </button>
         </div>
       </div>
     </div>
 
+    <!-- SCRIPT UTAMA -->
     <script>
       function showNotif(msg, type = "success") {
         const notif = document.getElementById("global-notif");
@@ -931,54 +928,39 @@
       }
 
       function switchTab(tab) {
-        const vUser = document.getElementById("user-view"),
-          vAdmin = document.getElementById("admin-view");
-        const btnUser = document.getElementById("btn-tab-user"),
-          btnAdmin = document.getElementById("btn-tab-admin");
+        const vUser = document.getElementById("user-view");
+        const vAdmin = document.getElementById("admin-view");
+        const btnUser = document.getElementById("btn-tab-user");
+        const btnAdmin = document.getElementById("btn-tab-admin");
+
         if (tab === "user") {
           vUser.classList.replace("hidden", "block");
           vAdmin.classList.replace("block", "hidden");
-          btnUser.classList.add("bg-indigo-700", "border-indigo-500");
-          btnUser.classList.remove("border-transparent");
+          btnUser.classList.replace("border-transparent", "border-indigo-500");
+          btnUser.classList.add("bg-indigo-700");
           btnAdmin.classList.remove("bg-indigo-700", "border-indigo-500");
-          btnAdmin.classList.add("border-transparent");
-          loadDataForDate();
+          if (typeof loadDataForDate === "function") loadDataForDate();
         } else {
           vUser.classList.replace("block", "hidden");
           vAdmin.classList.replace("hidden", "block");
-          btnAdmin.classList.add("bg-indigo-700", "border-indigo-500");
-          btnAdmin.classList.remove("border-transparent");
+          btnAdmin.classList.replace("border-transparent", "border-indigo-500");
+          btnAdmin.classList.add("bg-indigo-700");
           btnUser.classList.remove("bg-indigo-700", "border-indigo-500");
-          btnUser.classList.add("border-transparent");
-          document.getElementById("a_tanggal_pilih").value =
-            document.getElementById("u_tanggal").value;
-          loadDataAdmin();
+
+          const uTanggal = document.getElementById("u_tanggal");
+          const aTanggalPilih = document.getElementById("a_tanggal_pilih");
+          if (uTanggal && aTanggalPilih) aTanggalPilih.value = uTanggal.value;
+          if (typeof loadDataAdmin === "function") loadDataAdmin();
         }
       }
 
-      function getDB(key) {
-        let data = localStorage.getItem(key);
+      function getDB(storageKey) {
+        let data = localStorage.getItem(storageKey);
         return data ? JSON.parse(data) : {};
       }
-      function saveDB(key, dataObj) {
-        localStorage.setItem(key, JSON.stringify(dataObj));
-      }
 
-      /* Fungsi Modular Helper Format Rupiah Indonesia */
-      function formatRupiah(input) {
-        let value = input.value.replace(/[^,\d]/g, "").toString();
-        let split = value.split(",");
-        let sisa = split[0].length % 3;
-        let rupiah = split[0].substr(0, sisa);
-        let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-
-        if (ribuan) {
-          let separator = sisa ? "." : "";
-          rupiah += separator + ribuan.join(".");
-        }
-
-        rupiah = split[1] !== undefined ? rupiah + "," + split[1] : rupiah;
-        input.value = rupiah;
+      function saveDB(storageKey, dataObj) {
+        localStorage.setItem(storageKey, JSON.stringify(dataObj));
       }
 
       function setupSignaturePad(canvasId) {
@@ -990,48 +972,57 @@
         ctx.lineWidth = 2.5;
         ctx.lineJoin = "round";
         ctx.lineCap = "round";
-        const getPos = (e) => {
+
+        function getMousePos(e) {
           const rect = canvas.getBoundingClientRect();
-          let cX = e.clientX,
-            cY = e.clientY;
+          const scaleX = canvas.width / rect.width,
+            scaleY = canvas.height / rect.height;
+          let clientX = e.clientX,
+            clientY = e.clientY;
           if (e.touches && e.touches.length > 0) {
-            cX = e.touches[0].clientX;
-            cY = e.touches[0].clientY;
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
           }
           return {
-            x: (cX - rect.left) * (canvas.width / rect.width),
-            y: (cY - rect.top) * (canvas.height / rect.height),
+            x: (clientX - rect.left) * scaleX,
+            y: (clientY - rect.top) * scaleY,
           };
-        };
+        }
+
         const start = (e) => {
           e.preventDefault();
           isDrawing = true;
-          const p = getPos(e);
+          const pos = getMousePos(e);
           ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
+          ctx.moveTo(pos.x, pos.y);
         };
         const draw = (e) => {
           if (!isDrawing) return;
           e.preventDefault();
-          const p = getPos(e);
-          ctx.lineTo(p.x, p.y);
+          const pos = getMousePos(e);
+          ctx.lineTo(pos.x, pos.y);
           ctx.stroke();
         };
         const stop = (e) => {
           e.preventDefault();
           isDrawing = false;
         };
+
         canvas.addEventListener("mousedown", start);
         canvas.addEventListener("mousemove", draw);
         canvas.addEventListener("mouseup", stop);
+        canvas.addEventListener("mouseout", stop);
         canvas.addEventListener("touchstart", start, { passive: false });
         canvas.addEventListener("touchmove", draw, { passive: false });
         canvas.addEventListener("touchend", stop);
       }
-      function clearSig(id) {
-        const c = document.getElementById(id);
-        if (c) c.getContext("2d").clearRect(0, 0, c.width, c.height);
+
+      function clearSig(canvasId) {
+        const canvas = document.getElementById(canvasId);
+        if (canvas)
+          canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
       }
+
       function tutupModalTtd() {
         document
           .getElementById("modal-ttd")
@@ -1047,36 +1038,41 @@
     <script>
       let currentDate = new Date().toISOString().split("T")[0];
       let currentRows = [];
-      const STORAGE_KEY = "db_sop_bahan_baku";
+      const STORAGE_KEY = "db_sop_002"; // Key khusus SOP Bahan Baku
+      const MIN_ROWS = 10;
 
-      const masterTemplate = [];
+      // Standar urutan kategori pusat
+      const catOrderMap = {
+        KARBOHIDRAT: 1,
+        HEWANI: 2,
+        NABATI: 3,
+        SAYURAN: 4,
+        BUAH: 5,
+        "LAIN-LAIN": 6,
+      };
 
       window.onload = () => {
         document.getElementById("u_tanggal").value = currentDate;
         document.getElementById("a_tanggal_pilih").value = currentDate;
+
         setupSignaturePad("sig-user");
         setupSignaturePad("sig-admin");
         loadDataForDate();
       };
 
+      function formatRupiah(angka) {
+        return new Intl.NumberFormat("id-ID").format(angka);
+      }
+
       function getTodayData(date) {
         const db = getDB(STORAGE_KEY);
         if (!db[date]) {
-          let defaultRows = masterTemplate.map((item) => ({
-            kategori: item.kategori,
-            nama: item.nama,
-            satuan: item.satuan,
-            harga: "",
-            supplier: "",
-            kontak: "",
-            ket: "",
-          }));
           db[date] = {
-            status: "draft",
             shift: "",
             menu: "",
             porsi: "",
-            rows: defaultRows,
+            status: "draft",
+            rows: [],
             ttd_user: null,
             ttd_admin: null,
           };
@@ -1087,9 +1083,11 @@
       function loadDataForDate() {
         currentDate = document.getElementById("u_tanggal").value;
         const data = getTodayData(currentDate);
+
         document.getElementById("u_shift").value = data.shift || "";
         document.getElementById("u_menu").value = data.menu || "";
         document.getElementById("u_porsi").value = data.porsi || "";
+
         currentRows = data.rows || [];
         renderUserTable();
         checkFormLockStatus(data);
@@ -1097,35 +1095,39 @@
 
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
+        if (!tbody) return;
         tbody.innerHTML = "";
+
         if (currentRows.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-500 italic">Belum ada data bahan baku. Silakan tambahkan melalui form di samping.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-400 italic">Belum ada daftar bahan baku yang dicatat hari ini.</td></tr>`;
           return;
         }
-        currentRows.forEach((r, idx) => {
-          let bg = "bg-white";
-          if (r.kategori === "KARBOHIDRAT") bg = "bg-amber-50";
-          else if (r.kategori === "HEWANI") bg = "bg-red-50";
-          else if (r.kategori === "NABATI") bg = "bg-orange-50";
-          else if (r.kategori === "SAYURAN") bg = "bg-green-50";
-          else if (r.kategori === "BUAH") bg = "bg-blue-50";
 
-          // Format harga dengan Rp di kiri dan nominal di kanan
-          let rawHrg = r.harga ? r.harga.toString().replace(/\./g, "") : "";
-          let fmtHrg = rawHrg ? Number(rawHrg).toLocaleString("id-ID") : "";
-          let hargaHtml = fmtHrg
-            ? `<div class="flex justify-between items-center px-1 font-semibold"><span>Rp</span><span>${fmtHrg}</span></div>`
-            : "-";
+        // Urutkan berdasarkan Kategori Standar
+        currentRows.sort(
+          (a, b) =>
+            (catOrderMap[a.kategori] || 99) - (catOrderMap[b.kategori] || 99),
+        );
+
+        let currentKat = "";
+        let numInKat = 1;
+
+        currentRows.forEach((r, idx) => {
+          if (r.kategori !== currentKat) {
+            currentKat = r.kategori;
+            numInKat = 1; // Reset Nomor per kategori
+            tbody.innerHTML += `<tr class="bg-orange-50"><td colspan="8" class="p-2 border border-gray-300 text-center font-bold uppercase text-indigo-900">${currentKat}</td></tr>`;
+          }
 
           tbody.innerHTML += `
-            <tr class="${bg} border-b border-gray-200">
-              <td class="p-2 border border-gray-300 text-center font-bold text-[10px]">${r.kategori}</td>
-              <td class="p-2 border border-gray-300 text-left font-semibold">${r.nama}</td>
-              <td class="p-2 border border-gray-300 text-center">${r.satuan}</td>
-              <td class="p-2 border border-gray-300 text-right">${hargaHtml}</td>
-              <td class="p-2 border border-gray-300 text-center">${r.supplier || "-"}</td>
+            <tr class="hover:bg-gray-50 border-b border-gray-200">
+              <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${numInKat++}</td>
+              <td class="p-2 border border-gray-300">${r.nama || ""}</td>
+              <td class="p-2 border border-gray-300 text-center">${r.satuan || ""}</td>
+              <td class="p-2 border border-gray-300 text-right">${r.harga ? formatRupiah(r.harga) : "0"}</td>
+              <td class="p-2 border border-gray-300">${r.supplier || ""}</td>
               <td class="p-2 border border-gray-300 text-center">${r.kontak || "-"}</td>
-              <td class="p-2 border border-gray-300 text-left">${r.ket || "-"}</td>
+              <td class="p-2 border border-gray-300">${r.ket || "-"}</td>
               <td class="p-2 border border-gray-300 text-center">
                 <button type="button" onclick="hapusBarisProses(${idx})" class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
               </td>
@@ -1137,9 +1139,9 @@
         e.preventDefault();
         const data = getTodayData(currentDate);
         if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan terkunci!", "error");
+          return showNotif("Laporan sudah terkunci!", "error");
 
-        currentRows.push({
+        const newRow = {
           kategori: document.getElementById("u_kategori").value,
           nama: document.getElementById("u_nama").value,
           satuan: document.getElementById("u_satuan").value,
@@ -1147,107 +1149,132 @@
           supplier: document.getElementById("u_supplier").value,
           kontak: document.getElementById("u_kontak").value,
           ket: document.getElementById("u_ket").value,
-        });
+        };
+
+        currentRows.push(newRow);
         renderUserTable();
         document.getElementById("form-input-baris").reset();
-        showNotif("Bahan tambahan ditambahkan.");
+        showNotif("Bahan Baku berhasil ditambahkan.");
       }
 
       function hapusBarisProses(index) {
         const data = getTodayData(currentDate);
         if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan terkunci!", "error");
+          return showNotif("Laporan sudah terkunci!", "error");
+
         currentRows.splice(index, 1);
         renderUserTable();
+        showNotif("Data baris berhasil dihapus.");
       }
 
       function checkFormLockStatus(data) {
-        const b = document.getElementById("status-banner");
-        const inputs = document.querySelectorAll(
+        const banner = document.getElementById("status-banner");
+        const formInputs = document.querySelectorAll(
           "#user-view input:not(#u_tanggal), #user-view select, #btn-tambah-proses",
         );
-        const bd = document.getElementById("btn-draft"),
-          bf = document.getElementById("btn-final");
+        const btnDraft = document.getElementById("btn-draft");
+        const btnFinal = document.getElementById("btn-final");
+
+        if (!banner) return;
 
         if (data.status === "verified") {
-          b.textContent = "LAPORAN TELAH DIVERIFIKASI & TERKUNCI SEPENUHNYA";
-          b.className =
+          banner.textContent =
+            "LAPORAN TELAH DIVERIFIKASI OLEH PENGAWAS & TERKUNCI SEPENUHNYA";
+          banner.className =
             "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
-          inputs.forEach((el) => (el.disabled = true));
-          bd.classList.add("hidden");
-          bf.classList.add("hidden");
+          formInputs.forEach((el) => (el.disabled = true));
+          btnDraft?.classList.add("hidden");
+          btnFinal?.classList.add("hidden");
         } else if (data.status === "final") {
-          b.textContent = "LAPORAN SUDAH FINAL (MENUNGGU VERIFIKASI)";
-          b.className =
+          banner.textContent =
+            "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI PENGAWAS)";
+          banner.className =
             "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
-          inputs.forEach((el) => (el.disabled = true));
-          bd.classList.add("hidden");
-          bf.classList.add("hidden");
+          formInputs.forEach((el) => (el.disabled = true));
+          btnDraft?.classList.add("hidden");
+          btnFinal?.classList.add("hidden");
         } else {
-          b.classList.replace("block", "hidden");
-          inputs.forEach((el) => (el.disabled = false));
-          bd.classList.remove("hidden");
-          bf.classList.remove("hidden");
+          banner.classList.replace("block", "hidden");
+          formInputs.forEach((el) => (el.disabled = false));
+          btnDraft?.classList.remove("hidden");
+          btnFinal?.classList.remove("hidden");
         }
       }
 
       function simpanDraftGlobal() {
-        const db = getDB(STORAGE_KEY),
-          data = getTodayData(currentDate);
+        const db = getDB(STORAGE_KEY);
+        const data = getTodayData(currentDate);
         if (data.status === "final" || data.status === "verified")
-          return showNotif("Terkunci!", "error");
+          return showNotif("Laporan sudah terkunci!", "error");
+
         data.shift = document.getElementById("u_shift").value;
         data.menu = document.getElementById("u_menu").value;
         data.porsi = document.getElementById("u_porsi").value;
+        // Simpan dalam urutan yg sudah ter-sortir
+        currentRows.sort(
+          (a, b) =>
+            (catOrderMap[a.kategori] || 99) - (catOrderMap[b.kategori] || 99),
+        );
         data.rows = currentRows;
+
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
-        showNotif("Draft berhasil disimpan.");
+        showNotif("Draft laporan berhasil disimpan.");
       }
 
       function bukaModalTtdUser() {
         simpanDraftGlobal();
-        document
-          .getElementById("modal-ttd")
-          .classList.replace("hidden", "flex");
-        setTimeout(() => {
-          const c = document.getElementById("sig-user");
-          if (c) c.width = c.parentElement.getBoundingClientRect().width;
-        }, 100);
+        const modal = document.getElementById("modal-ttd");
+        if (modal) {
+          modal.classList.replace("hidden", "flex");
+          setTimeout(() => {
+            const c = document.getElementById("sig-user");
+            if (c) c.width = c.parentElement.getBoundingClientRect().width;
+          }, 100);
+        }
       }
 
       function simpanFinalLaporan() {
-        const cUser = document.getElementById("sig-user"),
-          db = getDB(STORAGE_KEY),
-          data = db[currentDate];
-        data.ttd_user = cUser.toDataURL();
+        const canvasUser = document.getElementById("sig-user");
+        const db = getDB(STORAGE_KEY);
+        const data = db[currentDate];
+
+        data.ttd_user = canvasUser.toDataURL();
         data.status = "final";
-        data.nama_jurutama = document.getElementById("m_nama_jurutama").value;
+        data.nama_petugas = document.getElementById("m_nama_petugas").value;
+
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
         tutupModalTtd();
         loadDataForDate();
-        showNotif("Laporan Final Dikunci!");
+        showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
       }
 
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
-        let dateF = "";
+
+        let dateFormated = "";
         if (dateStr) {
-          const [y, m, d] = dateStr.split("-");
-          dateF = new Date(y, m - 1, d).toLocaleDateString("id-ID", {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          });
+          const [yyyy, mm, dd] = dateStr.split("-");
+          dateFormated = new Date(yyyy, mm - 1, dd).toLocaleDateString(
+            "id-ID",
+            { weekday: "long", year: "numeric", month: "long", day: "numeric" },
+          );
         }
+        document.getElementById("a_tanggal_txt").textContent = dateFormated;
 
-        const data = db[dateStr] || getTodayData(dateStr);
+        const data = db[dateStr] || {
+          shift: "",
+          menu: "",
+          porsi: "",
+          status: "draft",
+          rows: [],
+          ttd_user: null,
+          ttd_admin: null,
+        };
 
-        document.getElementById("a_tanggal_txt").textContent = dateF;
-
+        // Memuat Value ke Input Sekaligus ke Element Teks Print
         document.getElementById("a_shift").value = data.shift || "";
         document.getElementById("print_a_shift").innerText = data.shift || "";
 
@@ -1257,162 +1284,174 @@
         document.getElementById("a_porsi").value = data.porsi || "";
         document.getElementById("print_a_porsi").innerText = data.porsi || "";
 
-        document.getElementById("a_nama_jurutama").value =
-          data.nama_jurutama || "";
-        document.getElementById("print_a_nama_jurutama").innerText =
-          data.nama_jurutama || "";
+        document.getElementById("a_nama_petugas").value =
+          data.nama_petugas || "";
+        const printPetugas = document.getElementById("print_a_nama_petugas");
+        if (printPetugas) printPetugas.innerText = data.nama_petugas || "";
+
         document.getElementById("a_nama_pengawas").value =
           data.nama_pengawas || "";
-        document.getElementById("print_a_nama_pengawas").innerText =
-          data.nama_pengawas || "";
+        const printPengawas = document.getElementById("print_a_nama_pengawas");
+        if (printPengawas) printPengawas.innerText = data.nama_pengawas || "";
+
         document.getElementById("a_nama_kepala").value = data.nama_kepala || "";
-        document.getElementById("print_a_nama_kepala").innerText =
-          data.nama_kepala || "";
+        const printKepala = document.getElementById("print_a_nama_kepala");
+        if (printKepala) printKepala.innerText = data.nama_kepala || "";
 
-        const tbody = document.getElementById("a_table_body");
-        tbody.innerHTML = "";
-
-        data.rows.forEach((r, i) => (r._idx = i));
-
-        const categories = [
-          "KARBOHIDRAT",
-          "HEWANI",
-          "NABATI",
-          "SAYURAN",
-          "BUAH",
-          "Lain-lain",
-        ];
-
-        if (data.rows.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="7" class="border border-black p-3 text-center italic text-gray-500">Belum ada data bahan baku untuk tanggal ini.</td></tr>`;
-        } else {
-          categories.forEach((cat) => {
-            const items = data.rows.filter((r) => r.kategori === cat);
-            if (items.length > 0) {
-              tbody.innerHTML += `
-                   <tr class="cat-header bg-yellow-200">
-                      <td colspan="7" class="border border-black p-1 font-bold text-center text-xs uppercase print:text-[9.5pt] tracking-widest">${cat}</td>
-                   </tr>
-                `;
-
-              items.forEach((r, localIdx) => {
-                let rawHrgAdmin = r.harga
-                  ? r.harga.toString().replace(/\./g, "")
-                  : "";
-                let fmtHrgAdmin = rawHrgAdmin
-                  ? Number(rawHrgAdmin).toLocaleString("id-ID")
-                  : "";
-
-                tbody.innerHTML += `
-                    <tr>
-                      <td class="border border-black p-1 text-center font-bold">${localIdx + 1}</td>
-                      <td class="border border-black p-0 relative">
-                        <div class="hidden print:block w-full text-left pl-1 whitespace-normal break-words">${r.nama || ""}</div>
-                        <input type="text" id="a_nama_${r._idx}" value="${r.nama || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left pl-1 bg-transparent print:hidden">
-                      </td>
-                      <td class="border border-black p-0 relative">
-                        <div class="hidden print:block w-full text-center whitespace-normal">${r.satuan || ""}</div>
-                        <input type="text" id="a_satuan_${r._idx}" value="${r.satuan || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
-                      </td>
-                      <td class="border border-black p-0 relative">
-                        <div class="hidden print:flex justify-between items-center px-1 w-full font-semibold">
-                          <span>Rp</span>
-                          <span id="print_harga_${r._idx}">${fmtHrgAdmin}</span>
-                        </div>
-                        <div class="flex items-center px-1 w-full print:hidden">
-                          <span class="text-xs text-gray-600 mr-1">Rp</span>
-                          <input type="text" id="a_harga_${r._idx}" value="${fmtHrgAdmin}" onkeyup="formatRupiah(this)" oninput="document.getElementById('print_harga_${r._idx}').innerText = this.value" class="w-full text-right font-semibold bg-transparent outline-none">
-                        </div>
-                      </td>
-                      <td class="border border-black p-0 relative">
-                        <div class="hidden print:block w-full text-left pl-1 whitespace-normal break-words">${r.supplier || ""}</div>
-                        <input type="text" id="a_supplier_${r._idx}" value="${r.supplier || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left pl-1 bg-transparent print:hidden">
-                      </td>
-                      <td class="border border-black p-0 relative">
-                        <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.kontak || ""}</div>
-                        <input type="text" id="a_kontak_${r._idx}" value="${r.kontak || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
-                      </td>
-                      <td class="border border-black p-0 relative">
-                        <div class="hidden print:block w-full text-left pl-1 pr-1 whitespace-normal break-words">${r.ket || ""}</div>
-                        <input type="text" id="a_ket_${r._idx}" value="${r.ket || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left pl-1 bg-transparent print:hidden">
-                      </td>
-                    </tr>`;
-              });
-            }
-          });
+        // Sortir kembali sebelum di-render ke view admin
+        if (data.rows) {
+          data.rows.sort(
+            (a, b) =>
+              (catOrderMap[a.kategori] || 99) - (catOrderMap[b.kategori] || 99),
+          );
         }
 
-        const sigAdmin = document.getElementById("a_render_sig_admin");
-        const inputs = document.querySelectorAll("#admin-view input");
-        const btnVerif = document.getElementById("btn-verifikasi-admin"),
-          btnPrint = document.getElementById("btn-print-admin");
+        const rowCount = Math.max(MIN_ROWS, data.rows ? data.rows.length : 0);
+        const tbody = document.getElementById("a_table_body");
+        if (!tbody) return;
+        tbody.innerHTML = "";
 
-        document.getElementById("a_render_sig_user").innerHTML = data.ttd_user
-          ? `<img src="${data.ttd_user}" alt="TTD">`
-          : ``;
+        let currentKat = "";
+        let numInKat = 1;
+
+        // Render tabel Admin menggunakan metode Dual-Element (Div Print + Input Edit)
+        for (let i = 1; i <= rowCount; i++) {
+          const r = data.rows[i - 1] || {
+            kategori: "",
+            nama: "",
+            satuan: "",
+            harga: "",
+            supplier: "",
+            kontak: "",
+            ket: "",
+          };
+
+          let displayKat = r.kategori || "TAMBAHAN / LAINNYA";
+
+          // Header Group Category
+          if (
+            displayKat !== currentKat &&
+            displayKat !== "TAMBAHAN / LAINNYA"
+          ) {
+            currentKat = displayKat;
+            numInKat = 1;
+            tbody.innerHTML += `<tr style="background-color: #fff2cc !important;" class="font-bold print:bg-[#fff2cc]">
+                 <td colspan="7" class="border border-black p-1 text-center uppercase">${currentKat}</td>
+             </tr>`;
+          }
+
+          tbody.innerHTML += `
+            <tr>
+              <td class="border border-black p-0.5 font-bold text-center">${numInKat++}</td>
+              <td class="border border-black p-0 relative">
+                <input type="hidden" id="a_kategori_${i}" value="${r.kategori || ""}">
+                <div class="hidden print:block w-full text-left whitespace-normal break-words px-1">${r.nama || ""}</div>
+                <input type="text" id="a_nama_${i}" value="${r.nama || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left bg-transparent px-1 print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.satuan || ""}</div>
+                <input type="text" id="a_satuan_${i}" value="${r.satuan || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.harga ? formatRupiah(r.harga) : ""}</div>
+                <input type="text" id="a_harga_${i}" value="${r.harga || ""}" oninput="this.previousElementSibling.innerText = this.value ? new Intl.NumberFormat('id-ID').format(this.value) : ''" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-left whitespace-normal break-words px-1">${r.supplier || ""}</div>
+                <input type="text" id="a_supplier_${i}" value="${r.supplier || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left bg-transparent px-1 print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.kontak || ""}</div>
+                <input type="text" id="a_kontak_${i}" value="${r.kontak || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-left whitespace-normal break-words px-1">${r.ket || ""}</div>
+                <input type="text" id="a_ket_${i}" value="${r.ket || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left bg-transparent px-1 print:hidden">
+              </td>
+            </tr>`;
+        }
+
+        const sigBoxUser = document.getElementById("a_render_sig_user");
+        if (sigBoxUser)
+          sigBoxUser.innerHTML = data.ttd_user
+            ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
+            : ``;
+
+        const btnVerifikasi = document.getElementById("btn-verifikasi-admin");
+        const btnPrint = document.getElementById("btn-print-admin");
+        const sigBoxAdmin = document.getElementById("a_render_sig_admin");
+        const adminInputs = document.querySelectorAll(
+          "#admin-view input:not([type='hidden'])",
+        );
 
         if (data.status === "verified") {
-          btnVerif?.classList.add("hidden");
+          btnVerifikasi?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
-          inputs.forEach((el) => (el.readOnly = true));
-          if (data.ttd_admin)
-            sigAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD">`;
+          adminInputs.forEach((el) => (el.readOnly = true));
+          if (data.ttd_admin && sigBoxAdmin)
+            sigBoxAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
         } else {
-          btnVerif?.classList.remove("hidden");
+          btnVerifikasi?.classList.remove("hidden");
           btnPrint?.classList.add("hidden");
-          inputs.forEach((el) => (el.readOnly = false));
-          sigAdmin.innerHTML = ``;
+          adminInputs.forEach((el) => (el.readOnly = false));
+          if (sigBoxAdmin) sigBoxAdmin.innerHTML = ``;
         }
       }
 
       function bukaModalTtdAdmin() {
-        const u = document.getElementById("m_nama_pengawas"),
-          a = document.getElementById("a_nama_pengawas");
-        if (u && a) u.value = a.value;
-        document
-          .getElementById("modal-ttd-admin")
-          .classList.replace("hidden", "flex");
-        setTimeout(() => {
-          const c = document.getElementById("sig-admin");
-          if (c) c.width = c.parentElement.getBoundingClientRect().width;
-        }, 100);
+        const pengawasInput = document.getElementById("m_nama_pengawas");
+        const aPengawas = document.getElementById("a_nama_pengawas");
+        if (pengawasInput && aPengawas) pengawasInput.value = aPengawas.value;
+
+        const modal = document.getElementById("modal-ttd-admin");
+        if (modal) {
+          modal.classList.replace("hidden", "flex");
+          setTimeout(() => {
+            const c = document.getElementById("sig-admin");
+            if (c) c.width = c.parentElement.getBoundingClientRect().width;
+          }, 100);
+        }
       }
 
       function simpanVerifikasiAdmin() {
-        const cAdmin = document.getElementById("sig-admin"),
-          nPengawas = document.getElementById("m_nama_pengawas").value;
-        if (!nPengawas) return alert("Isi Nama Verifikator!");
+        const canvasAdmin = document.getElementById("sig-admin");
+        const namaPengawas = document.getElementById("m_nama_pengawas").value;
+        if (!namaPengawas) return alert("Mohon isi Nama Pengawas.");
 
-        const dateStr = document.getElementById("a_tanggal_pilih").value,
-          db = getDB(STORAGE_KEY),
-          data = db[dateStr];
+        const dateStr = document.getElementById("a_tanggal_pilih").value;
+        const db = getDB(STORAGE_KEY);
+        const data = db[dateStr] || getTodayData(dateStr);
 
-        data.rows.forEach((r, i) => {
-          r.nama = document.getElementById(`a_nama_${i}`)?.value || r.nama;
-          r.satuan =
-            document.getElementById(`a_satuan_${i}`)?.value || r.satuan;
-          r.harga = document.getElementById(`a_harga_${i}`)?.value || r.harga;
-          r.supplier =
-            document.getElementById(`a_supplier_${i}`)?.value || r.supplier;
-          r.kontak =
-            document.getElementById(`a_kontak_${i}`)?.value || r.kontak;
-          r.ket = document.getElementById(`a_ket_${i}`)?.value || r.ket;
-        });
+        const rowCount = Math.max(MIN_ROWS, data.rows ? data.rows.length : 0);
+        let updatedRows = [];
+        for (let i = 1; i <= rowCount; i++) {
+          updatedRows.push({
+            kategori: document.getElementById(`a_kategori_${i}`)?.value || "",
+            nama: document.getElementById(`a_nama_${i}`)?.value || "",
+            satuan: document.getElementById(`a_satuan_${i}`)?.value || "",
+            harga: document.getElementById(`a_harga_${i}`)?.value || "",
+            supplier: document.getElementById(`a_supplier_${i}`)?.value || "",
+            kontak: document.getElementById(`a_kontak_${i}`)?.value || "",
+            ket: document.getElementById(`a_ket_${i}`)?.value || "",
+          });
+        }
 
+        data.rows = updatedRows;
         data.shift = document.getElementById("a_shift").value;
         data.menu = document.getElementById("a_menu").value;
         data.porsi = document.getElementById("a_porsi").value;
-        data.nama_jurutama = document.getElementById("a_nama_jurutama").value;
-        data.nama_pengawas = nPengawas;
+        data.nama_petugas = document.getElementById("a_nama_petugas").value;
+        data.nama_pengawas = namaPengawas;
         data.nama_kepala = document.getElementById("a_nama_kepala").value;
-        data.ttd_admin = cAdmin.toDataURL();
+        data.ttd_admin = canvasAdmin.toDataURL();
         data.status = "verified";
 
         db[dateStr] = data;
         saveDB(STORAGE_KEY, db);
+
         tutupModalTtdAdmin();
         loadDataAdmin();
-        showNotif("Laporan DIVERIFIKASI!");
+        showNotif("Laporan berhasil DIVERIFIKASI!");
       }
     </script>
   </body>
