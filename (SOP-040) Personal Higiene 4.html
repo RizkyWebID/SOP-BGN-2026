@@ -7,8 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       /* =================================================
-       * SPPG - STYLE UMUM (SHARED STYLESHEET)
-       * Berlaku untuk SOP 14, 18, 22, 29 dan form sejenis
+       * SPPG - STYLE UMUM (SHARED STYLESHEET - SOP 14)
        * ================================================= */
       body {
         font-family: Arial, sans-serif;
@@ -120,7 +119,7 @@
       }
     </style>
     <style>
-      /* --- STYLE KHUSUS SOP 29D (PRINT LEBAR KOLOM) --- */
+      /* --- STYLE KHUSUS SOP 29D DINAMIS --- */
       @media print {
         th:nth-child(1) {
           width: 6%;
@@ -154,7 +153,9 @@
   <body class="text-gray-800">
     <!-- TOP NAVIGATION -->
     <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
-      <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div
+        class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3"
+      >
         <div class="font-bold text-sm sm:text-base flex items-center gap-2">
           <svg
             class="w-6 h-6"
@@ -171,20 +172,20 @@
           </svg>
           SOP 29D: Pemeriksaan Sarana Cuci Tangan & Penyimpanan
         </div>
-        <div class="flex gap-2">
+        <div class="flex gap-2 w-full sm:w-auto">
           <button
             onclick="switchTab('user')"
             id="btn-tab-user"
-            class="px-4 py-2 bg-indigo-700 hover:bg-indigo-600 rounded transition font-medium border border-indigo-500 text-xs sm:text-sm"
+            class="flex-1 sm:flex-none px-4 py-2 bg-indigo-700 hover:bg-indigo-600 rounded transition font-medium border border-indigo-500 text-xs sm:text-sm text-center"
           >
-            Mode User (Input)
+            Mode User
           </button>
           <button
             onclick="switchTab('admin')"
             id="btn-tab-admin"
-            class="px-4 py-2 hover:bg-indigo-600 rounded transition font-medium border border-transparent text-xs sm:text-sm"
+            class="flex-1 sm:flex-none px-4 py-2 hover:bg-indigo-600 rounded transition font-medium border border-transparent text-xs sm:text-sm text-center"
           >
-            Mode Admin (Laporan)
+            Mode Admin
           </button>
         </div>
       </div>
@@ -201,11 +202,15 @@
       <!-- ========================================== -->
       <div id="user-view" class="space-y-6 block">
         <!-- INFORMASI UMUM -->
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <h2 class="text-lg font-bold text-indigo-900 mb-4 border-b pb-2">
+        <div
+          class="bg-white p-4 md:p-6 rounded-lg shadow-sm border border-gray-200"
+        >
+          <h2
+            class="text-sm md:text-lg font-bold text-indigo-900 mb-4 border-b pb-2"
+          >
             Informasi Umum
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <label class="block text-xs font-semibold text-gray-700 mb-1"
                 >Pilih Tanggal Laporan</label
@@ -265,16 +270,16 @@
         ></div>
 
         <!-- FORM & TABEL INPUT ASPEK (KIRI & KANAN) -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <!-- KIRI: PANEL INPUT -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- KIRI: PANEL INPUT (Diperbaiki jarak dan simetrinya) -->
           <div
-            class="md:col-span-1 bg-white p-5 rounded-lg shadow-sm border border-gray-200 self-start"
+            class="lg:col-span-1 bg-white p-4 md:p-5 rounded-lg shadow-sm border border-gray-200 self-start"
           >
             <h3 class="text-sm font-bold text-indigo-900 mb-4 border-b pb-2">
               Tambah Aspek Pemeriksaan
             </h3>
 
-            <div class="mb-3">
+            <div class="mb-4">
               <label class="block text-xs font-semibold text-gray-700 mb-1"
                 >Aspek yang Diperiksa</label
               >
@@ -286,36 +291,41 @@
               ></textarea>
             </div>
 
-            <div class="mb-3">
-              <label class="block text-xs font-semibold text-gray-700 mb-1"
+            <!-- PERBAIKAN: Tombol Sesuai/Tidak Sesuai Simetris 50:50 -->
+            <div class="mb-4">
+              <label class="block text-xs font-semibold text-gray-700 mb-2"
                 >Status Kesesuaian</label
               >
-              <div
-                class="flex gap-4 p-2 border border-gray-200 rounded bg-gray-50"
-              >
-                <label class="flex items-center gap-1 cursor-pointer text-xs">
+              <div class="flex gap-2 w-full">
+                <label
+                  class="flex-1 flex items-center justify-center gap-2 p-2 border border-gray-300 rounded-md bg-white cursor-pointer hover:bg-gray-50 transition"
+                >
                   <input
                     type="radio"
                     name="in_status"
                     value="Sesuai"
                     checked
-                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                    class="h-4 w-4 text-green-600 focus:ring-green-500 cursor-pointer"
                   />
-                  Sesuai
+                  <span class="text-xs font-bold text-gray-700">Sesuai</span>
                 </label>
-                <label class="flex items-center gap-1 cursor-pointer text-xs">
+                <label
+                  class="flex-1 flex items-center justify-center gap-2 p-2 border border-gray-300 rounded-md bg-white cursor-pointer hover:bg-gray-50 transition"
+                >
                   <input
                     type="radio"
                     name="in_status"
                     value="Tidak Sesuai"
-                    class="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
+                    class="h-4 w-4 text-red-600 focus:ring-red-500 cursor-pointer"
                   />
-                  Tidak Sesuai
+                  <span class="text-xs font-bold text-gray-700"
+                    >Tidak Sesuai</span
+                  >
                 </label>
               </div>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-5">
               <label class="block text-xs font-semibold text-gray-700 mb-1"
                 >Keterangan (Opsional)</label
               >
@@ -331,7 +341,7 @@
               type="button"
               id="btn-tambah-aspek"
               onclick="tambahAspek()"
-              class="w-full py-2 bg-indigo-600 text-white font-bold text-xs rounded hover:bg-indigo-700 transition shadow"
+              class="w-full py-2.5 bg-indigo-600 text-white font-bold text-xs rounded hover:bg-indigo-700 transition shadow"
             >
               + Tambahkan ke Daftar
             </button>
@@ -339,7 +349,7 @@
 
           <!-- KANAN: PANEL DAFTAR -->
           <div
-            class="md:col-span-2 bg-white p-5 rounded-lg shadow-sm border border-gray-200"
+            class="lg:col-span-2 bg-white p-4 md:p-5 rounded-lg shadow-sm border border-gray-200"
           >
             <div class="flex justify-between items-center mb-4 border-b pb-2">
               <h3 class="text-sm font-bold text-indigo-900">
@@ -354,7 +364,7 @@
 
             <div class="overflow-x-auto min-h-[200px]">
               <table
-                class="w-full text-xs text-left border-collapse border border-gray-300"
+                class="w-full text-xs text-left border-collapse border border-gray-300 min-w-[500px]"
               >
                 <thead
                   class="bg-gray-100 text-gray-700 font-semibold text-center"
@@ -364,7 +374,7 @@
                     <th class="p-2 border border-gray-300 text-left pl-2">
                       Aspek yang Diperiksa
                     </th>
-                    <th class="p-2 border border-gray-300 w-20">Status</th>
+                    <th class="p-2 border border-gray-300 w-24">Status</th>
                     <th class="p-2 border border-gray-300 text-left pl-2">
                       Keterangan
                     </th>
@@ -390,7 +400,7 @@
                 type="button"
                 onclick="bukaModalTtdUser()"
                 id="btn-final"
-                class="px-5 py-2 bg-green-600 text-white font-bold text-xs rounded hover:bg-green-700 transition shadow-md"
+                class="px-5 py-2.5 bg-green-600 text-white font-bold text-xs rounded hover:bg-green-700 transition shadow-md w-full sm:w-auto"
               >
                 Simpan & Selesai (Final)
               </button>
@@ -408,7 +418,7 @@
         style="font-family: Arial, sans-serif"
       >
         <div
-          class="no-print mb-6 flex justify-between items-center border-b pb-4"
+          class="no-print mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-4 gap-4"
         >
           <div>
             <h2 class="text-xl font-bold text-gray-800">
@@ -418,17 +428,17 @@
               Verifikasi dan periksa laporan dinamis sebelum dicetak.
             </p>
           </div>
-          <div class="flex gap-2 items-center">
+          <div class="flex gap-2 items-center w-full sm:w-auto">
             <input
               type="date"
               id="a_tanggal_pilih"
-              class="p-2 border border-gray-300 rounded text-xs"
+              class="p-2 border border-gray-300 rounded text-xs flex-1 sm:flex-none"
               onchange="loadDataAdmin()"
             />
             <button
               id="btn-verifikasi-admin"
               onclick="bukaModalTtdAdmin()"
-              class="px-4 py-2 bg-amber-500 text-white font-bold text-xs rounded hover:bg-amber-600 shadow transition flex items-center gap-2"
+              class="px-4 py-2 bg-amber-500 text-white font-bold text-xs rounded hover:bg-amber-600 shadow transition flex items-center justify-center gap-2 flex-1 sm:flex-none"
             >
               <svg
                 class="w-4 h-4"
@@ -443,12 +453,12 @@
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              Verifikasi Laporan
+              Verifikasi
             </button>
             <button
               id="btn-print-admin"
               onclick="window.print()"
-              class="hidden px-4 py-2 bg-blue-600 text-white font-bold text-xs rounded hover:bg-blue-700 shadow flex items-center gap-2"
+              class="hidden px-4 py-2 bg-blue-600 text-white font-bold text-xs rounded hover:bg-blue-700 shadow flex items-center justify-center gap-2 flex-1 sm:flex-none"
             >
               <svg
                 class="w-4 h-4"
@@ -463,12 +473,12 @@
                   d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
                 ></path>
               </svg>
-              Cetak Dokumen
+              Cetak
             </button>
           </div>
         </div>
 
-        <!-- KOP HEADER SOP 29D -->
+        <!-- KOP HEADER SOP 14 MASTER TEMPLATE -->
         <div class="flex mb-3">
           <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
@@ -520,7 +530,7 @@
               >
               <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span
-                ><span id="a_tanggal_txt" class="w-full"></span>
+                ><span id="a_tanggal_txt" class="w-full truncate"></span>
               </div>
             </div>
             <div class="flex h-7">
@@ -549,7 +559,7 @@
                 ><input
                   type="text"
                   id="a_menu"
-                  class="w-full bg-transparent font-bold outline-none print:appearance-none"
+                  class="w-full bg-transparent font-bold outline-none print:appearance-none truncate"
                 />
               </div>
             </div>
@@ -594,7 +604,7 @@
           </table>
         </div>
 
-        <!-- AREA TANDA TANGAN SERAGAM -->
+        <!-- AREA TANDA TANGAN SERAGAM SOP 14 MASTER -->
         <div
           class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
         >
@@ -617,7 +627,7 @@
             >
               <div
                 id="print_a_nama_petugas"
-                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+                class="hidden print:block w-[70%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
               ></div>
               <input
                 type="text"
@@ -627,7 +637,7 @@
                   document.getElementById('print_a_nama_petugas').innerText =
                     this.value
                 "
-                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
               />
             </div>
           </div>
@@ -651,7 +661,7 @@
             >
               <div
                 id="print_a_nama_pengawas"
-                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+                class="hidden print:block w-[70%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
               ></div>
               <input
                 type="text"
@@ -661,7 +671,7 @@
                   document.getElementById('print_a_nama_pengawas').innerText =
                     this.value
                 "
-                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
               />
             </div>
           </div>
@@ -685,7 +695,7 @@
             >
               <div
                 id="print_a_nama_kepala"
-                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+                class="hidden print:block w-[70%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
               ></div>
               <input
                 type="text"
@@ -695,7 +705,7 @@
                   document.getElementById('print_a_nama_kepala').innerText =
                     this.value
                 "
-                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
               />
             </div>
           </div>
@@ -829,7 +839,7 @@
 
     <script>
       // ==========================================
-      // SPPG - SHARED SCRIPT (sop-shared.js)
+      // SPPG - SHARED SCRIPT (SOP 14 Master Base)
       // ==========================================
       function showNotif(msg, type = "success") {
         const notif = document.getElementById("global-notif");
@@ -946,10 +956,8 @@
 
     <script>
       // ==========================================
-      // SOP 29D - LOGIKA DINAMIS ARRAY (Baru)
+      // SOP 29D - LOGIKA DINAMIS ARRAY
       // ==========================================
-
-      // Menggunakan Key Baru agar data lama tidak error (migrasi struktur Objek ke Array)
       const STORAGE_KEY = "db_sop_29d_v4_dinamis";
       let currentDate = new Date().toISOString().split("T")[0];
 
@@ -969,7 +977,7 @@
             menu: "",
             porsi: "",
             status: "draft",
-            items: [], // Format data sekarang adalah Array Kosong
+            items: [],
             ttd_user: null,
             ttd_admin: null,
             nama_petugas: "",
@@ -977,7 +985,6 @@
             nama_kepala: "Rizky Arinanda. AR, S.Kom",
           };
         }
-        // Fallback jika tidak sengaja terbaca sebagai objek
         if (!Array.isArray(db[date].items)) db[date].items = [];
         return db[date];
       }
@@ -1021,7 +1028,6 @@
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
 
-        // Reset Form
         inputAspek.value = "";
         inputKet.value = "";
         document.querySelector(
@@ -1103,13 +1109,12 @@
         const btnFinal = document.getElementById("btn-final");
         const panelInput = document
           .getElementById("in_aspek")
-          .closest("div.md\\:col-span-1"); // Memilih kolom kiri
+          .closest("div.lg\\:col-span-1");
         const thAksi = document.getElementById("th-aksi");
         const tdAksi = document.querySelectorAll(".text-aksi");
 
         if (!banner) return;
 
-        // Reset state
         panelInput.style.display = "block";
         document.getElementById("btn-tambah-aspek").disabled = false;
         thAksi.style.display = "table-cell";
@@ -1179,7 +1184,6 @@
         showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
       }
 
-      /* --- FUNGSI RENDER TABEL ADMIN (CETAK) --- */
       function renderAdminTable(data) {
         const tbody = document.getElementById("a_table_body");
         tbody.innerHTML = "";
@@ -1244,7 +1248,6 @@
           printKepala.innerText =
             data.nama_kepala || "Rizky Arinanda. AR, S.Kom";
 
-        // Render Tabel Array ke View Cetak Admin
         renderAdminTable(data);
 
         const sigBoxUser = document.getElementById("a_render_sig_user");
