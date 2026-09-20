@@ -28,7 +28,7 @@
    * Nama "namespace" prefix agar tidak bentrok dengan key localStorage
    * milik aplikasi lain di domain yang sama.
    * ------------------------------------------------------------------- */
-  const NAMESPACE = "sop_bgn_v1:";
+  const NAMESPACE = "SOP_BGN_2026:";
 
   /* ---------------------------------------------------------------------
    * BACKEND SINKRON — saat ini memakai localStorage.
