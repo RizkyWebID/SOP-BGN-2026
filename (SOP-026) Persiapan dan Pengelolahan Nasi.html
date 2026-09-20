@@ -6,18 +6,21 @@
     <title>Sistem Laporan Pengolahan Nasi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+      /* =================================================sh
+ * SPPG - STYLE UMUM (SHARED STYLESHEET)
+ * Berlaku untuk SOP 14, 18, 22, dan form sejenis
+ * ================================================= */
       body {
         font-family: Arial, sans-serif;
         background-color: #f3f4f6;
         font-size: 12px;
       }
 
-      /* Modal Background */
+      /* Modal & Signature Pad */
       .modal-bg {
         background-color: rgba(0, 0, 0, 0.5);
       }
 
-      /* Styling Canvas Tanda Tangan */
       .signature-pad {
         border: 2px dashed #cbd5e1;
         border-radius: 0.5rem;
@@ -26,12 +29,11 @@
         touch-action: none;
       }
 
-      /* --- CSS KHUSUS PRINT (PORTRAIT) --- */
+      /* --- CSS KHUSUS PRINT GLOBAL --- */
       @media print {
         @page {
           margin: 1cm;
         }
-
         body {
           background-color: white;
           font-family: Arial, sans-serif;
@@ -50,7 +52,6 @@
           width: 100% !important;
           max-width: 100% !important;
           min-height: auto !important;
-          font-size: 12pt !important;
         }
         #user-view,
         #top-nav {
@@ -74,8 +75,9 @@
           color: black !important;
           padding: 0 !important;
           margin: 0 !important;
-          font-size: 11pt !important;
+          font-size: 12pt !important;
           font-family: Arial, sans-serif !important;
+          text-align: center;
         }
         ::-webkit-input-placeholder {
           color: transparent !important;
@@ -86,48 +88,20 @@
           table-layout: fixed;
           border-collapse: collapse !important;
         }
+
         th,
         td {
           padding: 3px 2px !important;
           word-wrap: break-word;
-          font-size: 11pt !important;
+          font-size: 10pt !important;
           text-align: center;
         }
 
-        th:nth-child(1) {
-          width: 5%;
-        }
-        th:nth-child(2) {
-          width: 11%;
-        }
-        th:nth-child(3) {
-          width: 11%;
-        }
-        th:nth-child(4) {
-          width: 10%;
-        }
-        th:nth-child(5) {
-          width: 10%;
-        }
-        th:nth-child(6) {
-          width: 13%;
-        }
-        th:nth-child(7) {
-          width: 9%;
-        }
-        th:nth-child(8) {
-          width: 9%;
-        }
-        th:nth-child(9) {
-          width: 22%;
-        }
-
-        /* Memastikan kolom nama tanda tangan tetap memiliki garis bawah saat diprint */
         .print-name-input {
           border-bottom: 1px solid black !important;
         }
         .print-name-input::-webkit-input-placeholder {
-          color: #555 !important; /* Menampilkan samar teks placeholder saat diprint jika kosong */
+          color: #555 !important;
         }
 
         .print-signature-area {
@@ -135,8 +109,8 @@
           text-align: center;
         }
         .print-signature-area img {
-          max-width: 120px;
-          max-height: 60px;
+          max-width: 100px;
+          max-height: 50px;
           display: inline-block;
         }
         .canvas-container {
@@ -144,10 +118,44 @@
         }
       }
     </style>
+    <style>
+      /* --- STYLE KHUSUS SOP 14 --- */
+      @media print {
+        th:nth-child(1) {
+          width: 6%;
+        } /* No */
+        th:nth-child(2) {
+          width: 10%;
+        } /* Mulai */
+        th:nth-child(3) {
+          width: 10%;
+        } /* Selesai */
+        th:nth-child(4) {
+          width: 12%;
+        } /* Berat Beras */
+        th:nth-child(5) {
+          width: 12%;
+        } /* Air */
+        th:nth-child(6) {
+          width: 12%;
+        } /* Suhu */
+        th:nth-child(7) {
+          width: 10%;
+        } /* Warna */
+        th:nth-child(8) {
+          width: 10%;
+        } /* Tekstur */
+        th:nth-child(9) {
+          width: 18%;
+          text-align: left;
+        } /* Catatan */
+      }
+    </style>
   </head>
   <body class="text-gray-800">
+    <!-- TOP NAVIGATION -->
     <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
-      <div class="max-w-6xl mx-auto flex justify-between items-center">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="font-bold text-sm sm:text-base flex items-center gap-2">
           <svg
             class="w-6 h-6"
@@ -162,7 +170,7 @@
               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
             ></path>
           </svg>
-          Sistem Laporan Harian
+          Laporan Pemantauan Pengolahan Nasi
         </div>
         <div class="flex gap-2">
           <button
@@ -190,37 +198,16 @@
       Pesan Notifikasi
     </div>
 
-    <main class="max-w-6xl mx-auto p-4 md:p-6 mb-20">
+    <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
       <!-- ========================================== -->
-      <!-- USER VIEW -->
+      <!-- USER VIEW (INPUT) -->
       <!-- ========================================== -->
       <div id="user-view" class="space-y-6 block">
+        <!-- INFORMASI UMUM -->
         <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-          <div class="flex justify-between items-center mb-4 border-b pb-2">
-            <h2 class="text-lg font-bold text-indigo-900">Informasi Umum</h2>
-            <button
-              type="button"
-              id="btn-dummy"
-              onclick="insertDummyData()"
-              class="no-print px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs rounded shadow transition flex items-center gap-1.5"
-              title="Klik untuk generate 10 data contoh secara instan"
-            >
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                ></path>
-              </svg>
-              ⚡ Dummy Data (+10)
-            </button>
-          </div>
+          <h2 class="text-lg font-bold text-indigo-900 mb-4 border-b pb-2">
+            Informasi Umum
+          </h2>
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label class="block text-xs font-semibold text-gray-700 mb-1"
@@ -278,22 +265,19 @@
         ></div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <!-- Panel Kiri: Form Input Aktif -->
+          <!-- FORM INPUT PROSES -->
           <div
             class="lg:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-200"
           >
-            <div class="flex justify-between items-center mb-4 border-b pb-2">
-              <h3 class="text-base font-bold text-indigo-900">
-                Input Proses Masak
-              </h3>
-              <span
-                id="u_current_row_badge"
-                class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded"
-                >Proses Ke: 1</span
-              >
-            </div>
+            <h3 class="text-base font-bold text-indigo-900 mb-4 border-b pb-2">
+              Input Proses Memasak
+            </h3>
 
-            <form id="form-input-baris" class="space-y-4">
+            <form
+              id="form-input-baris"
+              onsubmit="tambahBarisProses(event)"
+              class="space-y-4"
+            >
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-semibold text-gray-600 mb-1"
@@ -303,6 +287,7 @@
                     type="number"
                     id="u_beras"
                     class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Cth: 10000"
                     required
                   />
                 </div>
@@ -314,6 +299,7 @@
                     type="number"
                     id="u_air"
                     class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+                    placeholder="Cth: 12000"
                     required
                   />
                 </div>
@@ -350,6 +336,7 @@
                   id="u_suhu"
                   step="0.1"
                   class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
+                  placeholder="Cth: 85.5"
                   required
                 />
               </div>
@@ -357,15 +344,15 @@
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-xs font-semibold text-gray-600 mb-1"
-                    >Warna/Aroma</label
+                    >Warna / Aroma</label
                   >
                   <select
                     id="u_warna"
                     class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
                     required
                   >
-                    <option value="N">Normal (N)</option>
-                    <option value="TB">Tidak Biasa (TB)</option>
+                    <option value="Normal (N)">Normal (N)</option>
+                    <option value="Tidak Biasa (TB)">Tidak Biasa (TB)</option>
                   </select>
                 </div>
                 <div>
@@ -377,8 +364,8 @@
                     class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
                     required
                   >
-                    <option value="N">Normal (N)</option>
-                    <option value="TB">Tidak Biasa (TB)</option>
+                    <option value="Normal (N)">Normal (N)</option>
+                    <option value="Tidak Biasa (TB)">Tidak Biasa (TB)</option>
                   </select>
                 </div>
               </div>
@@ -396,50 +383,49 @@
               </div>
 
               <button
-                type="button"
-                onclick="tambahBarisData()"
-                id="btn-tambah-baris"
-                class="w-full py-2 mt-2 bg-indigo-600 text-white font-bold text-xs rounded hover:bg-indigo-700 transition"
+                type="submit"
+                id="btn-tambah-proses"
+                class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded transition shadow"
               >
-                + Tambahkan ke Laporan
+                + Tambah Ke Daftar Proses
               </button>
             </form>
           </div>
 
-          <!-- Panel Kanan: Riwayat Input Hari Ini -->
+          <!-- TABEL HASIL INPUT -->
           <div
-            class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col"
+            class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col justify-between"
           >
-            <h3 class="text-base font-bold text-indigo-900 mb-4 border-b pb-2">
-              Riwayat Input Hari Ini (Dinamis)
-            </h3>
-
-            <div
-              class="overflow-x-auto flex-grow max-h-[420px] overflow-y-auto"
-            >
-              <table class="w-full text-xs text-left whitespace-nowrap">
-                <thead
-                  class="bg-gray-100 text-gray-600 font-semibold uppercase sticky top-0"
-                >
-                  <tr>
-                    <th class="p-3 rounded-tl">No</th>
-                    <th class="p-3">Beras (g)</th>
-                    <th class="p-3">Air (ml)</th>
-                    <th class="p-3">Waktu</th>
-                    <th class="p-3">Suhu</th>
-                    <th class="p-3">Kualitas</th>
-                  </tr>
-                </thead>
-                <tbody
-                  id="u_history_body"
-                  class="divide-y divide-gray-200"
-                ></tbody>
-              </table>
-              <div
-                id="u_empty_state"
-                class="text-center py-10 text-gray-400 text-xs hidden"
+            <div>
+              <h3
+                class="text-base font-bold text-indigo-900 mb-4 border-b pb-2"
               >
-                Belum ada data proses masak yang diinput hari ini.
+                Daftar Proses Pengolahan Nasi Hari Ini
+              </h3>
+              <div class="overflow-x-auto">
+                <table
+                  class="w-full text-xs text-left border-collapse border border-gray-300"
+                >
+                  <thead
+                    class="bg-gray-100 text-gray-700 font-semibold text-center"
+                  >
+                    <tr>
+                      <th class="p-2 border border-gray-300 w-8">No</th>
+                      <th class="p-2 border border-gray-300">Beras (g)</th>
+                      <th class="p-2 border border-gray-300">Air (ml)</th>
+                      <th class="p-2 border border-gray-300">Mulai</th>
+                      <th class="p-2 border border-gray-300">Selesai</th>
+                      <th class="p-2 border border-gray-300">Suhu (°C)</th>
+                      <th class="p-2 border border-gray-300">Warna</th>
+                      <th class="p-2 border border-gray-300">Tekstur</th>
+                      <th class="p-2 border border-gray-300">Catatan</th>
+                      <th class="p-2 border border-gray-300 w-12">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="u_table_body">
+                    <!-- Dynamic Rows -->
+                  </tbody>
+                </table>
               </div>
             </div>
 
@@ -470,12 +456,8 @@
       <!-- ========================================== -->
       <div
         id="admin-view"
-        class="hidden bg-white p-6 md:p-10 shadow-lg mx-auto"
-        style="
-          max-width: 21cm;
-          min-height: 29.7cm;
-          font-family: Arial, sans-serif;
-        "
+        class="hidden bg-white p-6 md:p-8 shadow-lg mx-auto max-w-7xl"
+        style="font-family: Arial, sans-serif"
       >
         <div
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
@@ -485,7 +467,7 @@
               Preview & Edit Admin
             </h2>
             <p class="text-xs text-gray-500">
-              Anda dapat memverifikasi atau mengedit data user sebelum cetak.
+              Verifikasi dan edit data laporan sebelum dicetak.
             </p>
           </div>
           <div class="flex gap-2 items-center">
@@ -517,7 +499,7 @@
             </button>
             <button
               id="btn-print-admin"
-              onclick="prosesCetakLaporan()"
+              onclick="window.print()"
               class="hidden px-4 py-2 bg-blue-600 text-white font-bold text-xs rounded hover:bg-blue-700 shadow flex items-center gap-2"
             >
               <svg
@@ -538,192 +520,260 @@
           </div>
         </div>
 
-        <!-- Header Dokumen Cetak -->
-        <div class="flex mb-4">
-          <div class="flex items-center justify-center p-2 w-1/4">
+        <!-- KOP HEADER SOP 14 -->
+        <div class="flex mb-3">
+          <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
               <img
                 src="https://placehold.co/100x100/1e3a8a/white?text=Logo+BGN"
-                alt="Logo"
-                class="w-16 h-16 object-contain mb-1"
+                alt="Logo Badan Gizi Nasional"
+                class="w-14 h-14 object-contain mb-1"
               />
-              <span class="text-[10px] font-bold text-center"
+              <span
+                class="text-[9px] print:text-[8pt] font-bold text-center leading-tight uppercase"
                 >Badan Gizi Nasional</span
               >
             </div>
           </div>
           <div
-            class="flex flex-col items-center justify-center border-2 border-black p-2 w-3/4 text-center"
+            class="flex flex-col items-center justify-center p-2 w-4/5 border-2 border-black text-center"
           >
             <h1
-              class="font-bold text-sm sm:text-base leading-tight uppercase mb-1"
+              class="font-bold text-[16px] print:text-[14pt] leading-tight uppercase mb-1"
             >
-              SPPG Kota Pekanbaru Binawidya Tobekgodang
+              SPPG KOTA PEKANBARU BINAWIDYA TOBEKGODANG
             </h1>
             <h2
-              class="font-bold text-sm sm:text-base leading-tight uppercase mb-1"
+              id="judul-sop"
+              class="font-bold text-[14px] print:text-[12pt] leading-tight uppercase mb-1"
             >
-              Formulir Persiapan Dan Pengolahan Nasi
+              Formulir Pemantauan Proses Pengolahan Nasi
             </h2>
             <h3
-              class="font-semibold text-[11px] sm:text-xs leading-tight whitespace-nowrap"
+              id="nomor-dokumen-sop"
+              class="font-semibold text-[12px] print:text-[10pt] leading-tight whitespace-nowrap"
             >
-              No. Lap.SOP.001/02.14.71/IX/SPPG-BW01/2026
+              Lap.SOP.014-(Acak 3 Digit) / 02.14.71 / IX / SPPG-BW01 / 2026
             </h3>
           </div>
         </div>
 
-        <!-- Info Umum Cetak -->
+        <!-- BINGKAI INFORMASI UMUM SERAGAM (Hasil Revisi) -->
         <div
-          class="grid grid-cols-2 border-2 border-black mb-4 text-xs font-semibold"
+          class="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 border-2 border-black mb-3 text-xs print:text-[10pt] font-semibold"
         >
-          <div class="border-r border-black flex flex-col">
-            <div class="flex border-b border-black h-8">
-              <label class="w-1/3 p-1 flex items-center">Hari / Tanggal</label>
-              <div class="w-2/3 p-1 flex items-center">
+          <!-- Kolom Kiri -->
+          <div
+            class="flex flex-col border-b-2 border-black sm:border-b-0 sm:border-r-2 print:border-b-0 print:border-r-2"
+          >
+            <div class="flex border-b border-black h-7">
+              <label
+                class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
+                >Hari / Tanggal</label
+              >
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
                 <span id="a_tanggal_txt" class="w-full"></span>
               </div>
             </div>
-            <div class="flex h-8">
-              <label class="w-1/3 p-1 flex items-center">Shift Kerja</label>
-              <div class="w-2/3 p-1 flex items-center">
+
+            <div class="flex h-7">
+              <label
+                class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
+                >Shift Kerja</label
+              >
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
                 <input
                   type="text"
                   id="a_shift"
-                  class="w-full bg-transparent font-bold"
+                  class="w-full bg-transparent font-bold outline-none print:appearance-none"
                 />
               </div>
             </div>
           </div>
+
+          <!-- Kolom Kanan -->
           <div class="flex flex-col">
-            <div class="flex border-b border-black h-8">
-              <label class="w-1/3 p-1 flex items-center pl-2"
+            <div class="flex border-b border-black h-7">
+              <label
+                class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
                 >Menu Hari Ini</label
               >
-              <div class="w-2/3 p-1 flex items-center">
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
                 <input
                   type="text"
                   id="a_menu"
-                  class="w-full bg-transparent font-bold"
+                  class="w-full bg-transparent font-bold outline-none print:appearance-none"
                 />
               </div>
             </div>
-            <div class="flex h-8">
-              <label class="w-1/3 p-1 flex items-center pl-2"
+
+            <div class="flex h-7">
+              <label
+                class="w-2/5 sm:w-1/3 p-1 flex items-center pl-2 whitespace-nowrap"
                 >Jumlah Porsi</label
               >
-              <div class="w-2/3 p-1 flex items-center">
+              <div class="w-3/5 sm:w-2/3 p-1 flex items-center">
                 <span class="mr-1">:</span>
                 <input
                   type="number"
                   id="a_porsi"
-                  class="w-full bg-transparent font-bold"
+                  class="w-full bg-transparent font-bold outline-none print:appearance-none"
                 />
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Tabel Data Utama -->
-        <div class="mb-1">
+        <!-- TABEL UTAMA PRINT SOP 14 -->
+        <div class="w-full overflow-x-auto mb-3">
           <table
-            class="w-full border-collapse border-2 border-black text-center text-xs"
+            class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
           >
             <thead class="bg-gray-50 print:bg-transparent">
               <tr>
                 <th class="border border-black p-1 w-8">No</th>
-                <th class="border border-black p-1">Berat Beras<br />(Gram)</th>
-                <th class="border border-black p-1">Jml Air<br />(ml)</th>
-                <th class="border border-black p-1 w-14">Jam<br />Mulai</th>
-                <th class="border border-black p-1 w-14">Jam<br />Selesai</th>
-                <th class="border border-black p-1">Suhu<br />(°C)</th>
-                <th class="border border-black p-1 w-12">Warna<br />(N/TB)</th>
-                <th class="border border-black p-1 w-12">
-                  Tekstur<br />(N/TB)
-                </th>
-                <th class="border border-black p-1">Catatan</th>
+                <th class="border border-black p-1">Beras (g)</th>
+                <th class="border border-black p-1">Air (ml)</th>
+                <th class="border border-black p-1">Mulai</th>
+                <th class="border border-black p-1">Selesai</th>
+                <th class="border border-black p-1">Suhu Nasi (°C)</th>
+                <th class="border border-black p-1">Warna / Aroma</th>
+                <th class="border border-black p-1">Tekstur</th>
+                <th class="border border-black p-1">Catatan Tambahan</th>
               </tr>
             </thead>
-            <tbody id="a_table_body"></tbody>
+            <tbody id="a_table_body">
+              <!-- Dynamic Rows Admin -->
+            </tbody>
           </table>
         </div>
 
-        <!-- Area catatan keterangan -->
-        <div class="text-[11px] italic mt-1">
-          <p>Catatan Mutu: * N = Normal; TB = Tidak Biasa/Menyimpang</p>
+        <!-- AREA CATATAN / KETERANGAN SERAGAM -->
+        <div class="text-[10px] print:text-[7pt] text-justify leading-tight">
+          <span class="font-bold underline">Keterangan:</span>
+          <span id="teks_keterangan">
+            Kriteria Normal (N) untuk Warna/Aroma merujuk pada warna putih
+            bersih khas beras matang tanpa indikasi hangus/apek; Tekstur Normal
+            (N) merujuk pada kelembutan standar terpisah tanpa terlalu lembek
+            atau mentah.
+          </span>
         </div>
 
-        <!-- Area Tanda Tangan Cetak -->
-        <div class="flex justify-between mt-10 text-xs gap-4">
-          <div class="flex flex-col items-center w-1/2">
-            <p class="font-bold">Dimasak Oleh</p>
-            <p class="font-bold">Jurutama Masak SPPG,</p>
+        <!-- AREA TANDA TANGAN SERAGAM (Fix Rata Atas & Bawah Mutlak) -->
+        <!-- AREA TANDA TANGAN SERAGAM -->
+        <div
+          class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
+        >
+          <!-- Kolom 1: Jurutama Masak -->
+          <div class="relative w-full h-32">
             <div
-              class="h-20 w-full flex items-center justify-center print-signature-area"
+              class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
+            >
+              <p class="font-bold leading-tight">Dibuat / Dimasak Oleh</p>
+              <p class="font-bold leading-tight break-words">
+                Jurutama Masak SPPG,
+              </p>
+            </div>
+            <div
+              class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
               id="a_render_sig_user"
+            ></div>
+            <div
+              class="absolute bottom-0 left-0 w-full flex justify-center z-20"
             >
-              <span class="text-gray-300 italic text-[11px] no-print"
-                >Belum ditandatangani user</span
-              >
+              <div
+                id="print_a_nama_jurutama"
+                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+              ></div>
+              <input
+                type="text"
+                id="a_nama_jurutama"
+                placeholder="Nama Jurutama Masak"
+                oninput="
+                  document.getElementById('print_a_nama_jurutama').innerText =
+                    this.value
+                "
+                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+              />
             </div>
-            <input
-              type="text"
-              id="a_nama_jurutama"
-              placeholder="Nama Jurutama"
-              class="mt-1 text-center border-b border-gray-400 bg-transparent w-40 font-bold focus:outline-none focus:border-black print-name-input"
-            />
           </div>
 
-          <div class="flex flex-col items-center w-1/2">
-            <p class="font-bold">Diverifikasi & Diawasi Oleh</p>
-            <p class="font-bold">Ahli Gizi SPPG,</p>
+          <!-- Kolom 2: Ahli Gizi / Pengawas -->
+          <div class="relative w-full h-32">
             <div
-              class="h-20 w-full flex items-center justify-center print-signature-area"
+              class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
+            >
+              <p class="font-bold leading-tight">Diverifikasi & Diawasi Oleh</p>
+              <p class="font-bold leading-tight break-words">Ahli Gizi SPPG,</p>
+            </div>
+            <div
+              class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
               id="a_render_sig_admin"
-            >
-              <span class="text-gray-300 italic text-[11px] no-print"
-                >Belum diverifikasi</span
-              >
-            </div>
-            <input
-              type="text"
-              id="a_nama_pengawas"
-              placeholder="Nama Admin"
-              class="mt-1 text-center border-b border-gray-400 bg-transparent w-40 font-bold focus:outline-none focus:border-black print-name-input"
-            />
-          </div>
-        </div>
-
-        <!-- Area Tanda Tangan Mengetahui -->
-        <div class="flex justify-center mt-8 text-xs">
-          <div class="flex flex-col items-center w-1/2">
-            <p class="font-bold">Mengetahui</p>
-            <p class="font-bold">
-              Kepala SPPG Kota Pekanbaru Binawidya Tobekgodang,
-            </p>
+            ></div>
             <div
-              class="h-20 w-full flex items-center justify-center print-signature-area"
-              id="a_render_sig_mengetahui"
+              class="absolute bottom-0 left-0 w-full flex justify-center z-20"
             >
-              <span class="text-gray-300 italic text-[11px] no-print"
-                >dibiarkan kosong tanda tangan manual</span
-              >
+              <div
+                id="print_a_nama_pengawas"
+                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+              ></div>
+              <input
+                type="text"
+                id="a_nama_pengawas"
+                placeholder="Nama Ahli Gizi"
+                oninput="
+                  document.getElementById('print_a_nama_pengawas').innerText =
+                    this.value
+                "
+                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+              />
             </div>
-            <input
-              type="text"
-              id="a_nama_kepala"
-              placeholder="Nama Kepala SPPG"
-              class="mt-1 text-center border-b border-gray-400 bg-transparent w-40 font-bold focus:outline-none focus:border-black print-name-input"
-            />
+          </div>
+
+          <!-- Kolom 3: Kepala SPPG -->
+          <div class="relative w-full h-32">
+            <div
+              class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
+            >
+              <p class="font-bold leading-tight">Mengetahui</p>
+              <p
+                id="label_nama_sppg"
+                class="font-bold leading-tight break-words whitespace-normal"
+              >
+                Kepala SPPG Kota Pekanbaru Binawidya Tobekgodang,
+              </p>
+            </div>
+            <div
+              class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
+              id="a_render_sig_mengetahui"
+            ></div>
+            <div
+              class="absolute bottom-0 left-0 w-full flex justify-center z-20"
+            >
+              <div
+                id="print_a_nama_kepala"
+                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+              ></div>
+              <input
+                type="text"
+                id="a_nama_kepala"
+                placeholder="Rizky Arinanda. AR, S.Kom"
+                oninput="
+                  document.getElementById('print_a_nama_kepala').innerText =
+                    this.value
+                "
+                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px] print:text-[8pt]"
+              />
+            </div>
           </div>
         </div>
       </div>
     </main>
 
-    <!-- Modal Tanda Tangan User -->
+    <!-- MODAL TTD USER -->
     <div
       id="modal-ttd"
       class="fixed inset-0 modal-bg hidden z-50 flex items-center justify-center p-4"
@@ -745,7 +795,7 @@
             type="text"
             id="m_nama_jurutama"
             class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
-            placeholder="Ketik nama Anda di sini..."
+            placeholder="Ketik nama Anda..."
             required
           />
         </div>
@@ -785,7 +835,7 @@
       </div>
     </div>
 
-    <!-- Modal Tanda Tangan Admin (Verifikasi) -->
+    <!-- MODAL TTD ADMIN -->
     <div
       id="modal-ttd-admin"
       class="fixed inset-0 modal-bg hidden z-50 flex items-center justify-center p-4"
@@ -801,13 +851,13 @@
 
         <div class="mb-4">
           <label class="block text-xs font-semibold text-gray-600 mb-1"
-            >Nama Pengawas Gizi</label
+            >Nama Pengawas / Ahli Gizi</label
           >
           <input
             type="text"
             id="m_nama_pengawas"
             class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-amber-500 outline-none"
-            placeholder="Ketik nama Anda di sini..."
+            placeholder="Ketik nama Anda..."
             required
           />
         </div>
@@ -848,40 +898,23 @@
     </div>
 
     <script>
-      let currentDate = new Date().toISOString().split("T")[0];
-      const MIN_ROWS = 10;
+      // ==========================================
+      // SPPG - SHARED SCRIPT (sop-shared.js)
+      // Berlaku untuk SOP 14, 18, dan 22
+      // ==========================================
 
-      // KONFIGURASI PENGEMBANG:
-      // Ubah nilainya menjadi "true" jika ingin menampilkan kembali tombol Dummy Data.
-      // Biarkan "false" untuk rilis Production.
-      const ENABLE_DUMMY_DATA = false;
-
-      window.onload = () => {
-        document.getElementById("u_tanggal").value = currentDate;
-        document.getElementById("a_tanggal_pilih").value = currentDate;
-
-        setupSignaturePad("sig-user");
-        setupSignaturePad("sig-admin");
-
-        // Logika menyembunyikan tombol dummy
-        if (!ENABLE_DUMMY_DATA) {
-          const btnDummy = document.getElementById("btn-dummy");
-          if (btnDummy) btnDummy.style.display = "none";
-        }
-
-        loadDataForDate();
-      };
-
+      // 1. Notifikasi Global
       function showNotif(msg, type = "success") {
         const notif = document.getElementById("global-notif");
+        if (!notif) return;
         notif.textContent = msg;
         notif.className = `fixed top-5 right-5 z-50 px-6 py-3 rounded shadow-xl text-white font-bold text-xs transition-all duration-500 block ${type === "success" ? "bg-green-600" : "bg-red-500"}`;
-
         setTimeout(() => {
           notif.classList.replace("block", "hidden");
         }, 3000);
       }
 
+      // 2. Tab Switching (Mode User & Mode Admin)
       function switchTab(tab) {
         const vUser = document.getElementById("user-view");
         const vAdmin = document.getElementById("admin-view");
@@ -894,7 +927,7 @@
           btnUser.classList.replace("border-transparent", "border-indigo-500");
           btnUser.classList.add("bg-indigo-700");
           btnAdmin.classList.remove("bg-indigo-700", "border-indigo-500");
-          loadDataForDate();
+          if (typeof loadDataForDate === "function") loadDataForDate();
         } else {
           vUser.classList.replace("block", "hidden");
           vAdmin.classList.replace("hidden", "block");
@@ -902,460 +935,31 @@
           btnAdmin.classList.add("bg-indigo-700");
           btnUser.classList.remove("bg-indigo-700", "border-indigo-500");
 
-          document.getElementById("a_tanggal_pilih").value =
-            document.getElementById("u_tanggal").value;
-          loadDataAdmin();
+          const uTanggal = document.getElementById("u_tanggal");
+          const aTanggalPilih = document.getElementById("a_tanggal_pilih");
+          if (uTanggal && aTanggalPilih) {
+            aTanggalPilih.value = uTanggal.value;
+          }
+          if (typeof loadDataAdmin === "function") loadDataAdmin();
         }
       }
 
-      function getDB() {
-        let data = localStorage.getItem("db_nasi");
+      // 3. Helper Database LocalStorage Dinamis
+      function getDB(storageKey) {
+        let data = localStorage.getItem(storageKey);
         return data ? JSON.parse(data) : {};
       }
 
-      function saveDB(dataObj) {
-        localStorage.setItem("db_nasi", JSON.stringify(dataObj));
+      function saveDB(storageKey, dataObj) {
+        localStorage.setItem(storageKey, JSON.stringify(dataObj));
       }
 
-      function getTodayData(date) {
-        const db = getDB();
-        if (!db[date]) {
-          db[date] = {
-            shift: "",
-            menu: "",
-            porsi: "",
-            status: "draft",
-            rows: [],
-            ttd_user: null,
-          };
-        }
-        return db[date];
-      }
-
-      function insertDummyData() {
-        const db = getDB();
-        const data = getTodayData(currentDate);
-
-        if (data.status === "final" || data.status === "verified") {
-          showNotif("Laporan sudah terkunci!", "error");
-          return;
-        }
-
-        if (!data.shift) data.shift = "Pagi";
-        if (!data.menu) data.menu = "Nasi Putih Spesial BGN";
-        if (!data.porsi) data.porsi = "500";
-
-        for (let i = 1; i <= 10; i++) {
-          const randomIdx = data.rows.length + 1;
-          data.rows.push({
-            beras: 5000 + i * 100,
-            air: 7500 + i * 150,
-            mulai: "07:00",
-            selesai: "07:45",
-            suhu: (95.5 + i * 0.1).toFixed(1),
-            warna: "N",
-            tekstur: "N",
-            catatan: `Data Uji Coba #${randomIdx}`,
-          });
-        }
-
-        db[currentDate] = data;
-        saveDB(db);
-
-        loadDataForDate();
-        showNotif("Berhasil menambahkan 10 data dummy!");
-      }
-
-      function loadDataForDate() {
-        currentDate = document.getElementById("u_tanggal").value;
-        const data = getTodayData(currentDate);
-
-        document.getElementById("u_shift").value = data.shift;
-        document.getElementById("u_menu").value = data.menu;
-        document.getElementById("u_porsi").value = data.porsi;
-
-        renderUserHistoryTable(data);
-        checkFormLockStatus(data);
-      }
-
-      function renderUserHistoryTable(data) {
-        const tbody = document.getElementById("u_history_body");
-        const emptyState = document.getElementById("u_empty_state");
-        tbody.innerHTML = "";
-
-        if (data.rows.length === 0) {
-          emptyState.classList.remove("hidden");
-        } else {
-          emptyState.classList.add("hidden");
-          data.rows.forEach((row, index) => {
-            tbody.innerHTML += `
-                        <tr class="hover:bg-gray-50">
-                            <td class="p-3 border-b text-center font-bold text-gray-500">${index + 1}</td>
-                            <td class="p-3 border-b">${row.beras}</td>
-                            <td class="p-3 border-b">${row.air}</td>
-                            <td class="p-3 border-b text-xs">${row.mulai} - ${row.selesai}</td>
-                            <td class="p-3 border-b">${row.suhu}°C</td>
-                            <td class="p-3 border-b text-xs">W: ${row.warna} | T: ${row.tekstur}</td>
-                        </tr>
-                    `;
-          });
-        }
-
-        const nextRow = data.rows.length + 1;
-        const badge = document.getElementById("u_current_row_badge");
-        badge.textContent = `Proses Ke: ${nextRow}`;
-        badge.className =
-          "bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded";
-      }
-
-      function checkFormLockStatus(data) {
-        const banner = document.getElementById("status-banner");
-        const formInputs = document.querySelectorAll(
-          "#user-view input:not(#u_tanggal), #user-view select, #user-view button:not(#btn-draft):not(#btn-final)",
-        );
-        const btnDraft = document.getElementById("btn-draft");
-        const btnFinal = document.getElementById("btn-final");
-
-        if (data.status === "verified") {
-          banner.textContent =
-            "LAPORAN TELAH DIVERIFIKASI OLEH PENGAWAS & TERKUNCI SEPENUHNYA";
-          banner.className =
-            "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
-
-          formInputs.forEach((el) => (el.disabled = true));
-          btnDraft.classList.add("hidden");
-          btnFinal.classList.add("hidden");
-        } else if (data.status === "final") {
-          banner.textContent =
-            "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI PENGAWAS)";
-          banner.className =
-            "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
-
-          formInputs.forEach((el) => (el.disabled = true));
-          btnDraft.classList.add("hidden");
-          btnFinal.classList.add("hidden");
-        } else {
-          banner.classList.replace("block", "hidden");
-          formInputs.forEach((el) => (el.disabled = false));
-          btnDraft.classList.remove("hidden");
-          btnFinal.classList.remove("hidden");
-        }
-      }
-
-      function tambahBarisData() {
-        const db = getDB();
-        const data = db[currentDate] || {
-          shift: "",
-          menu: "",
-          porsi: "",
-          status: "draft",
-          rows: [],
-          ttd_user: null,
-        };
-
-        if (data.status === "final" || data.status === "verified") {
-          showNotif("Laporan sudah terkunci!", "error");
-          return;
-        }
-
-        const form = document.getElementById("form-input-baris");
-        if (!form.checkValidity()) {
-          form.reportValidity();
-          return;
-        }
-
-        const newRow = {
-          beras: document.getElementById("u_beras").value,
-          air: document.getElementById("u_air").value,
-          mulai: document.getElementById("u_mulai").value,
-          selesai: document.getElementById("u_selesai").value,
-          suhu: document.getElementById("u_suhu").value,
-          warna: document.getElementById("u_warna").value,
-          tekstur: document.getElementById("u_tekstur").value,
-          catatan: document.getElementById("u_catatan").value,
-        };
-
-        data.shift = document.getElementById("u_shift").value;
-        data.menu = document.getElementById("u_menu").value;
-        data.porsi = document.getElementById("u_porsi").value;
-
-        data.rows.push(newRow);
-
-        db[currentDate] = data;
-        saveDB(db);
-
-        form.reset();
-        loadDataForDate();
-        showNotif("Baris berhasil ditambahkan.");
-      }
-
-      function simpanDraftGlobal() {
-        const db = getDB();
-        const data = getTodayData(currentDate);
-
-        if (data.status === "final" || data.status === "verified") {
-          showNotif("Laporan sudah terkunci!", "error");
-          return;
-        }
-
-        data.shift = document.getElementById("u_shift").value;
-        data.menu = document.getElementById("u_menu").value;
-        data.porsi = document.getElementById("u_porsi").value;
-
-        db[currentDate] = data;
-        saveDB(db);
-        showNotif("Draft laporan berhasil disimpan.");
-      }
-
-      function bukaModalTtdUser() {
-        simpanDraftGlobal();
-
-        const modal = document.getElementById("modal-ttd");
-        modal.classList.replace("hidden", "flex");
-
-        setTimeout(() => {
-          const canvas = document.getElementById("sig-user");
-          const rect = canvas.parentElement.getBoundingClientRect();
-          canvas.width = rect.width;
-        }, 100);
-      }
-
-      function tutupModalTtd() {
-        document
-          .getElementById("modal-ttd")
-          .classList.replace("flex", "hidden");
-      }
-
-      function simpanFinalLaporan() {
-        const canvasUser = document.getElementById("sig-user");
-        const db = getDB();
-        const data = db[currentDate];
-
-        data.ttd_user = canvasUser.toDataURL();
-        data.status = "final";
-
-        db[currentDate] = data;
-        saveDB(db);
-
-        tutupModalTtd();
-        loadDataForDate();
-        showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
-      }
-
-      function bukaModalTtdAdmin() {
-        const dateStr = document.getElementById("a_tanggal_pilih").value;
-        const data = getTodayData(dateStr);
-
-        document.getElementById("m_nama_pengawas").value =
-          document.getElementById("a_nama_pengawas").value;
-
-        const modal = document.getElementById("modal-ttd-admin");
-        modal.classList.replace("hidden", "flex");
-
-        setTimeout(() => {
-          const canvas = document.getElementById("sig-admin");
-          const rect = canvas.parentElement.getBoundingClientRect();
-          canvas.width = rect.width;
-        }, 100);
-      }
-
-      function tutupModalTtdAdmin() {
-        document
-          .getElementById("modal-ttd-admin")
-          .classList.replace("flex", "hidden");
-      }
-
-      function simpanVerifikasiAdmin() {
-        const canvasAdmin = document.getElementById("sig-admin");
-        const namaPengawas = document.getElementById("m_nama_pengawas").value;
-
-        if (!namaPengawas) {
-          alert("Mohon isi Nama Pengawas terlebih dahulu.");
-          return;
-        }
-
-        const ctx = canvasAdmin.getContext("2d");
-        const pixelBuffer = new Uint32Array(
-          ctx.getImageData(0, 0, canvasAdmin.width, canvasAdmin.height).data
-            .buffer,
-        );
-        if (!pixelBuffer.some((color) => color !== 0)) {
-          alert("Mohon berikan tanda tangan verifikasi Anda di kotak putih.");
-          return;
-        }
-
-        const dateStr = document.getElementById("a_tanggal_pilih").value;
-        const db = getDB();
-        const data = db[dateStr] || getTodayData(dateStr);
-
-        const totalRowsToSave = Math.max(MIN_ROWS, data.rows.length);
-        data.rows = [];
-        for (let i = 1; i <= totalRowsToSave; i++) {
-          const berasEl = document.getElementById(`a_beras_${i}`);
-          // PERBAIKAN: Hanya cek apakah elemennya ada, jadi baris kosong tetap tersimpan sesuai posisinya
-          if (berasEl) {
-            data.rows.push({
-              beras: berasEl.value || "",
-              air: document.getElementById(`a_air_${i}`).value || "",
-              mulai: document.getElementById(`a_mulai_${i}`).value || "",
-              selesai: document.getElementById(`a_selesai_${i}`).value || "",
-              suhu: document.getElementById(`a_suhu_${i}`).value || "",
-              warna: document.getElementById(`a_warna_${i}`).value || "",
-              tekstur: document.getElementById(`a_tekstur_${i}`).value || "",
-              catatan: document.getElementById(`a_catatan_${i}`).value || "",
-            });
-          }
-        }
-
-        data.shift = document.getElementById("a_shift").value;
-        data.menu = document.getElementById("a_menu").value;
-        data.porsi = document.getElementById("a_porsi").value;
-
-        data.nama_jurutama = document.getElementById("a_nama_jurutama").value;
-        data.nama_pengawas = namaPengawas;
-        data.nama_kepala = document.getElementById("a_nama_kepala").value;
-
-        data.ttd_admin = canvasAdmin.toDataURL();
-        data.status = "verified";
-
-        db[dateStr] = data;
-        saveDB(db);
-
-        tutupModalTtdAdmin();
-        loadDataAdmin();
-        showNotif(
-          "Laporan berhasil DIVERIFIKASI! Dokumen terkunci sepenuhnya.",
-        );
-      }
-
-      function loadDataAdmin() {
-        const dateStr = document.getElementById("a_tanggal_pilih").value;
-        const db = getDB();
-
-        // PERBAIKAN: Format tanggal lengkap dengan hari (Bahasa Indonesia)
-        let dateFormated = "";
-        if (dateStr) {
-          const [yyyy, mm, dd] = dateStr.split("-");
-          const dateObj = new Date(yyyy, mm - 1, dd);
-          const options = {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          };
-          dateFormated = dateObj.toLocaleDateString("id-ID", options);
-        }
-        document.getElementById("a_tanggal_txt").textContent = dateFormated;
-
-        const data = db[dateStr] || {
-          shift: "",
-          menu: "",
-          porsi: "",
-          status: "draft",
-          rows: [],
-          ttd_user: null,
-        };
-
-        document.getElementById("a_shift").value = data.shift;
-        document.getElementById("a_menu").value = data.menu;
-        document.getElementById("a_porsi").value = data.porsi;
-
-        document.getElementById("a_nama_jurutama").value =
-          data.nama_jurutama || "";
-        document.getElementById("a_nama_pengawas").value =
-          data.nama_pengawas || "";
-        document.getElementById("a_nama_kepala").value = data.nama_kepala || "";
-
-        const rowCount = Math.max(MIN_ROWS, data.rows.length);
-        const tbody = document.getElementById("a_table_body");
-        tbody.innerHTML = "";
-
-        for (let i = 1; i <= rowCount; i++) {
-          const rowData = data.rows[i - 1] || {
-            beras: "",
-            air: "",
-            mulai: "",
-            selesai: "",
-            suhu: "",
-            warna: "",
-            tekstur: "",
-            catatan: "",
-          };
-          tbody.innerHTML += `
-                    <tr>
-                        <td class="border border-black p-0.5 font-bold">${i}</td>
-                        <td class="border border-black p-0"><input type="text" id="a_beras_${i}" value="${rowData.beras}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_air_${i}" value="${rowData.air}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_mulai_${i}" value="${rowData.mulai}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_selesai_${i}" value="${rowData.selesai}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_suhu_${i}" value="${rowData.suhu}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_warna_${i}" value="${rowData.warna}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_tekstur_${i}" value="${rowData.tekstur}" class="w-full text-center bg-transparent"></td>
-                        <td class="border border-black p-0"><input type="text" id="a_catatan_${i}" value="${rowData.catatan}" class="w-full bg-transparent px-1"></td>
-                    </tr>
-                `;
-        }
-
-        const sigBoxUser = document.getElementById("a_render_sig_user");
-        if (data.ttd_user) {
-          sigBoxUser.innerHTML = `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 60px;">`;
-        } else {
-          sigBoxUser.innerHTML = `<span class="text-gray-300 italic text-[11px] no-print">Belum ditandatangani user</span>`;
-        }
-
-        const btnVerifikasi = document.getElementById("btn-verifikasi-admin");
-        const btnPrint = document.getElementById("btn-print-admin");
-        const sigBoxAdmin = document.getElementById("a_render_sig_admin");
-        const adminInputs = document.querySelectorAll("#admin-view input");
-
-        if (data.status === "verified") {
-          btnVerifikasi.classList.add("hidden");
-          btnPrint.classList.remove("hidden");
-          adminInputs.forEach((el) => (el.readOnly = true));
-
-          if (data.ttd_admin) {
-            sigBoxAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 60px;">`;
-          }
-        } else {
-          btnVerifikasi.classList.remove("hidden");
-          btnPrint.classList.add("hidden");
-          adminInputs.forEach((el) => (el.readOnly = false));
-          sigBoxAdmin.innerHTML = `<span class="text-gray-300 italic text-[11px] no-print">Belum diverifikasi</span>`;
-        }
-      }
-
-      function prosesCetakLaporan() {
-        // PERBAIKAN: Menghapus logika window.reload dan sessionStorage agar tidak berkedip setelah cetak
-        window.print();
-      }
-
-      // Menangani input nama agar placeholder tetap tercetak jika kosong
-      window.addEventListener("beforeprint", () => {
-        document.querySelectorAll(".print-name-input").forEach((input) => {
-          if (!input.value && input.placeholder) {
-            input.setAttribute("data-empty", "true");
-            // Mengubah placeholder menjadi value sementara agar ikut tercetak
-            input.value = `(${input.placeholder})`;
-          }
-        });
-      });
-
-      // Mengembalikan input ke keadaan semula setelah selesai print
-      window.addEventListener("afterprint", () => {
-        document.querySelectorAll(".print-name-input").forEach((input) => {
-          if (input.getAttribute("data-empty") === "true") {
-            input.value = "";
-            input.removeAttribute("data-empty");
-          }
-        });
-      });
-
+      // 4. Signature Pad Handler (Tanda Tangan Digital)
       function setupSignaturePad(canvasId) {
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
         const ctx = canvas.getContext("2d");
         let isDrawing = false;
-
         ctx.strokeStyle = "#000033";
         ctx.lineWidth = 2.5;
         ctx.lineJoin = "round";
@@ -1363,10 +967,10 @@
 
         function getMousePos(e) {
           const rect = canvas.getBoundingClientRect();
-          const scaleX = canvas.width / rect.width;
-          const scaleY = canvas.height / rect.height;
-          let clientX = e.clientX;
-          let clientY = e.clientY;
+          const scaleX = canvas.width / rect.width,
+            scaleY = canvas.height / rect.height;
+          let clientX = e.clientX,
+            clientY = e.clientY;
           if (e.touches && e.touches.length > 0) {
             clientX = e.touches[0].clientX;
             clientY = e.touches[0].clientY;
@@ -1400,7 +1004,6 @@
         canvas.addEventListener("mousemove", draw);
         canvas.addEventListener("mouseup", stop);
         canvas.addEventListener("mouseout", stop);
-
         canvas.addEventListener("touchstart", start, { passive: false });
         canvas.addEventListener("touchmove", draw, { passive: false });
         canvas.addEventListener("touchend", stop);
@@ -1408,8 +1011,405 @@
 
       function clearSig(canvasId) {
         const canvas = document.getElementById(canvasId);
-        const ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (canvas) {
+          canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      // 5. Modal Tanda Tangan Toggles
+      function tutupModalTtd() {
+        const modal = document.getElementById("modal-ttd");
+        if (modal) modal.classList.replace("flex", "hidden");
+      }
+
+      function tutupModalTtdAdmin() {
+        const modal = document.getElementById("modal-ttd-admin");
+        if (modal) modal.classList.replace("flex", "hidden");
+      }
+    </script>
+
+    <script>
+      // ==========================================
+      // SOP 14 - SCRIPT KHUSUS (sop14.js)
+      // Terintegrasi dengan sop-shared.js
+      // ==========================================
+
+      let currentDate = new Date().toISOString().split("T")[0];
+      let currentRows = [];
+      const STORAGE_KEY = "db_sop_14";
+      const MIN_ROWS = 10;
+
+      window.onload = () => {
+        document.getElementById("u_tanggal").value = currentDate;
+        document.getElementById("a_tanggal_pilih").value = currentDate;
+
+        setupSignaturePad("sig-user");
+        setupSignaturePad("sig-admin");
+
+        loadDataForDate();
+      };
+
+      function getTodayData(date) {
+        const db = getDB(STORAGE_KEY);
+        if (!db[date]) {
+          db[date] = {
+            shift: "",
+            menu: "",
+            porsi: "",
+            status: "draft",
+            rows: [],
+            ttd_user: null,
+            ttd_admin: null,
+          };
+        }
+        return db[date];
+      }
+
+      function loadDataForDate() {
+        currentDate = document.getElementById("u_tanggal").value;
+        const data = getTodayData(currentDate);
+
+        document.getElementById("u_shift").value = data.shift || "";
+        document.getElementById("u_menu").value = data.menu || "";
+        document.getElementById("u_porsi").value = data.porsi || "";
+
+        currentRows = data.rows || [];
+        renderUserTable();
+        checkFormLockStatus(data);
+      }
+
+      function renderUserTable() {
+        const tbody = document.getElementById("u_table_body");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        if (currentRows.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="10" class="p-4 text-center text-gray-400 italic">Belum ada proses yang dicatat hari ini.</td></tr>`;
+          return;
+        }
+
+        currentRows.forEach((r, idx) => {
+          tbody.innerHTML += `
+    <tr class="hover:bg-gray-50 border-b border-gray-200">
+      <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
+      <td class="p-2 border border-gray-300 text-center">${r.mulai || ""}</td>
+      <td class="p-2 border border-gray-300 text-center">${r.selesai || ""}</td>
+      <td class="p-2 border border-gray-300 text-center">${r.beras || ""}</td>
+      <td class="p-2 border border-gray-300 text-center">${r.air || ""}</td>
+      <td class="p-2 border border-gray-300 text-center">${r.suhu || ""}</td>
+      <td class="p-2 border border-gray-300 text-center">${r.warna || ""}</td>
+      <td class="p-2 border border-gray-300 text-center">${r.tekstur || ""}</td>
+      <td class="p-2 border border-gray-300">${r.catatan || "-"}</td>
+      <td class="p-2 border border-gray-300 text-center">
+        <button type="button" onclick="hapusBarisProses(${idx})" class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
+      </td>
+    </tr>`;
+        });
+      }
+
+      function tambahBarisProses(e) {
+        e.preventDefault();
+        const data = getTodayData(currentDate);
+        if (data.status === "final" || data.status === "verified")
+          return showNotif("Laporan sudah terkunci!", "error");
+
+        const newRow = {
+          mulai: document.getElementById("u_mulai").value,
+          selesai: document.getElementById("u_selesai").value,
+          beras: document.getElementById("u_beras").value,
+          air: document.getElementById("u_air").value,
+          suhu: document.getElementById("u_suhu").value,
+          warna: document.getElementById("u_warna").value,
+          tekstur: document.getElementById("u_tekstur").value,
+          catatan: document.getElementById("u_catatan").value,
+        };
+
+        currentRows.push(newRow);
+        renderUserTable();
+
+        const formInputBaris = document.getElementById("form-input-baris");
+        if (formInputBaris) formInputBaris.reset();
+        showNotif("Proses berhasil ditambahkan.");
+      }
+
+      function hapusBarisProses(index) {
+        const data = getTodayData(currentDate);
+        if (data.status === "final" || data.status === "verified")
+          return showNotif("Laporan sudah terkunci!", "error");
+
+        currentRows.splice(index, 1);
+        renderUserTable();
+        showNotif("Baris proses berhasil dihapus.");
+      }
+
+      function checkFormLockStatus(data) {
+        const banner = document.getElementById("status-banner");
+        const formInputs = document.querySelectorAll(
+          "#user-view input:not(#u_tanggal), #user-view select, #btn-tambah-proses",
+        );
+        const btnDraft = document.getElementById("btn-draft");
+        const btnFinal = document.getElementById("btn-final");
+
+        if (!banner) return;
+
+        if (data.status === "verified") {
+          banner.textContent =
+            "LAPORAN TELAH DIVERIFIKASI OLEH PENGAWAS & TERKUNCI SEPENUHNYA";
+          banner.className =
+            "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
+          formInputs.forEach((el) => (el.disabled = true));
+          if (btnDraft) btnDraft.classList.add("hidden");
+          if (btnFinal) btnFinal.classList.add("hidden");
+        } else if (data.status === "final") {
+          banner.textContent =
+            "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI PENGAWAS)";
+          banner.className =
+            "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
+          formInputs.forEach((el) => (el.disabled = true));
+          if (btnDraft) btnDraft.classList.add("hidden");
+          if (btnFinal) btnFinal.classList.add("hidden");
+        } else {
+          banner.classList.replace("block", "hidden");
+          formInputs.forEach((el) => (el.disabled = false));
+          if (btnDraft) btnDraft.classList.remove("hidden");
+          if (btnFinal) btnFinal.classList.remove("hidden");
+        }
+      }
+
+      function simpanDraftGlobal() {
+        const db = getDB(STORAGE_KEY);
+        const data = getTodayData(currentDate);
+
+        if (data.status === "final" || data.status === "verified")
+          return showNotif("Laporan sudah terkunci!", "error");
+
+        data.shift = document.getElementById("u_shift").value;
+        data.menu = document.getElementById("u_menu").value;
+        data.porsi = document.getElementById("u_porsi").value;
+        data.rows = currentRows;
+
+        db[currentDate] = data;
+        saveDB(STORAGE_KEY, db);
+        showNotif("Draft laporan berhasil disimpan.");
+      }
+
+      function bukaModalTtdUser() {
+        simpanDraftGlobal();
+        const modal = document.getElementById("modal-ttd");
+        if (modal) {
+          modal.classList.replace("hidden", "flex");
+          setTimeout(() => {
+            const c = document.getElementById("sig-user");
+            if (c) c.width = c.parentElement.getBoundingClientRect().width;
+          }, 100);
+        }
+      }
+
+      function simpanFinalLaporan() {
+        const canvasUser = document.getElementById("sig-user");
+        const db = getDB(STORAGE_KEY);
+        const data = db[currentDate];
+
+        data.ttd_user = canvasUser.toDataURL();
+        data.status = "final";
+        data.nama_jurutama = document.getElementById("m_nama_jurutama").value;
+
+        db[currentDate] = data;
+        saveDB(STORAGE_KEY, db);
+        tutupModalTtd();
+        loadDataForDate();
+        showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
+      }
+
+      function loadDataAdmin() {
+        const dateStr = document.getElementById("a_tanggal_pilih").value;
+        const db = getDB(STORAGE_KEY);
+
+        let dateFormated = "";
+        if (dateStr) {
+          const [yyyy, mm, dd] = dateStr.split("-");
+          const dateObj = new Date(yyyy, mm - 1, dd);
+          dateFormated = dateObj.toLocaleDateString("id-ID", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        }
+        document.getElementById("a_tanggal_txt").textContent = dateFormated;
+
+        const data = db[dateStr] || {
+          shift: "",
+          menu: "",
+          porsi: "",
+          status: "draft",
+          rows: [],
+          ttd_user: null,
+          ttd_admin: null,
+        };
+
+        document.getElementById("a_shift").value = data.shift || "";
+        document.getElementById("a_menu").value = data.menu || "";
+        document.getElementById("a_porsi").value = data.porsi || "";
+
+        document.getElementById("a_nama_jurutama").value =
+          data.nama_jurutama || "";
+        const printJurutama = document.getElementById("print_a_nama_jurutama");
+        if (printJurutama) printJurutama.innerText = data.nama_jurutama || "";
+
+        document.getElementById("a_nama_pengawas").value =
+          data.nama_pengawas || "";
+        const printPengawas = document.getElementById("print_a_nama_pengawas");
+        if (printPengawas) printPengawas.innerText = data.nama_pengawas || "";
+
+        document.getElementById("a_nama_kepala").value = data.nama_kepala || "";
+        const printKepala = document.getElementById("print_a_nama_kepala");
+        if (printKepala) printKepala.innerText = data.nama_kepala || "";
+
+        const rowCount = Math.max(MIN_ROWS, data.rows.length);
+        const tbody = document.getElementById("a_table_body");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+
+        for (let i = 1; i <= rowCount; i++) {
+          const rowData = data.rows[i - 1] || {
+            beras: "",
+            air: "",
+            mulai: "",
+            selesai: "",
+            suhu: "",
+            warna: "",
+            tekstur: "",
+            catatan: "",
+          };
+          tbody.innerHTML += `
+            <tr>
+              <td class="border border-black p-0.5 font-bold text-center">${i}</td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${rowData.beras || ""}</div>
+                <input type="text" id="a_beras_${i}" value="${rowData.beras || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${rowData.air || ""}</div>
+                <input type="text" id="a_air_${i}" value="${rowData.air || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${rowData.mulai || ""}</div>
+                <input type="text" id="a_mulai_${i}" value="${rowData.mulai || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${rowData.selesai || ""}</div>
+                <input type="text" id="a_selesai_${i}" value="${rowData.selesai || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${rowData.suhu || ""}</div>
+                <input type="text" id="a_suhu_${i}" value="${rowData.suhu || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${rowData.warna || ""}</div>
+                <input type="text" id="a_warna_${i}" value="${rowData.warna || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-center whitespace-normal break-words">${rowData.tekstur || ""}</div>
+                <input type="text" id="a_tekstur_${i}" value="${rowData.tekstur || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-center bg-transparent print:hidden">
+              </td>
+              <td class="border border-black p-0 relative">
+                <div class="hidden print:block w-full text-left whitespace-normal break-words px-1">${rowData.catatan || ""}</div>
+                <input type="text" id="a_catatan_${i}" value="${rowData.catatan || ""}" oninput="this.previousElementSibling.innerText = this.value" class="w-full text-left bg-transparent px-1 print:hidden">
+              </td>
+            </tr>
+          `;
+        }
+
+        const sigBoxUser = document.getElementById("a_render_sig_user");
+        if (sigBoxUser) {
+          sigBoxUser.innerHTML = data.ttd_user
+            ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
+            : ``;
+        }
+
+        const btnVerifikasi = document.getElementById("btn-verifikasi-admin");
+        const btnPrint = document.getElementById("btn-print-admin");
+        const sigBoxAdmin = document.getElementById("a_render_sig_admin");
+        const adminInputs = document.querySelectorAll("#admin-view input");
+
+        if (data.status === "verified") {
+          if (btnVerifikasi) btnVerifikasi.classList.add("hidden");
+          if (btnPrint) btnPrint.classList.remove("hidden");
+          adminInputs.forEach((el) => (el.readOnly = true));
+          if (data.ttd_admin && sigBoxAdmin) {
+            sigBoxAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
+          }
+        } else {
+          if (btnVerifikasi) btnVerifikasi.classList.remove("hidden");
+          if (btnPrint) btnPrint.classList.add("hidden");
+          adminInputs.forEach((el) => (el.readOnly = false));
+          if (sigBoxAdmin) sigBoxAdmin.innerHTML = ``;
+        }
+      }
+
+      function bukaModalTtdAdmin() {
+        const pengawasInput = document.getElementById("m_nama_pengawas");
+        const aPengawas = document.getElementById("a_nama_pengawas");
+        if (pengawasInput && aPengawas) pengawasInput.value = aPengawas.value;
+
+        const modal = document.getElementById("modal-ttd-admin");
+        if (modal) {
+          modal.classList.replace("hidden", "flex");
+          setTimeout(() => {
+            const c = document.getElementById("sig-admin");
+            if (c) c.width = c.parentElement.getBoundingClientRect().width;
+          }, 100);
+        }
+      }
+
+      function simpanVerifikasiAdmin() {
+        const canvasAdmin = document.getElementById("sig-admin");
+        const namaPengawas = document.getElementById("m_nama_pengawas").value;
+        if (!namaPengawas) return alert("Mohon isi Nama Pengawas.");
+
+        const dateStr = document.getElementById("a_tanggal_pilih").value;
+        const db = getDB(STORAGE_KEY);
+        const data = db[dateStr] || getTodayData(dateStr);
+
+        if (data.rows && data.rows.length > 0) {
+          data.rows.forEach((r, idx) => {
+            const i = idx + 1;
+            const elMulai = document.getElementById(`a_mulai_${i}`);
+            const elSelesai = document.getElementById(`a_selesai_${i}`);
+            const elBeras = document.getElementById(`a_beras_${i}`);
+            const elAir = document.getElementById(`a_air_${i}`);
+            const elSuhu = document.getElementById(`a_suhu_${i}`);
+            const elWarna = document.getElementById(`a_warna_${i}`);
+            const elTekstur = document.getElementById(`a_tekstur_${i}`);
+            const elCatatan = document.getElementById(`a_catatan_${i}`);
+
+            if (elMulai) r.mulai = elMulai.value;
+            if (elSelesai) r.selesai = elSelesai.value;
+            if (elBeras) r.beras = elBeras.value;
+            if (elAir) r.air = elAir.value;
+            if (elSuhu) r.suhu = elSuhu.value;
+            if (elWarna) r.warna = elWarna.value;
+            if (elTekstur) r.tekstur = elTekstur.value;
+            if (elCatatan) r.catatan = elCatatan.value;
+          });
+        }
+
+        data.shift = document.getElementById("a_shift").value;
+        data.menu = document.getElementById("a_menu").value;
+        data.porsi = document.getElementById("a_porsi").value;
+        data.nama_jurutama = document.getElementById("a_nama_jurutama").value;
+        data.nama_pengawas = namaPengawas;
+        data.nama_kepala = document.getElementById("a_nama_kepala").value;
+        data.ttd_admin = canvasAdmin.toDataURL();
+        data.status = "verified";
+
+        db[dateStr] = data;
+        saveDB(STORAGE_KEY, db);
+
+        tutupModalTtdAdmin();
+        loadDataAdmin();
+        showNotif("Laporan berhasil DIVERIFIKASI!");
       }
     </script>
   </body>
