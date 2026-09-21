@@ -1,51 +1,45 @@
 /* =========================================================================
- * SOP BGN - FORM CORE (Hybrid Factory)
+ * SOP BGN - FORM CORE
  * -------------------------------------------------------------------------
  * File    : assets/js/sop-bgn-form-core.js
- * Fungsi  : Menyediakan logika generik untuk seluruh 8 formulir SOP:
- *             - Load data (user & admin)
- *             - Render tabel (config-driven)
- *             - Simpan draft / final / verify
- *             - Cek status kunci form
- *             - Modal TTD user & admin
+ * Fungsi  : Menyediakan logika generik untuk seluruh 8 formulir SOP,
+ *           sehingga setiap file SOP hanya perlu mendeklarasikan:
+ *             - Konfigurasi (storageKey, minRows, dsb.)
+ *             - Cara render 1 baris (HTML-nya)
+ *             - Cara collect data dari form / admin
  *
- * CARA PAKAI (per SOP):
- *   SopForm.setup({
- *     storageKey: "db_sop_014",
- *     minRows: 10,
- *     renderUserRow:  (r, idx, locked) => `<tr>...</tr>`,
- *     renderAdminRow: (r, i, idx)      => `<tr>...</tr>`,
- *     collectFromForm:  () => ({ ... }),
- *     collectFromAdmin: (idx) => ({ ... }),   // opsional
- *   });
+ * Setelah `SopForm.setup({...})` dipanggil, semua handler berikut otomatis
+ * tersedia sebagai fungsi global dan siap dipakai di HTML:
  *
- * Setelah setup(), semua global function berikut otomatis tersedia dan
- * siap dipanggil dari HTML (onclick / onsubmit / onchange):
- *   loadDataForDate, loadDataAdmin, simpanDraftGlobal,
- *   bukaModalTtdUser, simpanFinalLaporan,
- *   bukaModalTtdAdmin, simpanVerifikasiAdmin,
- *   tambahBarisProses (alias), tambahBarisGramasi (alias),
- *   tambahBarisTemuan (alias), hapusBaris, hapusBarisProses, hapusBarisTemuan.
+ *   loadDataForDate()        - Refresh view user dari storage
+ *   loadDataAdmin()          - Refresh view admin dari storage
+ *   tambahBaris(e)           - Tambah 1 baris dari form (form submit)
+ *   hapusBaris(i)            - Hapus baris ke-i
+ *   simpanDraftGlobal()      - Simpan sebagai draft
+ *   bukaModalTtdUser()       - Buka modal tanda tangan user
+ *   simpanFinalLaporan()     - Simpan final + TTD user
+ *   bukaModalTtdAdmin()      - Buka modal verifikasi admin
+ *   simpanVerifikasiAdmin()  - Simpan verified + TTD admin
  *
  * DEPENDENSI:
- *   - sop-bgn-storage.js  (getDB, saveDB)
- *   - sop-bgn-shared.js   (showNotif, escapeHtml, escapeAttr,
- *                          formatTanggalID, getTodayLocalISO,
- *                          setupSignaturePad, openModal, closeModal)
+ *   - sop-bgn-storage.js   (getDB, saveDB, SopStorage)
+ *   - sop-bgn-shared.js    (escapeHtml, escapeAttr, formatTanggalID,
+ *                           getTodayLocalISO, showNotif, openModal,
+ *                           closeModal, setupSignaturePad)
  *
  * URUTAN LOAD (WAJIB):
  *   1. sop-bgn-storage.js
  *   2. sop-bgn-shared.js
  *   3. sop-bgn-form-core.js
- *   4. <script> per SOP (yang berisi SopForm.setup({...}))
+ *   4. <script> per SOP (memanggil SopForm.setup)
  * ========================================================================= */
 
 (function (global) {
   "use strict";
 
-  /* =====================================================================
-   * DEFAULT RECORD — struktur 1 tanggal (identik di 8 SOP)
-   * ===================================================================== */
+  /* ---------------------------------------------------------------------
+   * DEFAULT RECORD — struktur 1 tanggal (dipakai semua SOP).
+   * ------------------------------------------------------------------- */
   function defaultRecord() {
     return {
       shift: "",
@@ -61,35 +55,32 @@
     };
   }
 
-  /* =====================================================================
-   * OBJEK UTAMA — SopForm
-   * ===================================================================== */
   const SopForm = {
-    /* ---------- Config default (bisa di-override via setup) ---------- */
+    /* ---------- Config default (di-override via setup) ---------- */
     config: {
-      storageKey: null, // WAJIB: contoh "db_sop_014"
-      minRows: 10, // Jumlah baris minimum di admin view
+      storageKey: null,
+      minRows: 10,
       defaultKepala: "Rizky Arinanda. AR, S.Kom",
-      recordInit: defaultRecord, // Factory untuk record baru
-      emptyAdminRow: null, // Factory untuk row kosong di admin (opsional)
-      emptyUserColspan: 99, // Colspan untuk pesan "belum ada data"
-      emptyUserMessage: "Belum ada data yang dicatat hari ini.",
+      recordInit: defaultRecord,
+      emptyAdminRow: null,
+      emptyUserColspan: 99,
+      emptyUserMessage: "Belum ada data yang tercatat pada tanggal ini.",
 
-      /* Renderer (WAJIB untuk SOP yang pakai tabel) */
-      renderUserRow: null, // (r, idx, locked) => string HTML <tr>...</tr>
-      renderAdminRow: null, // (r, i, idx)      => string HTML <tr>...</tr>
-      renderUserTableOverride: null, // Full override (untuk SOP-017 group header)
+      /* Renderer (WAJIB) */
+      renderUserRow: null,
+      renderAdminRow: null,
+      renderUserTableOverride: null,
       renderAdminTableOverride: null,
 
-      /* Collector (WAJIB untuk SOP yang pakai tabel) */
-      collectFromForm: null, // () => object baris baru
-      collectFromAdmin: null, // (idx) => object update dari tabel admin
+      /* Collector (WAJIB) */
+      collectFromForm: null,
+      collectFromAdmin: null,
 
-      /* Hook opsional */
-      afterTambahBaris: null, // () => void (dipanggil setelah form reset)
+      /* Hook opsional (dipanggil setelah form.reset()) */
+      afterTambahBaris: null,
     },
 
-    /* ---------- Runtime state ---------- */
+    /* ---------- State runtime ---------- */
     currentDate: null,
     currentRows: [],
 
@@ -116,20 +107,19 @@
     },
 
     /* =====================================================================
-     * AUTO-EXPOSE GLOBAL FUNCTIONS
-     * Tujuan: HTML onclick/onsubmit/onchange TIDAK perlu diubah.
+     * AUTO-EXPOSE HANDLER GLOBAL
+     * HTML cukup memanggil nama generik: tambahBaris, hapusBaris, dst.
+     * Alias backward-compat tetap disediakan agar template lama tetap jalan.
      * ===================================================================== */
     _exposeGlobals: function () {
       var self = this;
-      var aliases = {
-        /* Load & render */
+      var handlers = {
         loadDataForDate: function () {
           self.loadDataForDate();
         },
         loadDataAdmin: function () {
           self.loadDataAdmin();
         },
-        /* Simpan draft & final (user) */
         simpanDraftGlobal: function () {
           self.simpanDraftGlobal();
         },
@@ -139,14 +129,20 @@
         simpanFinalLaporan: function () {
           self.simpanFinalLaporan();
         },
-        /* Verifikasi (admin) */
         bukaModalTtdAdmin: function () {
           self.bukaModalTtdAdmin();
         },
         simpanVerifikasiAdmin: function () {
           self.simpanVerifikasiAdmin();
         },
-        /* Tambah baris (nama berbeda per SOP — semua di-alias-kan) */
+        /* Handler utama (nama standar) */
+        tambahBaris: function (e) {
+          self.tambahBaris(e);
+        },
+        hapusBaris: function (i) {
+          self.hapusBaris(i);
+        },
+        /* Alias backward-compat */
         tambahBarisProses: function (e) {
           self.tambahBaris(e);
         },
@@ -156,10 +152,6 @@
         tambahBarisTemuan: function (e) {
           self.tambahBaris(e);
         },
-        /* Hapus baris */
-        hapusBaris: function (i) {
-          self.hapusBaris(i);
-        },
         hapusBarisProses: function (i) {
           self.hapusBaris(i);
         },
@@ -167,13 +159,13 @@
           self.hapusBaris(i);
         },
       };
-      Object.keys(aliases).forEach(function (name) {
-        global[name] = aliases[name];
+      Object.keys(handlers).forEach(function (name) {
+        global[name] = handlers[name];
       });
     },
 
     /* =====================================================================
-     * INIT PAGE — dijalankan saat DOMContentLoaded
+     * INIT PAGE
      * ===================================================================== */
     _initPage: function () {
       var uTgl = document.getElementById("u_tanggal");
@@ -195,7 +187,6 @@
       var db = getDB(this.config.storageKey);
       if (!db[date]) {
         db[date] = this.config.recordInit();
-        /* Pastikan field standar ada (untuk data lama / skema lain). */
         if (!("nama_petugas" in db[date])) db[date].nama_petugas = "";
         if (!("nama_pengawas" in db[date])) db[date].nama_pengawas = "";
         if (!("nama_kepala" in db[date])) db[date].nama_kepala = "";
@@ -212,7 +203,6 @@
       this.currentDate = tgl.value;
       var data = this.getTodayData(this.currentDate);
 
-      /* Isi field umum (jika ada) */
       var map = { u_shift: data.shift, u_menu: data.menu, u_porsi: data.porsi };
       Object.keys(map).forEach(function (id) {
         var el = document.getElementById(id);
@@ -226,8 +216,6 @@
 
     /* =====================================================================
      * RENDER TABEL USER
-     * — Kalau config punya renderUserTableOverride, pakai itu.
-     * — Kalau tidak, iterasi baris dan panggil renderUserRow.
      * ===================================================================== */
     renderUserTable: function () {
       if (typeof this.config.renderUserTableOverride === "function") {
@@ -260,7 +248,7 @@
     },
 
     /* =====================================================================
-     * TAMBAH BARIS — dari form user
+     * TAMBAH BARIS
      * ===================================================================== */
     tambahBaris: function (e) {
       if (e && typeof e.preventDefault === "function") e.preventDefault();
@@ -404,7 +392,7 @@
     },
 
     /* =====================================================================
-     * LOAD DATA — MODE ADMIN (tabel cetak)
+     * LOAD DATA — MODE ADMIN
      * ===================================================================== */
     loadDataAdmin: function () {
       var datePicker = document.getElementById("a_tanggal_pilih");
@@ -413,7 +401,7 @@
       var db = getDB(this.config.storageKey);
       var data = db[dateStr] || this.getTodayData(dateStr);
 
-      /* Helper: set nilai input + teks cetak */
+      /* Helper lokal: isi nilai input & teks cetak */
       function setVal(id, val) {
         var el = document.getElementById(id);
         if (el) el.value = val || "";
@@ -423,7 +411,6 @@
         if (el) el.innerText = val || "";
       }
 
-      /* Info umum */
       setText("a_tanggal_txt", formatTanggalID(dateStr));
       setVal("a_shift", data.shift);
       setText("print_a_shift", data.shift);
@@ -432,7 +419,6 @@
       setVal("a_porsi", data.porsi);
       setText("print_a_porsi", data.porsi);
 
-      /* Nama-nama TTD */
       setVal("a_nama_petugas", data.nama_petugas);
       setText("print_a_nama_petugas", data.nama_petugas);
       setVal("a_nama_pengawas", data.nama_pengawas);
@@ -448,21 +434,21 @@
         this._defaultRenderAdminTable(data);
       }
 
-      /* TTD user */
-      var sigUser = document.getElementById("a_render_sig_user");
+      /* TTD user — validasi data URL sebelum render */
+      var sigUser = document.getElementById("a_render_sig_petugas");
       if (sigUser) {
         sigUser.innerHTML =
           data.ttd_user && /^data:image\//.test(data.ttd_user)
             ? '<img src="' +
               escapeAttr(data.ttd_user) +
-              '" alt="TTD User" style="max-height: 50px;">'
+              '" alt="TTD Petugas" style="max-height: 50px;">'
             : "";
       }
 
-      /* Tombol verif / cetak */
+      /* Tombol verif / cetak + lock input admin */
       var btnVerif = document.getElementById("btn-verifikasi-admin");
       var btnPrint = document.getElementById("btn-print-admin");
-      var sigAdmin = document.getElementById("a_render_sig_admin");
+      var sigAdmin = document.getElementById("a_render_sig_pengawas");
       var adminInputs = document.querySelectorAll(
         "#admin-view input, #admin-view textarea",
       );
@@ -481,7 +467,7 @@
           sigAdmin.innerHTML =
             '<img src="' +
             escapeAttr(data.ttd_admin) +
-            '" alt="TTD Admin" style="max-height: 50px;">';
+            '" alt="TTD Pengawas" style="max-height: 50px;">';
         }
       } else {
         if (btnVerif) btnVerif.classList.remove("hidden");
@@ -493,7 +479,7 @@
       }
     },
 
-    /* Render tabel admin default (dengan baris padding sampai minRows). */
+    /* Render tabel admin default (dengan baris padding hingga minRows) */
     _defaultRenderAdminTable: function (data) {
       var tbody = document.getElementById("a_table_body");
       if (!tbody) return;
@@ -540,7 +526,7 @@
       var db = getDB(this.config.storageKey);
       var data = db[dateStr] || this.getTodayData(dateStr);
 
-      /* Update rows dari tabel admin (jika ada collector) */
+      /* Baca editan dari tabel admin (jika ada collector) */
       if (
         data.rows &&
         data.rows.length > 0 &&
@@ -552,7 +538,7 @@
         });
       }
 
-      /* Update info umum */
+      /* Baca info umum dari input admin */
       function setFrom(id, key) {
         var el = document.getElementById(id);
         if (el) data[key] = el.value;
@@ -575,6 +561,5 @@
     },
   };
 
-  /* Ekspos ke window */
   global.SopForm = SopForm;
 })(window);

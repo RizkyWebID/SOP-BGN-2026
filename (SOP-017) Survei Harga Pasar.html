@@ -57,11 +57,18 @@
         #admin-view td input {
           display: none !important;
         }
+        /* Paksa background kategori KARBOHIDRAT dll tetap tercetak. */
+        #admin-view tr.group-header-row {
+          background-color: #fff2cc !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
       }
     </style>
   </head>
 
   <body class="text-gray-800">
+    <!-- TOPBAR -->
     <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="font-bold text-sm sm:text-base flex items-center gap-2">
@@ -102,7 +109,9 @@
     <div id="global-notif"></div>
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
-      <!-- ================= USER VIEW ================= -->
+      <!-- ==================================================================
+         USER VIEW
+         ================================================================== -->
       <div id="user-view" class="space-y-6 block">
         <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h2 class="text-lg font-bold text-indigo-900 mb-4 border-b pb-2">
@@ -173,7 +182,7 @@
             </h3>
             <form
               id="form-input-baris"
-              onsubmit="tambahBarisProses(event)"
+              onsubmit="tambahBaris(event)"
               class="space-y-3"
             >
               <div>
@@ -222,13 +231,7 @@
                   <label class="block text-xs font-semibold text-gray-600 mb-1"
                     >Harga (Rp)</label
                   >
-                  <!--
-                    VALIDASI ANGGKA: hanya digit 0-9 yang diterima.
-                    - inputmode="numeric" → keyboard angka di HP
-                    - pattern → hint autofill browser
-                    - maxlength → cegah input tak wajar
-                    - oninput → strip karakter non-digit real-time
-                  -->
+                  <!-- Input harga: hanya digit, keyboard numerik di HP -->
                   <input
                     type="text"
                     inputmode="numeric"
@@ -258,10 +261,7 @@
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Kontak / No. Telp</label
                 >
-                <!--
-                  VALIDASI KONTAK: hanya digit, +, -, dan spasi.
-                  Format Indonesia: 0812-3456-7890 atau +62 812 3456 7890
-                -->
+                <!-- Input kontak: hanya digit, +, -, spasi -->
                 <input
                   type="text"
                   inputmode="tel"
@@ -310,7 +310,7 @@
                     class="bg-gray-100 text-gray-700 font-semibold text-center"
                   >
                     <tr>
-                      <th class="p-2 border border-gray-300 w-8">No</th>
+                      <th class="p-2 border border-gray-300 w-8">No.</th>
                       <th class="p-2 border border-gray-300">Nama Bahan</th>
                       <th class="p-2 border border-gray-300">Satuan</th>
                       <th class="p-2 border border-gray-300 bg-amber-50">
@@ -350,7 +350,9 @@
         </div>
       </div>
 
-      <!-- ================= ADMIN VIEW ================= -->
+      <!-- ==================================================================
+         ADMIN VIEW — CETAK
+         ================================================================== -->
       <div id="admin-view" class="hidden sop-print-view">
         <div
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
@@ -368,7 +370,7 @@
               type="date"
               id="a_tanggal_pilih"
               onchange="loadDataAdmin()"
-              class="p-2 border border-gray-300 rounded text-xs outline-none focus:ring-2 focus:ring-amber-500"
+              class="p-2 border border-gray-300 rounded text-xs"
             />
             <button
               id="btn-verifikasi-admin"
@@ -412,7 +414,7 @@
             <h2
               class="font-bold text-[14px] print:text-[12pt] leading-tight uppercase mb-1"
             >
-              DAFTAR BAHAN BAKU, HARGA, DAN SUPPLIER
+              Daftar Bahan Baku, Harga, dan Supplier
             </h2>
             <h3
               class="font-semibold text-[12px] print:text-[10pt] leading-tight whitespace-nowrap"
@@ -553,14 +555,14 @@
             </div>
             <div
               class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
-              id="a_render_sig_user"
+              id="a_render_sig_petugas"
             ></div>
             <div
               class="absolute bottom-0 left-0 w-full flex justify-center z-20"
             >
               <div
                 id="print_a_nama_petugas"
-                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+                class="hidden print:block w-[70%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
               ></div>
               <input
                 type="text"
@@ -570,7 +572,7 @@
                   document.getElementById('print_a_nama_petugas').innerText =
                     this.value
                 "
-                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px]"
+                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px]"
               />
             </div>
           </div>
@@ -583,14 +585,14 @@
             </div>
             <div
               class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
-              id="a_render_sig_admin"
+              id="a_render_sig_pengawas"
             ></div>
             <div
               class="absolute bottom-0 left-0 w-full flex justify-center z-20"
             >
               <div
                 id="print_a_nama_pengawas"
-                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+                class="hidden print:block w-[70%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
               ></div>
               <input
                 type="text"
@@ -600,7 +602,7 @@
                   document.getElementById('print_a_nama_pengawas').innerText =
                     this.value
                 "
-                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px]"
+                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px]"
               />
             </div>
           </div>
@@ -615,14 +617,14 @@
             </div>
             <div
               class="absolute top-9 left-0 w-full h-16 flex items-center justify-center print-signature-area z-0"
-              id="a_render_sig_mengetahui"
+              id="a_render_sig_kepala"
             ></div>
             <div
               class="absolute bottom-0 left-0 w-full flex justify-center z-20"
             >
               <div
                 id="print_a_nama_kepala"
-                class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
+                class="hidden print:block w-[70%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
               ></div>
               <input
                 type="text"
@@ -632,7 +634,7 @@
                   document.getElementById('print_a_nama_kepala').innerText =
                     this.value
                 "
-                class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px]"
+                class="w-[70%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px]"
               />
             </div>
           </div>
@@ -747,59 +749,25 @@
       </div>
     </div>
 
+    <!-- ===================================================================
+       SCRIPTS
+       =================================================================== -->
     <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
     <script src="assets/js/sop-bgn-form-core.js"></script>
 
     <script>
       /* =====================================================================
-       * SOP-017 - KONFIGURASI SopForm
+       * SOP-017 - KONFIGURASI
        * ---------------------------------------------------------------------
-       * v7: Validasi input angka di Harga & Kontak.
-       *   - Harga  : hanya digit 0-9 (strip semua non-digit)
-       *   - Kontak : digit, '+', '-', spasi (format telepon)
-       *   - Sanitasi dilakukan 2 lapis:
-       *       1. Real-time (oninput) → strip saat user ketik
-       *       2. Pre-save (collectFromForm & collectFromAdmin) → strip terakhir
+       * Karakteristik SOP-017:
+       *   - Baris dikelompokkan per kategori (KARBOHIDRAT, HEWANI, dst.)
+       *     mengikuti contoh dari pusat → override render tabel.
+       *   - Harga ditampilkan dengan thousand separator ("15.000").
+       *   - Kontak & harga disanitasi real-time (digit, +, -, spasi).
        * ===================================================================== */
 
-      /* ---------- Helper fungsi validasi ---------- */
-
-      /**
-       * Sanitasi harga user form: hanya digit 0-9.
-       * Update nilai input + tampilkan ke user.
-       */
-      function onInputHargaUser(el) {
-        var clean = String(el.value || "").replace(/\D/g, "");
-        if (el.value !== clean) el.value = clean;
-      }
-
-      /**
-       * Sanitasi harga admin cell: hanya digit + format ribuan.
-       * Update nilai input + display di div sebelumnya.
-       */
-      function onInputHargaAdmin(el) {
-        var clean = String(el.value || "").replace(/\D/g, "");
-        if (el.value !== clean) el.value = clean;
-        var prev = el.previousElementSibling;
-        if (prev) {
-          prev.innerText = clean
-            ? new Intl.NumberFormat("id-ID").format(clean)
-            : "";
-        }
-      }
-
-      /**
-       * Sanitasi kontak (user form & admin cell): digit, +, -, spasi.
-       * Format ini mendukung: "0812-3456-7890" atau "+62 812 3456 7890".
-       */
-      function onInputKontak(el) {
-        var clean = String(el.value || "").replace(/[^0-9+\-\s]/g, "");
-        if (el.value !== clean) el.value = clean;
-      }
-
-      /* ---------- Helper data ---------- */
-
+      /* Urutan tampil kategori — makin kecil makin di atas. */
       var catOrderMap = {
         KARBOHIDRAT: 1,
         HEWANI: 2,
@@ -809,11 +777,13 @@
         "LAIN-LAIN": 6,
       };
 
+      /** Format angka → "1.234.567" (id-ID). */
       function formatRupiah(angka) {
         if (angka === null || angka === undefined || angka === "") return "";
         return new Intl.NumberFormat("id-ID").format(angka);
       }
 
+      /** Urutkan array baris berdasarkan urutan kategori. */
       function sortByKategori(rows) {
         return rows.slice().sort(function (a, b) {
           return (
@@ -822,56 +792,13 @@
         });
       }
 
-      /* ---------- Cell builder helpers ---------- */
-
-      /** Cell dual-element standar. */
-      function cell017(id, val, cls) {
-        cls = cls || "text-center";
-        return (
-          '<td class="border border-black p-0 relative">' +
-          '<div class="hidden print:block w-full ' +
-          cls +
-          ' whitespace-normal break-words">' +
-          escapeHtml(val) +
-          "</div>" +
-          '<input type="text" id="' +
-          id +
-          '" value="' +
-          escapeAttr(val) +
-          '" ' +
-          'oninput="this.previousElementSibling.innerText = this.value" ' +
-          'class="w-full ' +
-          cls +
-          ' bg-transparent print:hidden">' +
-          "</td>"
-        );
-      }
-
-      /** Cell khusus kontak: strip karakter non-telpon saat edit di admin. */
-      function cell017Kontak(id, val) {
-        return (
-          '<td class="border border-black p-0 relative">' +
-          '<div class="hidden print:block w-full text-center whitespace-normal break-words">' +
-          escapeHtml(val) +
-          "</div>" +
-          '<input type="text" id="' +
-          id +
-          '" value="' +
-          escapeAttr(val) +
-          '" ' +
-          'oninput="onInputKontak(this)" ' +
-          'inputmode="tel" maxlength="20" ' +
-          'class="w-full text-center bg-transparent print:hidden">' +
-          "</td>"
-        );
-      }
-
-      /* ---------- Setup SopForm ---------- */
       SopForm.setup({
         storageKey: "db_sop_017",
         minRows: 10,
         emptyUserColspan: 8,
-        emptyUserMessage: "Belum ada daftar bahan baku yang dicatat hari ini.",
+        emptyUserMessage:
+          "Belum ada data bahan baku yang tercatat pada tanggal ini.",
+
         emptyAdminRow: function () {
           return {
             kategori: "",
@@ -885,7 +812,7 @@
         },
 
         /* =====================================================================
-         * OVERRIDE: Render tabel USER dengan group header kategori
+         * RENDER TABEL USER — dengan group header kategori
          * ===================================================================== */
         renderUserTableOverride: function (core) {
           var tbody = document.getElementById("u_table_body");
@@ -909,6 +836,7 @@
           var numInKat = 1;
 
           core.currentRows.forEach(function (r, idx) {
+            /* Sisipkan group header tiap ganti kategori */
             if (r.kategori !== currentKat) {
               currentKat = r.kategori;
               numInKat = 1;
@@ -925,7 +853,7 @@
             var aksi = locked
               ? '<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>'
               : '<td class="p-2 border border-gray-300 text-center">' +
-                '<button type="button" onclick="hapusBarisProses(' +
+                '<button type="button" onclick="hapusBaris(' +
                 idx +
                 ')" ' +
                 'class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>' +
@@ -962,7 +890,9 @@
         },
 
         /* =====================================================================
-         * OVERRIDE: Render tabel ADMIN dengan group header kategori
+         * RENDER TABEL ADMIN — dengan group header kategori
+         * Group header di-beri class "group-header-row" agar aturan print
+         * di atas bisa memaksa warna latar tetap tercetak.
          * ===================================================================== */
         renderAdminTableOverride: function (data, core) {
           var tbody = document.getElementById("a_table_body");
@@ -995,7 +925,7 @@
               numInKat = 1;
               tbody.insertAdjacentHTML(
                 "beforeend",
-                '<tr style="background-color:#fff2cc !important;" class="font-bold print:bg-[#fff2cc]">' +
+                '<tr class="group-header-row font-bold">' +
                   '<td colspan="7" class="border border-black p-1 text-center uppercase">' +
                   escapeHtml(currentKat) +
                   "</td>" +
@@ -1004,7 +934,6 @@
             }
 
             var idx = i - 1;
-            var hargaDisplay = r.harga ? formatRupiah(r.harga) : "";
 
             tbody.insertAdjacentHTML(
               "beforeend",
@@ -1012,59 +941,42 @@
                 '<td class="border border-black p-0.5 font-bold text-center">' +
                 numInKat++ +
                 "</td>" +
+                /* Nama + kategori (kategori sebagai hidden input) */
                 '<td class="border border-black p-0 relative">' +
                 '<input type="hidden" id="a_kategori_' +
                 idx +
                 '" value="' +
                 escapeAttr(r.kategori) +
                 '">' +
-                '<div class="hidden print:block w-full text-left whitespace-normal break-words px-1">' +
-                escapeHtml(r.nama) +
-                "</div>" +
-                '<input type="text" id="a_nama_' +
-                idx +
-                '" value="' +
-                escapeAttr(r.nama) +
-                '" ' +
-                'oninput="this.previousElementSibling.innerText = this.value" ' +
-                'class="w-full text-left bg-transparent px-1 print:hidden">' +
+                cellStd("a_nama_" + idx, r.nama, "text-left px-1") +
                 "</td>" +
-                cell017("a_satuan_" + idx, r.satuan) +
-                /* Harga admin: strip non-digit + auto-format ribuan */
-                '<td class="border border-black p-0 relative">' +
-                '<div class="hidden print:block w-full text-center whitespace-normal break-words">' +
-                escapeHtml(hargaDisplay) +
-                "</div>" +
-                '<input type="text" id="a_harga_' +
-                idx +
-                '" value="' +
-                escapeAttr(r.harga) +
-                '" ' +
-                'oninput="onInputHargaAdmin(this)" ' +
-                'inputmode="numeric" maxlength="15" ' +
-                'class="w-full text-center bg-transparent print:hidden">' +
-                "</td>" +
-                cell017("a_supplier_" + idx, r.supplier, "text-left px-1") +
-                /* Kontak admin: strip karakter non-telpon */
-                cell017Kontak("a_kontak_" + idx, r.kontak) +
-                cell017("a_ket_" + idx, r.ket, "text-left px-1") +
+                cellStd("a_satuan_" + idx, r.satuan) +
+                cellRupiah("a_harga_" + idx, r.harga) +
+                cellStd("a_supplier_" + idx, r.supplier, "text-left px-1") +
+                cellCustom(
+                  "a_kontak_" + idx,
+                  r.kontak,
+                  "text-center",
+                  "onInputKontak(this)",
+                ) +
+                cellStd("a_ket_" + idx, r.ket, "text-left px-1") +
                 "</tr>",
             );
           }
         },
 
-        /* ---------- Collect baris baru dari form (dengan sanitasi) ---------- */
+        /* ---------- Collect baris baru dari form user ---------- */
         collectFromForm: function () {
           return {
             kategori: document.getElementById("u_kategori").value,
             nama: document.getElementById("u_nama").value,
             satuan: document.getElementById("u_satuan").value,
-            /* Sanitasi terakhir sebelum simpan — hanya digit */
+            /* Sanitasi terakhir — hanya digit */
             harga: String(
               document.getElementById("u_harga").value || "",
             ).replace(/\D/g, ""),
             supplier: document.getElementById("u_supplier").value,
-            /* Sanitasi terakhir sebelum simpan — digit, +, -, spasi */
+            /* Sanitasi terakhir — digit, +, -, spasi */
             kontak: String(
               document.getElementById("u_kontak").value || "",
             ).replace(/[^0-9+\-\s]/g, ""),
@@ -1072,7 +984,7 @@
           };
         },
 
-        /* ---------- Collect editan dari tabel admin (dengan sanitasi) ---------- */
+        /* ---------- Collect editan dari tabel admin ---------- */
         collectFromAdmin: function (idx) {
           var get = function (id) {
             var el = document.getElementById(id);
@@ -1082,10 +994,8 @@
             kategori: get("a_kategori_" + idx),
             nama: get("a_nama_" + idx),
             satuan: get("a_satuan_" + idx),
-            /* Sanitasi terakhir — hanya digit */
             harga: String(get("a_harga_" + idx)).replace(/\D/g, ""),
             supplier: get("a_supplier_" + idx),
-            /* Sanitasi terakhir — digit, +, -, spasi */
             kontak: String(get("a_kontak_" + idx)).replace(/[^0-9+\-\s]/g, ""),
             ket: get("a_ket_" + idx),
           };
