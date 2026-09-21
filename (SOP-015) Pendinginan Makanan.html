@@ -358,12 +358,6 @@
                 <table
                   class="w-full text-xs text-left border-collapse border border-gray-300"
                 >
-                  <!--
-                    Header tabel dengan warna kelompok (standar acuan):
-                    - Mulai Resting   → bg-amber-50
-                    - Selesai Resting → bg-blue-50
-                    - Durasi          → bg-green-50
-                  -->
                   <thead
                     class="bg-gray-100 text-gray-700 font-semibold text-center"
                   >
@@ -876,287 +870,98 @@
 
     <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
+    <script src="assets/js/sop-bgn-form-core.js"></script>
 
     <script>
       /* =====================================================================
-       * SOP-015 - SCRIPT KHUSUS
+       * SOP-015 - KONFIGURASI SopForm
        * ---------------------------------------------------------------------
-       * v6 (koreksi):
-       *   - User view KEMBALI ke perilaku asli: hanya tampil baris berisi
-       *     data. Jika kosong → tampil pesan "Belum ada proses resting...".
-       *   - Baris kosong 10 (MIN_ROWS) HANYA di render di ADMIN VIEW.
-       *   - Header tabel user view: warna kelompok sesuai standar acuan
-       *     (Mulai = amber-50, Selesai = blue-50, Durasi = green-50).
-       *   - Tanda tangan divalidasi data URL sebelum render.
-       *   - Tombol Hapus berubah 🔒 saat status final/verified.
-       *   - currentDate pakai getTodayLocalISO().
-       *   - Field TTD: nama_petugas / nama_pengawas / nama_kepala.
+       * Helper khusus:
+       *   - hitungDurasi()      : durasi menit dari jam mulai ↔ selesai
+       *   - stripSuhuDerajat()  : bersihkan °C dari nilai suhu (anti-double)
+       *   - displaySuhu()       : tampil "<nilai>°C" sekali saja
        * ===================================================================== */
-
-      const STORAGE_KEY = "db_sop_015";
-      const MIN_ROWS = 10;
-
-      let currentDate = getTodayLocalISO();
-      let currentRows = [];
-
-      window.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("u_tanggal").value = currentDate;
-        document.getElementById("a_tanggal_pilih").value = currentDate;
-        setupSignaturePad("sig-user");
-        setupSignaturePad("sig-admin");
-        loadDataForDate();
-      });
 
       function hitungDurasi(tMulai, tSelesai) {
         if (!tMulai || !tSelesai) return 0;
-        const [h1, m1] = tMulai.split(":").map(Number);
-        const [h2, m2] = tSelesai.split(":").map(Number);
-        const d1 = new Date(2000, 0, 1, h1, m1);
-        const d2 = new Date(2000, 0, 1, h2, m2);
+        var h1 = parseInt(tMulai.split(":")[0], 10);
+        var m1 = parseInt(tMulai.split(":")[1], 10);
+        var h2 = parseInt(tSelesai.split(":")[0], 10);
+        var m2 = parseInt(tSelesai.split(":")[1], 10);
+        var d1 = new Date(2000, 0, 1, h1, m1);
+        var d2 = new Date(2000, 0, 1, h2, m2);
         if (d2 < d1) d2.setDate(d2.getDate() + 1);
-        const diff = Math.round((d2 - d1) / 60000);
+        var diff = Math.round((d2 - d1) / 60000);
         return diff >= 0 ? diff : 0;
       }
 
-      function getTodayData(date) {
-        const db = getDB(STORAGE_KEY);
-        if (!db[date]) {
-          db[date] = {
-            shift: "",
-            menu: "",
-            porsi: "",
-            status: "draft",
-            rows: [],
-            ttd_user: null,
-            ttd_admin: null,
-            nama_petugas: "",
-            nama_pengawas: "",
-            nama_kepala: "",
-          };
-        }
-        return db[date];
+      function stripSuhuDerajat(val) {
+        if (val === null || val === undefined) return "";
+        return String(val)
+          .replace(/°C/g, "")
+          .replace(/\u00B0C/g, "")
+          .trim();
       }
 
-      function loadDataForDate() {
-        currentDate = document.getElementById("u_tanggal").value;
-        const data = getTodayData(currentDate);
-        document.getElementById("u_shift").value = data.shift || "";
-        document.getElementById("u_menu").value = data.menu || "";
-        document.getElementById("u_porsi").value = data.porsi || "";
-        currentRows = data.rows || [];
-        renderUserTable();
-        checkFormLockStatus(data);
+      function displaySuhu(val) {
+        var raw = stripSuhuDerajat(val);
+        return raw ? raw + "°C" : "";
       }
 
-      /**
-       * Render tabel USER VIEW: HANYA baris berisi data.
-       * - Jika kosong → pesan "Belum ada proses resting...".
-       * - Baris berisi → nilai + tombol Hapus (jika draft) atau 🔒 (locked).
-       */
-      function renderUserTable() {
-        const tbody = document.getElementById("u_table_body");
-        if (!tbody) return;
-        tbody.innerHTML = "";
-
-        if (currentRows.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="13" class="p-4 text-center text-gray-400 italic">Belum ada proses resting yang dicatat hari ini.</td></tr>`;
-          return;
-        }
-
-        const data = getTodayData(currentDate);
-        const locked = data.status === "final" || data.status === "verified";
-
-        currentRows.forEach((r, idx) => {
-          const aksiCell = locked
-            ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
-            : `<td class="p-2 border border-gray-300 text-center">
-                 <button type="button" onclick="hapusBarisProses(${idx})"
-                   class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
-               </td>`;
-
-          tbody.insertAdjacentHTML(
-            "beforeend",
-            `
-            <tr class="hover:bg-gray-50 border-b border-gray-200">
-              <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
-              <td class="p-2 border border-gray-300 text-center font-bold">${escapeHtml(r.tahap)}</td>
-              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.jenis)}</td>
-              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.nama)}</td>
-              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.porsi_prod)}</td>
-              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.m_pukul)}</td>
-              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.m_suhu)}°C</td>
-              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s_pukul)}</td>
-              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s_suhu)}°C</td>
-              <td class="p-2 border border-gray-300 text-center font-bold text-green-700">${escapeHtml(r.durasi || "0")}</td>
-              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.suhu_ruang || "-")}°C</td>
-              <td class="p-2 border border-gray-300 text-left pl-2">${escapeHtml(r.ket || "-")}</td>
-              ${aksiCell}
-            </tr>`,
-          );
-        });
-      }
-
-      function tambahBarisProses(e) {
-        e.preventDefault();
-        const data = getTodayData(currentDate);
-        if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan sudah terkunci!", "error");
-
-        const mPukul = document.getElementById("u_m_pukul").value;
-        const sPukul = document.getElementById("u_s_pukul").value;
-
-        currentRows.push({
-          tahap: document.getElementById("u_tahap").value,
-          jenis: document.getElementById("u_jenis").value,
-          nama: document.getElementById("u_nama").value,
-          porsi_prod: document.getElementById("u_porsi_prod").value,
-          m_pukul: mPukul,
-          m_suhu: document.getElementById("u_m_suhu").value,
-          s_pukul: sPukul,
-          s_suhu: document.getElementById("u_s_suhu").value,
-          durasi: hitungDurasi(mPukul, sPukul),
-          suhu_ruang: document.getElementById("u_suhu_ruang").value,
-          ket: document.getElementById("u_ket").value,
-          paraf: "",
-        });
-        renderUserTable();
-        document.getElementById("form-input-baris").reset();
-        showNotif("Data resting berhasil ditambahkan.");
-      }
-
-      function hapusBarisProses(index) {
-        const data = getTodayData(currentDate);
-        if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan sudah terkunci!", "error");
-        currentRows.splice(index, 1);
-        renderUserTable();
-        showNotif("Baris proses berhasil dihapus.", "error");
-      }
-
-      function checkFormLockStatus(data) {
-        const banner = document.getElementById("status-banner");
-        const inputs = document.querySelectorAll(
-          "#user-view input:not(#u_tanggal), #user-view select, #btn-tambah-proses",
+      /** Cell dual-element standar. */
+      function cell015(id, val, cls) {
+        cls = cls || "text-center";
+        return (
+          '<td class="border border-black p-0 relative">' +
+          '<div class="hidden print:block w-full ' +
+          cls +
+          ' whitespace-normal break-words">' +
+          escapeHtml(val) +
+          "</div>" +
+          '<input type="text" id="' +
+          id +
+          '" value="' +
+          escapeAttr(val) +
+          '" ' +
+          'oninput="this.previousElementSibling.innerText = this.value" ' +
+          'class="w-full ' +
+          cls +
+          ' bg-transparent print:hidden">' +
+          "</td>"
         );
-        const btnDraft = document.getElementById("btn-draft");
-        const btnFinal = document.getElementById("btn-final");
-        if (!banner) return;
-
-        if (data.status === "verified") {
-          banner.textContent =
-            "LAPORAN TELAH DIVERIFIKASI OLEH PENGAWAS & TERKUNCI SEPENUHNYA";
-          banner.className =
-            "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
-          inputs.forEach((el) => (el.disabled = true));
-          btnDraft?.classList.add("hidden");
-          btnFinal?.classList.add("hidden");
-        } else if (data.status === "final") {
-          banner.textContent =
-            "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI PENGAWAS)";
-          banner.className =
-            "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
-          inputs.forEach((el) => (el.disabled = true));
-          btnDraft?.classList.add("hidden");
-          btnFinal?.classList.add("hidden");
-        } else {
-          banner.classList.replace("block", "hidden");
-          inputs.forEach((el) => (el.disabled = false));
-          btnDraft?.classList.remove("hidden");
-          btnFinal?.classList.remove("hidden");
-        }
       }
 
-      function simpanDraftGlobal() {
-        const db = getDB(STORAGE_KEY);
-        const data = getTodayData(currentDate);
-        if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan sudah terkunci!", "error");
-        data.shift = document.getElementById("u_shift").value;
-        data.menu = document.getElementById("u_menu").value;
-        data.porsi = document.getElementById("u_porsi").value;
-        data.rows = currentRows;
-        db[currentDate] = data;
-        saveDB(STORAGE_KEY, db);
-        showNotif("Draft laporan berhasil disimpan.");
+      /** Cell khusus suhu (input simpan raw, display tambah °C). */
+      function cellSuhu015(id, rawVal) {
+        var raw = stripSuhuDerajat(rawVal);
+        var disp = raw ? raw + "°C" : "";
+        var oninputJs =
+          "this.previousElementSibling.innerText = this.value ? this.value + '\\u00B0C' : ''";
+        return (
+          '<td class="border border-black p-0 relative">' +
+          '<div class="hidden print:block w-full text-center whitespace-normal break-words">' +
+          escapeHtml(disp) +
+          "</div>" +
+          '<input type="text" id="' +
+          id +
+          '" value="' +
+          escapeAttr(raw) +
+          '" ' +
+          'oninput="' +
+          oninputJs +
+          '" ' +
+          'class="w-full text-center bg-transparent print:hidden">' +
+          "</td>"
+        );
       }
 
-      function bukaModalTtdUser() {
-        if (currentRows.length === 0)
-          return alert("Belum ada data proses resting yang diinput.");
-        simpanDraftGlobal();
-        openModal("modal-ttd");
-        setTimeout(() => {
-          const c = document.getElementById("sig-user");
-          if (c) c.width = c.parentElement.getBoundingClientRect().width;
-        }, 100);
-      }
-
-      function simpanFinalLaporan() {
-        const canvasUser = document.getElementById("sig-user");
-        const nama = document.getElementById("m_nama_petugas").value;
-        if (!nama) return alert("Mohon isi Nama Jurutama Masak.");
-        const db = getDB(STORAGE_KEY);
-        const data = db[currentDate] || getTodayData(currentDate);
-        data.ttd_user = canvasUser.toDataURL();
-        data.status = "final";
-        data.nama_petugas = nama;
-        db[currentDate] = data;
-        saveDB(STORAGE_KEY, db);
-        closeModal("modal-ttd");
-        loadDataForDate();
-        showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
-      }
-
-      function loadDataAdmin() {
-        const dateStr = document.getElementById("a_tanggal_pilih").value;
-        const db = getDB(STORAGE_KEY);
-        document.getElementById("a_tanggal_txt").textContent =
-          formatTanggalID(dateStr);
-        const data = db[dateStr] || {
-          shift: "",
-          menu: "",
-          porsi: "",
-          status: "draft",
-          rows: [],
-          ttd_user: null,
-          ttd_admin: null,
-          nama_petugas: "",
-          nama_pengawas: "",
-          nama_kepala: "",
-        };
-        document.getElementById("a_shift").value = data.shift || "";
-        document.getElementById("print_a_shift").innerText = data.shift || "";
-        document.getElementById("a_menu").value = data.menu || "";
-        document.getElementById("print_a_menu").innerText = data.menu || "";
-        document.getElementById("a_porsi").value = data.porsi || "";
-        document.getElementById("print_a_porsi").innerText = data.porsi || "";
-        document.getElementById("a_nama_petugas").value =
-          data.nama_petugas || "";
-        document.getElementById("print_a_nama_petugas").innerText =
-          data.nama_petugas || "";
-        document.getElementById("a_nama_pengawas").value =
-          data.nama_pengawas || "";
-        document.getElementById("print_a_nama_pengawas").innerText =
-          data.nama_pengawas || "";
-        const kepala = data.nama_kepala || "Rizky Arinanda. AR, S.Kom";
-        document.getElementById("a_nama_kepala").value = kepala;
-        document.getElementById("print_a_nama_kepala").innerText = kepala;
-
-        const rowCount = Math.max(MIN_ROWS, data.rows.length);
-        const tbody = document.getElementById("a_table_body");
-        if (!tbody) return;
-        tbody.innerHTML = "";
-
-        const cell = (id, val, cls = "text-center") => `
-          <td class="border border-black p-0 relative">
-            <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${escapeHtml(val)}</div>
-            <input type="text" id="${id}" value="${escapeAttr(val)}"
-              oninput="this.previousElementSibling.innerText = this.value"
-              class="w-full ${cls} bg-transparent print:hidden">
-          </td>`;
-
-        for (let i = 1; i <= rowCount; i++) {
-          const r = data.rows[i - 1] || {
+      SopForm.setup({
+        storageKey: "db_sop_015",
+        minRows: 10,
+        emptyUserColspan: 13,
+        emptyUserMessage: "Belum ada proses resting yang dicatat hari ini.",
+        emptyAdminRow: function () {
+          return {
             tahap: "",
             jenis: "",
             nama: "",
@@ -1170,115 +975,129 @@
             ket: "",
             paraf: "",
           };
-          tbody.insertAdjacentHTML(
-            "beforeend",
-            `
-            <tr>
-              <td class="border border-black p-0.5 font-bold text-center">${i}</td>
-              ${cell(`a_tahap_${i}`, r.tahap, "text-center font-bold")}
-              ${cell(`a_jenis_${i}`, r.jenis)}
-              ${cell(`a_nama_${i}`, r.nama)}
-              ${cell(`a_porsi_prod_${i}`, r.porsi_prod)}
-              ${cell(`a_m_pukul_${i}`, r.m_pukul)}
-              ${cell(`a_m_suhu_${i}`, r.m_suhu)}
-              ${cell(`a_s_pukul_${i}`, r.s_pukul)}
-              ${cell(`a_s_suhu_${i}`, r.s_suhu)}
-              ${cell(`a_durasi_${i}`, r.durasi, "text-center font-bold")}
-              ${cell(`a_suhu_ruang_${i}`, r.suhu_ruang)}
-              ${cell(`a_ket_${i}`, r.ket, "text-left pl-1 pr-1")}
-              ${cell(`a_paraf_${i}`, r.paraf)}
-            </tr>`,
+        },
+
+        /* ---------- Render baris tabel USER ---------- */
+        renderUserRow: function (r, idx, locked) {
+          var aksi = locked
+            ? '<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>'
+            : '<td class="p-2 border border-gray-300 text-center">' +
+              '<button type="button" onclick="hapusBarisProses(' +
+              idx +
+              ')" ' +
+              'class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>' +
+              "</td>";
+
+          return (
+            '<tr class="hover:bg-gray-50 border-b border-gray-200">' +
+            '<td class="p-2 border border-gray-300 text-center font-bold text-gray-500">' +
+            (idx + 1) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-center font-bold">' +
+            escapeHtml(r.tahap) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-center">' +
+            escapeHtml(r.jenis) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-center">' +
+            escapeHtml(r.nama) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-center">' +
+            escapeHtml(r.porsi_prod) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-center bg-amber-50">' +
+            escapeHtml(r.m_pukul) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-center bg-amber-50">' +
+            escapeHtml(displaySuhu(r.m_suhu)) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-center bg-blue-50">' +
+            escapeHtml(r.s_pukul) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-center bg-blue-50">' +
+            escapeHtml(displaySuhu(r.s_suhu)) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-center font-bold text-green-700 bg-green-50">' +
+            escapeHtml(r.durasi || "0") +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-center">' +
+            escapeHtml(displaySuhu(r.suhu_ruang) || "-") +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-left pl-2">' +
+            escapeHtml(r.ket || "-") +
+            "</td>" +
+            aksi +
+            "</tr>"
           );
-        }
+        },
 
-        const sigUser = document.getElementById("a_render_sig_user");
-        if (sigUser) {
-          sigUser.innerHTML =
-            data.ttd_user && /^data:image\//.test(data.ttd_user)
-              ? `<img src="${escapeAttr(data.ttd_user)}" alt="TTD User" style="max-height: 50px;">`
-              : "";
-        }
+        /* ---------- Render baris tabel ADMIN ---------- */
+        renderAdminRow: function (r, i, idx) {
+          return (
+            "<tr>" +
+            '<td class="border border-black p-0.5 font-bold text-center">' +
+            i +
+            "</td>" +
+            cell015("a_tahap_" + idx, r.tahap, "text-center font-bold") +
+            cell015("a_jenis_" + idx, r.jenis) +
+            cell015("a_nama_" + idx, r.nama) +
+            cell015("a_porsi_prod_" + idx, r.porsi_prod) +
+            cell015("a_m_pukul_" + idx, r.m_pukul) +
+            cellSuhu015("a_m_suhu_" + idx, r.m_suhu) +
+            cell015("a_s_pukul_" + idx, r.s_pukul) +
+            cellSuhu015("a_s_suhu_" + idx, r.s_suhu) +
+            cell015("a_durasi_" + idx, r.durasi, "text-center font-bold") +
+            cellSuhu015("a_suhu_ruang_" + idx, r.suhu_ruang) +
+            cell015("a_ket_" + idx, r.ket, "text-left pl-1 pr-1") +
+            cell015("a_paraf_" + idx, r.paraf) +
+            "</tr>"
+          );
+        },
 
-        const btnVerif = document.getElementById("btn-verifikasi-admin");
-        const btnPrint = document.getElementById("btn-print-admin");
-        const sigAdmin = document.getElementById("a_render_sig_admin");
-        const adminInputs = document.querySelectorAll("#admin-view input");
+        /* ---------- Collect baris baru dari form ---------- */
+        collectFromForm: function () {
+          var mPukul = document.getElementById("u_m_pukul").value;
+          var sPukul = document.getElementById("u_s_pukul").value;
+          return {
+            tahap: document.getElementById("u_tahap").value,
+            jenis: document.getElementById("u_jenis").value,
+            nama: document.getElementById("u_nama").value,
+            porsi_prod: document.getElementById("u_porsi_prod").value,
+            m_pukul: mPukul,
+            m_suhu: stripSuhuDerajat(document.getElementById("u_m_suhu").value),
+            s_pukul: sPukul,
+            s_suhu: stripSuhuDerajat(document.getElementById("u_s_suhu").value),
+            durasi: hitungDurasi(mPukul, sPukul),
+            suhu_ruang: stripSuhuDerajat(
+              document.getElementById("u_suhu_ruang").value,
+            ),
+            ket: document.getElementById("u_ket").value,
+            paraf: "",
+          };
+        },
 
-        if (data.status === "verified") {
-          btnVerif?.classList.add("hidden");
-          btnPrint?.classList.remove("hidden");
-          adminInputs.forEach((el) => (el.readOnly = true));
-          if (
-            data.ttd_admin &&
-            sigAdmin &&
-            /^data:image\//.test(data.ttd_admin)
-          )
-            sigAdmin.innerHTML = `<img src="${escapeAttr(data.ttd_admin)}" alt="TTD Admin" style="max-height: 50px;">`;
-        } else {
-          btnVerif?.classList.remove("hidden");
-          btnPrint?.classList.add("hidden");
-          adminInputs.forEach((el) => (el.readOnly = false));
-          if (sigAdmin) sigAdmin.innerHTML = "";
-        }
-      }
-
-      function bukaModalTtdAdmin() {
-        const mInput = document.getElementById("m_nama_pengawas");
-        const aInput = document.getElementById("a_nama_pengawas");
-        if (mInput && aInput) mInput.value = aInput.value;
-        openModal("modal-ttd-admin");
-        setTimeout(() => {
-          const c = document.getElementById("sig-admin");
-          if (c) c.width = c.parentElement.getBoundingClientRect().width;
-        }, 100);
-      }
-
-      function simpanVerifikasiAdmin() {
-        const canvasAdmin = document.getElementById("sig-admin");
-        const namaPengawas = document.getElementById("m_nama_pengawas").value;
-        if (!namaPengawas) return alert("Mohon isi Nama Pengawas.");
-        const dateStr = document.getElementById("a_tanggal_pilih").value;
-        const db = getDB(STORAGE_KEY);
-        const data = db[dateStr] || getTodayData(dateStr);
-
-        if (data.rows && data.rows.length > 0) {
-          data.rows.forEach((r, idx) => {
-            const i = idx + 1;
-            const fields = [
-              "tahap",
-              "jenis",
-              "nama",
-              "porsi_prod",
-              "m_pukul",
-              "m_suhu",
-              "s_pukul",
-              "s_suhu",
-              "durasi",
-              "suhu_ruang",
-              "ket",
-              "paraf",
-            ];
-            fields.forEach((f) => {
-              const el = document.getElementById(`a_${f}_${i}`);
-              if (el) r[f] = el.value;
-            });
-          });
-        }
-
-        data.shift = document.getElementById("a_shift").value;
-        data.menu = document.getElementById("a_menu").value;
-        data.porsi = document.getElementById("a_porsi").value;
-        data.nama_petugas = document.getElementById("a_nama_petugas").value;
-        data.nama_pengawas = namaPengawas;
-        data.nama_kepala = document.getElementById("a_nama_kepala").value;
-        data.ttd_admin = canvasAdmin.toDataURL();
-        data.status = "verified";
-        db[dateStr] = data;
-        saveDB(STORAGE_KEY, db);
-        closeModal("modal-ttd-admin");
-        loadDataAdmin();
-        showNotif("Laporan berhasil DIVERIFIKASI!");
-      }
+        /* ---------- Collect editan dari tabel admin ---------- */
+        collectFromAdmin: function (idx) {
+          var get = function (id) {
+            var el = document.getElementById(id);
+            return el ? el.value : "";
+          };
+          return {
+            tahap: get("a_tahap_" + idx),
+            jenis: get("a_jenis_" + idx),
+            nama: get("a_nama_" + idx),
+            porsi_prod: get("a_porsi_prod_" + idx),
+            m_pukul: get("a_m_pukul_" + idx),
+            m_suhu: stripSuhuDerajat(get("a_m_suhu_" + idx)),
+            s_pukul: get("a_s_pukul_" + idx),
+            s_suhu: stripSuhuDerajat(get("a_s_suhu_" + idx)),
+            durasi: get("a_durasi_" + idx),
+            suhu_ruang: stripSuhuDerajat(get("a_suhu_ruang_" + idx)),
+            ket: get("a_ket_" + idx),
+            paraf: get("a_paraf_" + idx),
+          };
+        },
+      });
     </script>
   </body>
 </html>

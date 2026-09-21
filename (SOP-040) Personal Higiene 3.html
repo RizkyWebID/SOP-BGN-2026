@@ -243,7 +243,6 @@
                 <table
                   class="w-full text-xs text-left border-collapse border border-gray-300"
                 >
-                  <!-- Header: Sarana=amber, Temuan=amber, Perbaikan=blue, Tgl Selesai=green -->
                   <thead
                     class="bg-gray-100 text-gray-700 font-semibold text-center"
                   >
@@ -701,344 +700,122 @@
 
     <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
+    <script src="assets/js/sop-bgn-form-core.js"></script>
 
     <script>
       /* =====================================================================
-       * SOP-040C - SCRIPT KHUSUS (Ketidaksesuaian Perlengkapan)
+       * SOP-040C - KONFIGURASI SopForm
        * ---------------------------------------------------------------------
-       * v6:
-       *   - User view HANYA baris berisi.
-       *   - Header: Sarana/Temuan=amber-50, Perbaikan=blue-50, Tgl=green-50.
-       *   - Admin view tampil MIN_ROWS baris.
-       *   - Tombol Hapus → 🔒 saat locked.
-       *   - Field TTD: nama_petugas (dulu nama_user).
-       *   - currentDate pakai getTodayLocalISO().
+       * Field TTD: nama_petugas (dulu nama_user) / nama_pengawas / nama_kepala.
        * ===================================================================== */
 
-      const STORAGE_KEY = "db_sop_040_3";
-      const MIN_ROWS = 8;
-
-      let currentDate = getTodayLocalISO();
-      let currentRows = [];
-
-      window.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("u_tanggal").value = currentDate;
-        document.getElementById("a_tanggal_pilih").value = currentDate;
-        setupSignaturePad("sig-user");
-        setupSignaturePad("sig-admin");
-        loadDataForDate();
-      });
-
-      function getTodayData(date) {
-        const db = getDB(STORAGE_KEY);
-        if (!db[date]) {
-          db[date] = {
-            shift: "",
-            menu: "",
-            porsi: "",
-            status: "draft",
-            rows: [],
-            ttd_user: null,
-            ttd_admin: null,
-            nama_petugas: "",
-            nama_pengawas: "",
-            nama_kepala: "Rizky Arinanda. AR, S.Kom",
-          };
-        }
-        return db[date];
-      }
-
-      function loadDataForDate() {
-        currentDate = document.getElementById("u_tanggal").value;
-        const data = getTodayData(currentDate);
-        document.getElementById("u_shift").value = data.shift || "";
-        document.getElementById("u_menu").value = data.menu || "";
-        document.getElementById("u_porsi").value = data.porsi || "";
-        currentRows = data.rows || [];
-        renderUserTable();
-        checkFormLockStatus(data);
-      }
-
-      function renderUserTable() {
-        const tbody = document.getElementById("u_table_body");
-        if (!tbody) return;
-        tbody.innerHTML = "";
-
-        if (currentRows.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-400 italic">Belum ada data temuan yang dicatat hari ini.</td></tr>`;
-          return;
-        }
-
-        const data = getTodayData(currentDate);
-        const locked = data.status === "final" || data.status === "verified";
-
-        currentRows.forEach((r, idx) => {
-          const aksiCell = locked
-            ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
-            : `<td class="p-2 border border-gray-300 text-center">
-                 <button type="button" onclick="hapusBarisTemuan(${idx})"
-                   class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
-               </td>`;
-
-          tbody.insertAdjacentHTML(
-            "beforeend",
-            `
-            <tr class="hover:bg-gray-50 border-b border-gray-200">
-              <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
-              <td class="p-2 border border-gray-300 font-semibold bg-amber-50">${escapeHtml(r.sarana)}</td>
-              <td class="p-2 border border-gray-300 bg-amber-50">${escapeHtml(r.temuan)}</td>
-              <td class="p-2 border border-gray-300 bg-blue-50">${escapeHtml(r.perbaikan)}</td>
-              <td class="p-2 border border-gray-300 text-center bg-green-50">${escapeHtml(r.tgl_selesai || "-")}</td>
-              ${aksiCell}
-            </tr>`,
-          );
-        });
-      }
-
-      function tambahBarisTemuan(e) {
-        e.preventDefault();
-        const data = getTodayData(currentDate);
-        if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan sudah terkunci!", "error");
-
-        currentRows.push({
-          sarana: document.getElementById("u_sarana").value,
-          temuan: document.getElementById("u_temuan").value,
-          perbaikan: document.getElementById("u_perbaikan").value,
-          tgl_selesai: document.getElementById("u_tgl_selesai").value,
-        });
-
-        renderUserTable();
-        document.getElementById("form-input-baris").reset();
-        showNotif("Temuan berhasil ditambahkan.");
-      }
-
-      function hapusBarisTemuan(index) {
-        const data = getTodayData(currentDate);
-        if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan sudah terkunci!", "error");
-        currentRows.splice(index, 1);
-        renderUserTable();
-        showNotif("Baris temuan berhasil dihapus.", "error");
-      }
-
-      function checkFormLockStatus(data) {
-        const banner = document.getElementById("status-banner");
-        const inputs = document.querySelectorAll(
-          "#user-view input:not(#u_tanggal), #user-view select, #btn-tambah-temuan",
+      function cell040C(id, val, cls) {
+        cls = cls || "text-center";
+        return (
+          '<td class="border border-black p-0 relative">' +
+          '<div class="hidden print:block w-full ' +
+          cls +
+          ' whitespace-normal break-words">' +
+          escapeHtml(val) +
+          "</div>" +
+          '<input type="text" id="' +
+          id +
+          '" value="' +
+          escapeAttr(val) +
+          '" ' +
+          'oninput="this.previousElementSibling.innerText = this.value" ' +
+          'class="w-full ' +
+          cls +
+          ' bg-transparent print:hidden">' +
+          "</td>"
         );
-        const btnDraft = document.getElementById("btn-draft");
-        const btnFinal = document.getElementById("btn-final");
-        if (!banner) return;
-
-        if (data.status === "verified") {
-          banner.textContent =
-            "LAPORAN TELAH DIVERIFIKASI OLEH ASISTEN LAPANGAN & TERKUNCI SEPENUHNYA";
-          banner.className =
-            "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
-          inputs.forEach((el) => (el.disabled = true));
-          btnDraft?.classList.add("hidden");
-          btnFinal?.classList.add("hidden");
-        } else if (data.status === "final") {
-          banner.textContent =
-            "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI ASISTEN LAPANGAN)";
-          banner.className =
-            "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
-          inputs.forEach((el) => (el.disabled = true));
-          btnDraft?.classList.add("hidden");
-          btnFinal?.classList.add("hidden");
-        } else {
-          banner.classList.replace("block", "hidden");
-          inputs.forEach((el) => (el.disabled = false));
-          btnDraft?.classList.remove("hidden");
-          btnFinal?.classList.remove("hidden");
-        }
       }
 
-      function simpanDraftGlobal() {
-        const db = getDB(STORAGE_KEY);
-        const data = getTodayData(currentDate);
-        if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan sudah terkunci!", "error");
-        data.shift = document.getElementById("u_shift").value;
-        data.menu = document.getElementById("u_menu").value;
-        data.porsi = document.getElementById("u_porsi").value;
-        data.rows = currentRows;
-        db[currentDate] = data;
-        saveDB(STORAGE_KEY, db);
-        showNotif("Draft laporan berhasil disimpan.");
-      }
+      SopForm.setup({
+        storageKey: "db_sop_040_3",
+        minRows: 8,
+        emptyUserColspan: 6,
+        emptyUserMessage: "Belum ada data temuan yang dicatat hari ini.",
+        emptyAdminRow: function () {
+          return { sarana: "", temuan: "", perbaikan: "", tgl_selesai: "" };
+        },
 
-      function bukaModalTtdUser() {
-        if (currentRows.length === 0)
-          return alert("Mohon isi setidaknya satu temuan perlengkapan/sarana.");
-        simpanDraftGlobal();
-        openModal("modal-ttd");
-        setTimeout(() => {
-          const c = document.getElementById("sig-user");
-          if (c) c.width = c.parentElement.getBoundingClientRect().width;
-        }, 100);
-      }
+        /* ---------- Render baris tabel USER ---------- */
+        renderUserRow: function (r, idx, locked) {
+          var aksi = locked
+            ? '<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>'
+            : '<td class="p-2 border border-gray-300 text-center">' +
+              '<button type="button" onclick="hapusBarisTemuan(' +
+              idx +
+              ')" ' +
+              'class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>' +
+              "</td>";
 
-      function simpanFinalLaporan() {
-        const canvasUser = document.getElementById("sig-user");
-        const nama = document.getElementById("m_nama_petugas").value;
-        if (!nama) return alert("Mohon isi Nama Petugas Jaga.");
-        const db = getDB(STORAGE_KEY);
-        const data = db[currentDate];
-        data.ttd_user = canvasUser.toDataURL();
-        data.status = "final";
-        data.nama_petugas = nama;
-        db[currentDate] = data;
-        saveDB(STORAGE_KEY, db);
-        closeModal("modal-ttd");
-        loadDataForDate();
-        showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
-      }
-
-      function loadDataAdmin() {
-        const dateStr = document.getElementById("a_tanggal_pilih").value;
-        const db = getDB(STORAGE_KEY);
-        document.getElementById("a_tanggal_txt").textContent =
-          formatTanggalID(dateStr);
-        const data = db[dateStr] || {
-          shift: "",
-          menu: "",
-          porsi: "",
-          status: "draft",
-          rows: [],
-          ttd_user: null,
-          ttd_admin: null,
-          nama_petugas: "",
-          nama_pengawas: "",
-          nama_kepala: "Rizky Arinanda. AR, S.Kom",
-        };
-        document.getElementById("a_shift").value = data.shift || "";
-        document.getElementById("print_a_shift").innerText = data.shift || "";
-        document.getElementById("a_menu").value = data.menu || "";
-        document.getElementById("print_a_menu").innerText = data.menu || "";
-        document.getElementById("a_porsi").value = data.porsi || "";
-        document.getElementById("print_a_porsi").innerText = data.porsi || "";
-        document.getElementById("a_nama_petugas").value =
-          data.nama_petugas || "";
-        document.getElementById("print_a_nama_petugas").innerText =
-          data.nama_petugas || "";
-        document.getElementById("a_nama_pengawas").value =
-          data.nama_pengawas || "";
-        document.getElementById("print_a_nama_pengawas").innerText =
-          data.nama_pengawas || "";
-        const kepala = data.nama_kepala || "Rizky Arinanda. AR, S.Kom";
-        document.getElementById("a_nama_kepala").value = kepala;
-        document.getElementById("print_a_nama_kepala").innerText = kepala;
-
-        const rowCount = Math.max(MIN_ROWS, data.rows.length);
-        const tbody = document.getElementById("a_table_body");
-        if (!tbody) return;
-        tbody.innerHTML = "";
-
-        const cell = (id, val, cls = "text-center") => `
-          <td class="border border-black p-0 relative">
-            <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${escapeHtml(val)}</div>
-            <input type="text" id="${id}" value="${escapeAttr(val)}"
-              oninput="this.previousElementSibling.innerText = this.value"
-              class="w-full ${cls} bg-transparent print:hidden">
-          </td>`;
-
-        for (let i = 1; i <= rowCount; i++) {
-          const r = data.rows[i - 1] || {
-            sarana: "",
-            temuan: "",
-            perbaikan: "",
-            tgl_selesai: "",
-          };
-          tbody.insertAdjacentHTML(
-            "beforeend",
-            `
-            <tr>
-              <td class="border border-black p-0.5 font-bold text-center">${i}</td>
-              ${cell(`a_sarana_${i}`, r.sarana, "text-left pl-2 font-semibold")}
-              ${cell(`a_temuan_${i}`, r.temuan, "text-left pl-2")}
-              ${cell(`a_perbaikan_${i}`, r.perbaikan, "text-left pl-2")}
-              ${cell(`a_tgl_selesai_${i}`, r.tgl_selesai)}
-            </tr>`,
+          return (
+            '<tr class="hover:bg-gray-50 border-b border-gray-200">' +
+            '<td class="p-2 border border-gray-300 text-center font-bold text-gray-500">' +
+            (idx + 1) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 font-semibold bg-amber-50">' +
+            escapeHtml(r.sarana) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 bg-amber-50">' +
+            escapeHtml(r.temuan) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 bg-blue-50">' +
+            escapeHtml(r.perbaikan) +
+            "</td>" +
+            '<td class="p-2 border border-gray-300 text-center bg-green-50">' +
+            escapeHtml(r.tgl_selesai || "-") +
+            "</td>" +
+            aksi +
+            "</tr>"
           );
-        }
+        },
 
-        const sigUser = document.getElementById("a_render_sig_user");
-        if (sigUser) {
-          sigUser.innerHTML =
-            data.ttd_user && /^data:image\//.test(data.ttd_user)
-              ? `<img src="${escapeAttr(data.ttd_user)}" alt="TTD User" style="max-height: 50px;">`
-              : "";
-        }
+        /* ---------- Render baris tabel ADMIN ---------- */
+        renderAdminRow: function (r, i, idx) {
+          return (
+            "<tr>" +
+            '<td class="border border-black p-0.5 font-bold text-center">' +
+            i +
+            "</td>" +
+            cell040C(
+              "a_sarana_" + idx,
+              r.sarana,
+              "text-left pl-2 font-semibold",
+            ) +
+            cell040C("a_temuan_" + idx, r.temuan, "text-left pl-2") +
+            cell040C("a_perbaikan_" + idx, r.perbaikan, "text-left pl-2") +
+            cell040C("a_tgl_selesai_" + idx, r.tgl_selesai) +
+            "</tr>"
+          );
+        },
 
-        const btnVerif = document.getElementById("btn-verifikasi-admin");
-        const btnPrint = document.getElementById("btn-print-admin");
-        const sigAdmin = document.getElementById("a_render_sig_admin");
-        const adminInputs = document.querySelectorAll("#admin-view input");
+        /* ---------- Collect baris baru dari form ---------- */
+        collectFromForm: function () {
+          return {
+            sarana: document.getElementById("u_sarana").value,
+            temuan: document.getElementById("u_temuan").value,
+            perbaikan: document.getElementById("u_perbaikan").value,
+            tgl_selesai: document.getElementById("u_tgl_selesai").value,
+          };
+        },
 
-        if (data.status === "verified") {
-          btnVerif?.classList.add("hidden");
-          btnPrint?.classList.remove("hidden");
-          adminInputs.forEach((el) => (el.readOnly = true));
-          if (
-            data.ttd_admin &&
-            sigAdmin &&
-            /^data:image\//.test(data.ttd_admin)
-          )
-            sigAdmin.innerHTML = `<img src="${escapeAttr(data.ttd_admin)}" alt="TTD Admin" style="max-height: 50px;">`;
-        } else {
-          btnVerif?.classList.remove("hidden");
-          btnPrint?.classList.add("hidden");
-          adminInputs.forEach((el) => (el.readOnly = false));
-          if (sigAdmin) sigAdmin.innerHTML = "";
-        }
-      }
-
-      function bukaModalTtdAdmin() {
-        const mInput = document.getElementById("m_nama_pengawas");
-        const aInput = document.getElementById("a_nama_pengawas");
-        if (mInput && aInput) mInput.value = aInput.value;
-        openModal("modal-ttd-admin");
-        setTimeout(() => {
-          const c = document.getElementById("sig-admin");
-          if (c) c.width = c.parentElement.getBoundingClientRect().width;
-        }, 100);
-      }
-
-      function simpanVerifikasiAdmin() {
-        const canvasAdmin = document.getElementById("sig-admin");
-        const namaPengawas = document.getElementById("m_nama_pengawas").value;
-        if (!namaPengawas) return alert("Mohon isi Nama Asisten Lapangan.");
-        const dateStr = document.getElementById("a_tanggal_pilih").value;
-        const db = getDB(STORAGE_KEY);
-        const data = db[dateStr] || getTodayData(dateStr);
-
-        if (data.rows && data.rows.length > 0) {
-          data.rows.forEach((r, idx) => {
-            const i = idx + 1;
-            const fields = ["sarana", "temuan", "perbaikan", "tgl_selesai"];
-            fields.forEach((f) => {
-              const el = document.getElementById(`a_${f}_${i}`);
-              if (el) r[f] = el.value;
-            });
-          });
-        }
-
-        data.shift = document.getElementById("a_shift").value;
-        data.menu = document.getElementById("a_menu").value;
-        data.porsi = document.getElementById("a_porsi").value;
-        data.nama_petugas = document.getElementById("a_nama_petugas").value;
-        data.nama_pengawas = namaPengawas;
-        data.nama_kepala = document.getElementById("a_nama_kepala").value;
-        data.ttd_admin = canvasAdmin.toDataURL();
-        data.status = "verified";
-        db[dateStr] = data;
-        saveDB(STORAGE_KEY, db);
-        closeModal("modal-ttd-admin");
-        loadDataAdmin();
-        showNotif("Laporan berhasil DIVERIFIKASI!");
-      }
+        /* ---------- Collect editan dari tabel admin ---------- */
+        collectFromAdmin: function (idx) {
+          var get = function (id) {
+            var el = document.getElementById(id);
+            return el ? el.value : "";
+          };
+          return {
+            sarana: get("a_sarana_" + idx),
+            temuan: get("a_temuan_" + idx),
+            perbaikan: get("a_perbaikan_" + idx),
+            tgl_selesai: get("a_tgl_selesai_" + idx),
+          };
+        },
+      });
     </script>
   </body>
 </html>

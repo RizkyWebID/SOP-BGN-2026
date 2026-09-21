@@ -222,10 +222,21 @@
                   <label class="block text-xs font-semibold text-gray-600 mb-1"
                     >Harga (Rp)</label
                   >
+                  <!--
+                    VALIDASI ANGGKA: hanya digit 0-9 yang diterima.
+                    - inputmode="numeric" → keyboard angka di HP
+                    - pattern → hint autofill browser
+                    - maxlength → cegah input tak wajar
+                    - oninput → strip karakter non-digit real-time
+                  -->
                   <input
-                    type="number"
+                    type="text"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    maxlength="15"
                     id="u_harga"
                     placeholder="Cth: 15000"
+                    oninput="onInputHargaUser(this)"
                     class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
                     required
                   />
@@ -247,10 +258,17 @@
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Kontak / No. Telp</label
                 >
+                <!--
+                  VALIDASI KONTAK: hanya digit, +, -, dan spasi.
+                  Format Indonesia: 0812-3456-7890 atau +62 812 3456 7890
+                -->
                 <input
                   type="text"
+                  inputmode="tel"
+                  maxlength="20"
                   id="u_kontak"
                   placeholder="Cth: 0812-3456-7890"
+                  oninput="onInputKontak(this)"
                   class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
@@ -288,11 +306,6 @@
                 <table
                   class="w-full text-xs text-left border-collapse border border-gray-300"
                 >
-                  <!--
-                    Header tabel dengan warna kelompok:
-                    - Harga       → bg-amber-50 (data observasi keuangan)
-                    - Kontak      → bg-blue-50  (data pelengkap / lanjutan)
-                  -->
                   <thead
                     class="bg-gray-100 text-gray-700 font-semibold text-center"
                   >
@@ -736,24 +749,58 @@
 
     <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
+    <script src="assets/js/sop-bgn-form-core.js"></script>
 
     <script>
       /* =====================================================================
-       * SOP-017 - SCRIPT KHUSUS
+       * SOP-017 - KONFIGURASI SopForm
        * ---------------------------------------------------------------------
-       * v6:
-       *   - User view HANYA tampil baris berisi data.
-       *   - Header user view: Harga = amber-50, Kontak = blue-50.
-       *   - Admin view tampil MIN_ROWS baris (siap tulis tangan).
-       *   - Tombol Hapus berubah 🔒 saat locked.
-       *   - currentDate pakai getTodayLocalISO().
-       *   - Field TTD: nama_petugas / nama_pengawas / nama_kepala.
+       * v7: Validasi input angka di Harga & Kontak.
+       *   - Harga  : hanya digit 0-9 (strip semua non-digit)
+       *   - Kontak : digit, '+', '-', spasi (format telepon)
+       *   - Sanitasi dilakukan 2 lapis:
+       *       1. Real-time (oninput) → strip saat user ketik
+       *       2. Pre-save (collectFromForm & collectFromAdmin) → strip terakhir
        * ===================================================================== */
 
-      const STORAGE_KEY = "db_sop_017";
-      const MIN_ROWS = 10;
+      /* ---------- Helper fungsi validasi ---------- */
 
-      const catOrderMap = {
+      /**
+       * Sanitasi harga user form: hanya digit 0-9.
+       * Update nilai input + tampilkan ke user.
+       */
+      function onInputHargaUser(el) {
+        var clean = String(el.value || "").replace(/\D/g, "");
+        if (el.value !== clean) el.value = clean;
+      }
+
+      /**
+       * Sanitasi harga admin cell: hanya digit + format ribuan.
+       * Update nilai input + display di div sebelumnya.
+       */
+      function onInputHargaAdmin(el) {
+        var clean = String(el.value || "").replace(/\D/g, "");
+        if (el.value !== clean) el.value = clean;
+        var prev = el.previousElementSibling;
+        if (prev) {
+          prev.innerText = clean
+            ? new Intl.NumberFormat("id-ID").format(clean)
+            : "";
+        }
+      }
+
+      /**
+       * Sanitasi kontak (user form & admin cell): digit, +, -, spasi.
+       * Format ini mendukung: "0812-3456-7890" atau "+62 812 3456 7890".
+       */
+      function onInputKontak(el) {
+        var clean = String(el.value || "").replace(/[^0-9+\-\s]/g, "");
+        if (el.value !== clean) el.value = clean;
+      }
+
+      /* ---------- Helper data ---------- */
+
+      var catOrderMap = {
         KARBOHIDRAT: 1,
         HEWANI: 2,
         NABATI: 3,
@@ -762,285 +809,71 @@
         "LAIN-LAIN": 6,
       };
 
-      let currentDate = getTodayLocalISO();
-      let currentRows = [];
-
-      window.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("u_tanggal").value = currentDate;
-        document.getElementById("a_tanggal_pilih").value = currentDate;
-        setupSignaturePad("sig-user");
-        setupSignaturePad("sig-admin");
-        loadDataForDate();
-      });
-
       function formatRupiah(angka) {
+        if (angka === null || angka === undefined || angka === "") return "";
         return new Intl.NumberFormat("id-ID").format(angka);
       }
 
-      function getTodayData(date) {
-        const db = getDB(STORAGE_KEY);
-        if (!db[date]) {
-          db[date] = {
-            shift: "",
-            menu: "",
-            porsi: "",
-            status: "draft",
-            rows: [],
-            ttd_user: null,
-            ttd_admin: null,
-            nama_petugas: "",
-            nama_pengawas: "",
-            nama_kepala: "",
-          };
-        }
-        return db[date];
-      }
-
-      function loadDataForDate() {
-        currentDate = document.getElementById("u_tanggal").value;
-        const data = getTodayData(currentDate);
-        document.getElementById("u_shift").value = data.shift || "";
-        document.getElementById("u_menu").value = data.menu || "";
-        document.getElementById("u_porsi").value = data.porsi || "";
-        currentRows = data.rows || [];
-        renderUserTable();
-        checkFormLockStatus(data);
-      }
-
-      /**
-       * Render tabel USER VIEW: HANYA baris berisi data + header group kategori.
-       * - Kosong → pesan "Belum ada daftar bahan baku...".
-       * - Tombol Hapus berubah 🔒 saat locked.
-       */
-      function renderUserTable() {
-        const tbody = document.getElementById("u_table_body");
-        if (!tbody) return;
-        tbody.innerHTML = "";
-
-        if (currentRows.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-400 italic">Belum ada daftar bahan baku yang dicatat hari ini.</td></tr>`;
-          return;
-        }
-
-        const data = getTodayData(currentDate);
-        const locked = data.status === "final" || data.status === "verified";
-
-        // Urutkan berdasar urutan kategori
-        currentRows.sort(
-          (a, b) =>
-            (catOrderMap[a.kategori] || 99) - (catOrderMap[b.kategori] || 99),
-        );
-
-        let currentKat = "";
-        let numInKat = 1;
-
-        currentRows.forEach((r, idx) => {
-          // Header group kategori
-          if (r.kategori !== currentKat) {
-            currentKat = r.kategori;
-            numInKat = 1;
-            tbody.insertAdjacentHTML(
-              "beforeend",
-              `
-              <tr class="bg-orange-50">
-                <td colspan="8" class="p-2 border border-gray-300 text-center font-bold uppercase text-indigo-900">
-                  ${escapeHtml(currentKat)}
-                </td>
-              </tr>`,
-            );
-          }
-
-          const aksiCell = locked
-            ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
-            : `<td class="p-2 border border-gray-300 text-center">
-                 <button type="button" onclick="hapusBarisProses(${idx})"
-                   class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
-               </td>`;
-
-          tbody.insertAdjacentHTML(
-            "beforeend",
-            `
-            <tr class="hover:bg-gray-50 border-b border-gray-200">
-              <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${numInKat++}</td>
-              <td class="p-2 border border-gray-300">${escapeHtml(r.nama)}</td>
-              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.satuan)}</td>
-              <td class="p-2 border border-gray-300 text-right pr-2 bg-amber-50">${r.harga ? formatRupiah(r.harga) : "0"}</td>
-              <td class="p-2 border border-gray-300">${escapeHtml(r.supplier)}</td>
-              <td class="p-2 border border-gray-300 text-center bg-blue-50">${escapeHtml(r.kontak || "-")}</td>
-              <td class="p-2 border border-gray-300">${escapeHtml(r.ket || "-")}</td>
-              ${aksiCell}
-            </tr>`,
+      function sortByKategori(rows) {
+        return rows.slice().sort(function (a, b) {
+          return (
+            (catOrderMap[a.kategori] || 99) - (catOrderMap[b.kategori] || 99)
           );
         });
       }
 
-      function tambahBarisProses(e) {
-        e.preventDefault();
-        const data = getTodayData(currentDate);
-        if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan sudah terkunci!", "error");
+      /* ---------- Cell builder helpers ---------- */
 
-        currentRows.push({
-          kategori: document.getElementById("u_kategori").value,
-          nama: document.getElementById("u_nama").value,
-          satuan: document.getElementById("u_satuan").value,
-          harga: document.getElementById("u_harga").value,
-          supplier: document.getElementById("u_supplier").value,
-          kontak: document.getElementById("u_kontak").value,
-          ket: document.getElementById("u_ket").value,
-        });
-        renderUserTable();
-        document.getElementById("form-input-baris").reset();
-        showNotif("Bahan Baku berhasil ditambahkan.");
-      }
-
-      function hapusBarisProses(index) {
-        const data = getTodayData(currentDate);
-        if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan sudah terkunci!", "error");
-        currentRows.splice(index, 1);
-        renderUserTable();
-        showNotif("Data baris berhasil dihapus.", "error");
-      }
-
-      function checkFormLockStatus(data) {
-        const banner = document.getElementById("status-banner");
-        const inputs = document.querySelectorAll(
-          "#user-view input:not(#u_tanggal), #user-view select, #btn-tambah-proses",
+      /** Cell dual-element standar. */
+      function cell017(id, val, cls) {
+        cls = cls || "text-center";
+        return (
+          '<td class="border border-black p-0 relative">' +
+          '<div class="hidden print:block w-full ' +
+          cls +
+          ' whitespace-normal break-words">' +
+          escapeHtml(val) +
+          "</div>" +
+          '<input type="text" id="' +
+          id +
+          '" value="' +
+          escapeAttr(val) +
+          '" ' +
+          'oninput="this.previousElementSibling.innerText = this.value" ' +
+          'class="w-full ' +
+          cls +
+          ' bg-transparent print:hidden">' +
+          "</td>"
         );
-        const btnDraft = document.getElementById("btn-draft");
-        const btnFinal = document.getElementById("btn-final");
-        if (!banner) return;
-
-        if (data.status === "verified") {
-          banner.textContent =
-            "LAPORAN TELAH DIVERIFIKASI OLEH PENGAWAS & TERKUNCI SEPENUHNYA";
-          banner.className =
-            "p-4 rounded-lg font-bold text-center bg-blue-100 text-blue-800 mb-6 block text-xs";
-          inputs.forEach((el) => (el.disabled = true));
-          btnDraft?.classList.add("hidden");
-          btnFinal?.classList.add("hidden");
-        } else if (data.status === "final") {
-          banner.textContent =
-            "LAPORAN TANGGAL INI SUDAH FINAL (MENUNGGU VERIFIKASI PENGAWAS)";
-          banner.className =
-            "p-4 rounded-lg font-bold text-center bg-green-100 text-green-800 mb-6 block text-xs";
-          inputs.forEach((el) => (el.disabled = true));
-          btnDraft?.classList.add("hidden");
-          btnFinal?.classList.add("hidden");
-        } else {
-          banner.classList.replace("block", "hidden");
-          inputs.forEach((el) => (el.disabled = false));
-          btnDraft?.classList.remove("hidden");
-          btnFinal?.classList.remove("hidden");
-        }
       }
 
-      function simpanDraftGlobal() {
-        const db = getDB(STORAGE_KEY);
-        const data = getTodayData(currentDate);
-        if (data.status === "final" || data.status === "verified")
-          return showNotif("Laporan sudah terkunci!", "error");
-        data.shift = document.getElementById("u_shift").value;
-        data.menu = document.getElementById("u_menu").value;
-        data.porsi = document.getElementById("u_porsi").value;
-        currentRows.sort(
-          (a, b) =>
-            (catOrderMap[a.kategori] || 99) - (catOrderMap[b.kategori] || 99),
+      /** Cell khusus kontak: strip karakter non-telpon saat edit di admin. */
+      function cell017Kontak(id, val) {
+        return (
+          '<td class="border border-black p-0 relative">' +
+          '<div class="hidden print:block w-full text-center whitespace-normal break-words">' +
+          escapeHtml(val) +
+          "</div>" +
+          '<input type="text" id="' +
+          id +
+          '" value="' +
+          escapeAttr(val) +
+          '" ' +
+          'oninput="onInputKontak(this)" ' +
+          'inputmode="tel" maxlength="20" ' +
+          'class="w-full text-center bg-transparent print:hidden">' +
+          "</td>"
         );
-        data.rows = currentRows;
-        db[currentDate] = data;
-        saveDB(STORAGE_KEY, db);
-        showNotif("Draft laporan berhasil disimpan.");
       }
 
-      function bukaModalTtdUser() {
-        if (currentRows.length === 0)
-          return alert("Belum ada data bahan baku yang diinput.");
-        simpanDraftGlobal();
-        openModal("modal-ttd");
-        setTimeout(() => {
-          const c = document.getElementById("sig-user");
-          if (c) c.width = c.parentElement.getBoundingClientRect().width;
-        }, 100);
-      }
-
-      function simpanFinalLaporan() {
-        const canvasUser = document.getElementById("sig-user");
-        const nama = document.getElementById("m_nama_petugas").value;
-        if (!nama) return alert("Mohon isi Nama Petugas.");
-        const db = getDB(STORAGE_KEY);
-        const data = db[currentDate] || getTodayData(currentDate);
-        data.ttd_user = canvasUser.toDataURL();
-        data.status = "final";
-        data.nama_petugas = nama;
-        db[currentDate] = data;
-        saveDB(STORAGE_KEY, db);
-        closeModal("modal-ttd");
-        loadDataForDate();
-        showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
-      }
-
-      function loadDataAdmin() {
-        const dateStr = document.getElementById("a_tanggal_pilih").value;
-        const db = getDB(STORAGE_KEY);
-        document.getElementById("a_tanggal_txt").textContent =
-          formatTanggalID(dateStr);
-        const data = db[dateStr] || {
-          shift: "",
-          menu: "",
-          porsi: "",
-          status: "draft",
-          rows: [],
-          ttd_user: null,
-          ttd_admin: null,
-          nama_petugas: "",
-          nama_pengawas: "",
-          nama_kepala: "",
-        };
-        document.getElementById("a_shift").value = data.shift || "";
-        document.getElementById("print_a_shift").innerText = data.shift || "";
-        document.getElementById("a_menu").value = data.menu || "";
-        document.getElementById("print_a_menu").innerText = data.menu || "";
-        document.getElementById("a_porsi").value = data.porsi || "";
-        document.getElementById("print_a_porsi").innerText = data.porsi || "";
-        document.getElementById("a_nama_petugas").value =
-          data.nama_petugas || "";
-        document.getElementById("print_a_nama_petugas").innerText =
-          data.nama_petugas || "";
-        document.getElementById("a_nama_pengawas").value =
-          data.nama_pengawas || "";
-        document.getElementById("print_a_nama_pengawas").innerText =
-          data.nama_pengawas || "";
-        const kepala = data.nama_kepala || "Rizky Arinanda. AR, S.Kom";
-        document.getElementById("a_nama_kepala").value = kepala;
-        document.getElementById("print_a_nama_kepala").innerText = kepala;
-
-        if (data.rows) {
-          data.rows.sort(
-            (a, b) =>
-              (catOrderMap[a.kategori] || 99) - (catOrderMap[b.kategori] || 99),
-          );
-        }
-
-        const rowCount = Math.max(MIN_ROWS, data.rows ? data.rows.length : 0);
-        const tbody = document.getElementById("a_table_body");
-        if (!tbody) return;
-        tbody.innerHTML = "";
-
-        let currentKat = "";
-        let numInKat = 1;
-
-        const cell = (id, val, cls = "text-center") => `
-          <td class="border border-black p-0 relative">
-            <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${escapeHtml(val)}</div>
-            <input type="text" id="${id}" value="${escapeAttr(val)}"
-              oninput="this.previousElementSibling.innerText = this.value"
-              class="w-full ${cls} bg-transparent print:hidden">
-          </td>`;
-
-        for (let i = 1; i <= rowCount; i++) {
-          const r = data.rows[i - 1] || {
+      /* ---------- Setup SopForm ---------- */
+      SopForm.setup({
+        storageKey: "db_sop_017",
+        minRows: 10,
+        emptyUserColspan: 8,
+        emptyUserMessage: "Belum ada daftar bahan baku yang dicatat hari ini.",
+        emptyAdminRow: function () {
+          return {
             kategori: "",
             nama: "",
             satuan: "",
@@ -1049,131 +882,215 @@
             kontak: "",
             ket: "",
           };
-          const displayKat = r.kategori || "TAMBAHAN / LAINNYA";
+        },
 
-          if (
-            displayKat !== currentKat &&
-            displayKat !== "TAMBAHAN / LAINNYA"
-          ) {
-            currentKat = displayKat;
-            numInKat = 1;
-            tbody.insertAdjacentHTML(
-              "beforeend",
-              `
-              <tr style="background-color:#fff2cc !important;" class="font-bold print:bg-[#fff2cc]">
-                <td colspan="7" class="border border-black p-1 text-center uppercase">${escapeHtml(currentKat)}</td>
-              </tr>`,
-            );
+        /* =====================================================================
+         * OVERRIDE: Render tabel USER dengan group header kategori
+         * ===================================================================== */
+        renderUserTableOverride: function (core) {
+          var tbody = document.getElementById("u_table_body");
+          if (!tbody) return;
+          tbody.innerHTML = "";
+
+          if (core.currentRows.length === 0) {
+            tbody.innerHTML =
+              '<tr><td colspan="8" class="p-4 text-center text-gray-400 italic">' +
+              escapeHtml(core.config.emptyUserMessage) +
+              "</td></tr>";
+            return;
           }
 
-          tbody.insertAdjacentHTML(
-            "beforeend",
-            `
-            <tr>
-              <td class="border border-black p-0.5 font-bold text-center">${numInKat++}</td>
-              <td class="border border-black p-0 relative">
-                <input type="hidden" id="a_kategori_${i}" value="${escapeAttr(r.kategori)}">
-                <div class="hidden print:block w-full text-left whitespace-normal break-words px-1">${escapeHtml(r.nama)}</div>
-                <input type="text" id="a_nama_${i}" value="${escapeAttr(r.nama)}"
-                  oninput="this.previousElementSibling.innerText = this.value"
-                  class="w-full text-left bg-transparent px-1 print:hidden">
-              </td>
-              ${cell(`a_satuan_${i}`, r.satuan)}
-              <td class="border border-black p-0 relative">
-                <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.harga ? formatRupiah(r.harga) : ""}</div>
-                <input type="text" id="a_harga_${i}" value="${escapeAttr(r.harga)}"
-                  oninput="this.previousElementSibling.innerText = this.value ? new Intl.NumberFormat('id-ID').format(this.value) : ''"
-                  class="w-full text-center bg-transparent print:hidden">
-              </td>
-              ${cell(`a_supplier_${i}`, r.supplier, "text-left px-1")}
-              ${cell(`a_kontak_${i}`, r.kontak)}
-              ${cell(`a_ket_${i}`, r.ket, "text-left px-1")}
-            </tr>`,
-          );
-        }
+          var data = core.getTodayData(core.currentDate);
+          var locked = data.status === "final" || data.status === "verified";
 
-        const sigUser = document.getElementById("a_render_sig_user");
-        if (sigUser) {
-          sigUser.innerHTML =
-            data.ttd_user && /^data:image\//.test(data.ttd_user)
-              ? `<img src="${escapeAttr(data.ttd_user)}" alt="TTD User" style="max-height: 50px;">`
-              : "";
-        }
+          core.currentRows = sortByKategori(core.currentRows);
 
-        const btnVerif = document.getElementById("btn-verifikasi-admin");
-        const btnPrint = document.getElementById("btn-print-admin");
-        const sigAdmin = document.getElementById("a_render_sig_admin");
-        const adminInputs = document.querySelectorAll(
-          "#admin-view input:not([type='hidden'])",
-        );
+          var currentKat = "";
+          var numInKat = 1;
 
-        if (data.status === "verified") {
-          btnVerif?.classList.add("hidden");
-          btnPrint?.classList.remove("hidden");
-          adminInputs.forEach((el) => (el.readOnly = true));
-          if (
-            data.ttd_admin &&
-            sigAdmin &&
-            /^data:image\//.test(data.ttd_admin)
-          )
-            sigAdmin.innerHTML = `<img src="${escapeAttr(data.ttd_admin)}" alt="TTD Admin" style="max-height: 50px;">`;
-        } else {
-          btnVerif?.classList.remove("hidden");
-          btnPrint?.classList.add("hidden");
-          adminInputs.forEach((el) => (el.readOnly = false));
-          if (sigAdmin) sigAdmin.innerHTML = "";
-        }
-      }
+          core.currentRows.forEach(function (r, idx) {
+            if (r.kategori !== currentKat) {
+              currentKat = r.kategori;
+              numInKat = 1;
+              tbody.insertAdjacentHTML(
+                "beforeend",
+                '<tr class="bg-orange-50">' +
+                  '<td colspan="8" class="p-2 border border-gray-300 text-center font-bold uppercase text-indigo-900">' +
+                  escapeHtml(currentKat) +
+                  "</td>" +
+                  "</tr>",
+              );
+            }
 
-      function bukaModalTtdAdmin() {
-        const mInput = document.getElementById("m_nama_pengawas");
-        const aInput = document.getElementById("a_nama_pengawas");
-        if (mInput && aInput) mInput.value = aInput.value;
-        openModal("modal-ttd-admin");
-        setTimeout(() => {
-          const c = document.getElementById("sig-admin");
-          if (c) c.width = c.parentElement.getBoundingClientRect().width;
-        }, 100);
-      }
+            var aksi = locked
+              ? '<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>'
+              : '<td class="p-2 border border-gray-300 text-center">' +
+                '<button type="button" onclick="hapusBarisProses(' +
+                idx +
+                ')" ' +
+                'class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>' +
+                "</td>";
 
-      function simpanVerifikasiAdmin() {
-        const canvasAdmin = document.getElementById("sig-admin");
-        const namaPengawas = document.getElementById("m_nama_pengawas").value;
-        if (!namaPengawas) return alert("Mohon isi Nama Pengawas.");
-        const dateStr = document.getElementById("a_tanggal_pilih").value;
-        const db = getDB(STORAGE_KEY);
-        const data = db[dateStr] || getTodayData(dateStr);
-
-        const rowCount = Math.max(MIN_ROWS, data.rows ? data.rows.length : 0);
-        const updatedRows = [];
-        for (let i = 1; i <= rowCount; i++) {
-          updatedRows.push({
-            kategori: document.getElementById(`a_kategori_${i}`)?.value || "",
-            nama: document.getElementById(`a_nama_${i}`)?.value || "",
-            satuan: document.getElementById(`a_satuan_${i}`)?.value || "",
-            harga: document.getElementById(`a_harga_${i}`)?.value || "",
-            supplier: document.getElementById(`a_supplier_${i}`)?.value || "",
-            kontak: document.getElementById(`a_kontak_${i}`)?.value || "",
-            ket: document.getElementById(`a_ket_${i}`)?.value || "",
+            tbody.insertAdjacentHTML(
+              "beforeend",
+              '<tr class="hover:bg-gray-50 border-b border-gray-200">' +
+                '<td class="p-2 border border-gray-300 text-center font-bold text-gray-500">' +
+                numInKat++ +
+                "</td>" +
+                '<td class="p-2 border border-gray-300">' +
+                escapeHtml(r.nama) +
+                "</td>" +
+                '<td class="p-2 border border-gray-300 text-center">' +
+                escapeHtml(r.satuan) +
+                "</td>" +
+                '<td class="p-2 border border-gray-300 text-right pr-2 bg-amber-50">' +
+                (r.harga ? formatRupiah(r.harga) : "0") +
+                "</td>" +
+                '<td class="p-2 border border-gray-300">' +
+                escapeHtml(r.supplier) +
+                "</td>" +
+                '<td class="p-2 border border-gray-300 text-center bg-blue-50">' +
+                escapeHtml(r.kontak || "-") +
+                "</td>" +
+                '<td class="p-2 border border-gray-300">' +
+                escapeHtml(r.ket || "-") +
+                "</td>" +
+                aksi +
+                "</tr>",
+            );
           });
-        }
-        // Buang baris kosong yang mungkin diisi oleh baris placeholder
-        data.rows = updatedRows.filter((r) => r.nama || r.harga || r.supplier);
+        },
 
-        data.shift = document.getElementById("a_shift").value;
-        data.menu = document.getElementById("a_menu").value;
-        data.porsi = document.getElementById("a_porsi").value;
-        data.nama_petugas = document.getElementById("a_nama_petugas").value;
-        data.nama_pengawas = namaPengawas;
-        data.nama_kepala = document.getElementById("a_nama_kepala").value;
-        data.ttd_admin = canvasAdmin.toDataURL();
-        data.status = "verified";
-        db[dateStr] = data;
-        saveDB(STORAGE_KEY, db);
-        closeModal("modal-ttd-admin");
-        loadDataAdmin();
-        showNotif("Laporan berhasil DIVERIFIKASI!");
-      }
+        /* =====================================================================
+         * OVERRIDE: Render tabel ADMIN dengan group header kategori
+         * ===================================================================== */
+        renderAdminTableOverride: function (data, core) {
+          var tbody = document.getElementById("a_table_body");
+          if (!tbody) return;
+          tbody.innerHTML = "";
+
+          var rows = data.rows ? data.rows.slice() : [];
+          if (data.rows) {
+            rows.sort(function (a, b) {
+              return (
+                (catOrderMap[a.kategori] || 99) -
+                (catOrderMap[b.kategori] || 99)
+              );
+            });
+          }
+
+          var rowCount = Math.max(core.config.minRows, rows.length);
+          var currentKat = "";
+          var numInKat = 1;
+
+          for (var i = 1; i <= rowCount; i++) {
+            var r = rows[i - 1] || core.config.emptyAdminRow();
+            var displayKat = r.kategori || "TAMBAHAN / LAINNYA";
+
+            if (
+              displayKat !== currentKat &&
+              displayKat !== "TAMBAHAN / LAINNYA"
+            ) {
+              currentKat = displayKat;
+              numInKat = 1;
+              tbody.insertAdjacentHTML(
+                "beforeend",
+                '<tr style="background-color:#fff2cc !important;" class="font-bold print:bg-[#fff2cc]">' +
+                  '<td colspan="7" class="border border-black p-1 text-center uppercase">' +
+                  escapeHtml(currentKat) +
+                  "</td>" +
+                  "</tr>",
+              );
+            }
+
+            var idx = i - 1;
+            var hargaDisplay = r.harga ? formatRupiah(r.harga) : "";
+
+            tbody.insertAdjacentHTML(
+              "beforeend",
+              "<tr>" +
+                '<td class="border border-black p-0.5 font-bold text-center">' +
+                numInKat++ +
+                "</td>" +
+                '<td class="border border-black p-0 relative">' +
+                '<input type="hidden" id="a_kategori_' +
+                idx +
+                '" value="' +
+                escapeAttr(r.kategori) +
+                '">' +
+                '<div class="hidden print:block w-full text-left whitespace-normal break-words px-1">' +
+                escapeHtml(r.nama) +
+                "</div>" +
+                '<input type="text" id="a_nama_' +
+                idx +
+                '" value="' +
+                escapeAttr(r.nama) +
+                '" ' +
+                'oninput="this.previousElementSibling.innerText = this.value" ' +
+                'class="w-full text-left bg-transparent px-1 print:hidden">' +
+                "</td>" +
+                cell017("a_satuan_" + idx, r.satuan) +
+                /* Harga admin: strip non-digit + auto-format ribuan */
+                '<td class="border border-black p-0 relative">' +
+                '<div class="hidden print:block w-full text-center whitespace-normal break-words">' +
+                escapeHtml(hargaDisplay) +
+                "</div>" +
+                '<input type="text" id="a_harga_' +
+                idx +
+                '" value="' +
+                escapeAttr(r.harga) +
+                '" ' +
+                'oninput="onInputHargaAdmin(this)" ' +
+                'inputmode="numeric" maxlength="15" ' +
+                'class="w-full text-center bg-transparent print:hidden">' +
+                "</td>" +
+                cell017("a_supplier_" + idx, r.supplier, "text-left px-1") +
+                /* Kontak admin: strip karakter non-telpon */
+                cell017Kontak("a_kontak_" + idx, r.kontak) +
+                cell017("a_ket_" + idx, r.ket, "text-left px-1") +
+                "</tr>",
+            );
+          }
+        },
+
+        /* ---------- Collect baris baru dari form (dengan sanitasi) ---------- */
+        collectFromForm: function () {
+          return {
+            kategori: document.getElementById("u_kategori").value,
+            nama: document.getElementById("u_nama").value,
+            satuan: document.getElementById("u_satuan").value,
+            /* Sanitasi terakhir sebelum simpan — hanya digit */
+            harga: String(
+              document.getElementById("u_harga").value || "",
+            ).replace(/\D/g, ""),
+            supplier: document.getElementById("u_supplier").value,
+            /* Sanitasi terakhir sebelum simpan — digit, +, -, spasi */
+            kontak: String(
+              document.getElementById("u_kontak").value || "",
+            ).replace(/[^0-9+\-\s]/g, ""),
+            ket: document.getElementById("u_ket").value,
+          };
+        },
+
+        /* ---------- Collect editan dari tabel admin (dengan sanitasi) ---------- */
+        collectFromAdmin: function (idx) {
+          var get = function (id) {
+            var el = document.getElementById(id);
+            return el ? el.value : "";
+          };
+          return {
+            kategori: get("a_kategori_" + idx),
+            nama: get("a_nama_" + idx),
+            satuan: get("a_satuan_" + idx),
+            /* Sanitasi terakhir — hanya digit */
+            harga: String(get("a_harga_" + idx)).replace(/\D/g, ""),
+            supplier: get("a_supplier_" + idx),
+            /* Sanitasi terakhir — digit, +, -, spasi */
+            kontak: String(get("a_kontak_" + idx)).replace(/[^0-9+\-\s]/g, ""),
+            ket: get("a_ket_" + idx),
+          };
+        },
+      });
     </script>
   </body>
 </html>
