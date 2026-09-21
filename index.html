@@ -51,15 +51,39 @@
         width: 13px;
         height: 13px;
       }
-      /* Secret trigger di footer — cursor pointer, warna tetap samar.
-         Ditambah focus-visible agar aksesibel keyboard. */
+      /* =============================================================
+       * BADGE JUMLAH DATA — sudut kanan atas kartu SOP.
+       * Menampilkan berapa "hari" (tanggal) yang sudah tersimpan di
+       * localStorage untuk kategori SOP tersebut.
+       * ============================================================= */
+      .dash-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 30px;
+        height: 24px;
+        padding: 0 8px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 11px;
+        flex-shrink: 0;
+        background: #eef2ff; /* indigo-50 */
+        color: #4338ca; /* indigo-700 */
+        border: 1px solid #c7d2fe; /* indigo-200 */
+      }
+      .dash-count.is-empty {
+        background: #f3f4f6; /* gray-100 */
+        color: #9ca3af; /* gray-400 */
+        border-color: #e5e7eb; /* gray-200 */
+      }
+      /* Secret trigger di footer — aksesibilitas ditambah. */
       .secret-trigger {
         cursor: pointer;
         transition: color 0.15s ease;
       }
       .secret-trigger:hover,
       .secret-trigger:focus-visible {
-        color: #1f2937; /* gray-800 */
+        color: #1f2937;
         outline: none;
       }
     </style>
@@ -67,12 +91,11 @@
 
   <body class="text-gray-800">
     <!-- =====================================================================
-       HEADER — Layout 2 kolom
+       HEADER
        ===================================================================== -->
     <header class="bg-indigo-900 text-white shadow-md">
       <div class="max-w-7xl mx-auto px-4 py-3">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <!-- KIRI: Logo + Title -->
           <div class="flex items-center gap-3 min-w-0">
             <img
               src="assets/logo/badan_gizi_nasional.png"
@@ -89,7 +112,6 @@
             </div>
           </div>
 
-          <!-- KANAN: 2 baris (Backup/Restore di atas, Info di bawah) -->
           <div class="flex flex-col items-end gap-1 ml-auto">
             <div class="flex items-center gap-2">
               <button
@@ -140,9 +162,7 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-6">
-      <!-- =====================================================================
-         PESAN SELAMAT DATANG
-         ===================================================================== -->
+      <!-- PESAN SELAMAT DATANG -->
       <div
         class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-6"
       >
@@ -176,7 +196,7 @@
           >
             <div class="flex items-start gap-3 mb-3">
               <div class="dash-badge bg-indigo-100 text-indigo-700">014</div>
-              <div>
+              <div class="flex-grow min-w-0">
                 <p
                   class="text-[10px] font-semibold text-indigo-600 uppercase tracking-wide"
                 >
@@ -186,6 +206,12 @@
                   Pemorsian & Pelabelan Ompreng
                 </h4>
               </div>
+              <span
+                id="count-sop-014"
+                class="dash-count is-empty"
+                title="Jumlah hari tersimpan"
+                >0</span
+              >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
               Pengecekan kesesuaian gramasi tiap komponen menu pada ompreng.
@@ -203,7 +229,7 @@
           >
             <div class="flex items-start gap-3 mb-3">
               <div class="dash-badge bg-indigo-100 text-indigo-700">015</div>
-              <div>
+              <div class="flex-grow min-w-0">
                 <p
                   class="text-[10px] font-semibold text-indigo-600 uppercase tracking-wide"
                 >
@@ -213,6 +239,12 @@
                   Pemantauan Resting Food
                 </h4>
               </div>
+              <span
+                id="count-sop-015"
+                class="dash-count is-empty"
+                title="Jumlah hari tersimpan"
+                >0</span
+              >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
               Pencatatan suhu & durasi proses pemasakan hingga pendinginan
@@ -231,7 +263,7 @@
           >
             <div class="flex items-start gap-3 mb-3">
               <div class="dash-badge bg-indigo-100 text-indigo-700">026</div>
-              <div>
+              <div class="flex-grow min-w-0">
                 <p
                   class="text-[10px] font-semibold text-indigo-600 uppercase tracking-wide"
                 >
@@ -241,6 +273,12 @@
                   Pengolahan Nasi
                 </h4>
               </div>
+              <span
+                id="count-sop-026"
+                class="dash-count is-empty"
+                title="Jumlah hari tersimpan"
+                >0</span
+              >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
               Pemantauan berat beras, jumlah air, suhu nasi, kualitas warna &
@@ -273,7 +311,7 @@
           >
             <div class="flex items-start gap-3 mb-3">
               <div class="dash-badge bg-emerald-100 text-emerald-700">040</div>
-              <div>
+              <div class="flex-grow min-w-0">
                 <p
                   class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wide"
                 >
@@ -283,6 +321,12 @@
                   A. Pemeriksaan Personal Higiene
                 </h4>
               </div>
+              <span
+                id="count-sop-040a"
+                class="dash-count is-empty"
+                title="Jumlah hari tersimpan"
+                >0</span
+              >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
               Pemeriksaan harian petugas: suhu tubuh, kondisi kesehatan,
@@ -301,7 +345,7 @@
           >
             <div class="flex items-start gap-3 mb-3">
               <div class="dash-badge bg-emerald-100 text-emerald-700">040</div>
-              <div>
+              <div class="flex-grow min-w-0">
                 <p
                   class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wide"
                 >
@@ -311,6 +355,12 @@
                   B. Logbook Kesehatan Personil
                 </h4>
               </div>
+              <span
+                id="count-sop-040b"
+                class="dash-count is-empty"
+                title="Jumlah hari tersimpan"
+                >0</span
+              >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
               Pencatatan keluhan/gejala beserta tindak lanjut dan tanggal
@@ -329,7 +379,7 @@
           >
             <div class="flex items-start gap-3 mb-3">
               <div class="dash-badge bg-emerald-100 text-emerald-700">040</div>
-              <div>
+              <div class="flex-grow min-w-0">
                 <p
                   class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wide"
                 >
@@ -339,6 +389,12 @@
                   C. Ketidaksesuaian Perlengkapan
                 </h4>
               </div>
+              <span
+                id="count-sop-040c"
+                class="dash-count is-empty"
+                title="Jumlah hari tersimpan"
+                >0</span
+              >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
               Catatan temuan kerusakan alat/sarana beserta tindakan perbaikan.
@@ -356,7 +412,7 @@
           >
             <div class="flex items-start gap-3 mb-3">
               <div class="dash-badge bg-emerald-100 text-emerald-700">040</div>
-              <div>
+              <div class="flex-grow min-w-0">
                 <p
                   class="text-[10px] font-semibold text-emerald-600 uppercase tracking-wide"
                 >
@@ -366,6 +422,12 @@
                   D. Sarana Cuci Tangan
                 </h4>
               </div>
+              <span
+                id="count-sop-040d"
+                class="dash-count is-empty"
+                title="Jumlah hari tersimpan"
+                >0</span
+              >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
               Checklist pemeriksaan sarana cuci tangan (air mengalir, sabun,
@@ -398,7 +460,7 @@
           >
             <div class="flex items-start gap-3 mb-3">
               <div class="dash-badge bg-amber-100 text-amber-700">017</div>
-              <div>
+              <div class="flex-grow min-w-0">
                 <p
                   class="text-[10px] font-semibold text-amber-600 uppercase tracking-wide"
                 >
@@ -408,6 +470,12 @@
                   Daftar Harga & Supplier
                 </h4>
               </div>
+              <span
+                id="count-sop-017"
+                class="dash-count is-empty"
+                title="Jumlah hari tersimpan"
+                >0</span
+              >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
               Survei harga pasar harian untuk bahan baku beserta kontak
@@ -422,9 +490,7 @@
         </div>
       </section>
 
-      <!-- =====================================================================
-         PETUNJUK SINGKAT
-         ===================================================================== -->
+      <!-- PETUNJUK SINGKAT -->
       <div
         class="bg-indigo-50 border border-indigo-200 rounded-lg px-4 py-3 text-xs text-indigo-900 leading-relaxed"
       >
@@ -443,11 +509,7 @@
       </div>
     </main>
 
-    <!-- =====================================================================
-       FOOTER — Copyright dengan Secret Trigger
-       Klik teks "Badan Gizi Nasional" untuk hapus semua data.
-       Ditambah aksesibilitas: role=button, tabindex, keyboard handler.
-       ===================================================================== -->
+    <!-- FOOTER dengan Secret Trigger -->
     <footer
       class="mt-10 py-4 border-t border-gray-200 text-center text-xs text-gray-500"
     >
@@ -469,12 +531,8 @@
       >
     </footer>
 
-    <!-- Notifikasi global -->
     <div id="global-notif"></div>
 
-    <!-- =====================================================================
-         SCRIPTS
-         ===================================================================== -->
     <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
 
@@ -484,7 +542,41 @@
        * ===================================================================== */
 
       /* ---------------------------------------------------------------------
-       * Statistik untuk panel info di header.
+       * Peta: id kartu dashboard → key storage SOP.
+       * Digunakan untuk menghitung badge jumlah hari tersimpan.
+       * ------------------------------------------------------------------- */
+      const SOP_CARD_MAP = {
+        "sop-014": "db_sop_014",
+        "sop-015": "db_sop_015",
+        "sop-017": "db_sop_017",
+        "sop-026": "db_sop_026",
+        "sop-040a": "db_sop_040_1",
+        "sop-040b": "db_sop_040_2",
+        "sop-040c": "db_sop_040_3",
+        "sop-040d": "db_sop_040_4",
+      };
+
+      /**
+       * Menghitung ulang seluruh badge jumlah data per kartu SOP.
+       * Badge akan berwarna abu-abu jika 0, biru jika >0.
+       */
+      function refreshDashboardCounts() {
+        for (const cardId in SOP_CARD_MAP) {
+          const el = document.getElementById("count-" + cardId);
+          if (!el) continue;
+          const count = getSopRecordCount(SOP_CARD_MAP[cardId]);
+          el.textContent = count;
+          el.title = count + " hari tersimpan";
+          if (count > 0) {
+            el.classList.remove("is-empty");
+          } else {
+            el.classList.add("is-empty");
+          }
+        }
+      }
+
+      /* ---------------------------------------------------------------------
+       * Statistik header (jumlah SOP + ukuran KB).
        * ------------------------------------------------------------------- */
       function hitungStatistik() {
         const keys = SopStorage.listKeysSync();
@@ -508,11 +600,10 @@
       }
 
       /* ---------------------------------------------------------------------
-       * Nama file backup otomatis
+       * Nama file backup otomatis.
        * ------------------------------------------------------------------- */
       function generateBackupFilename() {
         const d = new Date();
-        // Pad manual agar kompatibel browser lama (tanpa padStart).
         const p = function (n) {
           return n < 10 ? "0" + n : String(n);
         };
@@ -526,7 +617,7 @@
       }
 
       /* =====================================================================
-       * BACKUP — Unduh semua data sebagai JSON
+       * BACKUP
        * ===================================================================== */
       function handleBackup() {
         const keys = SopStorage.listKeysSync();
@@ -554,7 +645,7 @@
       }
 
       /* =====================================================================
-       * RESTORE — Impor dari file JSON
+       * RESTORE
        * ===================================================================== */
       function handleRestore(event) {
         const file = event.target.files[0];
@@ -593,6 +684,7 @@
               "success",
             );
             refreshStorageInfo();
+            refreshDashboardCounts();
 
             setTimeout(() => location.reload(), 1500);
           } catch (e) {
@@ -604,24 +696,16 @@
       }
 
       /* =====================================================================
-       * SECRET DELETE — Dipicu dari klik teks "Badan Gizi Nasional" di footer.
-       *
-       * Konfirmasi 2 LAPIS:
-       *   Lapis 1: confirm()   → peringatan + jumlah data
-       *   Lapis 2: prompt()    → user harus KETIK "HAPUS" (huruf besar)
-       *
-       * Setelah berhasil, teks "Badan Gizi Nasional" TETAP TAMPIL.
+       * SECRET DELETE
        * ===================================================================== */
       function handleSecretDelete() {
         const keys = SopStorage.listKeysSync();
 
-        // Kasus: tidak ada data
         if (keys.length === 0) {
           showNotif("Tidak ada data yang perlu dihapus.", "error");
           return;
         }
 
-        /* ---------- KONFIRMASI LAPIS 1: confirm ---------- */
         const konfirmasi1 = confirm(
           `⚠️ PERINGATAN KERAS ⚠️\n\n` +
             `Anda akan MENGHAPUS SEMUA data SOP.\n` +
@@ -635,7 +719,6 @@
           return;
         }
 
-        /* ---------- KONFIRMASI LAPIS 2: prompt "HAPUS" ---------- */
         const konfirmasi2 = prompt(
           `KONFIRMASI AKHIR\n\n` +
             `Untuk melanjutkan penghapusan ${keys.length} file SOP,\n` +
@@ -650,11 +733,11 @@
           return;
         }
 
-        /* ---------- EKSEKUSI HAPUS ---------- */
         keys.forEach((k) => SopStorage.removeSync(k));
 
         showNotif(`🗑️ Berhasil menghapus ${keys.length} file SOP.`, "error");
         refreshStorageInfo();
+        refreshDashboardCounts();
       }
 
       /* =====================================================================
@@ -662,6 +745,7 @@
        * ===================================================================== */
       window.addEventListener("DOMContentLoaded", () => {
         refreshStorageInfo();
+        refreshDashboardCounts();
       });
     </script>
   </body>

@@ -3,21 +3,13 @@
  * -------------------------------------------------------------------------
  * File    : assets/js/sop-bgn-shared.js
  * Fungsi  : Helper utility untuk semua formulir SOP.
- * Versi   : v3 — penambahan escapeHtml, escapeAttr, getTodayLocalISO
+ * Versi   : v4 — tambah getSopRecordCount() untuk badge dashboard.
  *
- * ATURAN:
- *   - HANYA berisi helper global.
- *   - Logika spesifik per SOP ditulis di tag <script> file HTML SOP.
- *
- * DEPENDENSI:
- *   - assets/css/sop-bgn-shared.css
- *   - assets/js/sop-bgn-storage.js  (untuk getDB/saveDB)
- *
+ * PERUBAHAN v4:
+ *   - getSopRecordCount(storageKey) : hitung jumlah tanggal tersimpan.
  * PERUBAHAN v3:
- *   1. getTodayLocalISO() — pengganti new Date().toISOString().split("T")[0]
- *      agar tanggal mengikuti waktu LOKAL (WIB/WITA/WIT), bukan UTC.
- *   2. escapeHtml() / escapeAttr() — mencegah Stored XSS saat render data
- *      user via innerHTML / insertAdjacentHTML.
+ *   - getTodayLocalISO() : fix UTC-vs-lokal.
+ *   - escapeHtml/escapeAttr : anti Stored XSS.
  * ========================================================================= */
 
 /* =========================================================================
@@ -84,8 +76,8 @@ function switchTab(tab) {
  * ========================================================================= */
 
 /**
- * Ambil seluruh database dari storage (wrapper sinkron untuk kompatibilitas).
- * @param {string} key - Kunci penyimpanan.
+ * Ambil seluruh database dari storage.
+ * @param {string} key
  * @returns {Object}
  */
 function getDB(key) {
@@ -107,6 +99,19 @@ function saveDB(key, dataObj) {
     return;
   }
   localStorage.setItem(key, JSON.stringify(dataObj));
+}
+
+/**
+ * Hitung jumlah tanggal (record harian) yang tersimpan untuk 1 SOP.
+ * Dipakai oleh dashboard untuk menampilkan badge jumlah data.
+ *
+ * @param {string} storageKey - Contoh: "db_sop_014"
+ * @returns {number} Jumlah tanggal yang memiliki data.
+ */
+function getSopRecordCount(storageKey) {
+  if (typeof SopStorage === "undefined") return 0;
+  const db = SopStorage.getSync(storageKey);
+  return Object.keys(db).length;
 }
 
 /* =========================================================================
@@ -225,17 +230,10 @@ function formatTanggalID(isoDate) {
  * Mendapatkan tanggal HARI INI dalam format "YYYY-MM-DD" berdasarkan
  * waktu LOKAL perangkat (bukan UTC).
  *
- * Mengapa penting?
- *   `new Date().toISOString()` menghasilkan waktu UTC. Di WIB (UTC+7),
- *   jika user membuka aplikasi jam 06:00 pagi tanggal 5, hasilnya bisa
- *   tetap tanggal 4 UTC → form default 1 hari lebih mundur. Fungsi ini
- *   memperbaiki masalah tersebut.
- *
  * @returns {string} Contoh: "2026-09-21"
  */
 function getTodayLocalISO() {
   const d = new Date();
-  // Pad manual agar kompatibel dengan browser lama (tanpa padStart).
   const pad = function (n) {
     return n < 10 ? "0" + n : String(n);
   };
@@ -243,34 +241,13 @@ function getTodayLocalISO() {
 }
 
 /* =========================================================================
- * 7. KEAMANAN — ANTI XSS (Stored XSS Protection)
- * -------------------------------------------------------------------------
- * Kapan pakai?
- *   Setiap kali menyisipkan DATA USER (nama petugas, nama menu, keterangan,
- *   dsb.) ke dalam template literal yang akan di-inject via innerHTML /
- *   insertAdjacentHTML, WAJIB dibungkus escapeHtml / escapeAttr.
- *
- * Contoh:
- *   ❌ `<td>${row.nama}</td>`
- *   ✅ `<td>${escapeHtml(row.nama)}</td>`
- *
- *   ❌ `<input value="${row.nama}">`
- *   ✅ `<input value="${escapeAttr(row.nama)}">`
+ * 7. KEAMANAN — ANTI XSS
  * ========================================================================= */
 
 /**
  * Escape karakter HTML berbahaya agar aman disisipkan ke innerHTML.
- *
- * Karakter yang di-escape:
- *   &  → &amp;   (harus PERTAMA agar tidak double-escape)
- *   <  → &lt;
- *   >  → &gt;
- *   "  → &quot;
- *   '  → &#039;
- *
- * @param {*} str - Nilai apa pun (number, string, boolean). null/undefined
- *                  dikembalikan sebagai string kosong "".
- * @returns {string} String yang aman untuk innerHTML.
+ * @param {*} str
+ * @returns {string}
  */
 function escapeHtml(str) {
   if (str === null || str === undefined) return "";
@@ -283,10 +260,7 @@ function escapeHtml(str) {
 }
 
 /**
- * Escape untuk atribut HTML (mis. value="...").
- * Saat ini identik dengan escapeHtml, tetapi dipisah agar mudah
- * di-tuning ke depan (mis. jika perlu escape backtick atau newline).
- *
+ * Escape untuk atribut HTML (value="...").
  * @param {*} str
  * @returns {string}
  */
