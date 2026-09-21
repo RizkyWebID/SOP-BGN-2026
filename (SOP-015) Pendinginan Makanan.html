@@ -16,13 +16,11 @@
     <style>
       /* =====================================================================
        * LEBAR KOLOM SOP-015 — berlaku di LAYAR & CETAK.
-       * Table 13 kolom total = 100% (No. = 5% SERAGAM dengan SOP lain).
        * ===================================================================== */
       #admin-view table {
         table-layout: fixed;
       }
 
-      /* Kolom No. — rata tengah + padding tipis */
       #admin-view th:nth-child(1),
       #admin-view td:nth-child(1) {
         text-align: center;
@@ -31,7 +29,6 @@
         overflow: hidden;
       }
 
-      /* Kolom "Ket" — teks kiri */
       #admin-view th:nth-child(12),
       #admin-view td:nth-child(12) {
         text-align: left;
@@ -39,7 +36,14 @@
       }
 
       /* =====================================================================
-       * ATURAN CETAK
+       * ATURAN CETAK — OVERRIDE GLOBAL KHUSUS SOP-015
+       * ---------------------------------------------------------------------
+       * TIDAK mengubah font-size (biar seragam dengan SOP lain).
+       * Yang diubah hanya:
+       *   1) height:auto → netralkan paksaan 22px dari shared.css
+       *   2) overflow-wrap:normal pada TH → kata tidak pecah di tengah
+       *      ("Ruang" tidak jadi "Ruan g")
+       *   3) word-break:normal → tidak ada pemotongan paksa
        * ===================================================================== */
       @media print {
         #admin-view table {
@@ -47,13 +51,39 @@
           table-layout: fixed !important;
           border-collapse: collapse !important;
         }
+
         #admin-view th,
         #admin-view td {
-          font-size: 8pt !important;
+          height: auto !important;
+          min-height: 0 !important;
           vertical-align: middle !important;
-          word-wrap: break-word !important;
-          white-space: normal !important;
+          word-break: normal !important;
+          padding: 2px 1px !important;
         }
+
+        /* Khusus header: JANGAN pecah kata di tengah */
+        #admin-view thead th {
+          white-space: normal !important;
+          word-wrap: normal !important;
+          overflow-wrap: normal !important;
+          hyphens: none !important;
+        }
+
+        /* Body tabel boleh wrap normal */
+        #admin-view tbody td {
+          word-wrap: break-word !important;
+          overflow-wrap: break-word !important;
+        }
+
+        #admin-view table th:first-child,
+        #admin-view table td:first-child {
+          overflow: visible !important;
+        }
+
+        #admin-view .overflow-x-auto {
+          overflow: visible !important;
+        }
+
         #admin-view td input {
           display: none !important;
         }
@@ -584,26 +614,39 @@
           </div>
         </div>
 
-        <!-- Tabel admin — TANPA data-cols-wide, colgroup No.=5% -->
+        <!-- Tabel admin — colgroup baru: Suhu Ruang 5% → 7%,
+             Keterangan 19% → 17%. Total tetap 100%. -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
           >
-            <!-- COLGROUP: No.=5%, Keterangan=17% (total = 100%) -->
             <colgroup>
               <col style="width: 5%" />
-              <col style="width: 5%" />
-              <col style="width: 10%" />
-              <col style="width: 15%" />
+              <!-- No. -->
               <col style="width: 7%" />
+              <!-- Tahap -->
+              <col style="width: 9%" />
+              <!-- Jenis Menu -->
+              <col style="width: 13%" />
+              <!-- Nama Menu Olahan -->
+              <col style="width: 7%" />
+              <!-- Jumlah Produksi -->
               <col style="width: 6%" />
+              <!-- Pukul (Mulai) -->
               <col style="width: 6%" />
+              <!-- Suhu (Mulai) -->
               <col style="width: 6%" />
+              <!-- Pukul (Selesai) -->
               <col style="width: 6%" />
+              <!-- Suhu (Selesai) -->
               <col style="width: 6%" />
-              <col style="width: 6%" />
+              <!-- Total Durasi -->
+              <col style="width: 7%" />
+              <!-- Suhu Ruang ← dilebarkan -->
               <col style="width: 17%" />
+              <!-- Keterangan ← dikurangi -->
               <col style="width: 5%" />
+              <!-- Paraf -->
             </colgroup>
             <thead class="bg-gray-50 print:bg-transparent">
               <tr>
@@ -871,16 +914,8 @@
     <script>
       /* =====================================================================
        * SOP-015 - KONFIGURASI
-       * ---------------------------------------------------------------------
-       * Setiap baris = 1 proses resting (tahap + jenis + menu).
-       * Kolom "Durasi" dihitung otomatis dari jam mulai ↔ selesai.
-       * Kolom suhu memakai cellSuhu() agar otomatis append °C.
        * ===================================================================== */
 
-      /**
-       * Hitung durasi (menit) dari jam mulai sampai jam selesai.
-       * Jika jam selesai < jam mulai, dianggap melewati tengah malam.
-       */
       function hitungDurasi(tMulai, tSelesai) {
         if (!tMulai || !tSelesai) return 0;
         var h1 = parseInt(tMulai.split(":")[0], 10);
