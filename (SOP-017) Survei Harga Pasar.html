@@ -231,7 +231,6 @@
                   <label class="block text-xs font-semibold text-gray-600 mb-1"
                     >Harga (Rp)</label
                   >
-                  <!-- Input harga: hanya digit, keyboard numerik di HP -->
                   <input
                     type="text"
                     inputmode="numeric"
@@ -261,7 +260,6 @@
                 <label class="block text-xs font-semibold text-gray-600 mb-1"
                   >Kontak / No. Telp</label
                 >
-                <!-- Input kontak: hanya digit, +, -, spasi -->
                 <input
                   type="text"
                   inputmode="tel"
@@ -759,12 +757,6 @@
     <script>
       /* =====================================================================
        * SOP-017 - KONFIGURASI
-       * ---------------------------------------------------------------------
-       * Karakteristik SOP-017:
-       *   - Baris dikelompokkan per kategori (KARBOHIDRAT, HEWANI, dst.)
-       *     mengikuti contoh dari pusat → override render tabel.
-       *   - Harga ditampilkan dengan thousand separator ("15.000").
-       *   - Kontak & harga disanitasi real-time (digit, +, -, spasi).
        * ===================================================================== */
 
       /* Urutan tampil kategori — makin kecil makin di atas. */
@@ -891,8 +883,13 @@
 
         /* =====================================================================
          * RENDER TABEL ADMIN — dengan group header kategori
-         * Group header di-beri class "group-header-row" agar aturan print
-         * di atas bisa memaksa warna latar tetap tercetak.
+         * ---------------------------------------------------------------------
+         * FIX BUG "kolom kosong di header":
+         *   cellStd() mengembalikan "<td>...</td>" — jadi TIDAK BOLEH dipanggil
+         *   di dalam <td> lain (nested <td> = HTML ilegal → browser menambah
+         *   kolom ke-8 kosong). Untuk kolom "Nama Bahan Baku" yang butuh
+         *   hidden input kategori, HTML-nya ditulis langsung (1 <td> berisi
+         *   hidden input + div cetak + input edit).
          * ===================================================================== */
         renderAdminTableOverride: function (data, core) {
           var tbody = document.getElementById("a_table_body");
@@ -938,18 +935,30 @@
             tbody.insertAdjacentHTML(
               "beforeend",
               "<tr>" +
+                /* Kolom 1: No. */
                 '<td class="border border-black p-0.5 font-bold text-center">' +
                 numInKat++ +
                 "</td>" +
-                /* Nama + kategori (kategori sebagai hidden input) */
+                /* Kolom 2: Nama Bahan Baku — SATU td berisi hidden input +
+                   div cetak + input edit. JANGAN pakai cellStd() di sini! */
                 '<td class="border border-black p-0 relative">' +
                 '<input type="hidden" id="a_kategori_' +
                 idx +
                 '" value="' +
                 escapeAttr(r.kategori) +
                 '">' +
-                cellStd("a_nama_" + idx, r.nama, "text-left px-1") +
+                '<div class="hidden print:block w-full text-left px-1 whitespace-normal break-words">' +
+                escapeHtml(r.nama) +
+                "</div>" +
+                '<input type="text" id="a_nama_' +
+                idx +
+                '" value="' +
+                escapeAttr(r.nama) +
+                '" ' +
+                'oninput="this.previousElementSibling.innerText = this.value" ' +
+                'class="w-full text-left px-1 bg-transparent print:hidden">' +
                 "</td>" +
+                /* Kolom 3-7: Satuan, Harga, Supplier, Kontak, Ket */
                 cellStd("a_satuan_" + idx, r.satuan) +
                 cellRupiah("a_harga_" + idx, r.harga) +
                 cellStd("a_supplier_" + idx, r.supplier, "text-left px-1") +
@@ -971,12 +980,10 @@
             kategori: document.getElementById("u_kategori").value,
             nama: document.getElementById("u_nama").value,
             satuan: document.getElementById("u_satuan").value,
-            /* Sanitasi terakhir — hanya digit */
             harga: String(
               document.getElementById("u_harga").value || "",
             ).replace(/\D/g, ""),
             supplier: document.getElementById("u_supplier").value,
-            /* Sanitasi terakhir — digit, +, -, spasi */
             kontak: String(
               document.getElementById("u_kontak").value || "",
             ).replace(/[^0-9+\-\s]/g, ""),
