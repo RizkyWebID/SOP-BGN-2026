@@ -956,6 +956,13 @@
        *   - loadDataAdmin()         : render tabel admin (dual-element)
        *   - bukaModalTtdAdmin()     : buka modal verifikasi
        *   - simpanVerifikasiAdmin() : baca edit admin + simpan verified
+       *
+       * CATATAN v3:
+       *   - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
+       *   - Semua data user di-escape via escapeHtml/escapeAttr.
+       *   - Tombol "Hapus" pada tabel user OTOMATIS HILANG saat laporan
+       *     berstatus final/verified (agar konsisten dengan form yang dikunci).
+       *   - TTD dirender hanya jika lolos validasi data URL (anti-XSS).
        * ===================================================================== */
 
       /* ------- Konstanta khusus SOP-015 ------- */
@@ -963,7 +970,7 @@
       const MIN_ROWS = 10;
 
       /* ------- State global ------- */
-      let currentDate = new Date().toISOString().split("T")[0];
+      let currentDate = getTodayLocalISO();
       let currentRows = [];
 
       /* ------- Life cycle ------- */
@@ -1030,6 +1037,8 @@
 
       /* =====================================================================
        * RENDER TABEL DAFTAR PEMANTAUAN (MODE USER)
+       * - Semua nilai data user di-escape via escapeHtml.
+       * - Tombol "Hapus" HANYA muncul saat status draft.
        * ===================================================================== */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
@@ -1041,27 +1050,36 @@
           return;
         }
 
+        // Baca status terkini untuk menentukan apakah tombol Hapus perlu disembunyikan.
+        const data = getTodayData(currentDate);
+        const locked = data.status === "final" || data.status === "verified";
+
         currentRows.forEach((r, idx) => {
+          // Sel Aksi: tombol Hapus atau placeholder "🔒" saat terkunci.
+          const aksiCell = locked
+            ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
+            : `<td class="p-2 border border-gray-300 text-center">
+                 <button type="button" onclick="hapusBarisProses(${idx})"
+                   class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
+               </td>`;
+
           tbody.insertAdjacentHTML(
             "beforeend",
             `
           <tr class="hover:bg-gray-50 border-b border-gray-200">
             <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
-            <td class="p-2 border border-gray-300 text-center font-bold">${r.tahap || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.jenis || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.nama || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.porsi_prod || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.m_pukul || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.m_suhu || ""}°C</td>
-            <td class="p-2 border border-gray-300 text-center">${r.s_pukul || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.s_suhu || ""}°C</td>
-            <td class="p-2 border border-gray-300 text-center font-bold text-green-700">${r.durasi || "0"}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.suhu_ruang || "-"}°C</td>
-            <td class="p-2 border border-gray-300 text-left pl-2">${r.ket || "-"}</td>
-            <td class="p-2 border border-gray-300 text-center">
-              <button type="button" onclick="hapusBarisProses(${idx})"
-                class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
-            </td>
+            <td class="p-2 border border-gray-300 text-center font-bold">${escapeHtml(r.tahap)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.jenis)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.nama)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.porsi_prod)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.m_pukul)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.m_suhu)}°C</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s_pukul)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s_suhu)}°C</td>
+            <td class="p-2 border border-gray-300 text-center font-bold text-green-700">${escapeHtml(r.durasi || "0")}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.suhu_ruang || "-")}°C</td>
+            <td class="p-2 border border-gray-300 text-left pl-2">${escapeHtml(r.ket || "-")}</td>
+            ${aksiCell}
           </tr>`,
           );
         });
@@ -1203,6 +1221,8 @@
 
       /* =====================================================================
        * LOAD DATA UNTUK MODE ADMIN + TABEL CETAK
+       * - Cell helper di-escape (escapeHtml untuk teks, escapeAttr untuk value).
+       * - TTD dirender hanya jika lolos validasi /^data:image\//.
        * ===================================================================== */
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
@@ -1251,11 +1271,12 @@
         if (!tbody) return;
         tbody.innerHTML = "";
 
-        /** Helper inline untuk mengurangi duplikasi pada template literal. */
+        /** Helper inline untuk mengurangi duplikasi pada template literal.
+         *  Semua nilai di-escape agar aman dari XSS. */
         const cell = (id, val, cls = "text-center") => `
         <td class="border border-black p-0 relative">
-          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${val || ""}</div>
-          <input type="text" id="${id}" value="${val || ""}"
+          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${escapeHtml(val)}</div>
+          <input type="text" id="${id}" value="${escapeAttr(val)}"
             oninput="this.previousElementSibling.innerText = this.value"
             class="w-full ${cls} bg-transparent print:hidden">
         </td>`;
@@ -1297,12 +1318,13 @@
           );
         }
 
-        /* ---- Render tanda tangan user ---- */
+        /* ---- Render tanda tangan user (dengan validasi data URL) ---- */
         const sigUser = document.getElementById("a_render_sig_user");
         if (sigUser) {
-          sigUser.innerHTML = data.ttd_user
-            ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
-            : "";
+          sigUser.innerHTML =
+            data.ttd_user && /^data:image\//.test(data.ttd_user)
+              ? `<img src="${escapeAttr(data.ttd_user)}" alt="TTD User" style="max-height: 50px;">`
+              : "";
         }
 
         /* ---- Kontrol tombol verifikasi / cetak ---- */
@@ -1315,8 +1337,12 @@
           btnVerif?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
           adminInputs.forEach((el) => (el.readOnly = true));
-          if (data.ttd_admin && sigAdmin)
-            sigAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
+          if (
+            data.ttd_admin &&
+            sigAdmin &&
+            /^data:image\//.test(data.ttd_admin)
+          )
+            sigAdmin.innerHTML = `<img src="${escapeAttr(data.ttd_admin)}" alt="TTD Admin" style="max-height: 50px;">`;
         } else {
           btnVerif?.classList.remove("hidden");
           btnPrint?.classList.add("hidden");

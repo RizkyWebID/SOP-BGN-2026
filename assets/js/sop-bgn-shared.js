@@ -3,7 +3,7 @@
  * -------------------------------------------------------------------------
  * File    : assets/js/sop-bgn-shared.js
  * Fungsi  : Helper utility untuk semua formulir SOP.
- * Versi   : v2 — delegasi penyimpanan ke sop-bgn-storage.js
+ * Versi   : v3 — penambahan escapeHtml, escapeAttr, getTodayLocalISO
  *
  * ATURAN:
  *   - HANYA berisi helper global.
@@ -12,6 +12,12 @@
  * DEPENDENSI:
  *   - assets/css/sop-bgn-shared.css
  *   - assets/js/sop-bgn-storage.js  (untuk getDB/saveDB)
+ *
+ * PERUBAHAN v3:
+ *   1. getTodayLocalISO() — pengganti new Date().toISOString().split("T")[0]
+ *      agar tanggal mengikuti waktu LOKAL (WIB/WITA/WIT), bukan UTC.
+ *   2. escapeHtml() / escapeAttr() — mencegah Stored XSS saat render data
+ *      user via innerHTML / insertAdjacentHTML.
  * ========================================================================= */
 
 /* =========================================================================
@@ -213,4 +219,77 @@ function formatTanggalID(isoDate) {
     month: "long",
     day: "numeric",
   });
+}
+
+/**
+ * Mendapatkan tanggal HARI INI dalam format "YYYY-MM-DD" berdasarkan
+ * waktu LOKAL perangkat (bukan UTC).
+ *
+ * Mengapa penting?
+ *   `new Date().toISOString()` menghasilkan waktu UTC. Di WIB (UTC+7),
+ *   jika user membuka aplikasi jam 06:00 pagi tanggal 5, hasilnya bisa
+ *   tetap tanggal 4 UTC → form default 1 hari lebih mundur. Fungsi ini
+ *   memperbaiki masalah tersebut.
+ *
+ * @returns {string} Contoh: "2026-09-21"
+ */
+function getTodayLocalISO() {
+  const d = new Date();
+  // Pad manual agar kompatibel dengan browser lama (tanpa padStart).
+  const pad = function (n) {
+    return n < 10 ? "0" + n : String(n);
+  };
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+}
+
+/* =========================================================================
+ * 7. KEAMANAN — ANTI XSS (Stored XSS Protection)
+ * -------------------------------------------------------------------------
+ * Kapan pakai?
+ *   Setiap kali menyisipkan DATA USER (nama petugas, nama menu, keterangan,
+ *   dsb.) ke dalam template literal yang akan di-inject via innerHTML /
+ *   insertAdjacentHTML, WAJIB dibungkus escapeHtml / escapeAttr.
+ *
+ * Contoh:
+ *   ❌ `<td>${row.nama}</td>`
+ *   ✅ `<td>${escapeHtml(row.nama)}</td>`
+ *
+ *   ❌ `<input value="${row.nama}">`
+ *   ✅ `<input value="${escapeAttr(row.nama)}">`
+ * ========================================================================= */
+
+/**
+ * Escape karakter HTML berbahaya agar aman disisipkan ke innerHTML.
+ *
+ * Karakter yang di-escape:
+ *   &  → &amp;   (harus PERTAMA agar tidak double-escape)
+ *   <  → &lt;
+ *   >  → &gt;
+ *   "  → &quot;
+ *   '  → &#039;
+ *
+ * @param {*} str - Nilai apa pun (number, string, boolean). null/undefined
+ *                  dikembalikan sebagai string kosong "".
+ * @returns {string} String yang aman untuk innerHTML.
+ */
+function escapeHtml(str) {
+  if (str === null || str === undefined) return "";
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+/**
+ * Escape untuk atribut HTML (mis. value="...").
+ * Saat ini identik dengan escapeHtml, tetapi dipisah agar mudah
+ * di-tuning ke depan (mis. jika perlu escape backtick atau newline).
+ *
+ * @param {*} str
+ * @returns {string}
+ */
+function escapeAttr(str) {
+  return escapeHtml(str);
 }

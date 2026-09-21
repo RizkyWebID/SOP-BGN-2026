@@ -791,18 +791,21 @@
       /* =====================================================================
        * SOP-040A - SCRIPT KHUSUS (Pemeriksaan Personal Higiene)
        * ---------------------------------------------------------------------
-       * Catatan: STORAGE_KEY diperbaiki dari "db_sop_29a_standar_v1" (kode lama 29A)
-       * → "db_sop_040_1" agar konsisten dengan skema baru.
-       *
        * Logika: setiap baris menyimpan checklist (sehat, kuku, apd, luka)
        * sebagai boolean. Status "Layak" jika suhu 36.5-37.5°C DAN keempat
        * checklist tercentang (semua true).
+       *
+       * CATATAN v3:
+       *   - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
+       *   - Semua data user (nama, suhu, ket) di-escape via escapeHtml/escapeAttr.
+       *   - TTD dirender hanya jika lolos validasi data URL (anti-XSS).
+       *   - Status "Layak"/"Tidak Layak" tetap dihitung otomatis.
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_040_1";
       const MIN_ROWS = 10;
 
-      let currentDate = new Date().toISOString().split("T")[0];
+      let currentDate = getTodayLocalISO();
       let currentRows = [];
 
       /* ------- Life cycle ------- */
@@ -863,6 +866,7 @@
 
       /* =====================================================================
        * RENDER TABEL DAFTAR PEMERIKSAAN (MODE USER)
+       * - Semua data user di-escape.
        * ===================================================================== */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
@@ -882,14 +886,14 @@
             `
           <tr class="hover:bg-gray-50 border-b border-gray-200">
             <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
-            <td class="p-2 border border-gray-300 font-semibold text-left pl-2">${r.nama || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.suhu || ""}°C</td>
+            <td class="p-2 border border-gray-300 font-semibold text-left pl-2">${escapeHtml(r.nama)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.suhu)}°C</td>
             <td class="p-2 border border-gray-300 text-center">${formatCheck(r.sehat)}</td>
             <td class="p-2 border border-gray-300 text-center">${formatCheck(r.kuku)}</td>
             <td class="p-2 border border-gray-300 text-center">${formatCheck(r.apd)}</td>
             <td class="p-2 border border-gray-300 text-center">${formatCheck(r.luka)}</td>
-            <td class="p-2 border border-gray-300 text-center font-bold ${layakClass}">${r.layak || ""}</td>
-            <td class="p-2 border border-gray-300 text-left pl-2">${r.ket || "-"}</td>
+            <td class="p-2 border border-gray-300 text-center font-bold ${layakClass}">${escapeHtml(r.layak)}</td>
+            <td class="p-2 border border-gray-300 text-left pl-2">${escapeHtml(r.ket || "-")}</td>
             <td class="p-2 border border-gray-300 text-center">
               <button type="button" onclick="hapusBarisProses(${idx})"
                 class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
@@ -1089,11 +1093,12 @@
         if (!tbody) return;
         tbody.innerHTML = "";
 
-        /** Helper inline: buat sel dual-element */
+        /** Helper inline: buat sel dual-element.
+         *  Semua nilai di-escape agar aman dari XSS. */
         const cell = (id, val, cls = "text-center") => `
         <td class="border border-black p-0 relative">
-          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${val || ""}</div>
-          <input type="text" id="${id}" value="${val || ""}"
+          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${escapeHtml(val)}</div>
+          <input type="text" id="${id}" value="${escapeAttr(val)}"
             oninput="this.previousElementSibling.innerText = this.value"
             class="w-full ${cls} bg-transparent print:hidden">
         </td>`;
@@ -1131,12 +1136,13 @@
           );
         }
 
-        /* ---- Tanda tangan user ---- */
+        /* ---- TTD user (validasi data URL) ---- */
         const sigUser = document.getElementById("a_render_sig_user");
         if (sigUser) {
-          sigUser.innerHTML = data.ttd_user
-            ? `<img src="${data.ttd_user}" alt="TTD Petugas" style="max-height: 50px;">`
-            : "";
+          sigUser.innerHTML =
+            data.ttd_user && /^data:image\//.test(data.ttd_user)
+              ? `<img src="${escapeAttr(data.ttd_user)}" alt="TTD Petugas" style="max-height: 50px;">`
+              : "";
         }
 
         /* ---- Kontrol tombol ---- */
@@ -1149,8 +1155,12 @@
           btnVerif?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
           adminInputs.forEach((el) => (el.readOnly = true));
-          if (data.ttd_admin && sigAdmin)
-            sigAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Pengawas" style="max-height: 50px;">`;
+          if (
+            data.ttd_admin &&
+            sigAdmin &&
+            /^data:image\//.test(data.ttd_admin)
+          )
+            sigAdmin.innerHTML = `<img src="${escapeAttr(data.ttd_admin)}" alt="TTD Pengawas" style="max-height: 50px;">`;
         } else {
           btnVerif?.classList.remove("hidden");
           btnPrint?.classList.add("hidden");

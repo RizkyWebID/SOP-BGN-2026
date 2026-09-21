@@ -794,8 +794,6 @@
       /* =====================================================================
        * SOP-026 - SCRIPT KHUSUS (Pemantauan Pengolahan Nasi)
        * ---------------------------------------------------------------------
-       * Catatan: STORAGE_KEY diperbaiki dari db_sop_14 (bentrok) → db_sop_026.
-       *
        * Fungsi:
        *   - getTodayData/loadDataForDate
        *   - renderUserTable()       : render tabel proses (mode user)
@@ -803,12 +801,21 @@
        *   - checkFormLockStatus()/simpanDraftGlobal()
        *   - bukaModalTtdUser()/simpanFinalLaporan()
        *   - loadDataAdmin()/bukaModalTtdAdmin()/simpanVerifikasiAdmin()
+       *
+       * CATATAN v3:
+       *   - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
+       *   - Semua data user di-escape via escapeHtml/escapeAttr.
+       *   - TTD dirender hanya jika lolos validasi data URL (anti-XSS).
+       *   - 🐛 FIX: urutan kolom pada renderUserTable() sebelumnya
+       *     menampilkan [mulai, selesai, beras, air, ...] padahal header
+       *     tabel urutannya [beras, air, mulai, selesai, ...]. Sekarang
+       *     sudah disinkronkan.
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_026";
       const MIN_ROWS = 10;
 
-      let currentDate = new Date().toISOString().split("T")[0];
+      let currentDate = getTodayLocalISO();
       let currentRows = [];
 
       window.addEventListener("DOMContentLoaded", () => {
@@ -851,7 +858,7 @@
         checkFormLockStatus(data);
       }
 
-      /* ------- Render tabel user ------- */
+      /* ------- Render tabel user (urutan kolom SUDAH DIPERBAIKI) ------- */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
@@ -863,19 +870,21 @@
         }
 
         currentRows.forEach((r, idx) => {
+          // 🐛 FIX: urutan kolom kini sinkron dengan header tabel:
+          //     Beras → Air → Mulai → Selesai → Suhu → Warna → Tekstur → Catatan
           tbody.insertAdjacentHTML(
             "beforeend",
             `
           <tr class="hover:bg-gray-50 border-b border-gray-200">
             <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.mulai || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.selesai || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.beras || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.air || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.suhu || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.warna || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.tekstur || ""}</td>
-            <td class="p-2 border border-gray-300">${r.catatan || "-"}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.beras)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.air)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.mulai)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.selesai)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.suhu)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.warna)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.tekstur)}</td>
+            <td class="p-2 border border-gray-300">${escapeHtml(r.catatan || "-")}</td>
             <td class="p-2 border border-gray-300 text-center">
               <button type="button" onclick="hapusBarisProses(${idx})"
                 class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
@@ -893,10 +902,10 @@
           return showNotif("Laporan sudah terkunci!", "error");
 
         currentRows.push({
-          mulai: document.getElementById("u_mulai").value,
-          selesai: document.getElementById("u_selesai").value,
           beras: document.getElementById("u_beras").value,
           air: document.getElementById("u_air").value,
+          mulai: document.getElementById("u_mulai").value,
+          selesai: document.getElementById("u_selesai").value,
           suhu: document.getElementById("u_suhu").value,
           warna: document.getElementById("u_warna").value,
           tekstur: document.getElementById("u_tekstur").value,
@@ -1045,11 +1054,12 @@
         if (!tbody) return;
         tbody.innerHTML = "";
 
-        /** Helper inline: buat sel dual-element. */
+        /** Helper inline: buat sel dual-element.
+         *  Semua nilai di-escape agar aman dari XSS. */
         const cell = (id, val, cls = "text-center") => `
         <td class="border border-black p-0 relative">
-          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${val || ""}</div>
-          <input type="text" id="${id}" value="${val || ""}"
+          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${escapeHtml(val)}</div>
+          <input type="text" id="${id}" value="${escapeAttr(val)}"
             oninput="this.previousElementSibling.innerText = this.value"
             class="w-full ${cls} bg-transparent print:hidden">
         </td>`;
@@ -1082,11 +1092,13 @@
           );
         }
 
+        /* ---- TTD user (validasi data URL) ---- */
         const sigUser = document.getElementById("a_render_sig_user");
         if (sigUser) {
-          sigUser.innerHTML = data.ttd_user
-            ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
-            : "";
+          sigUser.innerHTML =
+            data.ttd_user && /^data:image\//.test(data.ttd_user)
+              ? `<img src="${escapeAttr(data.ttd_user)}" alt="TTD User" style="max-height: 50px;">`
+              : "";
         }
 
         const btnVerif = document.getElementById("btn-verifikasi-admin");
@@ -1098,8 +1110,12 @@
           btnVerif?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
           adminInputs.forEach((el) => (el.readOnly = true));
-          if (data.ttd_admin && sigAdmin)
-            sigAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
+          if (
+            data.ttd_admin &&
+            sigAdmin &&
+            /^data:image\//.test(data.ttd_admin)
+          )
+            sigAdmin.innerHTML = `<img src="${escapeAttr(data.ttd_admin)}" alt="TTD Admin" style="max-height: 50px;">`;
         } else {
           btnVerif?.classList.remove("hidden");
           btnPrint?.classList.add("hidden");

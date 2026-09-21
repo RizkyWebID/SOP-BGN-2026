@@ -51,13 +51,16 @@
         width: 13px;
         height: 13px;
       }
-      /* Secret trigger di footer — cursor pointer, warna tetap samar */
+      /* Secret trigger di footer — cursor pointer, warna tetap samar.
+         Ditambah focus-visible agar aksesibel keyboard. */
       .secret-trigger {
         cursor: pointer;
         transition: color 0.15s ease;
       }
-      .secret-trigger:hover {
+      .secret-trigger:hover,
+      .secret-trigger:focus-visible {
         color: #1f2937; /* gray-800 */
+        outline: none;
       }
     </style>
   </head>
@@ -443,6 +446,7 @@
     <!-- =====================================================================
        FOOTER — Copyright dengan Secret Trigger
        Klik teks "Badan Gizi Nasional" untuk hapus semua data.
+       Ditambah aksesibilitas: role=button, tabindex, keyboard handler.
        ===================================================================== -->
     <footer
       class="mt-10 py-4 border-t border-gray-200 text-center text-xs text-gray-500"
@@ -451,6 +455,15 @@
       <span
         id="secret-trigger"
         onclick="handleSecretDelete()"
+        onkeydown="
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            handleSecretDelete();
+          }
+        "
+        role="button"
+        tabindex="0"
+        aria-label="Menu tersembunyi: hapus semua data SOP"
         class="secret-trigger"
         >Badan Gizi Nasional</span
       >
@@ -499,7 +512,10 @@
        * ------------------------------------------------------------------- */
       function generateBackupFilename() {
         const d = new Date();
-        const p = (n) => String(n).padStart(2, "0");
+        // Pad manual agar kompatibel browser lama (tanpa padStart).
+        const p = function (n) {
+          return n < 10 ? "0" + n : String(n);
+        };
         const yyyy = d.getFullYear();
         const mm = p(d.getMonth() + 1);
         const dd = p(d.getDate());

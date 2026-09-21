@@ -791,6 +791,13 @@
        *   - checkFormLockStatus()/simpanDraftGlobal()
        *   - bukaModalTtdUser()/simpanFinalLaporan()
        *   - loadDataAdmin()/bukaModalTtdAdmin()/simpanVerifikasiAdmin()
+       *
+       * CATATAN v3:
+       *   - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
+       *   - Semua data user (nama bahan, supplier, kontak, ket, kategori)
+       *     di-escape via escapeHtml/escapeAttr.
+       *   - TTD dirender hanya jika lolos validasi data URL (anti-XSS).
+       *   - Nama field TTD user disamakan: nama_petugas (konsisten dgn skema).
        * ===================================================================== */
 
       /* ------- Konstanta khusus SOP-017 ------- */
@@ -808,7 +815,7 @@
       };
 
       /* ------- State global ------- */
-      let currentDate = new Date().toISOString().split("T")[0];
+      let currentDate = getTodayLocalISO();
       let currentRows = [];
 
       /* ------- Life cycle ------- */
@@ -886,7 +893,7 @@
               "beforeend",
               `<tr class="bg-orange-50">
                <td colspan="8" class="p-2 border border-gray-300 text-center font-bold uppercase text-indigo-900">
-                 ${currentKat}
+                 ${escapeHtml(currentKat)}
                </td>
              </tr>`,
             );
@@ -897,12 +904,12 @@
             `
           <tr class="hover:bg-gray-50 border-b border-gray-200">
             <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${numInKat++}</td>
-            <td class="p-2 border border-gray-300">${r.nama || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.satuan || ""}</td>
+            <td class="p-2 border border-gray-300">${escapeHtml(r.nama)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.satuan)}</td>
             <td class="p-2 border border-gray-300 text-right pr-2">${r.harga ? formatRupiah(r.harga) : "0"}</td>
-            <td class="p-2 border border-gray-300">${r.supplier || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.kontak || "-"}</td>
-            <td class="p-2 border border-gray-300">${r.ket || "-"}</td>
+            <td class="p-2 border border-gray-300">${escapeHtml(r.supplier)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.kontak || "-")}</td>
+            <td class="p-2 border border-gray-300">${escapeHtml(r.ket || "-")}</td>
             <td class="p-2 border border-gray-300 text-center">
               <button type="button" onclick="hapusBarisProses(${idx})"
                 class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
@@ -1086,11 +1093,12 @@
         let currentKat = "";
         let numInKat = 1;
 
-        /** Helper inline: buat sel dual-element (cetak + edit). */
+        /** Helper inline: buat sel dual-element (cetak + edit).
+         *  Semua nilai di-escape agar aman dari XSS. */
         const cell = (id, val, cls = "text-center") => `
         <td class="border border-black p-0 relative">
-          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${val || ""}</div>
-          <input type="text" id="${id}" value="${val || ""}"
+          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${escapeHtml(val)}</div>
+          <input type="text" id="${id}" value="${escapeAttr(val)}"
             oninput="this.previousElementSibling.innerText = this.value"
             class="w-full ${cls} bg-transparent print:hidden">
         </td>`;
@@ -1117,7 +1125,7 @@
             tbody.insertAdjacentHTML(
               "beforeend",
               `<tr style="background-color:#fff2cc !important;" class="font-bold print:bg-[#fff2cc]">
-               <td colspan="7" class="border border-black p-1 text-center uppercase">${currentKat}</td>
+               <td colspan="7" class="border border-black p-1 text-center uppercase">${escapeHtml(currentKat)}</td>
              </tr>`,
             );
           }
@@ -1128,16 +1136,16 @@
           <tr>
             <td class="border border-black p-0.5 font-bold text-center">${numInKat++}</td>
             <td class="border border-black p-0 relative">
-              <input type="hidden" id="a_kategori_${i}" value="${r.kategori || ""}">
-              <div class="hidden print:block w-full text-left whitespace-normal break-words px-1">${r.nama || ""}</div>
-              <input type="text" id="a_nama_${i}" value="${r.nama || ""}"
+              <input type="hidden" id="a_kategori_${i}" value="${escapeAttr(r.kategori)}">
+              <div class="hidden print:block w-full text-left whitespace-normal break-words px-1">${escapeHtml(r.nama)}</div>
+              <input type="text" id="a_nama_${i}" value="${escapeAttr(r.nama)}"
                 oninput="this.previousElementSibling.innerText = this.value"
                 class="w-full text-left bg-transparent px-1 print:hidden">
             </td>
             ${cell(`a_satuan_${i}`, r.satuan)}
             <td class="border border-black p-0 relative">
               <div class="hidden print:block w-full text-center whitespace-normal break-words">${r.harga ? formatRupiah(r.harga) : ""}</div>
-              <input type="text" id="a_harga_${i}" value="${r.harga || ""}"
+              <input type="text" id="a_harga_${i}" value="${escapeAttr(r.harga)}"
                 oninput="this.previousElementSibling.innerText = this.value ? new Intl.NumberFormat('id-ID').format(this.value) : ''"
                 class="w-full text-center bg-transparent print:hidden">
             </td>
@@ -1148,11 +1156,13 @@
           );
         }
 
+        /* ---- Tanda tangan user (validasi data URL) ---- */
         const sigUser = document.getElementById("a_render_sig_user");
         if (sigUser) {
-          sigUser.innerHTML = data.ttd_user
-            ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
-            : "";
+          sigUser.innerHTML =
+            data.ttd_user && /^data:image\//.test(data.ttd_user)
+              ? `<img src="${escapeAttr(data.ttd_user)}" alt="TTD User" style="max-height: 50px;">`
+              : "";
         }
 
         const btnVerif = document.getElementById("btn-verifikasi-admin");
@@ -1166,8 +1176,12 @@
           btnVerif?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
           adminInputs.forEach((el) => (el.readOnly = true));
-          if (data.ttd_admin && sigAdmin)
-            sigAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
+          if (
+            data.ttd_admin &&
+            sigAdmin &&
+            /^data:image\//.test(data.ttd_admin)
+          )
+            sigAdmin.innerHTML = `<img src="${escapeAttr(data.ttd_admin)}" alt="TTD Admin" style="max-height: 50px;">`;
         } else {
           btnVerif?.classList.remove("hidden");
           btnPrint?.classList.add("hidden");

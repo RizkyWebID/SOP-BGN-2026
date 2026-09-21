@@ -757,17 +757,21 @@
       /* =====================================================================
        * SOP-040D - SCRIPT KHUSUS (Sarana Cuci Tangan & Penyimpanan)
        * ---------------------------------------------------------------------
-       * Catatan: STORAGE_KEY diperbaiki dari "db_sop_40_master" (nama ambigu)
-       * → "db_sop_040_4" agar konsisten dengan skema baru.
-       *
        * Logika: setiap baris menyimpan field "sesuai" ("" atau "V") dan
        * "tidak_sesuai" ("" atau "V"). Nilai diisi otomatis dari radio button.
+       *
+       * CATATAN v3:
+       *   - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
+       *   - Semua data user (aspek, ket) di-escape via escapeHtml/escapeAttr.
+       *   - textarea pakai escapeHtml untuk konten, escapeAttr untuk value
+       *     pada input biasa.
+       *   - TTD dirender hanya jika lolos validasi data URL (anti-XSS).
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_040_4";
       const MIN_ROWS = 10;
 
-      let currentDate = new Date().toISOString().split("T")[0];
+      let currentDate = getTodayLocalISO();
       let currentRows = [];
 
       /* ------- Life cycle ------- */
@@ -830,9 +834,9 @@
             `
           <tr class="hover:bg-gray-50 border-b border-gray-200">
             <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
-            <td class="p-2 border border-gray-300 whitespace-pre-wrap">${r.aspek || ""}</td>
+            <td class="p-2 border border-gray-300 whitespace-pre-wrap">${escapeHtml(r.aspek)}</td>
             <td class="p-2 border border-gray-300 text-center font-bold ${statusColor}">${statusText}</td>
-            <td class="p-2 border border-gray-300">${r.ket || "-"}</td>
+            <td class="p-2 border border-gray-300">${escapeHtml(r.ket || "-")}</td>
             <td class="p-2 border border-gray-300 text-center">
               <button type="button" onclick="hapusBarisProses(${idx})"
                 class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
@@ -1018,42 +1022,46 @@
             tidak_sesuai: "",
             ket: "",
           };
+          // textarea: konten di-escape via escapeHtml (bukan escapeAttr)
+          // input: value di-escape via escapeAttr
           tbody.insertAdjacentHTML(
             "beforeend",
             `
           <tr>
             <td class="border border-black p-0.5 font-bold text-center">${i}</td>
             <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-left whitespace-pre-wrap break-words px-2">${r.aspek || ""}</div>
+              <div class="hidden print:block w-full text-left whitespace-pre-wrap break-words px-2">${escapeHtml(r.aspek)}</div>
               <textarea id="a_aspek_${i}" oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-left bg-transparent px-2 print:hidden resize-none overflow-hidden h-full" rows="2">${r.aspek || ""}</textarea>
+                class="w-full text-left bg-transparent px-2 print:hidden resize-none overflow-hidden h-full" rows="2">${escapeHtml(r.aspek)}</textarea>
             </td>
             <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-center font-bold">${r.sesuai || ""}</div>
-              <input type="text" id="a_sesuai_${i}" value="${r.sesuai || ""}"
+              <div class="hidden print:block w-full text-center font-bold">${escapeHtml(r.sesuai)}</div>
+              <input type="text" id="a_sesuai_${i}" value="${escapeAttr(r.sesuai)}"
                 oninput="this.previousElementSibling.innerText = this.value"
                 class="w-full text-center font-bold bg-transparent print:hidden">
             </td>
             <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-center font-bold">${r.tidak_sesuai || ""}</div>
-              <input type="text" id="a_tidak_sesuai_${i}" value="${r.tidak_sesuai || ""}"
+              <div class="hidden print:block w-full text-center font-bold">${escapeHtml(r.tidak_sesuai)}</div>
+              <input type="text" id="a_tidak_sesuai_${i}" value="${escapeAttr(r.tidak_sesuai)}"
                 oninput="this.previousElementSibling.innerText = this.value"
                 class="w-full text-center font-bold bg-transparent print:hidden">
             </td>
             <td class="border border-black p-0 relative">
-              <div class="hidden print:block w-full text-left whitespace-pre-wrap break-words px-2">${r.ket || ""}</div>
+              <div class="hidden print:block w-full text-left whitespace-pre-wrap break-words px-2">${escapeHtml(r.ket)}</div>
               <textarea id="a_ket_${i}" oninput="this.previousElementSibling.innerText = this.value"
-                class="w-full text-left bg-transparent px-2 print:hidden resize-none overflow-hidden h-full" rows="2">${r.ket || ""}</textarea>
+                class="w-full text-left bg-transparent px-2 print:hidden resize-none overflow-hidden h-full" rows="2">${escapeHtml(r.ket)}</textarea>
             </td>
           </tr>`,
           );
         }
 
+        /* ---- TTD user (validasi data URL) ---- */
         const sigUser = document.getElementById("a_render_sig_user");
         if (sigUser) {
-          sigUser.innerHTML = data.ttd_user
-            ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
-            : "";
+          sigUser.innerHTML =
+            data.ttd_user && /^data:image\//.test(data.ttd_user)
+              ? `<img src="${escapeAttr(data.ttd_user)}" alt="TTD User" style="max-height: 50px;">`
+              : "";
         }
 
         const btnVerif = document.getElementById("btn-verifikasi-admin");
@@ -1067,8 +1075,12 @@
           btnVerif?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
           adminInputs.forEach((el) => (el.readOnly = true));
-          if (data.ttd_admin && sigAdmin)
-            sigAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
+          if (
+            data.ttd_admin &&
+            sigAdmin &&
+            /^data:image\//.test(data.ttd_admin)
+          )
+            sigAdmin.innerHTML = `<img src="${escapeAttr(data.ttd_admin)}" alt="TTD Admin" style="max-height: 50px;">`;
         } else {
           btnVerif?.classList.remove("hidden");
           btnPrint?.classList.add("hidden");

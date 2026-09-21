@@ -754,12 +754,16 @@
        *   - loadDataAdmin()         : load data admin + tabel cetak
        *   - bukaModalTtdAdmin()     : buka modal verifikasi
        *   - simpanVerifikasiAdmin() : simpan verifikasi
+       *
+       * CATATAN v3:
+       *   - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
+       *   - Semua data user yang dirender di-escape via escapeHtml/escapeAttr.
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_014";
       const MIN_ROWS = 10;
 
-      let currentDate = new Date().toISOString().split("T")[0];
+      let currentDate = getTodayLocalISO();
       let currentRows = [];
 
       /* ------- Life cycle ------- */
@@ -813,7 +817,7 @@
         checkFormLockStatus(data);
       }
 
-      /* ------- Render tabel user ------- */
+      /* ------- Render tabel user (dengan escape XSS) ------- */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
@@ -830,13 +834,13 @@
             `
           <tr class="hover:bg-gray-50 border-b border-gray-200">
             <td class="p-2 border border-gray-300 text-center font-bold">${idx + 1}</td>
-            <td class="p-2 border border-gray-300 font-semibold text-gray-700">${row.nama}</td>
-            <td class="p-2 border border-gray-300 text-center">${row.standar}</td>
-            <td class="p-2 border border-gray-300 text-center">${row.s1 || "-"}</td>
-            <td class="p-2 border border-gray-300 text-center">${row.s2 || "-"}</td>
-            <td class="p-2 border border-gray-300 text-center">${row.s3 || "-"}</td>
-            <td class="p-2 border border-gray-300 text-center bg-indigo-50 font-bold text-indigo-700">${rata || "-"}</td>
-            <td class="p-2 border border-gray-300">${row.keterangan || "-"}</td>
+            <td class="p-2 border border-gray-300 font-semibold text-gray-700">${escapeHtml(row.nama)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(row.standar)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(row.s1 || "-")}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(row.s2 || "-")}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(row.s3 || "-")}</td>
+            <td class="p-2 border border-gray-300 text-center bg-indigo-50 font-bold text-indigo-700">${escapeHtml(rata || "-")}</td>
+            <td class="p-2 border border-gray-300">${escapeHtml(row.keterangan || "-")}</td>
             <td class="p-2 border border-gray-300 text-center">
               <button type="button" onclick="hapusBaris(${idx})"
                 class="text-red-600 hover:text-red-800 font-bold px-2 py-1 text-xs">Hapus</button>
@@ -946,7 +950,7 @@
         showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
       }
 
-      /* ------- Load data admin ------- */
+      /* ------- Load data admin (dengan escape XSS) ------- */
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
@@ -997,12 +1001,13 @@
             keterangan: "",
           });
         }
+        // Helper cell: output div (cetak) + input (edit) — keduanya di-escape.
         const cell = (val, cls = "text-center", id, bold = false) => `
         <td class="border border-black p-0 relative">
-          <div class="hidden print:block w-full ${cls} whitespace-normal break-words ${bold ? "font-bold" : ""}">${val || ""}</div>
+          <div class="hidden print:block w-full ${cls} whitespace-normal break-words ${bold ? "font-bold" : ""}">${escapeHtml(val)}</div>
           ${
             id
-              ? `<input type="text" id="${id}" value="${val || ""}"
+              ? `<input type="text" id="${id}" value="${escapeAttr(val)}"
             oninput="this.previousElementSibling.innerText = this.value"
             class="w-full ${cls} bg-transparent print:hidden">`
               : ""
@@ -1026,11 +1031,14 @@
           );
         });
 
+        // Render TTD user — escape + validasi data URL
         const sigUser = document.getElementById("a_render_sig_user");
-        if (sigUser)
-          sigUser.innerHTML = data.ttd_user
-            ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
-            : "";
+        if (sigUser) {
+          sigUser.innerHTML =
+            data.ttd_user && /^data:image\//.test(data.ttd_user)
+              ? `<img src="${escapeAttr(data.ttd_user)}" alt="TTD User" style="max-height: 50px;">`
+              : "";
+        }
 
         const btnVerif = document.getElementById("btn-verifikasi-admin");
         const btnPrint = document.getElementById("btn-print-admin");
@@ -1038,8 +1046,12 @@
         if (data.status === "verified") {
           btnVerif?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
-          if (data.ttd_admin && sigAdmin)
-            sigAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
+          if (
+            data.ttd_admin &&
+            sigAdmin &&
+            /^data:image\//.test(data.ttd_admin)
+          )
+            sigAdmin.innerHTML = `<img src="${escapeAttr(data.ttd_admin)}" alt="TTD Admin" style="max-height: 50px;">`;
         } else {
           btnVerif?.classList.remove("hidden");
           btnPrint?.classList.add("hidden");

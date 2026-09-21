@@ -772,17 +772,25 @@
       /* =====================================================================
        * SOP-040B - SCRIPT KHUSUS (Logbook Kesehatan Personil)
        * ---------------------------------------------------------------------
-       * Catatan: STORAGE_KEY diperbaiki dari "db_sop_29b_v2" (kode lama 29B)
-       * → "db_sop_040_2" agar konsisten dengan skema baru.
-       *
        * MIN_ROWS = 8 (lebih sedikit dari SOP lain, karena logbook jarang
        * diisi lebih dari 8 baris per hari).
+       *
+       * CATATAN v3:
+       *   - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
+       *   - Semua data user (nama, jabatan, gejala, tindak, tgl_kembali)
+       *     di-escape via escapeHtml/escapeAttr.
+       *   - Field khusus: input "suhu" di tabel admin memakai oninput
+       *     custom untuk menambahkan simbol "°C" secara otomatis.
+       *   - TTD dirender hanya jika lolos validasi data URL (anti-XSS).
+       *   - ⚠️ CATATAN: nama field TTD user memakai "nama_user" (bukan
+       *     "nama_petugas" seperti SOP-040A/C/D). Perlu dicross-check
+       *     ke depannya untuk konsistensi skema.
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_040_2";
       const MIN_ROWS = 8;
 
-      let currentDate = new Date().toISOString().split("T")[0];
+      let currentDate = getTodayLocalISO();
       let currentRows = [];
 
       /* ------- Life cycle ------- */
@@ -834,6 +842,7 @@
 
       /* =====================================================================
        * RENDER TABEL LOGBOOK (MODE USER)
+       * - Semua nilai data user di-escape.
        * ===================================================================== */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
@@ -851,12 +860,12 @@
             `
           <tr class="hover:bg-gray-50 border-b border-gray-200">
             <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
-            <td class="p-2 border border-gray-300 font-semibold">${r.nama || ""}</td>
-            <td class="p-2 border border-gray-300">${r.jabatan || ""}</td>
-            <td class="p-2 border border-gray-300">${r.gejala || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.suhu ? r.suhu + "°C" : ""}</td>
-            <td class="p-2 border border-gray-300">${r.tindak || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.tgl_kembali || "-"}</td>
+            <td class="p-2 border border-gray-300 font-semibold">${escapeHtml(r.nama)}</td>
+            <td class="p-2 border border-gray-300">${escapeHtml(r.jabatan)}</td>
+            <td class="p-2 border border-gray-300">${escapeHtml(r.gejala)}</td>
+            <td class="p-2 border border-gray-300 text-center">${r.suhu ? escapeHtml(r.suhu) + "°C" : ""}</td>
+            <td class="p-2 border border-gray-300">${escapeHtml(r.tindak)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.tgl_kembali || "-")}</td>
             <td class="p-2 border border-gray-300 text-center">
               <button type="button" onclick="hapusBarisProses(${idx})"
                 class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
@@ -994,6 +1003,7 @@
 
       /* =====================================================================
        * LOAD DATA MODE ADMIN (TABEL CETAK)
+       * - Cell helper di-escape; khusus field "suhu", oninput menambahkan °C.
        * ===================================================================== */
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
@@ -1040,11 +1050,13 @@
         if (!tbody) return;
         tbody.innerHTML = "";
 
-        /** Helper inline: buat sel dual-element (custom oninput untuk suhu °C). */
+        /** Helper inline: buat sel dual-element.
+         *  - Parameter oninput kustom untuk field "suhu" (menambah °C).
+         *  - Semua nilai di-escape agar aman dari XSS. */
         const cell = (id, val, cls = "text-center", oninput) => `
         <td class="border border-black p-0 relative">
-          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${val || ""}</div>
-          <input type="text" id="${id}" value="${val || ""}"
+          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${escapeHtml(val)}</div>
+          <input type="text" id="${id}" value="${escapeAttr(val)}"
             oninput="${oninput || "this.previousElementSibling.innerText = this.value"}"
             class="w-full ${cls} bg-transparent print:hidden">
         </td>`;
@@ -1080,12 +1092,13 @@
           );
         }
 
-        /* ---- Tanda tangan user ---- */
+        /* ---- Tanda tangan user (validasi data URL) ---- */
         const sigUser = document.getElementById("a_render_sig_user");
         if (sigUser) {
-          sigUser.innerHTML = data.ttd_user
-            ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
-            : "";
+          sigUser.innerHTML =
+            data.ttd_user && /^data:image\//.test(data.ttd_user)
+              ? `<img src="${escapeAttr(data.ttd_user)}" alt="TTD User" style="max-height: 50px;">`
+              : "";
         }
 
         /* ---- Kontrol tombol ---- */
@@ -1098,8 +1111,12 @@
           btnVerif?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
           adminInputs.forEach((el) => (el.readOnly = true));
-          if (data.ttd_admin && sigAdmin)
-            sigAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
+          if (
+            data.ttd_admin &&
+            sigAdmin &&
+            /^data:image\//.test(data.ttd_admin)
+          )
+            sigAdmin.innerHTML = `<img src="${escapeAttr(data.ttd_admin)}" alt="TTD Admin" style="max-height: 50px;">`;
         } else {
           btnVerif?.classList.remove("hidden");
           btnPrint?.classList.add("hidden");
@@ -1124,8 +1141,8 @@
 
       /* =====================================================================
        * SIMPAN VERIFIKASI ADMIN
-       * - Catatan: field tanggal kembali memakai id "a_tgl_<i>" (bukan a_tgl_kembali_<i>),
-       *   jadi perlu diperlakukan khusus.
+       * - Catatan: field tanggal kembali memakai id "a_tgl_<i>" (bukan
+       *   a_tgl_kembali_<i>), jadi perlu diperlakukan khusus saat membaca.
        * ===================================================================== */
       function simpanVerifikasiAdmin() {
         const canvasAdmin = document.getElementById("sig-admin");

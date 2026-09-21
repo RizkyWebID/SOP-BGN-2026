@@ -741,9 +741,6 @@
       /* =====================================================================
        * SOP-040C - SCRIPT KHUSUS (Ketidaksesuaian Perlengkapan)
        * ---------------------------------------------------------------------
-       * Catatan: STORAGE_KEY diperbaiki dari "db_sop_29c" (kode lama 29C)
-       * → "db_sop_040_3" agar konsisten dengan skema baru.
-       *
        * Fungsi:
        *   - getTodayData/loadDataForDate
        *   - renderUserTable()       : render tabel temuan (mode user)
@@ -751,12 +748,18 @@
        *   - checkFormLockStatus()/simpanDraftGlobal()
        *   - bukaModalTtdUser()/simpanFinalLaporan()
        *   - loadDataAdmin()/bukaModalTtdAdmin()/simpanVerifikasiAdmin()
+       *
+       * CATATAN v3:
+       *   - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
+       *   - Semua data user (sarana, temuan, perbaikan, tgl_selesai)
+       *     di-escape via escapeHtml/escapeAttr.
+       *   - TTD dirender hanya jika lolos validasi data URL (anti-XSS).
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_040_3";
       const MIN_ROWS = 8;
 
-      let currentDate = new Date().toISOString().split("T")[0];
+      let currentDate = getTodayLocalISO();
       let currentRows = [];
 
       /* ------- Life cycle ------- */
@@ -817,10 +820,10 @@
             `
           <tr class="hover:bg-gray-50 border-b border-gray-200">
             <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
-            <td class="p-2 border border-gray-300 font-semibold">${r.sarana || ""}</td>
-            <td class="p-2 border border-gray-300">${r.temuan || ""}</td>
-            <td class="p-2 border border-gray-300">${r.perbaikan || ""}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.tgl_selesai || "-"}</td>
+            <td class="p-2 border border-gray-300 font-semibold">${escapeHtml(r.sarana)}</td>
+            <td class="p-2 border border-gray-300">${escapeHtml(r.temuan)}</td>
+            <td class="p-2 border border-gray-300">${escapeHtml(r.perbaikan)}</td>
+            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.tgl_selesai || "-")}</td>
             <td class="p-2 border border-gray-300 text-center">
               <button type="button" onclick="hapusBarisTemuan(${idx})"
                 class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
@@ -987,11 +990,12 @@
         if (!tbody) return;
         tbody.innerHTML = "";
 
-        /** Helper inline: buat sel dual-element (cetak + edit). */
+        /** Helper inline: buat sel dual-element.
+         *  Semua nilai di-escape agar aman dari XSS. */
         const cell = (id, val, cls = "text-center") => `
         <td class="border border-black p-0 relative">
-          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${val || ""}</div>
-          <input type="text" id="${id}" value="${val || ""}"
+          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${escapeHtml(val)}</div>
+          <input type="text" id="${id}" value="${escapeAttr(val)}"
             oninput="this.previousElementSibling.innerText = this.value"
             class="w-full ${cls} bg-transparent print:hidden">
         </td>`;
@@ -1016,11 +1020,13 @@
           );
         }
 
+        /* ---- TTD user (validasi data URL) ---- */
         const sigUser = document.getElementById("a_render_sig_user");
         if (sigUser) {
-          sigUser.innerHTML = data.ttd_user
-            ? `<img src="${data.ttd_user}" alt="TTD User" style="max-height: 50px;">`
-            : "";
+          sigUser.innerHTML =
+            data.ttd_user && /^data:image\//.test(data.ttd_user)
+              ? `<img src="${escapeAttr(data.ttd_user)}" alt="TTD User" style="max-height: 50px;">`
+              : "";
         }
 
         const btnVerif = document.getElementById("btn-verifikasi-admin");
@@ -1032,8 +1038,12 @@
           btnVerif?.classList.add("hidden");
           btnPrint?.classList.remove("hidden");
           adminInputs.forEach((el) => (el.readOnly = true));
-          if (data.ttd_admin && sigAdmin)
-            sigAdmin.innerHTML = `<img src="${data.ttd_admin}" alt="TTD Admin" style="max-height: 50px;">`;
+          if (
+            data.ttd_admin &&
+            sigAdmin &&
+            /^data:image\//.test(data.ttd_admin)
+          )
+            sigAdmin.innerHTML = `<img src="${escapeAttr(data.ttd_admin)}" alt="TTD Admin" style="max-height: 50px;">`;
         } else {
           btnVerif?.classList.remove("hidden");
           btnPrint?.classList.add("hidden");

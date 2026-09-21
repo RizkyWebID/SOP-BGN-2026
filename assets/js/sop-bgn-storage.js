@@ -19,6 +19,11 @@
  *   Cukup ubah isi method _backendGet / _backendSet di bawah.
  *   Semua SOP tidak perlu diubah karena hanya memanggil
  *   getDB() / saveDB() dari sop-bgn-shared.js.
+ *
+ * PERUBAHAN v3 (performance):
+ *   Menambahkan _memCache (in-memory cache) untuk menghindari JSON.parse
+ *   berulang pada setiap operasi baca. Cache di-invalidate otomatis saat
+ *   setSync / removeSync / importAll dipanggil.
  * ========================================================================= */
 
 (function (global) {
@@ -29,6 +34,14 @@
    * milik aplikasi lain di domain yang sama.
    * ------------------------------------------------------------------- */
   const NAMESPACE = "SOP_BGN_2026:";
+
+  /* ---------------------------------------------------------------------
+   * MEMORY CACHE — mencegah re-parse JSON berulang.
+   * Struktur: { [key]: parsedObject }
+   * Gunakan Object.create(null) agar tidak bentrok dengan nama key seperti
+   * "constructor" atau "__proto__".
+   * ------------------------------------------------------------------- */
+  const _memCache = Object.create(null);
 
   /* ---------------------------------------------------------------------
    * BACKEND SINKRON — saat ini memakai localStorage.
@@ -49,7 +62,10 @@
       const out = [];
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (k && k.startsWith(NAMESPACE)) out.push(k.slice(NAMESPACE.length));
+        // Gunakan indexOf === 0 agar kompatibel browser lama (tanpa startsWith).
+        if (k && k.indexOf(NAMESPACE) === 0) {
+          out.push(k.slice(NAMESPACE.length));
+        }
       }
       return out;
     },
@@ -62,28 +78,41 @@
     /* ---------- API SINKRON (kompatibel dengan kode lama) ---------- */
 
     /**
-     * Ambil objek dari storage.
+     * Ambil objek dari storage (dengan memory cache).
      * @param {string} key
      * @returns {Object} Objek data, atau {} jika belum ada.
      */
     getSync(key) {
-      return backend.get(key) || {};
+      // Cache HIT → langsung kembalikan tanpa parse ulang.
+      if (Object.prototype.hasOwnProperty.call(_memCache, key)) {
+        return _memCache[key];
+      }
+      // Cache MISS → baca dari backend, simpan ke cache untuk read berikutnya.
+      const val = backend.get(key) || {};
+      _memCache[key] = val;
+      return val;
     },
 
     /**
      * Simpan objek ke storage.
+     * Catatan: nilai objek disimpan ke cache DAN ke localStorage.
+     * Pemanggil sebaiknya MUTASI objek lewat referensi hasil getSync()
+     * lalu panggil setSync() untuk commit — ini sudah pola yang dipakai
+     * di seluruh SOP saat ini.
      * @param {string} key
      * @param {Object} value
      */
     setSync(key, value) {
+      _memCache[key] = value;
       backend.set(key, value);
     },
 
     /**
-     * Hapus satu key dari storage.
+     * Hapus satu key dari storage (dan cache).
      * @param {string} key
      */
     removeSync(key) {
+      delete _memCache[key];
       backend.remove(key);
     },
 
@@ -129,6 +158,7 @@
 
     /**
      * Export seluruh data SOP sebagai JSON (untuk backup manual).
+     * Catatan: baca langsung dari backend agar tidak ada risiko stale cache.
      * @returns {string} JSON string.
      */
     exportAll() {
@@ -139,6 +169,7 @@
 
     /**
      * Import data SOP dari JSON hasil export.
+     * Setelah import, cache di-refresh untuk key yang diimpor.
      * @param {string} jsonString
      * @returns {number} Jumlah key yang berhasil diimpor.
      */
@@ -147,9 +178,18 @@
       let count = 0;
       Object.keys(dump).forEach((k) => {
         backend.set(k, dump[k]);
+        _memCache[k] = dump[k];
         count++;
       });
       return count;
+    },
+
+    /**
+     * Reset seluruh memory cache.
+     * Berguna jika ada proses eksternal yang mengubah localStorage langsung.
+     */
+    clearCache() {
+      Object.keys(_memCache).forEach((k) => delete _memCache[k]);
     },
 
     /** Info versi namespace (untuk migrasi skema di masa depan). */
