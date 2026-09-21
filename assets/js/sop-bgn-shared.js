@@ -3,13 +3,14 @@
  * -------------------------------------------------------------------------
  * File    : assets/js/sop-bgn-shared.js
  * Fungsi  : Helper utility untuk semua formulir SOP.
- * Versi   : v4 — tambah getSopRecordCount() untuk badge dashboard.
+ * Versi   : v5 — tambah getSopRecordStats() untuk badge dashboard
+ *                (draft vs saved).
  *
- * PERUBAHAN v4:
- *   - getSopRecordCount(storageKey) : hitung jumlah tanggal tersimpan.
- * PERUBAHAN v3:
- *   - getTodayLocalISO() : fix UTC-vs-lokal.
- *   - escapeHtml/escapeAttr : anti Stored XSS.
+ * PERUBAHAN v5:
+ *   - getSopRecordStats(storageKey) : { draft, saved } per SOP.
+ *   - getSopRecordCount() tetap ada untuk kompatibilitas.
+ * PERUBAHAN v3/v4:
+ *   - getTodayLocalISO(), escapeHtml, escapeAttr, getSopRecordCount.
  * ========================================================================= */
 
 /* =========================================================================
@@ -103,15 +104,41 @@ function saveDB(key, dataObj) {
 
 /**
  * Hitung jumlah tanggal (record harian) yang tersimpan untuk 1 SOP.
- * Dipakai oleh dashboard untuk menampilkan badge jumlah data.
- *
  * @param {string} storageKey - Contoh: "db_sop_014"
- * @returns {number} Jumlah tanggal yang memiliki data.
+ * @returns {number}
  */
 function getSopRecordCount(storageKey) {
   if (typeof SopStorage === "undefined") return 0;
   const db = SopStorage.getSync(storageKey);
   return Object.keys(db).length;
+}
+
+/**
+ * Hitung statistik DRAFT vs SAVED untuk 1 SOP.
+ *
+ * Definisi:
+ *   - DRAFT  : record dengan status === "draft"  (masih editable)
+ *   - SAVED  : record dengan status "final" ATAU "verified" (sudah dikunci)
+ *
+ * Catatan: record tanpa field status (data lama / skema lain) tidak dihitung.
+ *
+ * @param {string} storageKey - Contoh: "db_sop_014"
+ * @returns {{draft: number, saved: number, total: number}}
+ */
+function getSopRecordStats(storageKey) {
+  if (typeof SopStorage === "undefined") {
+    return { draft: 0, saved: 0, total: 0 };
+  }
+  const db = SopStorage.getSync(storageKey);
+  let draft = 0;
+  let saved = 0;
+  for (const dateKey in db) {
+    const rec = db[dateKey];
+    if (!rec || typeof rec !== "object") continue;
+    if (rec.status === "draft") draft++;
+    else if (rec.status === "final" || rec.status === "verified") saved++;
+  }
+  return { draft, saved, total: draft + saved };
 }
 
 /* =========================================================================
@@ -229,8 +256,7 @@ function formatTanggalID(isoDate) {
 /**
  * Mendapatkan tanggal HARI INI dalam format "YYYY-MM-DD" berdasarkan
  * waktu LOKAL perangkat (bukan UTC).
- *
- * @returns {string} Contoh: "2026-09-21"
+ * @returns {string}
  */
 function getTodayLocalISO() {
   const d = new Date();

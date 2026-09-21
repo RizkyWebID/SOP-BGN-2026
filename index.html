@@ -51,31 +51,52 @@
         width: 13px;
         height: 13px;
       }
+
       /* =============================================================
-       * BADGE JUMLAH DATA — sudut kanan atas kartu SOP.
-       * Menampilkan berapa "hari" (tanggal) yang sudah tersimpan di
-       * localStorage untuk kategori SOP tersebut.
+       * BADGE DRAFT/SAVED — sudut kanan atas kartu SOP.
+       * Format teks: "<draft>/<saved>" mis. "3/1".
+       * Warna:
+       *   - .is-empty       → abu-abu  (0/0 atau draft == saved)
+       *   - .is-draft-heavy → orange   (draft > saved, ada PR)
+       *   - .is-save-heavy  → biru     (saved > draft, rapi/terkunci)
        * ============================================================= */
       .dash-count {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 30px;
+        min-width: 44px;
         height: 24px;
-        padding: 0 8px;
+        padding: 0 9px;
         border-radius: 12px;
         font-weight: 700;
         font-size: 11px;
+        letter-spacing: 0.3px;
         flex-shrink: 0;
-        background: #eef2ff; /* indigo-50 */
-        color: #4338ca; /* indigo-700 */
-        border: 1px solid #c7d2fe; /* indigo-200 */
+        border: 1px solid;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease,
+          border-color 0.2s ease;
       }
+      /* NETRAL — abu-abu (0/0 atau draft == saved) */
       .dash-count.is-empty {
         background: #f3f4f6; /* gray-100 */
         color: #9ca3af; /* gray-400 */
         border-color: #e5e7eb; /* gray-200 */
       }
+      /* DRAFT DOMINAN — orange */
+      .dash-count.is-draft-heavy {
+        background: #ffedd5; /* orange-100 */
+        color: #c2410c; /* orange-700 */
+        border-color: #fed7aa; /* orange-200 */
+      }
+      /* SAVED DOMINAN — biru muda (tema) */
+      .dash-count.is-save-heavy {
+        background: #dbeafe; /* blue-100 */
+        color: #1d4ed8; /* blue-700 */
+        border-color: #bfdbfe; /* blue-200 */
+      }
+
       /* Secret trigger di footer — aksesibilitas ditambah. */
       .secret-trigger {
         cursor: pointer;
@@ -176,6 +197,11 @@
           <span class="font-semibold text-amber-600">Mode Admin</span>
           (verifikasi & cetak dokumen).
         </p>
+        <p class="text-[11px] text-gray-500 leading-relaxed mt-2">
+          <span class="font-semibold text-orange-600">Badge angka</span> pada
+          tiap kartu menunjukkan <b>Draf / Tersimpan</b> — mis.
+          <span class="font-mono">3/1</span> berarti 3 draf dan 1 final.
+        </p>
       </div>
 
       <!-- =====================================================================
@@ -209,8 +235,8 @@
               <span
                 id="count-sop-014"
                 class="dash-count is-empty"
-                title="Jumlah hari tersimpan"
-                >0</span
+                title="Draf / Tersimpan"
+                >0/0</span
               >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
@@ -242,8 +268,8 @@
               <span
                 id="count-sop-015"
                 class="dash-count is-empty"
-                title="Jumlah hari tersimpan"
-                >0</span
+                title="Draf / Tersimpan"
+                >0/0</span
               >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
@@ -276,8 +302,8 @@
               <span
                 id="count-sop-026"
                 class="dash-count is-empty"
-                title="Jumlah hari tersimpan"
-                >0</span
+                title="Draf / Tersimpan"
+                >0/0</span
               >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
@@ -324,8 +350,8 @@
               <span
                 id="count-sop-040a"
                 class="dash-count is-empty"
-                title="Jumlah hari tersimpan"
-                >0</span
+                title="Draf / Tersimpan"
+                >0/0</span
               >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
@@ -358,8 +384,8 @@
               <span
                 id="count-sop-040b"
                 class="dash-count is-empty"
-                title="Jumlah hari tersimpan"
-                >0</span
+                title="Draf / Tersimpan"
+                >0/0</span
               >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
@@ -392,8 +418,8 @@
               <span
                 id="count-sop-040c"
                 class="dash-count is-empty"
-                title="Jumlah hari tersimpan"
-                >0</span
+                title="Draf / Tersimpan"
+                >0/0</span
               >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
@@ -425,8 +451,8 @@
               <span
                 id="count-sop-040d"
                 class="dash-count is-empty"
-                title="Jumlah hari tersimpan"
-                >0</span
+                title="Draf / Tersimpan"
+                >0/0</span
               >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
@@ -473,8 +499,8 @@
               <span
                 id="count-sop-017"
                 class="dash-count is-empty"
-                title="Jumlah hari tersimpan"
-                >0</span
+                title="Draf / Tersimpan"
+                >0/0</span
               >
             </div>
             <p class="text-xs text-gray-600 flex-grow">
@@ -543,7 +569,6 @@
 
       /* ---------------------------------------------------------------------
        * Peta: id kartu dashboard → key storage SOP.
-       * Digunakan untuk menghitung badge jumlah hari tersimpan.
        * ------------------------------------------------------------------- */
       const SOP_CARD_MAP = {
         "sop-014": "db_sop_014",
@@ -557,20 +582,31 @@
       };
 
       /**
-       * Menghitung ulang seluruh badge jumlah data per kartu SOP.
-       * Badge akan berwarna abu-abu jika 0, biru jika >0.
+       * Refresh seluruh badge draft/saved di kartu SOP.
+       *
+       * Aturan warna:
+       *   - draft > saved  → orange  (.is-draft-heavy)
+       *   - saved > draft  → biru    (.is-save-heavy)
+       *   - lainnya        → abu-abu (.is-empty)  [termasuk 0/0 & imbang]
        */
       function refreshDashboardCounts() {
         for (const cardId in SOP_CARD_MAP) {
           const el = document.getElementById("count-" + cardId);
           if (!el) continue;
-          const count = getSopRecordCount(SOP_CARD_MAP[cardId]);
-          el.textContent = count;
-          el.title = count + " hari tersimpan";
-          if (count > 0) {
-            el.classList.remove("is-empty");
+
+          const stats = getSopRecordStats(SOP_CARD_MAP[cardId]);
+          el.textContent = stats.draft + "/" + stats.saved;
+          el.title = stats.draft + " Draf · " + stats.saved + " Final";
+
+          // Reset class warna, lalu set ulang sesuai kondisi.
+          el.classList.remove("is-empty", "is-draft-heavy", "is-save-heavy");
+
+          if (stats.draft > stats.saved) {
+            el.classList.add("is-draft-heavy"); // orange — masih ada PR
+          } else if (stats.saved > stats.draft) {
+            el.classList.add("is-save-heavy"); // biru — rapi/terkunci
           } else {
-            el.classList.add("is-empty");
+            el.classList.add("is-empty"); // abu — netral
           }
         }
       }

@@ -3,45 +3,38 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SOP-014 - Laporan Kesesuaian Gramasi</title>
+    <title>SOP-014: Pemorsian & Pelabelan Ompreng</title>
 
-    <!-- Favicon (icon versi kecil dari logo) -->
     <link
       rel="icon"
       type="image/png"
       href="assets/logo/badan_gizi_nasional.png"
     />
-
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
 
-    <!-- ===================================================================
-       STYLE KHUSUS SOP-014 (8 kolom cetak)
-       =================================================================== -->
     <style>
       @media print {
-        /* Lebar kolom SOP-014 (8 kolom, total 100%) */
         #admin-view th:nth-child(1) {
           width: 5% !important;
-        } /* No - SERAGAM */
+        }
         #admin-view th:nth-child(2) {
           width: 23% !important;
-        } /* Komponen */
+        }
         #admin-view th:nth-child(3) {
           width: 13% !important;
-        } /* Standar */
+        }
         #admin-view th:nth-child(4),
         #admin-view th:nth-child(5),
         #admin-view th:nth-child(6) {
           width: 10% !important;
-        } /* S1/S2/S3 */
+        }
         #admin-view th:nth-child(7) {
           width: 11% !important;
-        } /* Rata-rata */
+        }
         #admin-view th:nth-child(8) {
           width: 18% !important;
-        } /* Keterangan */
-
+        }
         #admin-view td:nth-child(2),
         #admin-view td:nth-child(8) {
           text-align: left !important;
@@ -52,9 +45,7 @@
   </head>
 
   <body class="text-gray-800">
-    <!-- =====================================================================
-       TOPBAR
-       ===================================================================== -->
+    <!-- TOPBAR -->
     <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="font-bold text-sm sm:text-base flex items-center gap-2">
@@ -71,7 +62,7 @@
               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
             />
           </svg>
-          Laporan Kesesuaian Gramasi (SOP-014)
+          SOP-014: Pemorsian & Pelabelan Ompreng
         </div>
         <div class="flex gap-2">
           <button
@@ -95,11 +86,8 @@
     <div id="global-notif"></div>
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
-      <!-- ==================================================================
-         USER VIEW
-         ================================================================== -->
+      <!-- ================= USER VIEW ================= -->
       <div id="user-view" class="space-y-6 block">
-        <!-- [1] Informasi Umum -->
         <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h2 class="text-lg font-bold text-indigo-900 mb-4 border-b pb-2">
             Informasi Umum
@@ -155,15 +143,12 @@
           </div>
         </div>
 
-        <!-- [2] Banner status -->
         <div
           id="status-banner"
           class="hidden p-4 rounded-lg font-bold text-center text-xs"
         ></div>
 
-        <!-- [3] Grid utama -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <!-- FORM INPUT -->
           <div
             class="lg:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-200"
           >
@@ -268,7 +253,6 @@
             </form>
           </div>
 
-          <!-- TABEL USER -->
           <div
             class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col justify-between"
           >
@@ -325,11 +309,8 @@
         </div>
       </div>
 
-      <!-- ==================================================================
-         ADMIN VIEW — CETAK
-         ================================================================== -->
+      <!-- ================= ADMIN VIEW ================= -->
       <div id="admin-view" class="hidden sop-print-view">
-        <!-- Toolbar admin -->
         <div
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
         >
@@ -365,7 +346,6 @@
           </div>
         </div>
 
-        <!-- KOP HEADER -->
         <div class="flex mb-3">
           <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
@@ -401,7 +381,6 @@
           </div>
         </div>
 
-        <!-- Bingkai Informasi Umum -->
         <div
           class="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 border-2 border-black mb-3 text-xs print:text-[10pt] font-semibold"
         >
@@ -489,7 +468,6 @@
           </div>
         </div>
 
-        <!-- Tabel Utama Cetak -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
@@ -510,7 +488,6 @@
           </table>
         </div>
 
-        <!-- Keterangan -->
         <div
           class="text-[10px] print:text-[7pt] text-justify leading-tight mb-4"
         >
@@ -521,7 +498,6 @@
           >
         </div>
 
-        <!-- Area TTD -->
         <div
           class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
         >
@@ -542,15 +518,15 @@
               class="absolute bottom-0 left-0 w-full flex justify-center z-20"
             >
               <div
-                id="print_a_nama_jurutama"
+                id="print_a_nama_petugas"
                 class="hidden print:block w-[50%] text-center border-b border-black font-bold text-[10px] print:text-[8pt] pb-0.5 whitespace-normal break-words"
               ></div>
               <input
                 type="text"
-                id="a_nama_jurutama"
+                id="a_nama_petugas"
                 placeholder="Nama Jurutama Masak"
                 oninput="
-                  document.getElementById('print_a_nama_jurutama').innerText =
+                  document.getElementById('print_a_nama_petugas').innerText =
                     this.value
                 "
                 class="w-[50%] text-center border-b border-black bg-transparent font-bold focus:outline-none print:hidden text-[10px]"
@@ -637,7 +613,7 @@
           >
           <input
             type="text"
-            id="m_nama_jurutama"
+            id="m_nama_petugas"
             placeholder="Ketik nama Anda..."
             class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
             required
@@ -730,9 +706,6 @@
       </div>
     </div>
 
-    <!-- ===================================================================
-       SCRIPTS: shared → storage → SOP-specific
-       =================================================================== -->
     <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
 
@@ -740,24 +713,12 @@
       /* =====================================================================
        * SOP-014 - SCRIPT KHUSUS
        * ---------------------------------------------------------------------
-       * Fungsi utama (semua sudah didefinisikan di bawah):
-       *   - hitungRataRata()        : rata-rata 3 sampel
-       *   - getTodayData()          : ambil/init data 1 tanggal
-       *   - loadDataForDate()       : load data user
-       *   - renderUserTable()       : render tabel user
-       *   - tambahBarisGramasi()    : tambah komponen baru
-       *   - hapusBaris()            : hapus baris
-       *   - checkFormLockStatus()   : kunci form bila final/verified
-       *   - simpanDraftGlobal()     : simpan draft
-       *   - bukaModalTtdUser()      : buka modal ttd user
-       *   - simpanFinalLaporan()    : simpan final
-       *   - loadDataAdmin()         : load data admin + tabel cetak
-       *   - bukaModalTtdAdmin()     : buka modal verifikasi
-       *   - simpanVerifikasiAdmin() : simpan verifikasi
-       *
-       * CATATAN v3:
-       *   - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
-       *   - Semua data user yang dirender di-escape via escapeHtml/escapeAttr.
+       * v5: - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
+       *     - Semua data user di-escape via escapeHtml/escapeAttr.
+       *     - TTD dirender hanya jika lolos validasi data URL.
+       *     - User view SELALU tampil minimal MIN_ROWS baris (baris kosong
+       *       = tanpa tombol Hapus; siap tulis tangan jika dicetak).
+       *     - Field standar: nama_petugas / nama_pengawas / nama_kepala.
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_014";
@@ -766,7 +727,6 @@
       let currentDate = getTodayLocalISO();
       let currentRows = [];
 
-      /* ------- Life cycle ------- */
       window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("u_tanggal").value = currentDate;
         document.getElementById("a_tanggal_pilih").value = currentDate;
@@ -775,7 +735,6 @@
         loadDataForDate();
       });
 
-      /* ------- Hitung rata-rata 3 sampel ------- */
       function hitungRataRata(s1, s2, s3) {
         const vals = [parseFloat(s1), parseFloat(s2), parseFloat(s3)].filter(
           (v) => !isNaN(v),
@@ -785,7 +744,6 @@
         return (total / vals.length).toFixed(1);
       }
 
-      /* ------- Ambil/buat data hari ini ------- */
       function getTodayData(date) {
         const db = getDB(STORAGE_KEY);
         if (!db[date]) {
@@ -797,7 +755,7 @@
             rows: [],
             ttd_user: null,
             ttd_admin: null,
-            nama_jurutama: "",
+            nama_petugas: "",
             nama_pengawas: "",
             nama_kepala: "",
           };
@@ -805,7 +763,6 @@
         return db[date];
       }
 
-      /* ------- Load data user ------- */
       function loadDataForDate() {
         currentDate = document.getElementById("u_tanggal").value;
         const data = getTodayData(currentDate);
@@ -817,40 +774,72 @@
         checkFormLockStatus(data);
       }
 
-      /* ------- Render tabel user (dengan escape XSS) ------- */
+      /**
+       * Render tabel user: selalu tampilkan minimal MIN_ROWS baris.
+       * - Baris berisi data → tampil nilai + tombol Hapus (jika draft).
+       * - Baris kosong       → sel kosong, TANPA tombol Hapus.
+       * - Status final/verified → semua tombol Hapus disembunyikan.
+       */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
-        if (currentRows.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="9" class="p-4 text-center text-gray-400">Belum ada komponen menu. Gunakan form di sebelah kiri.</td></tr>`;
-          return;
+
+        const data = getTodayData(currentDate);
+        const locked = data.status === "final" || data.status === "verified";
+        const totalRows = Math.max(MIN_ROWS, currentRows.length);
+
+        for (let i = 0; i < totalRows; i++) {
+          const r = currentRows[i];
+          const hasData = !!r;
+
+          if (hasData) {
+            const rata = hitungRataRata(r.s1, r.s2, r.s3);
+            currentRows[i].rata = rata;
+
+            const aksiCell = locked
+              ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
+              : `<td class="p-2 border border-gray-300 text-center">
+                   <button type="button" onclick="hapusBaris(${i})"
+                     class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
+                 </td>`;
+
+            tbody.insertAdjacentHTML(
+              "beforeend",
+              `
+              <tr class="hover:bg-gray-50 border-b border-gray-200">
+                <td class="p-2 border border-gray-300 text-center font-bold">${i + 1}</td>
+                <td class="p-2 border border-gray-300 font-semibold text-gray-700">${escapeHtml(r.nama)}</td>
+                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.standar)}</td>
+                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s1 || "-")}</td>
+                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s2 || "-")}</td>
+                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s3 || "-")}</td>
+                <td class="p-2 border border-gray-300 text-center bg-indigo-50 font-bold text-indigo-700">${escapeHtml(rata || "-")}</td>
+                <td class="p-2 border border-gray-300">${escapeHtml(r.keterangan || "-")}</td>
+                ${aksiCell}
+              </tr>`,
+            );
+          } else {
+            // Baris kosong — siap tulis tangan, tanpa tombol Hapus
+            tbody.insertAdjacentHTML(
+              "beforeend",
+              `
+              <tr class="border-b border-gray-200">
+                <td class="p-2 border border-gray-300 text-center text-gray-400">${i + 1}</td>
+                <td class="p-2 border border-gray-300"></td>
+                <td class="p-2 border border-gray-300"></td>
+                <td class="p-2 border border-gray-300"></td>
+                <td class="p-2 border border-gray-300"></td>
+                <td class="p-2 border border-gray-300"></td>
+                <td class="p-2 border border-gray-300 bg-indigo-50"></td>
+                <td class="p-2 border border-gray-300"></td>
+                <td class="p-2 border border-gray-300"></td>
+              </tr>`,
+            );
+          }
         }
-        currentRows.forEach((row, idx) => {
-          const rata = hitungRataRata(row.s1, row.s2, row.s3);
-          currentRows[idx].rata = rata;
-          tbody.insertAdjacentHTML(
-            "beforeend",
-            `
-          <tr class="hover:bg-gray-50 border-b border-gray-200">
-            <td class="p-2 border border-gray-300 text-center font-bold">${idx + 1}</td>
-            <td class="p-2 border border-gray-300 font-semibold text-gray-700">${escapeHtml(row.nama)}</td>
-            <td class="p-2 border border-gray-300 text-center">${escapeHtml(row.standar)}</td>
-            <td class="p-2 border border-gray-300 text-center">${escapeHtml(row.s1 || "-")}</td>
-            <td class="p-2 border border-gray-300 text-center">${escapeHtml(row.s2 || "-")}</td>
-            <td class="p-2 border border-gray-300 text-center">${escapeHtml(row.s3 || "-")}</td>
-            <td class="p-2 border border-gray-300 text-center bg-indigo-50 font-bold text-indigo-700">${escapeHtml(rata || "-")}</td>
-            <td class="p-2 border border-gray-300">${escapeHtml(row.keterangan || "-")}</td>
-            <td class="p-2 border border-gray-300 text-center">
-              <button type="button" onclick="hapusBaris(${idx})"
-                class="text-red-600 hover:text-red-800 font-bold px-2 py-1 text-xs">Hapus</button>
-            </td>
-          </tr>`,
-          );
-        });
       }
 
-      /* ------- Tambah baris ------- */
       function tambahBarisGramasi(event) {
         event.preventDefault();
         const nama = document.getElementById("u_nama_komponen").value;
@@ -866,14 +855,12 @@
         showNotif("Komponen berhasil ditambahkan ke daftar.");
       }
 
-      /* ------- Hapus baris ------- */
       function hapusBaris(index) {
         currentRows.splice(index, 1);
         renderUserTable();
         showNotif("Komponen dihapus dari daftar.", "error");
       }
 
-      /* ------- Kunci form ------- */
       function checkFormLockStatus(data) {
         const banner = document.getElementById("status-banner");
         const inputs = document.querySelectorAll(
@@ -882,6 +869,7 @@
         const btnDraft = document.getElementById("btn-draft");
         const btnFinal = document.getElementById("btn-final");
         if (!banner) return;
+
         if (data.status === "verified") {
           banner.textContent =
             "LAPORAN TELAH DIVERIFIKASI OLEH PENGAWAS & TERKUNCI SEPENUHNYA";
@@ -906,7 +894,6 @@
         }
       }
 
-      /* ------- Simpan draft ------- */
       function simpanDraftGlobal() {
         const db = getDB(STORAGE_KEY);
         const data = getTodayData(currentDate);
@@ -921,7 +908,6 @@
         showNotif("Draft laporan berhasil disimpan.");
       }
 
-      /* ------- Buka modal ttd user ------- */
       function bukaModalTtdUser() {
         if (currentRows.length === 0)
           return alert("Belum ada data komponen menu yang diinput.");
@@ -933,16 +919,15 @@
         }, 100);
       }
 
-      /* ------- Simpan final ------- */
       function simpanFinalLaporan() {
         const canvasUser = document.getElementById("sig-user");
-        const namaJurutama = document.getElementById("m_nama_jurutama").value;
-        if (!namaJurutama) return alert("Mohon isi Nama Jurutama Masak.");
+        const nama = document.getElementById("m_nama_petugas").value;
+        if (!nama) return alert("Mohon isi Nama Jurutama Masak.");
         const db = getDB(STORAGE_KEY);
         const data = db[currentDate] || getTodayData(currentDate);
         data.ttd_user = canvasUser.toDataURL();
         data.status = "final";
-        data.nama_jurutama = namaJurutama;
+        data.nama_petugas = nama;
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
         closeModal("modal-ttd");
@@ -950,7 +935,6 @@
         showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
       }
 
-      /* ------- Load data admin (dengan escape XSS) ------- */
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
@@ -964,7 +948,7 @@
           rows: [],
           ttd_user: null,
           ttd_admin: null,
-          nama_jurutama: "",
+          nama_petugas: "",
           nama_pengawas: "",
           nama_kepala: "",
         };
@@ -974,10 +958,10 @@
         document.getElementById("print_a_menu").innerText = data.menu || "";
         document.getElementById("a_porsi").value = data.porsi || "";
         document.getElementById("print_a_porsi").innerText = data.porsi || "";
-        document.getElementById("a_nama_jurutama").value =
-          data.nama_jurutama || "";
-        document.getElementById("print_a_nama_jurutama").innerText =
-          data.nama_jurutama || "";
+        document.getElementById("a_nama_petugas").value =
+          data.nama_petugas || "";
+        document.getElementById("print_a_nama_petugas").innerText =
+          data.nama_petugas || "";
         document.getElementById("a_nama_pengawas").value =
           data.nama_pengawas || "";
         document.getElementById("print_a_nama_pengawas").innerText =
@@ -1001,37 +985,36 @@
             keterangan: "",
           });
         }
-        // Helper cell: output div (cetak) + input (edit) — keduanya di-escape.
+
         const cell = (val, cls = "text-center", id, bold = false) => `
-        <td class="border border-black p-0 relative">
-          <div class="hidden print:block w-full ${cls} whitespace-normal break-words ${bold ? "font-bold" : ""}">${escapeHtml(val)}</div>
-          ${
-            id
-              ? `<input type="text" id="${id}" value="${escapeAttr(val)}"
-            oninput="this.previousElementSibling.innerText = this.value"
-            class="w-full ${cls} bg-transparent print:hidden">`
-              : ""
-          }
-        </td>`;
+          <td class="border border-black p-0 relative">
+            <div class="hidden print:block w-full ${cls} whitespace-normal break-words ${bold ? "font-bold" : ""}">${escapeHtml(val)}</div>
+            ${
+              id
+                ? `<input type="text" id="${id}" value="${escapeAttr(val)}"
+              oninput="this.previousElementSibling.innerText = this.value"
+              class="w-full ${cls} bg-transparent print:hidden">`
+                : ""
+            }
+          </td>`;
 
         rowsToDisplay.forEach((r, idx) => {
           tbody.insertAdjacentHTML(
             "beforeend",
             `
-          <tr>
-            <td class="border border-black p-1 text-center font-bold">${idx + 1}</td>
-            ${cell(r.nama, "text-left pl-2", `a_nama_${idx}`, true)}
-            ${cell(r.standar, "text-center", `a_standar_${idx}`)}
-            ${cell(r.s1, "text-center", `a_s1_${idx}`)}
-            ${cell(r.s2, "text-center", `a_s2_${idx}`)}
-            ${cell(r.s3, "text-center", `a_s3_${idx}`)}
-            ${cell(r.rata, "text-center", `a_rata_${idx}`, true)}
-            ${cell(r.keterangan, "text-left px-1", `a_ket_${idx}`)}
-          </tr>`,
+            <tr>
+              <td class="border border-black p-1 text-center font-bold">${idx + 1}</td>
+              ${cell(r.nama, "text-left pl-2", `a_nama_${idx}`, true)}
+              ${cell(r.standar, "text-center", `a_standar_${idx}`)}
+              ${cell(r.s1, "text-center", `a_s1_${idx}`)}
+              ${cell(r.s2, "text-center", `a_s2_${idx}`)}
+              ${cell(r.s3, "text-center", `a_s3_${idx}`)}
+              ${cell(r.rata, "text-center", `a_rata_${idx}`, true)}
+              ${cell(r.keterangan, "text-left px-1", `a_ket_${idx}`)}
+            </tr>`,
           );
         });
 
-        // Render TTD user — escape + validasi data URL
         const sigUser = document.getElementById("a_render_sig_user");
         if (sigUser) {
           sigUser.innerHTML =
@@ -1059,7 +1042,6 @@
         }
       }
 
-      /* ------- Buka modal ttd admin ------- */
       function bukaModalTtdAdmin() {
         const mInput = document.getElementById("m_nama_pengawas");
         const aInput = document.getElementById("a_nama_pengawas");
@@ -1071,7 +1053,6 @@
         }, 100);
       }
 
-      /* ------- Simpan verifikasi admin ------- */
       function simpanVerifikasiAdmin() {
         const canvasAdmin = document.getElementById("sig-admin");
         const namaPengawas = document.getElementById("m_nama_pengawas").value;
@@ -1082,7 +1063,7 @@
         data.shift = document.getElementById("a_shift").value;
         data.menu = document.getElementById("a_menu").value;
         data.porsi = document.getElementById("a_porsi").value;
-        data.nama_jurutama = document.getElementById("a_nama_jurutama").value;
+        data.nama_petugas = document.getElementById("a_nama_petugas").value;
         data.nama_pengawas = namaPengawas;
         data.nama_kepala = document.getElementById("a_nama_kepala").value;
         data.ttd_admin = canvasAdmin.toDataURL();
