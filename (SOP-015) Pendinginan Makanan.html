@@ -358,6 +358,12 @@
                 <table
                   class="w-full text-xs text-left border-collapse border border-gray-300"
                 >
+                  <!--
+                    Header tabel dengan warna kelompok (standar acuan):
+                    - Mulai Resting   → bg-amber-50
+                    - Selesai Resting → bg-blue-50
+                    - Durasi          → bg-green-50
+                  -->
                   <thead
                     class="bg-gray-100 text-gray-700 font-semibold text-center"
                   >
@@ -875,12 +881,16 @@
       /* =====================================================================
        * SOP-015 - SCRIPT KHUSUS
        * ---------------------------------------------------------------------
-       * v5: - currentDate pakai getTodayLocalISO().
-       *     - Semua data user di-escape.
-       *     - TTD divalidasi sebelum render.
-       *     - User view SELALU tampil MIN_ROWS baris; tombol Hapus hanya
-       *       di baris berisi data & saat status=draft.
-       *     - Field standar: nama_petugas / nama_pengawas / nama_kepala.
+       * v6 (koreksi):
+       *   - User view KEMBALI ke perilaku asli: hanya tampil baris berisi
+       *     data. Jika kosong → tampil pesan "Belum ada proses resting...".
+       *   - Baris kosong 10 (MIN_ROWS) HANYA di render di ADMIN VIEW.
+       *   - Header tabel user view: warna kelompok sesuai standar acuan
+       *     (Mulai = amber-50, Selesai = blue-50, Durasi = green-50).
+       *   - Tanda tangan divalidasi data URL sebelum render.
+       *   - Tombol Hapus berubah 🔒 saat status final/verified.
+       *   - currentDate pakai getTodayLocalISO().
+       *   - Field TTD: nama_petugas / nama_pengawas / nama_kepala.
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_015";
@@ -939,73 +949,51 @@
       }
 
       /**
-       * Render tabel user: selalu tampil minimal MIN_ROWS baris.
-       * - Baris berisi data → nilai + tombol Hapus (jika draft).
-       * - Baris kosong       → sel kosong, TANPA tombol Hapus.
-       * - Status final/verified → tombol Hapus disembunyikan (🔒).
+       * Render tabel USER VIEW: HANYA baris berisi data.
+       * - Jika kosong → pesan "Belum ada proses resting...".
+       * - Baris berisi → nilai + tombol Hapus (jika draft) atau 🔒 (locked).
        */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
 
+        if (currentRows.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="13" class="p-4 text-center text-gray-400 italic">Belum ada proses resting yang dicatat hari ini.</td></tr>`;
+          return;
+        }
+
         const data = getTodayData(currentDate);
         const locked = data.status === "final" || data.status === "verified";
-        const totalRows = Math.max(MIN_ROWS, currentRows.length);
 
-        for (let i = 0; i < totalRows; i++) {
-          const r = currentRows[i];
-          const hasData = !!r;
+        currentRows.forEach((r, idx) => {
+          const aksiCell = locked
+            ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
+            : `<td class="p-2 border border-gray-300 text-center">
+                 <button type="button" onclick="hapusBarisProses(${idx})"
+                   class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
+               </td>`;
 
-          if (hasData) {
-            const aksiCell = locked
-              ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
-              : `<td class="p-2 border border-gray-300 text-center">
-                   <button type="button" onclick="hapusBarisProses(${i})"
-                     class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
-                 </td>`;
-
-            tbody.insertAdjacentHTML(
-              "beforeend",
-              `
-              <tr class="hover:bg-gray-50 border-b border-gray-200">
-                <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${i + 1}</td>
-                <td class="p-2 border border-gray-300 text-center font-bold">${escapeHtml(r.tahap)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.jenis)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.nama)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.porsi_prod)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.m_pukul)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.m_suhu)}°C</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s_pukul)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s_suhu)}°C</td>
-                <td class="p-2 border border-gray-300 text-center font-bold text-green-700">${escapeHtml(r.durasi || "0")}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.suhu_ruang || "-")}°C</td>
-                <td class="p-2 border border-gray-300 text-left pl-2">${escapeHtml(r.ket || "-")}</td>
-                ${aksiCell}
-              </tr>`,
-            );
-          } else {
-            tbody.insertAdjacentHTML(
-              "beforeend",
-              `
-              <tr class="border-b border-gray-200">
-                <td class="p-2 border border-gray-300 text-center text-gray-400">${i + 1}</td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-              </tr>`,
-            );
-          }
-        }
+          tbody.insertAdjacentHTML(
+            "beforeend",
+            `
+            <tr class="hover:bg-gray-50 border-b border-gray-200">
+              <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
+              <td class="p-2 border border-gray-300 text-center font-bold">${escapeHtml(r.tahap)}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.jenis)}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.nama)}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.porsi_prod)}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.m_pukul)}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.m_suhu)}°C</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s_pukul)}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s_suhu)}°C</td>
+              <td class="p-2 border border-gray-300 text-center font-bold text-green-700">${escapeHtml(r.durasi || "0")}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.suhu_ruang || "-")}°C</td>
+              <td class="p-2 border border-gray-300 text-left pl-2">${escapeHtml(r.ket || "-")}</td>
+              ${aksiCell}
+            </tr>`,
+          );
+        });
       }
 
       function tambahBarisProses(e) {

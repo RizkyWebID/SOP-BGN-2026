@@ -3,25 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SOP-040B - Logbook Pemantauan Kesehatan Personil</title>
+    <title>SOP-040B: Logbook Kesehatan Personil</title>
 
-    <!-- Favicon -->
     <link
       rel="icon"
       type="image/png"
       href="assets/logo/badan_gizi_nasional.png"
     />
-
-    <!-- Tailwind CDN untuk utility layout -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Shared stylesheet global -->
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
 
-    <!-- ===================================================================
-       STYLE KHUSUS SOP-040B (7 kolom cetak)
-       Kolom "No." SERAGAM = 5% (tabel <10 kolom)
-       =================================================================== -->
     <style>
       @media print {
         #admin-view table {
@@ -36,35 +27,31 @@
           word-wrap: break-word !important;
           white-space: normal !important;
         }
-
-        /* Lebar 7 Kolom Cetak SOP-040B (total = 100%) */
         #admin-view th:nth-child(1) {
           width: 5% !important;
-        } /* No — SERAGAM */
+        }
         #admin-view th:nth-child(2) {
           width: 18% !important;
-        } /* Nama */
+        }
         #admin-view th:nth-child(3) {
           width: 14% !important;
-        } /* Jabatan */
+        }
         #admin-view th:nth-child(4) {
           width: 15% !important;
-        } /* Gejala */
+        }
         #admin-view th:nth-child(5) {
           width: 8% !important;
-        } /* Suhu */
+        }
         #admin-view th:nth-child(6) {
           width: 26% !important;
-        } /* Tindak Lanjut */
+        }
         #admin-view th:nth-child(7) {
           width: 14% !important;
-        } /* Tgl Kembali */
-
+        }
         #admin-view td:nth-child(2) {
           text-align: left !important;
           padding-left: 5px !important;
         }
-
         #admin-view td input {
           display: none !important;
         }
@@ -113,11 +100,8 @@
     <div id="global-notif"></div>
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
-      <!-- ==================================================================
-         USER VIEW
-         ================================================================== -->
+      <!-- ================= USER VIEW ================= -->
       <div id="user-view" class="space-y-6 block">
-        <!-- [1] Informasi Umum -->
         <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h2 class="text-lg font-bold text-indigo-900 mb-4 border-b pb-2">
             Informasi Umum
@@ -173,15 +157,12 @@
           </div>
         </div>
 
-        <!-- [2] Banner status -->
         <div
           id="status-banner"
           class="hidden p-4 rounded-lg font-bold text-center text-xs"
         ></div>
 
-        <!-- [3] Grid utama -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <!-- FORM INPUT KELUHAN -->
           <div
             class="lg:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-200"
           >
@@ -286,7 +267,6 @@
             </form>
           </div>
 
-          <!-- TABEL HASIL INPUT USER -->
           <div
             class="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border border-gray-200 flex flex-col justify-between"
           >
@@ -300,6 +280,7 @@
                 <table
                   class="w-full text-xs text-left border-collapse border border-gray-300"
                 >
+                  <!-- Header: Suhu=amber, Gejala=amber, Tindak=blue, Tgl=green -->
                   <thead
                     class="bg-gray-100 text-gray-700 font-semibold text-center"
                   >
@@ -309,16 +290,22 @@
                         Nama
                       </th>
                       <th class="p-2 border border-gray-300">Jabatan</th>
-                      <th class="p-2 border border-gray-300">Gejala</th>
-                      <th class="p-2 border border-gray-300">Suhu</th>
-                      <th class="p-2 border border-gray-300">Tindak Lanjut</th>
-                      <th class="p-2 border border-gray-300">Tgl Kembali</th>
+                      <th class="p-2 border border-gray-300 bg-amber-50">
+                        Gejala
+                      </th>
+                      <th class="p-2 border border-gray-300 bg-amber-50">
+                        Suhu
+                      </th>
+                      <th class="p-2 border border-gray-300 bg-blue-50">
+                        Tindak Lanjut
+                      </th>
+                      <th class="p-2 border border-gray-300 bg-green-50">
+                        Tgl Kembali
+                      </th>
                       <th class="p-2 border border-gray-300 w-12">Aksi</th>
                     </tr>
                   </thead>
-                  <tbody id="u_table_body">
-                    <!-- Diisi oleh renderUserTable() -->
-                  </tbody>
+                  <tbody id="u_table_body"></tbody>
                 </table>
               </div>
             </div>
@@ -344,9 +331,7 @@
         </div>
       </div>
 
-      <!-- ==================================================================
-         ADMIN VIEW — CETAK
-         ================================================================== -->
+      <!-- ================= ADMIN VIEW ================= -->
       <div id="admin-view" class="hidden sop-print-view">
         <div
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
@@ -383,7 +368,6 @@
           </div>
         </div>
 
-        <!-- KOP HEADER SOP-040B -->
         <div class="flex mb-3">
           <div class="flex items-center justify-center p-2 w-1/5">
             <div class="flex flex-col items-center">
@@ -394,9 +378,8 @@
               />
               <span
                 class="text-[9px] print:text-[8pt] font-bold text-center leading-tight uppercase"
+                >Badan Gizi Nasional</span
               >
-                Badan Gizi Nasional
-              </span>
             </div>
           </div>
           <div
@@ -420,7 +403,6 @@
           </div>
         </div>
 
-        <!-- Bingkai Informasi Umum -->
         <div
           class="grid grid-cols-1 sm:grid-cols-2 print:grid-cols-2 border-2 border-black mb-3 text-xs print:text-[10pt] font-semibold"
         >
@@ -508,7 +490,6 @@
           </div>
         </div>
 
-        <!-- Tabel Utama Cetak (7 kolom) -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
@@ -524,23 +505,10 @@
                 <th class="border border-black p-1">Tgl Kembali Bekerja</th>
               </tr>
             </thead>
-            <tbody id="a_table_body">
-              <!-- Diisi oleh loadDataAdmin() -->
-            </tbody>
+            <tbody id="a_table_body"></tbody>
           </table>
         </div>
 
-        <!-- ==================================================================
-           KETERANGAN — default dikomentari karena SOP-040B tidak punya
-           keterangan native. Aktifkan kembali jika diperlukan.
-           ==================================================================
-      <div class="text-[10px] print:text-[7pt] text-justify leading-tight mb-4">
-        <span class="font-bold underline">Keterangan:</span>
-        <span>Pastikan setiap laporan sudah diverifikasi.</span>
-      </div>
-      -->
-
-        <!-- Area TTD Seragam -->
         <div
           class="grid grid-cols-3 gap-2 mt-6 text-[11px] print:text-[9pt] page-break-inside-avoid"
         >
@@ -566,7 +534,7 @@
               ></div>
               <input
                 type="text"
-                id="a_nama_user"
+                id="a_nama_petugas"
                 placeholder="Nama Petugas Jaga"
                 oninput="
                   document.getElementById('print_a_nama_petugas').innerText =
@@ -576,7 +544,6 @@
               />
             </div>
           </div>
-
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -609,7 +576,6 @@
               />
             </div>
           </div>
-
           <div class="relative w-full h-32">
             <div
               class="absolute top-0 left-0 w-full text-center z-10 pointer-events-none"
@@ -664,7 +630,7 @@
           >
           <input
             type="text"
-            id="m_nama_user"
+            id="m_nama_petugas"
             placeholder="Ketik nama Anda..."
             class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none"
             required
@@ -759,32 +725,21 @@
       </div>
     </div>
 
-    <!-- ===================================================================
-       SCRIPTS: storage → shared → SOP-specific
-       =================================================================== -->
     <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
 
-    <!-- ===================================================================
-       SCRIPT KHUSUS SOP-040B
-       =================================================================== -->
     <script>
       /* =====================================================================
        * SOP-040B - SCRIPT KHUSUS (Logbook Kesehatan Personil)
        * ---------------------------------------------------------------------
-       * MIN_ROWS = 8 (lebih sedikit dari SOP lain, karena logbook jarang
-       * diisi lebih dari 8 baris per hari).
-       *
-       * CATATAN v3:
-       *   - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
-       *   - Semua data user (nama, jabatan, gejala, tindak, tgl_kembali)
-       *     di-escape via escapeHtml/escapeAttr.
-       *   - Field khusus: input "suhu" di tabel admin memakai oninput
-       *     custom untuk menambahkan simbol "°C" secara otomatis.
-       *   - TTD dirender hanya jika lolos validasi data URL (anti-XSS).
-       *   - ⚠️ CATATAN: nama field TTD user memakai "nama_user" (bukan
-       *     "nama_petugas" seperti SOP-040A/C/D). Perlu dicross-check
-       *     ke depannya untuk konsistensi skema.
+       * v6:
+       *   - User view HANYA baris berisi.
+       *   - Header: Gejala/Suhu=amber-50, Tindak=blue-50, Tgl=green-50.
+       *   - Admin view tampil MIN_ROWS baris.
+       *   - Tombol Hapus → 🔒 saat locked.
+       *   - Field TTD: nama_petugas (dulu nama_user).
+       *   - Field khusus: input "suhu" di tabel admin menambah °C otomatis.
+       *   - currentDate pakai getTodayLocalISO().
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_040_2";
@@ -793,7 +748,6 @@
       let currentDate = getTodayLocalISO();
       let currentRows = [];
 
-      /* ------- Life cycle ------- */
       window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("u_tanggal").value = currentDate;
         document.getElementById("a_tanggal_pilih").value = currentDate;
@@ -802,9 +756,6 @@
         loadDataForDate();
       });
 
-      /* =====================================================================
-       * AMBIL/BUAT DATA HARI INI
-       * ===================================================================== */
       function getTodayData(date) {
         const db = getDB(STORAGE_KEY);
         if (!db[date]) {
@@ -816,7 +767,7 @@
             rows: [],
             ttd_user: null,
             ttd_admin: null,
-            nama_user: "",
+            nama_petugas: "",
             nama_pengawas: "",
             nama_kepala: "Rizky Arinanda. AR, S.Kom",
           };
@@ -824,26 +775,17 @@
         return db[date];
       }
 
-      /* =====================================================================
-       * LOAD DATA UNTUK TANGGAL (MODE USER)
-       * ===================================================================== */
       function loadDataForDate() {
         currentDate = document.getElementById("u_tanggal").value;
         const data = getTodayData(currentDate);
-
         document.getElementById("u_shift").value = data.shift || "";
         document.getElementById("u_menu").value = data.menu || "";
         document.getElementById("u_porsi").value = data.porsi || "";
-
         currentRows = data.rows || [];
         renderUserTable();
         checkFormLockStatus(data);
       }
 
-      /* =====================================================================
-       * RENDER TABEL LOGBOOK (MODE USER)
-       * - Semua nilai data user di-escape.
-       * ===================================================================== */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
@@ -854,30 +796,34 @@
           return;
         }
 
+        const data = getTodayData(currentDate);
+        const locked = data.status === "final" || data.status === "verified";
+
         currentRows.forEach((r, idx) => {
+          const aksiCell = locked
+            ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
+            : `<td class="p-2 border border-gray-300 text-center">
+                 <button type="button" onclick="hapusBarisProses(${idx})"
+                   class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
+               </td>`;
+
           tbody.insertAdjacentHTML(
             "beforeend",
             `
-          <tr class="hover:bg-gray-50 border-b border-gray-200">
-            <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
-            <td class="p-2 border border-gray-300 font-semibold">${escapeHtml(r.nama)}</td>
-            <td class="p-2 border border-gray-300">${escapeHtml(r.jabatan)}</td>
-            <td class="p-2 border border-gray-300">${escapeHtml(r.gejala)}</td>
-            <td class="p-2 border border-gray-300 text-center">${r.suhu ? escapeHtml(r.suhu) + "°C" : ""}</td>
-            <td class="p-2 border border-gray-300">${escapeHtml(r.tindak)}</td>
-            <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.tgl_kembali || "-")}</td>
-            <td class="p-2 border border-gray-300 text-center">
-              <button type="button" onclick="hapusBarisProses(${idx})"
-                class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
-            </td>
-          </tr>`,
+            <tr class="hover:bg-gray-50 border-b border-gray-200">
+              <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
+              <td class="p-2 border border-gray-300 font-semibold">${escapeHtml(r.nama)}</td>
+              <td class="p-2 border border-gray-300">${escapeHtml(r.jabatan)}</td>
+              <td class="p-2 border border-gray-300 bg-amber-50">${escapeHtml(r.gejala)}</td>
+              <td class="p-2 border border-gray-300 text-center bg-amber-50">${r.suhu ? escapeHtml(r.suhu) + "°C" : ""}</td>
+              <td class="p-2 border border-gray-300 bg-blue-50">${escapeHtml(r.tindak)}</td>
+              <td class="p-2 border border-gray-300 text-center bg-green-50">${escapeHtml(r.tgl_kembali || "-")}</td>
+              ${aksiCell}
+            </tr>`,
           );
         });
       }
 
-      /* =====================================================================
-       * TAMBAH BARIS LOGBOOK BARU
-       * ===================================================================== */
       function tambahBarisProses(e) {
         e.preventDefault();
         const data = getTodayData(currentDate);
@@ -895,13 +841,10 @@
 
         renderUserTable();
         document.getElementById("form-input-baris").reset();
-        document.getElementById("u_suhu").value = 36.5; // Reset default
+        document.getElementById("u_suhu").value = 36.5;
         showNotif("Logbook ditambahkan.");
       }
 
-      /* =====================================================================
-       * HAPUS BARIS
-       * ===================================================================== */
       function hapusBarisProses(index) {
         const data = getTodayData(currentDate);
         if (data.status === "final" || data.status === "verified")
@@ -911,9 +854,6 @@
         showNotif("Baris logbook dihapus.", "error");
       }
 
-      /* =====================================================================
-       * CEK STATUS KUNCI FORM
-       * ===================================================================== */
       function checkFormLockStatus(data) {
         const banner = document.getElementById("status-banner");
         const inputs = document.querySelectorAll(
@@ -947,28 +887,20 @@
         }
       }
 
-      /* =====================================================================
-       * SIMPAN DRAFT
-       * ===================================================================== */
       function simpanDraftGlobal() {
         const db = getDB(STORAGE_KEY);
         const data = getTodayData(currentDate);
         if (data.status === "final" || data.status === "verified")
           return showNotif("Laporan sudah terkunci!", "error");
-
         data.shift = document.getElementById("u_shift").value;
         data.menu = document.getElementById("u_menu").value;
         data.porsi = document.getElementById("u_porsi").value;
         data.rows = currentRows;
-
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
         showNotif("Draft logbook tersimpan.");
       }
 
-      /* =====================================================================
-       * BUKA MODAL TTD USER
-       * ===================================================================== */
       function bukaModalTtdUser() {
         if (currentRows.length === 0)
           return alert("Isi data keluhan/kondisi terlebih dahulu.");
@@ -980,20 +912,15 @@
         }, 100);
       }
 
-      /* =====================================================================
-       * SIMPAN FINAL LAPORAN USER
-       * ===================================================================== */
       function simpanFinalLaporan() {
         const canvasUser = document.getElementById("sig-user");
-        const nama = document.getElementById("m_nama_user").value;
+        const nama = document.getElementById("m_nama_petugas").value;
         if (!nama) return alert("Mohon isi Nama Petugas Jaga.");
-
         const db = getDB(STORAGE_KEY);
         const data = db[currentDate];
         data.ttd_user = canvasUser.toDataURL();
         data.status = "final";
-        data.nama_user = nama;
-
+        data.nama_petugas = nama;
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
         closeModal("modal-ttd");
@@ -1001,17 +928,11 @@
         showNotif("Laporan Final Berhasil Dikunci!");
       }
 
-      /* =====================================================================
-       * LOAD DATA MODE ADMIN (TABEL CETAK)
-       * - Cell helper di-escape; khusus field "suhu", oninput menambahkan °C.
-       * ===================================================================== */
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
-
         document.getElementById("a_tanggal_txt").textContent =
           formatTanggalID(dateStr);
-
         const data = db[dateStr] || {
           shift: "",
           menu: "",
@@ -1020,46 +941,40 @@
           rows: [],
           ttd_user: null,
           ttd_admin: null,
-          nama_user: "",
+          nama_petugas: "",
           nama_pengawas: "",
           nama_kepala: "Rizky Arinanda. AR, S.Kom",
         };
-
         document.getElementById("a_shift").value = data.shift || "";
         document.getElementById("print_a_shift").innerText = data.shift || "";
         document.getElementById("a_menu").value = data.menu || "";
         document.getElementById("print_a_menu").innerText = data.menu || "";
         document.getElementById("a_porsi").value = data.porsi || "";
         document.getElementById("print_a_porsi").innerText = data.porsi || "";
-
-        document.getElementById("a_nama_user").value = data.nama_user || "";
+        document.getElementById("a_nama_petugas").value =
+          data.nama_petugas || "";
         document.getElementById("print_a_nama_petugas").innerText =
-          data.nama_user || "";
+          data.nama_petugas || "";
         document.getElementById("a_nama_pengawas").value =
           data.nama_pengawas || "";
         document.getElementById("print_a_nama_pengawas").innerText =
           data.nama_pengawas || "";
-
         const kepala = data.nama_kepala || "Rizky Arinanda. AR, S.Kom";
         document.getElementById("a_nama_kepala").value = kepala;
         document.getElementById("print_a_nama_kepala").innerText = kepala;
 
-        /* ---- Render tabel admin ---- */
         const rowCount = Math.max(MIN_ROWS, data.rows.length);
         const tbody = document.getElementById("a_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
 
-        /** Helper inline: buat sel dual-element.
-         *  - Parameter oninput kustom untuk field "suhu" (menambah °C).
-         *  - Semua nilai di-escape agar aman dari XSS. */
         const cell = (id, val, cls = "text-center", oninput) => `
-        <td class="border border-black p-0 relative">
-          <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${escapeHtml(val)}</div>
-          <input type="text" id="${id}" value="${escapeAttr(val)}"
-            oninput="${oninput || "this.previousElementSibling.innerText = this.value"}"
-            class="w-full ${cls} bg-transparent print:hidden">
-        </td>`;
+          <td class="border border-black p-0 relative">
+            <div class="hidden print:block w-full ${cls} whitespace-normal break-words">${escapeHtml(val)}</div>
+            <input type="text" id="${id}" value="${escapeAttr(val)}"
+              oninput="${oninput || "this.previousElementSibling.innerText = this.value"}"
+              class="w-full ${cls} bg-transparent print:hidden">
+          </td>`;
 
         for (let i = 1; i <= rowCount; i++) {
           const r = data.rows[i - 1] || {
@@ -1075,24 +990,23 @@
           tbody.insertAdjacentHTML(
             "beforeend",
             `
-          <tr>
-            <td class="border border-black p-0.5 font-bold text-center">${i}</td>
-            ${cell(`a_nama_${i}`, r.nama, "text-left pl-2 font-bold")}
-            ${cell(`a_jabatan_${i}`, r.jabatan)}
-            ${cell(`a_gejala_${i}`, r.gejala)}
-            ${cell(
-              `a_suhu_${i}`,
-              suhuTeks,
-              "text-center",
-              `this.previousElementSibling.innerText = this.value ? this.value + '\u00B0C' : ''`,
-            )}
-            ${cell(`a_tindak_${i}`, r.tindak)}
-            ${cell(`a_tgl_${i}`, r.tgl_kembali)}
-          </tr>`,
+            <tr>
+              <td class="border border-black p-0.5 font-bold text-center">${i}</td>
+              ${cell(`a_nama_${i}`, r.nama, "text-left pl-2 font-bold")}
+              ${cell(`a_jabatan_${i}`, r.jabatan)}
+              ${cell(`a_gejala_${i}`, r.gejala)}
+              ${cell(
+                `a_suhu_${i}`,
+                suhuTeks,
+                "text-center",
+                `this.previousElementSibling.innerText = this.value ? this.value + '\u00B0C' : ''`,
+              )}
+              ${cell(`a_tindak_${i}`, r.tindak)}
+              ${cell(`a_tgl_${i}`, r.tgl_kembali)}
+            </tr>`,
           );
         }
 
-        /* ---- Tanda tangan user (validasi data URL) ---- */
         const sigUser = document.getElementById("a_render_sig_user");
         if (sigUser) {
           sigUser.innerHTML =
@@ -1101,7 +1015,6 @@
               : "";
         }
 
-        /* ---- Kontrol tombol ---- */
         const btnVerif = document.getElementById("btn-verifikasi-admin");
         const btnPrint = document.getElementById("btn-print-admin");
         const sigAdmin = document.getElementById("a_render_sig_admin");
@@ -1125,9 +1038,6 @@
         }
       }
 
-      /* =====================================================================
-       * BUKA MODAL VERIFIKASI ADMIN
-       * ===================================================================== */
       function bukaModalTtdAdmin() {
         const mInput = document.getElementById("m_nama_pengawas");
         const aInput = document.getElementById("a_nama_pengawas");
@@ -1139,16 +1049,10 @@
         }, 100);
       }
 
-      /* =====================================================================
-       * SIMPAN VERIFIKASI ADMIN
-       * - Catatan: field tanggal kembali memakai id "a_tgl_<i>" (bukan
-       *   a_tgl_kembali_<i>), jadi perlu diperlakukan khusus saat membaca.
-       * ===================================================================== */
       function simpanVerifikasiAdmin() {
         const canvasAdmin = document.getElementById("sig-admin");
         const namaPengawas = document.getElementById("m_nama_pengawas").value;
         if (!namaPengawas) return alert("Mohon isi Nama Asisten Lapangan.");
-
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
         const data = db[dateStr] || getTodayData(dateStr);
@@ -1161,7 +1065,6 @@
               const el = document.getElementById(`a_${f}_${i}`);
               if (el) r[f] = el.value;
             });
-            // Field tanggal kembali memakai id "a_tgl_<i>"
             const elTgl = document.getElementById(`a_tgl_${i}`);
             if (elTgl) r.tgl_kembali = elTgl.value;
           });
@@ -1170,12 +1073,11 @@
         data.shift = document.getElementById("a_shift").value;
         data.menu = document.getElementById("a_menu").value;
         data.porsi = document.getElementById("a_porsi").value;
-        data.nama_user = document.getElementById("a_nama_user").value;
+        data.nama_petugas = document.getElementById("a_nama_petugas").value;
         data.nama_pengawas = namaPengawas;
         data.nama_kepala = document.getElementById("a_nama_kepala").value;
         data.ttd_admin = canvasAdmin.toDataURL();
         data.status = "verified";
-
         db[dateStr] = data;
         saveDB(STORAGE_KEY, db);
         closeModal("modal-ttd-admin");

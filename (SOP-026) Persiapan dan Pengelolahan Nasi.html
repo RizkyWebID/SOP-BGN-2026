@@ -307,18 +307,38 @@
                 <table
                   class="w-full text-xs text-left border-collapse border border-gray-300"
                 >
+                  <!--
+                    Header tabel dengan warna kelompok:
+                    - Beras, Air, Suhu  → bg-amber-50 (input data mentah)
+                    - Mulai, Selesai    → bg-blue-50  (waktu proses)
+                    - Warna, Tekstur    → bg-green-50 (kondisi hasil)
+                  -->
                   <thead
                     class="bg-gray-100 text-gray-700 font-semibold text-center"
                   >
                     <tr>
                       <th class="p-2 border border-gray-300 w-8">No</th>
-                      <th class="p-2 border border-gray-300">Beras (g)</th>
-                      <th class="p-2 border border-gray-300">Air (ml)</th>
-                      <th class="p-2 border border-gray-300">Mulai</th>
-                      <th class="p-2 border border-gray-300">Selesai</th>
-                      <th class="p-2 border border-gray-300">Suhu (°C)</th>
-                      <th class="p-2 border border-gray-300">Warna</th>
-                      <th class="p-2 border border-gray-300">Tekstur</th>
+                      <th class="p-2 border border-gray-300 bg-amber-50">
+                        Beras (g)
+                      </th>
+                      <th class="p-2 border border-gray-300 bg-amber-50">
+                        Air (ml)
+                      </th>
+                      <th class="p-2 border border-gray-300 bg-blue-50">
+                        Mulai
+                      </th>
+                      <th class="p-2 border border-gray-300 bg-blue-50">
+                        Selesai
+                      </th>
+                      <th class="p-2 border border-gray-300 bg-amber-50">
+                        Suhu (°C)
+                      </th>
+                      <th class="p-2 border border-gray-300 bg-green-50">
+                        Warna
+                      </th>
+                      <th class="p-2 border border-gray-300 bg-green-50">
+                        Tekstur
+                      </th>
                       <th class="p-2 border border-gray-300">Catatan</th>
                       <th class="p-2 border border-gray-300 w-12">Aksi</th>
                     </tr>
@@ -757,14 +777,16 @@
       /* =====================================================================
        * SOP-026 - SCRIPT KHUSUS
        * ---------------------------------------------------------------------
-       * v5: - currentDate pakai getTodayLocalISO().
-       *     - Semua data user di-escape.
-       *     - TTD divalidasi.
-       *     - 🐛 FIX v3: kolom user view sebelumnya terbalik (Mulai/Selesai
-       *       di depan Beras/Air). Sekarang sudah sinkron dengan header.
-       *     - User view SELALU tampil MIN_ROWS baris; tombol Hapus hanya
-       *       di baris berisi data & saat status=draft.
-       *     - Field standar: nama_petugas / nama_pengawas / nama_kepala.
+       * v6:
+       *   - User view HANYA tampil baris berisi data.
+       *   - Header user view: Beras/Air/Suhu = amber-50, Mulai/Selesai =
+       *     blue-50, Warna/Tekstur = green-50.
+       *   - Admin view tampil MIN_ROWS baris.
+       *   - 🐛 FIX: urutan kolom user view sudah sinkron dengan header
+       *     (sebelumnya terbalik Mulai↔Beras).
+       *   - Tombol Hapus berubah 🔒 saat locked.
+       *   - currentDate pakai getTodayLocalISO().
+       *   - Field TTD: nama_petugas / nama_pengawas / nama_kepala.
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_026";
@@ -811,63 +833,49 @@
         checkFormLockStatus(data);
       }
 
+      /**
+       * Render tabel USER VIEW: HANYA baris berisi data.
+       * Kosong → pesan "Belum ada proses...".
+       */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
 
+        if (currentRows.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="10" class="p-4 text-center text-gray-400 italic">Belum ada proses yang dicatat hari ini.</td></tr>`;
+          return;
+        }
+
         const data = getTodayData(currentDate);
         const locked = data.status === "final" || data.status === "verified";
-        const totalRows = Math.max(MIN_ROWS, currentRows.length);
 
-        for (let i = 0; i < totalRows; i++) {
-          const r = currentRows[i];
-          const hasData = !!r;
+        currentRows.forEach((r, idx) => {
+          const aksiCell = locked
+            ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
+            : `<td class="p-2 border border-gray-300 text-center">
+                 <button type="button" onclick="hapusBarisProses(${idx})"
+                   class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
+               </td>`;
 
-          if (hasData) {
-            const aksiCell = locked
-              ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
-              : `<td class="p-2 border border-gray-300 text-center">
-                   <button type="button" onclick="hapusBarisProses(${i})"
-                     class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
-                 </td>`;
-
-            // 🐛 Urutan kolom SUDAH DIPERBAIKI: Beras→Air→Mulai→Selesai→Suhu→Warna→Tekstur→Catatan
-            tbody.insertAdjacentHTML(
-              "beforeend",
-              `
-              <tr class="hover:bg-gray-50 border-b border-gray-200">
-                <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${i + 1}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.beras)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.air)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.mulai)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.selesai)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.suhu)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.warna)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.tekstur)}</td>
-                <td class="p-2 border border-gray-300">${escapeHtml(r.catatan || "-")}</td>
-                ${aksiCell}
-              </tr>`,
-            );
-          } else {
-            tbody.insertAdjacentHTML(
-              "beforeend",
-              `
-              <tr class="border-b border-gray-200">
-                <td class="p-2 border border-gray-300 text-center text-gray-400">${i + 1}</td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-              </tr>`,
-            );
-          }
-        }
+          // 🐛 Urutan kolom SUDAH DIPERBAIKI: Beras→Air→Mulai→Selesai→Suhu→Warna→Tekstur→Catatan
+          tbody.insertAdjacentHTML(
+            "beforeend",
+            `
+            <tr class="hover:bg-gray-50 border-b border-gray-200">
+              <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${idx + 1}</td>
+              <td class="p-2 border border-gray-300 text-center bg-amber-50">${escapeHtml(r.beras)}</td>
+              <td class="p-2 border border-gray-300 text-center bg-amber-50">${escapeHtml(r.air)}</td>
+              <td class="p-2 border border-gray-300 text-center bg-blue-50">${escapeHtml(r.mulai)}</td>
+              <td class="p-2 border border-gray-300 text-center bg-blue-50">${escapeHtml(r.selesai)}</td>
+              <td class="p-2 border border-gray-300 text-center bg-amber-50">${escapeHtml(r.suhu)}</td>
+              <td class="p-2 border border-gray-300 text-center bg-green-50">${escapeHtml(r.warna)}</td>
+              <td class="p-2 border border-gray-300 text-center bg-green-50">${escapeHtml(r.tekstur)}</td>
+              <td class="p-2 border border-gray-300">${escapeHtml(r.catatan || "-")}</td>
+              ${aksiCell}
+            </tr>`,
+          );
+        });
       }
 
       function tambahBarisProses(e) {

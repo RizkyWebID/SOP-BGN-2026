@@ -251,7 +251,7 @@
                   type="text"
                   id="u_kontak"
                   placeholder="Cth: 0812-3456-7890"
-                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
               <div>
@@ -262,7 +262,7 @@
                   type="text"
                   id="u_ket"
                   placeholder="Opsional"
-                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                  class="w-full p-2 text-xs border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
               <button
@@ -288,6 +288,11 @@
                 <table
                   class="w-full text-xs text-left border-collapse border border-gray-300"
                 >
+                  <!--
+                    Header tabel dengan warna kelompok:
+                    - Harga       → bg-amber-50 (data observasi keuangan)
+                    - Kontak      → bg-blue-50  (data pelengkap / lanjutan)
+                  -->
                   <thead
                     class="bg-gray-100 text-gray-700 font-semibold text-center"
                   >
@@ -295,9 +300,13 @@
                       <th class="p-2 border border-gray-300 w-8">No</th>
                       <th class="p-2 border border-gray-300">Nama Bahan</th>
                       <th class="p-2 border border-gray-300">Satuan</th>
-                      <th class="p-2 border border-gray-300">Harga (Rp)</th>
+                      <th class="p-2 border border-gray-300 bg-amber-50">
+                        Harga (Rp)
+                      </th>
                       <th class="p-2 border border-gray-300">Toko/Supplier</th>
-                      <th class="p-2 border border-gray-300">Kontak</th>
+                      <th class="p-2 border border-gray-300 bg-blue-50">
+                        Kontak
+                      </th>
                       <th class="p-2 border border-gray-300">Ket</th>
                       <th class="p-2 border border-gray-300 w-12">Aksi</th>
                     </tr>
@@ -732,12 +741,13 @@
       /* =====================================================================
        * SOP-017 - SCRIPT KHUSUS
        * ---------------------------------------------------------------------
-       * v5: - currentDate pakai getTodayLocalISO().
-       *     - Semua data user di-escape.
-       *     - TTD divalidasi.
-       *     - User view SELALU tampil MIN_ROWS baris; tombol Hapus hanya
-       *       di baris berisi data & saat status=draft.
-       *     - Field standar: nama_petugas / nama_pengawas / nama_kepala.
+       * v6:
+       *   - User view HANYA tampil baris berisi data.
+       *   - Header user view: Harga = amber-50, Kontak = blue-50.
+       *   - Admin view tampil MIN_ROWS baris (siap tulis tangan).
+       *   - Tombol Hapus berubah 🔒 saat locked.
+       *   - currentDate pakai getTodayLocalISO().
+       *   - Field TTD: nama_petugas / nama_pengawas / nama_kepala.
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_017";
@@ -798,82 +808,70 @@
       }
 
       /**
-       * Render tabel user: selalu tampil minimal MIN_ROWS baris.
-       * - Baris berisi data → header group kategori (jika baru) + nilai + tombol Hapus.
-       * - Baris kosong       → sel kosong tanpa header kategori.
-       * - Status final/verified → tombol Hapus disembunyikan (🔒).
+       * Render tabel USER VIEW: HANYA baris berisi data + header group kategori.
+       * - Kosong → pesan "Belum ada daftar bahan baku...".
+       * - Tombol Hapus berubah 🔒 saat locked.
        */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
 
+        if (currentRows.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-gray-400 italic">Belum ada daftar bahan baku yang dicatat hari ini.</td></tr>`;
+          return;
+        }
+
         const data = getTodayData(currentDate);
         const locked = data.status === "final" || data.status === "verified";
-        const totalRows = Math.max(MIN_ROWS, currentRows.length);
+
+        // Urutkan berdasar urutan kategori
+        currentRows.sort(
+          (a, b) =>
+            (catOrderMap[a.kategori] || 99) - (catOrderMap[b.kategori] || 99),
+        );
 
         let currentKat = "";
         let numInKat = 1;
 
-        for (let i = 0; i < totalRows; i++) {
-          const r = currentRows[i];
-          const hasData = !!r;
-
-          if (hasData) {
-            // Header group kategori
-            if (r.kategori !== currentKat) {
-              currentKat = r.kategori;
-              numInKat = 1;
-              tbody.insertAdjacentHTML(
-                "beforeend",
-                `
-                <tr class="bg-orange-50">
-                  <td colspan="8" class="p-2 border border-gray-300 text-center font-bold uppercase text-indigo-900">
-                    ${escapeHtml(currentKat)}
-                  </td>
-                </tr>`,
-              );
-            }
-
-            const aksiCell = locked
-              ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
-              : `<td class="p-2 border border-gray-300 text-center">
-                   <button type="button" onclick="hapusBarisProses(${i})"
-                     class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
-                 </td>`;
-
+        currentRows.forEach((r, idx) => {
+          // Header group kategori
+          if (r.kategori !== currentKat) {
+            currentKat = r.kategori;
+            numInKat = 1;
             tbody.insertAdjacentHTML(
               "beforeend",
               `
-              <tr class="hover:bg-gray-50 border-b border-gray-200">
-                <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${numInKat++}</td>
-                <td class="p-2 border border-gray-300">${escapeHtml(r.nama)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.satuan)}</td>
-                <td class="p-2 border border-gray-300 text-right pr-2">${r.harga ? formatRupiah(r.harga) : "0"}</td>
-                <td class="p-2 border border-gray-300">${escapeHtml(r.supplier)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.kontak || "-")}</td>
-                <td class="p-2 border border-gray-300">${escapeHtml(r.ket || "-")}</td>
-                ${aksiCell}
-              </tr>`,
-            );
-          } else {
-            // Baris kosong
-            tbody.insertAdjacentHTML(
-              "beforeend",
-              `
-              <tr class="border-b border-gray-200">
-                <td class="p-2 border border-gray-300 text-center text-gray-400">${numInKat++}</td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
+              <tr class="bg-orange-50">
+                <td colspan="8" class="p-2 border border-gray-300 text-center font-bold uppercase text-indigo-900">
+                  ${escapeHtml(currentKat)}
+                </td>
               </tr>`,
             );
           }
-        }
+
+          const aksiCell = locked
+            ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
+            : `<td class="p-2 border border-gray-300 text-center">
+                 <button type="button" onclick="hapusBarisProses(${idx})"
+                   class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
+               </td>`;
+
+          tbody.insertAdjacentHTML(
+            "beforeend",
+            `
+            <tr class="hover:bg-gray-50 border-b border-gray-200">
+              <td class="p-2 border border-gray-300 text-center font-bold text-gray-500">${numInKat++}</td>
+              <td class="p-2 border border-gray-300">${escapeHtml(r.nama)}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.satuan)}</td>
+              <td class="p-2 border border-gray-300 text-right pr-2 bg-amber-50">${r.harga ? formatRupiah(r.harga) : "0"}</td>
+              <td class="p-2 border border-gray-300">${escapeHtml(r.supplier)}</td>
+              <td class="p-2 border border-gray-300 text-center bg-blue-50">${escapeHtml(r.kontak || "-")}</td>
+              <td class="p-2 border border-gray-300">${escapeHtml(r.ket || "-")}</td>
+              ${aksiCell}
+            </tr>`,
+          );
+        });
       }
 
       function tambahBarisProses(e) {
@@ -946,6 +944,10 @@
         data.shift = document.getElementById("u_shift").value;
         data.menu = document.getElementById("u_menu").value;
         data.porsi = document.getElementById("u_porsi").value;
+        currentRows.sort(
+          (a, b) =>
+            (catOrderMap[a.kategori] || 99) - (catOrderMap[b.kategori] || 99),
+        );
         data.rows = currentRows;
         db[currentDate] = data;
         saveDB(STORAGE_KEY, db);
@@ -1155,6 +1157,7 @@
             ket: document.getElementById(`a_ket_${i}`)?.value || "",
           });
         }
+        // Buang baris kosong yang mungkin diisi oleh baris placeholder
         data.rows = updatedRows.filter((r) => r.nama || r.harga || r.supplier);
 
         data.shift = document.getElementById("a_shift").value;

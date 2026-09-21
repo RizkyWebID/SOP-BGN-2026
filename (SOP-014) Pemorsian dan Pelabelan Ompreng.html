@@ -266,6 +266,11 @@
                 <table
                   class="w-full text-xs text-left border-collapse border border-gray-300"
                 >
+                  <!--
+                    Header tabel dengan warna kelompok (standar SOP-015):
+                    - Sampel 1/2/3 (data observasi) → bg-amber-50
+                    - Rata-Rata (hasil hitung)      → bg-green-50
+                  -->
                   <thead
                     class="bg-gray-100 text-gray-700 font-semibold text-center"
                   >
@@ -273,10 +278,10 @@
                       <th class="p-2 border border-gray-300 w-10">No</th>
                       <th class="p-2 border border-gray-300">Komponen Menu</th>
                       <th class="p-2 border border-gray-300">Standar (gr)</th>
-                      <th class="p-2 border border-gray-300">S1</th>
-                      <th class="p-2 border border-gray-300">S2</th>
-                      <th class="p-2 border border-gray-300">S3</th>
-                      <th class="p-2 border border-gray-300 bg-indigo-50">
+                      <th class="p-2 border border-gray-300 bg-amber-50">S1</th>
+                      <th class="p-2 border border-gray-300 bg-amber-50">S2</th>
+                      <th class="p-2 border border-gray-300 bg-amber-50">S3</th>
+                      <th class="p-2 border border-gray-300 bg-green-50">
                         Rata-Rata
                       </th>
                       <th class="p-2 border border-gray-300">Keterangan</th>
@@ -713,12 +718,17 @@
       /* =====================================================================
        * SOP-014 - SCRIPT KHUSUS
        * ---------------------------------------------------------------------
-       * v5: - currentDate pakai getTodayLocalISO() (waktu lokal, bukan UTC).
-       *     - Semua data user di-escape via escapeHtml/escapeAttr.
-       *     - TTD dirender hanya jika lolos validasi data URL.
-       *     - User view SELALU tampil minimal MIN_ROWS baris (baris kosong
-       *       = tanpa tombol Hapus; siap tulis tangan jika dicetak).
-       *     - Field standar: nama_petugas / nama_pengawas / nama_kepala.
+       * v6 (koreksi):
+       *   - User view KEMBALI ke perilaku asli: hanya tampil baris berisi
+       *     data. Jika kosong → tampil pesan "Belum ada komponen menu...".
+       *   - Baris kosong 10 (MIN_ROWS) HANYA di render di ADMIN VIEW
+       *     (saat cetak/PDF).
+       *   - Header tabel user view: warna kelompok sesuai standar SOP-015
+       *     (Sampel 1-3 = amber-50, Rata-Rata = green-50).
+       *   - Tanda tangan dirender hanya jika lolos validasi data URL.
+       *   - Tombol Hapus otomatis berubah 🔒 saat status final/verified.
+       *   - currentDate pakai getTodayLocalISO().
+       *   - Field TTD: nama_petugas / nama_pengawas / nama_kepala.
        * ===================================================================== */
 
       const STORAGE_KEY = "db_sop_014";
@@ -775,69 +785,51 @@
       }
 
       /**
-       * Render tabel user: selalu tampilkan minimal MIN_ROWS baris.
-       * - Baris berisi data → tampil nilai + tombol Hapus (jika draft).
-       * - Baris kosong       → sel kosong, TANPA tombol Hapus.
-       * - Status final/verified → semua tombol Hapus disembunyikan.
+       * Render tabel USER VIEW: HANYA baris berisi data.
+       * - Jika kosong → pesan "Belum ada komponen menu...".
+       * - Baris berisi → nilai + tombol Hapus (jika draft) atau 🔒 (jika locked).
+       * Baris kosong (10 baris) TIDAK di sini — hanya di ADMIN VIEW.
        */
       function renderUserTable() {
         const tbody = document.getElementById("u_table_body");
         if (!tbody) return;
         tbody.innerHTML = "";
 
+        if (currentRows.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="9" class="p-4 text-center text-gray-400">Belum ada komponen menu. Gunakan form di sebelah kiri.</td></tr>`;
+          return;
+        }
+
         const data = getTodayData(currentDate);
         const locked = data.status === "final" || data.status === "verified";
-        const totalRows = Math.max(MIN_ROWS, currentRows.length);
 
-        for (let i = 0; i < totalRows; i++) {
-          const r = currentRows[i];
-          const hasData = !!r;
+        currentRows.forEach((r, idx) => {
+          const rata = hitungRataRata(r.s1, r.s2, r.s3);
+          currentRows[idx].rata = rata;
 
-          if (hasData) {
-            const rata = hitungRataRata(r.s1, r.s2, r.s3);
-            currentRows[i].rata = rata;
+          const aksiCell = locked
+            ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
+            : `<td class="p-2 border border-gray-300 text-center">
+                 <button type="button" onclick="hapusBaris(${idx})"
+                   class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
+               </td>`;
 
-            const aksiCell = locked
-              ? `<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>`
-              : `<td class="p-2 border border-gray-300 text-center">
-                   <button type="button" onclick="hapusBaris(${i})"
-                     class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>
-                 </td>`;
-
-            tbody.insertAdjacentHTML(
-              "beforeend",
-              `
-              <tr class="hover:bg-gray-50 border-b border-gray-200">
-                <td class="p-2 border border-gray-300 text-center font-bold">${i + 1}</td>
-                <td class="p-2 border border-gray-300 font-semibold text-gray-700">${escapeHtml(r.nama)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.standar)}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s1 || "-")}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s2 || "-")}</td>
-                <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s3 || "-")}</td>
-                <td class="p-2 border border-gray-300 text-center bg-indigo-50 font-bold text-indigo-700">${escapeHtml(rata || "-")}</td>
-                <td class="p-2 border border-gray-300">${escapeHtml(r.keterangan || "-")}</td>
-                ${aksiCell}
-              </tr>`,
-            );
-          } else {
-            // Baris kosong — siap tulis tangan, tanpa tombol Hapus
-            tbody.insertAdjacentHTML(
-              "beforeend",
-              `
-              <tr class="border-b border-gray-200">
-                <td class="p-2 border border-gray-300 text-center text-gray-400">${i + 1}</td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300 bg-indigo-50"></td>
-                <td class="p-2 border border-gray-300"></td>
-                <td class="p-2 border border-gray-300"></td>
-              </tr>`,
-            );
-          }
-        }
+          tbody.insertAdjacentHTML(
+            "beforeend",
+            `
+            <tr class="hover:bg-gray-50 border-b border-gray-200">
+              <td class="p-2 border border-gray-300 text-center font-bold">${idx + 1}</td>
+              <td class="p-2 border border-gray-300 font-semibold text-gray-700">${escapeHtml(r.nama)}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.standar)}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s1 || "-")}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s2 || "-")}</td>
+              <td class="p-2 border border-gray-300 text-center">${escapeHtml(r.s3 || "-")}</td>
+              <td class="p-2 border border-gray-300 text-center font-bold text-indigo-700">${escapeHtml(rata || "-")}</td>
+              <td class="p-2 border border-gray-300">${escapeHtml(r.keterangan || "-")}</td>
+              ${aksiCell}
+            </tr>`,
+          );
+        });
       }
 
       function tambahBarisGramasi(event) {
@@ -935,6 +927,10 @@
         showNotif("Laporan Final Berhasil Disimpan & Dikunci!");
       }
 
+      /**
+       * ADMIN VIEW: selalu tampil minimal MIN_ROWS baris (baris kosong untuk
+       * tulis tangan pada cetakan).
+       */
       function loadDataAdmin() {
         const dateStr = document.getElementById("a_tanggal_pilih").value;
         const db = getDB(STORAGE_KEY);
@@ -958,6 +954,7 @@
         document.getElementById("print_a_menu").innerText = data.menu || "";
         document.getElementById("a_porsi").value = data.porsi || "";
         document.getElementById("print_a_porsi").innerText = data.porsi || "";
+
         document.getElementById("a_nama_petugas").value =
           data.nama_petugas || "";
         document.getElementById("print_a_nama_petugas").innerText =
