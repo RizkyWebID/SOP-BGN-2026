@@ -16,20 +16,18 @@
     <style>
       /* =====================================================================
        * LEBAR KOLOM SOP-015 — berlaku di LAYAR & CETAK.
-       * Table 13 kolom total = 100%.
-       * Menggunakan <colgroup> + table-layout:fixed agar 100% presisi
-       * di semua browser (mencegah rounding error).
+       * Table 13 kolom total = 100% (No. = 5% SERAGAM dengan SOP lain).
        * ===================================================================== */
       #admin-view table {
         table-layout: fixed;
       }
 
-      /* Kolom No. — rata tengah + padding tipis (agar tidak mendorong lebar) */
+      /* Kolom No. — rata tengah + padding tipis */
       #admin-view th:nth-child(1),
       #admin-view td:nth-child(1) {
         text-align: center;
-        padding-left: 1px;
-        padding-right: 1px;
+        padding-left: 2px;
+        padding-right: 2px;
         overflow: hidden;
       }
 
@@ -64,9 +62,7 @@
   </head>
 
   <body class="text-gray-800">
-    <!-- =====================================================================
-       TOPBAR NAVIGASI
-       ===================================================================== -->
+    <!-- TOPBAR NAVIGASI -->
     <nav id="top-nav" class="bg-indigo-900 text-white p-4 shadow-md no-print">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="font-bold text-sm sm:text-base flex items-center gap-2">
@@ -107,9 +103,7 @@
     <div id="global-notif"></div>
 
     <main class="max-w-7xl mx-auto p-4 md:p-6 mb-20">
-      <!-- ==================================================================
-         USER VIEW
-         ================================================================== -->
+      <!-- USER VIEW -->
       <div id="user-view" class="space-y-6 block">
         <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h2 class="text-lg font-bold text-indigo-900 mb-4 border-b pb-2">
@@ -431,9 +425,7 @@
         </div>
       </div>
 
-      <!-- ==================================================================
-         ADMIN VIEW — CETAK
-         ================================================================== -->
+      <!-- ADMIN VIEW -->
       <div id="admin-view" class="hidden sop-print-view">
         <div
           class="no-print mb-6 flex justify-between items-center border-b pb-4"
@@ -592,15 +584,14 @@
           </div>
         </div>
 
-        <!-- Tabel admin — LEBAR KOLOM DIKUNCI dengan <colgroup> -->
+        <!-- Tabel admin — TANPA data-cols-wide, colgroup No.=5% -->
         <div class="w-full overflow-x-auto mb-3">
           <table
-            data-cols-wide
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
           >
-            <!-- COLGROUP: kunci lebar kolom (4+5+10+15+7+6+6+6+6+6+6+18+5 = 100%) -->
+            <!-- COLGROUP: No.=5%, Keterangan=17% (total = 100%) -->
             <colgroup>
-              <col style="width: 4%" />
+              <col style="width: 5%" />
               <col style="width: 5%" />
               <col style="width: 10%" />
               <col style="width: 15%" />
@@ -611,7 +602,7 @@
               <col style="width: 6%" />
               <col style="width: 6%" />
               <col style="width: 6%" />
-              <col style="width: 18%" />
+              <col style="width: 17%" />
               <col style="width: 5%" />
             </colgroup>
             <thead class="bg-gray-50 print:bg-transparent">
@@ -872,9 +863,7 @@
       </div>
     </div>
 
-    <!-- ===================================================================
-       SCRIPTS
-       =================================================================== -->
+    <!-- SCRIPTS -->
     <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
     <script src="assets/js/sop-bgn-form-core.js"></script>
@@ -883,10 +872,9 @@
       /* =====================================================================
        * SOP-015 - KONFIGURASI
        * ---------------------------------------------------------------------
-       * Karakteristik SOP-015:
-       *   - Setiap baris = 1 proses resting (tahap + jenis + menu).
-       *   - Kolom "Durasi" dihitung otomatis dari jam mulai ↔ selesai.
-       *   - Kolom suhu memakai cellSuhu() agar otomatis append °C.
+       * Setiap baris = 1 proses resting (tahap + jenis + menu).
+       * Kolom "Durasi" dihitung otomatis dari jam mulai ↔ selesai.
+       * Kolom suhu memakai cellSuhu() agar otomatis append °C.
        * ===================================================================== */
 
       /**
@@ -930,7 +918,6 @@
           };
         },
 
-        /* ---------- Render 1 baris tabel USER ---------- */
         renderUserRow: function (r, idx, locked) {
           var aksi = locked
             ? '<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>'
@@ -984,7 +971,6 @@
           );
         },
 
-        /* ---------- Render 1 baris tabel ADMIN ---------- */
         renderAdminRow: function (r, i, idx) {
           return (
             "<tr>" +
@@ -1007,7 +993,6 @@
           );
         },
 
-        /* ---------- Collect baris baru dari form user ---------- */
         collectFromForm: function () {
           var mPukul = document.getElementById("u_m_pukul").value;
           var sPukul = document.getElementById("u_s_pukul").value;
@@ -1029,7 +1014,6 @@
           };
         },
 
-        /* ---------- Collect editan dari tabel admin ---------- */
         collectFromAdmin: function (idx) {
           var get = function (id) {
             var el = document.getElementById(id);

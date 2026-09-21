@@ -3,7 +3,7 @@
  * -------------------------------------------------------------------------
  * File    : assets/css/sop-bgn-shared.css
  * Fungsi  : Style GLOBAL yang dipakai semua formulir SOP.
- * Versi   : v3 — konsistensi kolom "No." di layar & cetak.
+ * Versi   : v4 — kolom "No." SERAGAM 5% untuk semua SOP.
  *
  * ATURAN:
  *   - File ini HANYA berisi style global.
@@ -138,8 +138,8 @@ body {
 /* =========================================================================
  * 7. ADMIN VIEW — KONSISTENSI DI LAYAR (BUKAN CETAK)
  * -------------------------------------------------------------------------
- * Aturan ini SAMA dengan versi cetak, tapi berlaku di layar browser.
- * Tujuan: kolom "No." dan text-align thead konsisten antara layar & cetak.
+ * Kolom "No." SERAGAM 5% untuk SEMUA tabel (baik 5 kolom maupun 13 kolom).
+ * Tidak ada lagi pembedaan data-cols-wide.
  * ========================================================================= */
 #admin-view table {
   width: 100%;
@@ -151,19 +151,16 @@ body {
   vertical-align: middle;
 }
 
-/* Kolom "No." — kunci lebar:
- *   - 5% untuk tabel ≤9 kolom
- *   - 4% untuk tabel ≥10 kolom (data-cols-wide)
- */
-#admin-view table:not([data-cols-wide]) th:first-child,
-#admin-view table:not([data-cols-wide]) td:first-child {
+/* Kolom "No." — SERAGAM 5% untuk semua tabel */
+#admin-view table th:first-child,
+#admin-view table td:first-child {
   width: 5%;
+  max-width: 5%;
+  min-width: 5%;
   text-align: center;
-}
-#admin-view table[data-cols-wide] th:first-child,
-#admin-view table[data-cols-wide] td:first-child {
-  width: 4%;
-  text-align: center;
+  padding-left: 2px;
+  padding-right: 2px;
+  overflow: hidden;
 }
 
 /* -------------------------------------------------------------------------
@@ -244,22 +241,14 @@ body {
     font-size: 9pt;
   }
 
-  /* Kolom "No." — aturan cetak (sama seperti versi layar) */
-  #admin-view table:not([data-cols-wide]) th:first-child,
-  #admin-view table:not([data-cols-wide]) td:first-child {
+  /* Kolom "No." — SERAGAM 5% (sama seperti versi layar) */
+  #admin-view table th:first-child,
+  #admin-view table td:first-child {
     width: 5% !important;
     max-width: 5% !important;
     min-width: 5% !important;
     text-align: center !important;
     padding: 4px 2px !important;
-  }
-  #admin-view table[data-cols-wide] th:first-child,
-  #admin-view table[data-cols-wide] td:first-child {
-    width: 4% !important;
-    max-width: 4% !important;
-    min-width: 4% !important;
-    text-align: center !important;
-    padding: 4px 1px !important;
   }
 
   /* Area tanda tangan */
