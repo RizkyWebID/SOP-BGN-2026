@@ -3,7 +3,7 @@
  * -------------------------------------------------------------------------
  * File    : assets/css/sop-bgn-shared.css
  * Fungsi  : Style GLOBAL yang dipakai semua formulir SOP.
- * Versi   : v2 — penyeragaman kolom "No.", tinggi cell, dan print layout.
+ * Versi   : v3 — konsistensi kolom "No." di layar & cetak.
  *
  * ATURAN:
  *   - File ini HANYA berisi style global.
@@ -125,8 +125,7 @@ body {
 }
 
 /* -------------------------------------------------------------------------
- * 6. LOGO INSTANSI (helper global)
- *    Dipakai di semua kop header SOP agar seragam ukurannya.
+ * 6. LOGO INSTANSI
  * ------------------------------------------------------------------------- */
 .sop-logo-instansi {
   width: 56px;
@@ -136,9 +135,39 @@ body {
   margin: 0 auto 4px;
 }
 
+/* =========================================================================
+ * 7. ADMIN VIEW — KONSISTENSI DI LAYAR (BUKAN CETAK)
+ * -------------------------------------------------------------------------
+ * Aturan ini SAMA dengan versi cetak, tapi berlaku di layar browser.
+ * Tujuan: kolom "No." dan text-align thead konsisten antara layar & cetak.
+ * ========================================================================= */
+#admin-view table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+#admin-view thead th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Kolom "No." — kunci lebar:
+ *   - 5% untuk tabel ≤9 kolom
+ *   - 4% untuk tabel ≥10 kolom (data-cols-wide)
+ */
+#admin-view table:not([data-cols-wide]) th:first-child,
+#admin-view table:not([data-cols-wide]) td:first-child {
+  width: 5%;
+  text-align: center;
+}
+#admin-view table[data-cols-wide] th:first-child,
+#admin-view table[data-cols-wide] td:first-child {
+  width: 4%;
+  text-align: center;
+}
+
 /* -------------------------------------------------------------------------
- * 7. ATURAN CETAK (PRINT MEDIA) - GLOBAL
- *    Semua SOP menggunakan aturan cetak yang sama dari sini.
+ * 8. ATURAN CETAK (PRINT MEDIA) - GLOBAL
  * ------------------------------------------------------------------------- */
 @media print {
   @page {
@@ -197,7 +226,7 @@ body {
     color: transparent !important;
   }
 
-  /* ==== TABEL CETAK: TINGGI & PADDING SERAGAM SEMUA SOP ==== */
+  /* TABEL CETAK: TINGGI & PADDING SERAGAM */
   table {
     width: 100% !important;
     table-layout: fixed;
@@ -205,7 +234,6 @@ body {
   }
   th,
   td {
-    /* Tinggi cell SERAGAM — mencegah ada yang rapat/gembung */
     height: 22px !important;
     min-height: 22px !important;
     line-height: 1.3 !important;
@@ -216,10 +244,7 @@ body {
     font-size: 9pt;
   }
 
-  /* ==== KOLOM "No." SERAGAM ====
-   * Lebar "No." dikunci 5% untuk tabel dengan ≤9 kolom,
-   * dan 4% untuk tabel dengan ≥10 kolom (agar tabel lebar tetap muat).
-   * Tabel dengan kelas .sop-col-count-N dapat override secara eksplisit. */
+  /* Kolom "No." — aturan cetak (sama seperti versi layar) */
   #admin-view table:not([data-cols-wide]) th:first-child,
   #admin-view table:not([data-cols-wide]) td:first-child {
     width: 5% !important;

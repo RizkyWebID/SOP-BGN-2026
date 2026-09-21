@@ -14,6 +14,35 @@
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
 
     <style>
+      /* =====================================================================
+       * LEBAR KOLOM SOP-015 — berlaku di LAYAR & CETAK.
+       * Table 13 kolom total = 100%.
+       * Menggunakan <colgroup> + table-layout:fixed agar 100% presisi
+       * di semua browser (mencegah rounding error).
+       * ===================================================================== */
+      #admin-view table {
+        table-layout: fixed;
+      }
+
+      /* Kolom No. — rata tengah + padding tipis (agar tidak mendorong lebar) */
+      #admin-view th:nth-child(1),
+      #admin-view td:nth-child(1) {
+        text-align: center;
+        padding-left: 1px;
+        padding-right: 1px;
+        overflow: hidden;
+      }
+
+      /* Kolom "Ket" — teks kiri */
+      #admin-view th:nth-child(12),
+      #admin-view td:nth-child(12) {
+        text-align: left;
+        padding-left: 4px;
+      }
+
+      /* =====================================================================
+       * ATURAN CETAK
+       * ===================================================================== */
       @media print {
         #admin-view table {
           width: 100% !important;
@@ -26,49 +55,6 @@
           vertical-align: middle !important;
           word-wrap: break-word !important;
           white-space: normal !important;
-        }
-        #admin-view th:nth-child(1) {
-          width: 4% !important;
-        }
-        #admin-view th:nth-child(2) {
-          width: 5% !important;
-        }
-        #admin-view th:nth-child(3) {
-          width: 10% !important;
-        }
-        #admin-view th:nth-child(4) {
-          width: 15% !important;
-        }
-        #admin-view th:nth-child(5) {
-          width: 7% !important;
-        }
-        #admin-view th:nth-child(6) {
-          width: 6% !important;
-        }
-        #admin-view th:nth-child(7) {
-          width: 6% !important;
-        }
-        #admin-view th:nth-child(8) {
-          width: 6% !important;
-        }
-        #admin-view th:nth-child(9) {
-          width: 6% !important;
-        }
-        #admin-view th:nth-child(10) {
-          width: 6% !important;
-        }
-        #admin-view th:nth-child(11) {
-          width: 6% !important;
-        }
-        #admin-view th:nth-child(12) {
-          width: 18% !important;
-        }
-        #admin-view th:nth-child(13) {
-          width: 5% !important;
-        }
-        #admin-view td:nth-child(12) {
-          text-align: left !important;
-          padding-left: 4px !important;
         }
         #admin-view td input {
           display: none !important;
@@ -606,11 +592,28 @@
           </div>
         </div>
 
+        <!-- Tabel admin — LEBAR KOLOM DIKUNCI dengan <colgroup> -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             data-cols-wide
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
           >
+            <!-- COLGROUP: kunci lebar kolom (4+5+10+15+7+6+6+6+6+6+6+18+5 = 100%) -->
+            <colgroup>
+              <col style="width: 4%" />
+              <col style="width: 5%" />
+              <col style="width: 10%" />
+              <col style="width: 15%" />
+              <col style="width: 7%" />
+              <col style="width: 6%" />
+              <col style="width: 6%" />
+              <col style="width: 6%" />
+              <col style="width: 6%" />
+              <col style="width: 6%" />
+              <col style="width: 6%" />
+              <col style="width: 18%" />
+              <col style="width: 5%" />
+            </colgroup>
             <thead class="bg-gray-50 print:bg-transparent">
               <tr>
                 <th rowspan="2" class="border border-black p-1">No.</th>

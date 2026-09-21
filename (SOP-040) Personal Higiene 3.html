@@ -12,47 +12,6 @@
     />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
-
-    <style>
-      @media print {
-        #admin-view table {
-          width: 100% !important;
-          table-layout: fixed !important;
-          border-collapse: collapse !important;
-        }
-        #admin-view th,
-        #admin-view td {
-          font-size: 8.5pt !important;
-          vertical-align: middle !important;
-          word-wrap: break-word !important;
-          white-space: normal !important;
-        }
-        #admin-view th:nth-child(1) {
-          width: 5% !important;
-        }
-        #admin-view th:nth-child(2) {
-          width: 26% !important;
-        }
-        #admin-view th:nth-child(3) {
-          width: 30% !important;
-        }
-        #admin-view th:nth-child(4) {
-          width: 25% !important;
-        }
-        #admin-view th:nth-child(5) {
-          width: 14% !important;
-        }
-        #admin-view td:nth-child(2),
-        #admin-view td:nth-child(3),
-        #admin-view td:nth-child(4) {
-          text-align: left !important;
-          padding-left: 5px !important;
-        }
-        #admin-view td input {
-          display: none !important;
-        }
-      }
-    </style>
   </head>
 
   <body class="text-gray-800">
@@ -449,23 +408,43 @@
           </div>
         </div>
 
+        <!-- Tabel admin — thead rata tengah, width tiap kolom konsisten -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
           >
             <thead class="bg-gray-50 print:bg-transparent">
               <tr>
-                <th class="border border-black p-1">No.</th>
-                <th class="border border-black p-1 text-left pl-2">
+                <th
+                  class="border border-black p-1 text-center"
+                  style="width: 5%"
+                >
+                  No.
+                </th>
+                <th
+                  class="border border-black p-1 text-center"
+                  style="width: 22%"
+                >
                   Perlengkapan / Sarana
                 </th>
-                <th class="border border-black p-1 text-left pl-2">
+                <th
+                  class="border border-black p-1 text-center"
+                  style="width: 28%"
+                >
                   Temuan / Ketidaksesuaian
                 </th>
-                <th class="border border-black p-1 text-left pl-2">
+                <th
+                  class="border border-black p-1 text-center"
+                  style="width: 25%"
+                >
                   Tindakan Perbaikan
                 </th>
-                <th class="border border-black p-1">Tanggal Selesai</th>
+                <th
+                  class="border border-black p-1 text-center"
+                  style="width: 20%"
+                >
+                  Tanggal Selesai
+                </th>
               </tr>
             </thead>
             <tbody id="a_table_body"></tbody>
@@ -698,9 +677,7 @@
       </div>
     </div>
 
-    <!-- ===================================================================
-       SCRIPTS
-       =================================================================== -->
+    <!-- SCRIPTS -->
     <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
     <script src="assets/js/sop-bgn-form-core.js"></script>
@@ -709,11 +686,8 @@
       /* =====================================================================
        * SOP-040C - KONFIGURASI
        * ---------------------------------------------------------------------
-       * Karakteristik SOP-040C:
-       *   - Setiap baris = 1 temuan ketidaksesuaian + tindak perbaikan.
-       *   - Tidak ada kolom yang butuh perhitungan otomatis.
+       * Setiap baris = 1 temuan ketidaksesuaian + tindak perbaikan.
        * ===================================================================== */
-
       SopForm.setup({
         storageKey: "db_sop_040_3",
         minRows: 8,
@@ -725,7 +699,6 @@
           return { sarana: "", temuan: "", perbaikan: "", tgl_selesai: "" };
         },
 
-        /* ---------- Render 1 baris tabel USER ---------- */
         renderUserRow: function (r, idx, locked) {
           var aksi = locked
             ? '<td class="p-2 border border-gray-300 text-center text-gray-400 italic text-[10px]">🔒</td>'
@@ -733,8 +706,7 @@
               '<button type="button" onclick="hapusBaris(' +
               idx +
               ')" ' +
-              'class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>' +
-              "</td>";
+              'class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button></td>';
 
           return (
             '<tr class="hover:bg-gray-50 border-b border-gray-200">' +
@@ -758,7 +730,6 @@
           );
         },
 
-        /* ---------- Render 1 baris tabel ADMIN ---------- */
         renderAdminRow: function (r, i, idx) {
           return (
             "<tr>" +
@@ -777,7 +748,6 @@
           );
         },
 
-        /* ---------- Collect baris baru dari form user ---------- */
         collectFromForm: function () {
           return {
             sarana: document.getElementById("u_sarana").value,
@@ -787,7 +757,6 @@
           };
         },
 
-        /* ---------- Collect editan dari tabel admin ---------- */
         collectFromAdmin: function (idx) {
           var get = function (id) {
             var el = document.getElementById(id);

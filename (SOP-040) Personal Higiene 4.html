@@ -12,67 +12,6 @@
     />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/sop-bgn-shared.css" />
-
-    <style>
-      @media print {
-        #admin-view table {
-          width: 100% !important;
-          table-layout: fixed !important;
-          border-collapse: collapse !important;
-        }
-        #admin-view th,
-        #admin-view td {
-          font-size: 8.5pt !important;
-          vertical-align: middle !important;
-          word-wrap: break-word !important;
-          white-space: normal !important;
-        }
-        #admin-view th:nth-child(1) {
-          width: 5% !important;
-        }
-        #admin-view th:nth-child(2) {
-          width: 52% !important;
-        }
-        #admin-view th:nth-child(3) {
-          width: 8% !important;
-        }
-        #admin-view th:nth-child(4) {
-          width: 8% !important;
-        }
-        #admin-view th:nth-child(5) {
-          width: 27% !important;
-        }
-        #admin-view td:nth-child(2),
-        #admin-view td:nth-child(5) {
-          text-align: left !important;
-          padding-left: 6px !important;
-        }
-        #admin-view td input,
-        #admin-view td textarea {
-          display: none !important;
-        }
-      }
-      #admin-view table th:nth-child(1),
-      #admin-view table td:nth-child(1) {
-        width: 5%;
-      }
-      #admin-view table th:nth-child(2),
-      #admin-view table td:nth-child(2) {
-        width: 52%;
-      }
-      #admin-view table th:nth-child(3),
-      #admin-view table td:nth-child(3) {
-        width: 8%;
-      }
-      #admin-view table th:nth-child(4),
-      #admin-view table td:nth-child(4) {
-        width: 8%;
-      }
-      #admin-view table th:nth-child(5),
-      #admin-view table td:nth-child(5) {
-        width: 27%;
-      }
-    </style>
   </head>
 
   <body class="text-gray-800">
@@ -475,17 +414,43 @@
           </div>
         </div>
 
+        <!-- Tabel admin — thead rata tengah, width tiap kolom konsisten -->
         <div class="w-full overflow-x-auto mb-3">
           <table
             class="w-full border-collapse border-2 border-black text-center text-xs print:text-[9pt]"
           >
             <thead class="bg-gray-50 print:bg-transparent">
               <tr>
-                <th class="border border-black p-1">No.</th>
-                <th class="border border-black p-1">Aspek yang Diperiksa</th>
-                <th class="border border-black p-1">Sesuai</th>
-                <th class="border border-black p-1">Tidak Sesuai</th>
-                <th class="border border-black p-1">Keterangan</th>
+                <th
+                  class="border border-black p-1 text-center"
+                  style="width: 5%"
+                >
+                  No.
+                </th>
+                <th
+                  class="border border-black p-1 text-center"
+                  style="width: 45%"
+                >
+                  Aspek yang Diperiksa
+                </th>
+                <th
+                  class="border border-black p-1 text-center"
+                  style="width: 10%"
+                >
+                  Sesuai
+                </th>
+                <th
+                  class="border border-black p-1 text-center"
+                  style="width: 12%"
+                >
+                  Tidak Sesuai
+                </th>
+                <th
+                  class="border border-black p-1 text-center"
+                  style="width: 28%"
+                >
+                  Keterangan
+                </th>
               </tr>
             </thead>
             <tbody id="a_table_body"></tbody>
@@ -712,9 +677,7 @@
       </div>
     </div>
 
-    <!-- ===================================================================
-       SCRIPTS
-       =================================================================== -->
+    <!-- SCRIPTS -->
     <script src="assets/js/sop-bgn-storage.js"></script>
     <script src="assets/js/sop-bgn-shared.js"></script>
     <script src="assets/js/sop-bgn-form-core.js"></script>
@@ -723,12 +686,10 @@
       /* =====================================================================
        * SOP-040D - KONFIGURASI
        * ---------------------------------------------------------------------
-       * Karakteristik SOP-040D:
-       *   - Setiap baris = 1 aspek pemeriksaan dengan status Sesuai/Tidak.
-       *   - Kolom "Aspek" & "Keterangan" di tabel admin memakai cellTextarea()
-       *     karena narasi bisa panjang.
+       * Setiap baris = 1 aspek pemeriksaan dengan status Sesuai/Tidak.
+       * Semua kolom tabel admin memakai cellStd (input text standar)
+       * supaya tinggi cell SERAGAM dengan SOP lain.
        * ===================================================================== */
-
       SopForm.setup({
         storageKey: "db_sop_040_4",
         minRows: 10,
@@ -740,7 +701,6 @@
           return { aspek: "", sesuai: "", tidak_sesuai: "", ket: "" };
         },
 
-        /* ---------- Render 1 baris tabel USER ---------- */
         renderUserRow: function (r, idx, locked) {
           var statusText = r.sesuai ? "Sesuai" : "Tidak Sesuai";
           var statusColor = r.sesuai ? "text-green-600" : "text-red-600";
@@ -750,8 +710,7 @@
               '<button type="button" onclick="hapusBaris(' +
               idx +
               ')" ' +
-              'class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button>' +
-              "</td>";
+              'class="text-red-600 hover:text-red-800 font-bold text-xs">Hapus</button></td>';
 
           return (
             '<tr class="hover:bg-gray-50 border-b border-gray-200">' +
@@ -774,26 +733,24 @@
           );
         },
 
-        /* ---------- Render 1 baris tabel ADMIN ---------- */
         renderAdminRow: function (r, i, idx) {
           return (
             "<tr>" +
             '<td class="border border-black p-0.5 font-bold text-center">' +
             i +
             "</td>" +
-            cellTextarea("a_aspek_" + idx, r.aspek) +
+            cellStd("a_aspek_" + idx, r.aspek, "text-left px-2") +
             cellStd("a_sesuai_" + idx, r.sesuai, "text-center font-bold") +
             cellStd(
               "a_tidak_sesuai_" + idx,
               r.tidak_sesuai,
               "text-center font-bold",
             ) +
-            cellTextarea("a_ket_" + idx, r.ket) +
+            cellStd("a_ket_" + idx, r.ket, "text-left px-2") +
             "</tr>"
           );
         },
 
-        /* ---------- Collect baris baru dari form user ---------- */
         collectFromForm: function () {
           var isSesuai =
             document.querySelector('input[name="u_status"]:checked').value ===
@@ -806,7 +763,6 @@
           };
         },
 
-        /* ---------- Collect editan dari tabel admin ---------- */
         collectFromAdmin: function (idx) {
           var get = function (id) {
             var el = document.getElementById(id);
@@ -820,7 +776,6 @@
           };
         },
 
-        /* ---------- Hook: reset radio + field setelah tambah ---------- */
         afterTambahBaris: function () {
           var a = document.getElementById("u_aspek");
           var k = document.getElementById("u_ket");
