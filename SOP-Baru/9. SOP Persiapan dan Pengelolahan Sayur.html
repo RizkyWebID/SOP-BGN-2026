@@ -12,10 +12,13 @@
       Tobekgodang
     </title>
 
-    <style>
-      /* ============================================================
-         RESET & BASE — Arial 12pt, Line-height 1.5 (naskah dinas)
-         ============================================================ */
+    <!-- ════════════════════════════════════════════════════════════════
+     STYLE GLOBAL — JANGAN DIUBAH PER-FILE
+     Salin sama persis di setiap SOP SPPG.
+     Nanti bisa dipindah ke file eksternal: sop-global.css
+     ════════════════════════════════════════════════════════════════ -->
+    <style id="style-global">
+      /* RESET & BASE */
       *,
       *::before,
       *::after {
@@ -39,9 +42,7 @@
         display: block;
       }
 
-      /* ============================================================
-         VARIABEL TEMA
-         ============================================================ */
+      /* VARIABEL TEMA */
       :root {
         --biru-utama: #0369a1;
         --biru-gelap: #0c4a6e;
@@ -56,9 +57,7 @@
         --indent-tab: 1.27cm;
       }
 
-      /* ============================================================
-         HALAMAN
-         ============================================================ */
+      /* HALAMAN */
       .page {
         width: 210mm;
         min-height: 297mm;
@@ -68,9 +67,7 @@
         box-shadow: 0 2px 12px rgba(3, 105, 161, 0.12);
       }
 
-      /* ============================================================
-         KOP SURAT
-         ============================================================ */
+      /* KOP SURAT */
       .kop {
         display: flex;
         align-items: flex-start;
@@ -122,9 +119,7 @@
         margin-top: 2px;
       }
 
-      /* ============================================================
-         JUDUL LAPORAN
-         ============================================================ */
+      /* JUDUL LAPORAN */
       .judul-laporan {
         text-align: center;
         margin: 20px 0 12px;
@@ -139,9 +134,7 @@
         font-weight: bold;
       }
 
-      /* ============================================================
-         JUDUL SECTION
-         ============================================================ */
+      /* JUDUL SECTION */
       .section-title {
         font-size: 12pt;
         font-weight: bold;
@@ -152,9 +145,7 @@
         text-align: center;
       }
 
-      /* ============================================================
-         TABEL — BASE
-         ============================================================ */
+      /* TABEL BASE */
       table {
         width: 100%;
         border-collapse: collapse;
@@ -196,7 +187,6 @@
       td.kategori {
         font-weight: bold;
         text-align: left;
-        width: 18%;
         padding-left: 8px;
       }
       td.tahap {
@@ -210,8 +200,23 @@
         font-weight: bold;
         width: 32px;
       }
+      tr.total td {
+        font-weight: bold;
+      }
+      tr.header-row td {
+        font-weight: bold;
+      }
 
-      /* Modifikator tabel */
+      /* ⚠️ URUTAN MATRIX → WORKFLOW HARUS DIPERTAHANKAN
+     (agar t-workflow menang pada <table class="t-workflow t-matrix">) */
+      table.t-matrix {
+        font-size: 8.5pt;
+      }
+      table.t-matrix th,
+      table.t-matrix td {
+        padding: 2px 3px;
+      }
+
       table.t-workflow {
         font-size: 9pt;
         table-layout: fixed;
@@ -220,10 +225,7 @@
       table.t-workflow td {
         padding: 5px 6px;
       }
-      table.t-workflow tbody td {
-        height: 32px;
-        vertical-align: middle;
-      }
+
       table.t-menu {
         font-size: 10pt;
         table-layout: fixed;
@@ -238,6 +240,7 @@
       table.t-menu th {
         height: 28px;
       }
+
       table.t-keterkaitan {
         font-size: 10pt;
         table-layout: fixed;
@@ -251,27 +254,14 @@
         margin: 0;
       }
 
-      /* t-standar — isi sel rata tengah */
+      /* Standar menu — rata tengah (dasar) */
       table.t-standar td,
       table.t-standar td.kiri,
       table.t-standar th {
         text-align: center;
       }
-      /* Fix specificity: kategori di dalam t-standar tetap rata kiri */
-      table.t-standar td.kategori {
-        text-align: left;
-      }
-      table.t-standar tbody td {
-        height: 42px;
-        vertical-align: middle;
-      }
 
-      /* ============================================================
-         FORM HEADER (I.2 & I.3)
-         Layout kolom eksplisit via <colgroup>:
-           Kolom 1 (label) = 22%, Kolom 2 (value) = 28%,
-           Kolom 3 (label) = 22%, Kolom 4 (value) = 28%
-         ============================================================ */
+      /* FORM HEADER */
       table.form-header {
         table-layout: fixed;
         width: 100%;
@@ -302,9 +292,7 @@
         vertical-align: middle;
       }
 
-      /* ============================================================
-         TABEL CAPTION
-         ============================================================ */
+      /* TABEL CAPTION */
       .tabel-caption {
         font-size: 11pt;
         font-weight: bold;
@@ -316,9 +304,7 @@
         border-bottom: 2px solid var(--biru-utama);
       }
 
-      /* ============================================================
-         CATATAN
-         ============================================================ */
+      /* CATATAN */
       .catatan {
         font-size: 9pt;
         font-style: italic;
@@ -334,9 +320,7 @@
         margin-top: 1.5em;
       }
 
-      /* ============================================================
-         TANDA TANGAN / VERIFIKASI
-         ============================================================ */
+      /* TANDA TANGAN / VERIFIKASI */
       .ttd-verifikasi {
         margin-top: var(--jarak-blok);
         padding: 6px 10px;
@@ -354,10 +338,6 @@
         vertical-align: top;
         padding: 3px;
       }
-      /* Tanda tangan 4 kolom (untuk halaman I.1) */
-      table.ttd-4 td {
-        width: 25%;
-      }
       .ttd-space {
         height: 90px;
       }
@@ -372,9 +352,7 @@
         height: 80px;
       }
 
-      /* ============================================================
-         LIST
-         ============================================================ */
+      /* LIST */
       ol.legal {
         list-style: decimal;
         padding-left: 22px;
@@ -399,9 +377,7 @@
         white-space: nowrap;
       }
 
-      /* ============================================================
-         DIAGRAM ALIR
-         ============================================================ */
+      /* DIAGRAM ALIR */
       .flow-chain {
         display: flex;
         flex-wrap: wrap;
@@ -438,7 +414,8 @@
         border-radius: 50%;
         font-size: 8pt;
       }
-      .flow-item.start {
+      .flow-item.start,
+      .flow-item.end {
         background: var(--hijau);
         border-color: #14532d;
         color: #fff;
@@ -446,7 +423,6 @@
       .flow-item.end {
         background: var(--merah);
         border-color: #7f1d1d;
-        color: #fff;
       }
       .flow-conn {
         color: var(--biru-utama);
@@ -455,9 +431,7 @@
         padding: 0 2px;
       }
 
-      /* ============================================================
-         FOOTER DOKUMEN & NARASI SOP
-         ============================================================ */
+      /* FOOTER & NARASI SOP */
       .footer-dokumen {
         margin-top: 24px;
         font-size: 10pt;
@@ -487,9 +461,7 @@
         margin-bottom: 6px;
       }
 
-      /* ============================================================
-         LEMBAR PENGESAHAN
-         ============================================================ */
+      /* LEMBAR PENGESAHAN */
       .pengesahan {
         font-size: 12pt;
         margin-top: var(--jarak-blok);
@@ -502,9 +474,7 @@
         border-top: 1px solid var(--teks);
       }
 
-      /* ============================================================
-         TOOLBAR
-         ============================================================ */
+      /* TOOLBAR */
       .toolbar {
         position: fixed;
         bottom: 16px;
@@ -586,9 +556,7 @@
         transform: translateY(1px);
       }
 
-      /* ============================================================
-         RESPONSIVE
-         ============================================================ */
+      /* RESPONSIVE */
       @media screen and (max-width: 1024px) {
         body {
           font-size: 11pt;
@@ -634,7 +602,6 @@
           right: 10px;
         }
       }
-
       @media screen and (max-width: 600px) {
         .page {
           padding: 12px 10px;
@@ -659,9 +626,7 @@
         }
       }
 
-      /* ============================================================
-         CETAK / PDF
-         ============================================================ */
+      /* CETAK / PDF */
       @media print {
         body {
           background: #fff;
@@ -695,6 +660,38 @@
         thead {
           display: table-header-group;
         }
+      }
+    </style>
+
+    <!-- ════════════════════════════════════════════════════════════════
+     STYLE SOP 9 — KHUSUS FILE INI
+     Boleh diubah tanpa memengaruhi SOP lain.
+     Nanti bisa dipindah ke file eksternal: sop-09.css
+     ════════════════════════════════════════════════════════════════ -->
+    <style id="style-sop">
+      /* Workflow H: di SOP 9 baris dipatok 32px agar 18 baris muat 1 halaman */
+      table.t-workflow tbody td {
+        height: 32px;
+        vertical-align: middle;
+      }
+
+      /* Lebar kolom kategori khusus SOP 9 */
+      td.kategori {
+        width: 18%;
+      }
+
+      /* I.1 Standar: kolom kategori tetap rata kiri, baris 42px */
+      table.t-standar td.kategori {
+        text-align: left;
+      }
+      table.t-standar tbody td {
+        height: 42px;
+        vertical-align: middle;
+      }
+
+      /* Tanda tangan 4 kolom (I.1) */
+      table.ttd-4 td {
+        width: 25%;
       }
     </style>
 
@@ -2139,13 +2136,13 @@
       <button class="btn-print" onclick="window.print()">🖨️ Cetak PDF</button>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════════
-         JAVASCRIPT — Toggle Kertas & Margin
-         ════════════════════════════════════════════════════════════ -->
-    <script>
+    <!-- ════════════════════════════════════════════════════════════════
+     JS GLOBAL — JANGAN DIUBAH PER-FILE
+     Nanti bisa dipindah ke file eksternal: sop-global.js
+     ════════════════════════════════════════════════════════════════ -->
+    <script id="js-global">
       (function () {
         "use strict";
-
         const PAPER = {
           A4: { cssSize: "A4 portrait", width: "210mm", height: "297mm" },
           F4: { cssSize: "215mm 330mm", width: "215mm", height: "330mm" },
@@ -2154,66 +2151,38 @@
             width: "216mm",
             height: "279mm",
           },
-          Legal: {
-            cssSize: "Legal portrait",
-            width: "216mm",
-            height: "356mm",
-          },
+          Legal: { cssSize: "Legal portrait", width: "216mm", height: "356mm" },
         };
-
         const state = { paper: "A4", marginLeft: "30mm" };
-
         const styleEl = document.getElementById("dynamic-page-style");
         const paperSelect = document.getElementById("paperSelect");
         const marginSelect = document.getElementById("marginSelect");
-
         if (!styleEl || !paperSelect || !marginSelect) return;
 
         function render() {
           const p = PAPER[state.paper] || PAPER.A4;
           const m = state.marginLeft;
-
           styleEl.textContent = `
-            @page { size: ${p.cssSize}; margin: 15mm 15mm 15mm ${m}; }
-
-            @media screen and (min-width: 1025px) {
-              .page {
-                width: ${p.width};
-                min-height: ${p.height};
-                padding: 15mm 15mm 15mm ${m};
-              }
-            }
-
-            @media screen and (max-width: 1024px) {
-              .page {
-                width: 100%;
-                min-height: auto;
-                padding: 16px;
-                margin: 8px 0;
-              }
-            }
-
-            @media print {
-              .page {
-                width: auto;
-                min-height: auto;
-                padding: 0;
-                margin: 0;
-              }
-            }
-          `;
+        @page { size: ${p.cssSize}; margin: 15mm 15mm 15mm ${m}; }
+        @media screen and (min-width: 1025px) {
+          .page { width: ${p.width}; min-height: ${p.height}; padding: 15mm 15mm 15mm ${m}; }
         }
-
+        @media screen and (max-width: 1024px) {
+          .page { width: 100%; min-height: auto; padding: 16px; margin: 8px 0; }
+        }
+        @media print {
+          .page { width: auto; min-height: auto; padding: 0; margin: 0; }
+        }
+      `;
+        }
         paperSelect.addEventListener("change", function () {
           state.paper = this.value;
           render();
         });
-
         marginSelect.addEventListener("change", function () {
           state.marginLeft = this.value;
           render();
         });
-
         render();
       })();
     </script>
