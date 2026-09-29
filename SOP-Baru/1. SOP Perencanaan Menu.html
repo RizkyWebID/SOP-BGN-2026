@@ -290,6 +290,42 @@
       }
 
       /* ============================================================
+         FORM HEADER (I.2 & I.3)
+         Layout kolom eksplisit via <colgroup>:
+           Kolom 1 (label) = 22%, Kolom 2 (value) = 28%,
+           Kolom 3 (label) = 22%, Kolom 4 (value) = 28%
+         ============================================================ */
+      table.form-header {
+        table-layout: fixed;
+        width: 100%;
+      }
+      table.form-header col.c-label {
+        width: 22%;
+      }
+      table.form-header col.c-value {
+        width: 28%;
+      }
+      table.form-header td {
+        height: 38px;
+        vertical-align: middle;
+        text-align: left;
+        padding: 6px 10px;
+        background: #fff;
+      }
+      table.form-header td.flabel {
+        font-weight: bold;
+        background: var(--biru-muda);
+        padding-left: 10px;
+        text-align: left;
+        vertical-align: middle;
+      }
+      table.form-header td.fvalue {
+        background: #fff;
+        text-align: left;
+        vertical-align: middle;
+      }
+
+      /* ============================================================
          TABEL CAPTION — jarak seragam
          ============================================================ */
       .tabel-caption {
@@ -824,9 +860,9 @@
       <div class="narasi-sop">
         <p>
           Laporan ini disusun sebagai pedoman bagi Satuan Pelayanan Pemenuhan
-          Gizi (SPPG) dalam merencanakan menu Program Makan Bergizi Gratis (MBG)
-          bagi seluruh kelompok penerima manfaat, yaitu peserta didik dan
-          kelompok 3B (ibu hamil, ibu menyusui, dan balita non-PAUD), agar:
+          Gizi (SPPG) dalam merencanakan menu Program Makan Bergizi Gratis bagi
+          seluruh kelompok penerima manfaat, yaitu peserta didik dan kelompok 3B
+          (Bumil, Busui, dan Balita non-PAUD), agar:
         </p>
         <ol>
           <li>
