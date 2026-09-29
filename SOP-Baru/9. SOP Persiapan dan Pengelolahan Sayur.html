@@ -210,22 +210,8 @@
         font-weight: bold;
         width: 32px;
       }
-      tr.header-row td {
-        font-weight: bold;
-      }
 
       /* Modifikator tabel */
-      table.t-matrix {
-        font-size: 8.5pt;
-      }
-      table.t-matrix th,
-      table.t-matrix td {
-        padding: 2px 3px;
-      }
-      table.t-matrix tbody td {
-        height: 32px;
-        vertical-align: middle;
-      }
       table.t-workflow {
         font-size: 9pt;
         table-layout: fixed;
@@ -264,13 +250,6 @@
         padding-left: 18px;
         margin: 0;
       }
-      table.t-jadwal {
-        font-size: 9pt;
-      }
-      table.t-jadwal th,
-      table.t-jadwal td {
-        padding: 3px 5px;
-      }
 
       /* t-standar — isi sel rata tengah */
       table.t-standar td,
@@ -288,7 +267,7 @@
       }
 
       /* ============================================================
-         FORM HEADER (I.4 & I.5)
+         FORM HEADER (I.2 & I.3)
          Layout kolom eksplisit via <colgroup>:
            Kolom 1 (label) = 22%, Kolom 2 (value) = 28%,
            Kolom 3 (label) = 22%, Kolom 4 (value) = 28%
@@ -375,7 +354,7 @@
         vertical-align: top;
         padding: 3px;
       }
-      /* Tanda tangan 4 kolom (untuk I.1 + I.2) */
+      /* Tanda tangan 4 kolom (untuk halaman I.1) */
       table.ttd-4 td {
         width: 25%;
       }
@@ -756,7 +735,7 @@
       <div class="kop-line-2"></div>
 
       <div class="judul-laporan">
-        <div class="t1">Laporan Persiapan dan Pengolahan Sayur</div>
+        <div class="t1">LAPORAN PERSIAPAN DAN PENGOLAHAN SAYUR</div>
         <div class="t2">PROGRAM MAKAN BERGIZI GRATIS (MBG)</div>
       </div>
 
@@ -1394,7 +1373,7 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════════════
-         HALAMAN 5 — I.1 DIAGRAM ALUR + STANDAR KEMATANGAN
+         HALAMAN 5 — I.1 DIAGRAM ALUR + STANDAR KEMATANGAN (1 kesatuan)
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">I.1 DIAGRAM ALUR PROSEDUR PERSIAPAN SAYUR</h2>
@@ -1574,11 +1553,11 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════════════
-         HALAMAN 6 — I.4 FORMULIR PERSIAPAN SAYURAN
+         HALAMAN 6 — I.2 FORMULIR PERSIAPAN SAYURAN
          Layout header via colgroup 22/28/22/28 → proporsional
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
-      <h2 class="section-title">I.4 FORMULIR PERSIAPAN SAYURAN</h2>
+      <h2 class="section-title">I.2 FORMULIR PERSIAPAN SAYURAN</h2>
       <div class="tabel-caption">Formulir Persiapan Sayuran</div>
 
       <table class="form-header">
@@ -1767,11 +1746,11 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════════════
-         HALAMAN 7 — I.5 FORMULIR PENGOLAHAN SAYUR
+         HALAMAN 7 — I.3 FORMULIR PENGOLAHAN SAYUR
          Layout header via colgroup 22/28/22/28 → proporsional
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
-      <h2 class="section-title">I.5 FORMULIR PENGOLAHAN SAYUR</h2>
+      <h2 class="section-title">I.3 FORMULIR PENGOLAHAN SAYUR</h2>
       <div class="tabel-caption">Formulir Pengolahan Sayur</div>
 
       <table class="form-header">
@@ -1895,6 +1874,16 @@
           </tr>
           <tr>
             <td class="no">9</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">10</td>
             <td></td>
             <td></td>
             <td></td>
@@ -2059,20 +2048,21 @@
         <li>
           <span class="list-flex"
             ><span
-              >I.1 Diagram Alur. Prosedur Persiapan dan Pengolahan Sayur</span
+              >I.1 Diagram Alur &amp; Standar Kematangan Prosedur Persiapan
+              Sayur</span
             ><span class="kanan">( 1 Halaman )</span></span
           >
         </li>
         <li>
           <span class="list-flex"
-            ><span>I.2 Laporan. Persiapan Sayuran</span
-            ><span class="kanan">( Harian )</span></span
+            ><span>I.2 Formulir. Persiapan Sayuran</span
+            ><span class="kanan">( 20 Hari )</span></span
           >
         </li>
         <li>
           <span class="list-flex"
-            ><span>I.3 Laporan. Pengolahan Sayur</span
-            ><span class="kanan">( Harian )</span></span
+            ><span>I.3 Formulir. Pengolahan Sayur</span
+            ><span class="kanan">( 20 Hari )</span></span
           >
         </li>
       </ol>
