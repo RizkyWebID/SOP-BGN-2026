@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<title>Siklus Menu 20 Hari - Peserta Didik & 3B</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @page { size: A4 landscape; margin: 10mm; }
+
+  body {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 9pt;
+    background: #e5e7eb;
+    color: #000;
+  }
+
+  .page {
+    width: 297mm;
+    min-height: 210mm;
+    padding: 10mm;
+    margin: 8mm auto;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; box-shadow: none; width: auto; min-height: auto; padding: 0; }
+    .no-print { display: none !important; }
+    .page-break { page-break-before: always; }
+  }
+
+  table.menu {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 7.5pt;
+  }
+  table.menu th, table.menu td {
+    border: 1px solid #000;
+    padding: 3px 4px;
+    vertical-align: middle;
+  }
+  table.menu th {
+    background: #1e3a8a;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 7.5pt;
+  }
+  table.menu td.kategori {
+    background: #e5e7eb;
+    font-weight: bold;
+    width: 90px;
+    font-size: 7.5pt;
+  }
+  table.menu tr:nth-child(even) td:not(.kategori) {
+    background: #fafafa;
+  }
+
+  h2.section-title {
+    font-size: 12pt;
+    font-weight: bold;
+    background: #1e3a8a;
+    color: #fff;
+    padding: 5px 10px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 9.5pt;
+    font-weight: bold;
+    background: #f3f4f6;
+    padding: 3px 8px;
+    border-left: 4px solid #1e3a8a;
+    margin: 8px 0 4px 0;
+  }
+
+  .catatan {
+    font-size: 8pt;
+    font-style: italic;
+    background: #fef9c3;
+    border: 1px solid #eab308;
+    padding: 6px 10px;
+    margin-top: 8px;
+  }
+
+  .signature-cell {
+    vertical-align: top;
+    text-align: center;
+    padding: 8px;
+    height: 100px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HALAMAN 1: PESERTA DIDIK ===================== -->
+<div class="page">
+
+  <h2 class="section-title">
+    SIKLUS MENU 20 HARI — PESERTA DIDIK<br/>
+    <span style="font-size:10pt; font-weight:normal;">Program Makan Bergizi Gratis (MBG) — Satuan Pelayanan Pemenuhan Gizi (SPPG)</span>
+  </h2>
+
+  <div class="subtitle">A. Menu Hari ke-1 s.d. ke-10</div>
+  <table class="menu">
+    <thead>
+      <tr>
+        <th>Kelompok Bahan Makanan</th>
+        <th>Menu 1</th>
+        <th>Menu 2</th>
+        <th>Menu 3</th>
+        <th>Menu 4</th>
+        <th>Menu 5</th>
+        <th>Menu 6</th>
+        <th>Menu 7</th>
+        <th>Menu 8</th>
+        <th>Menu 9</th>
+        <th>Menu 10</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="kategori">Makanan Pokok</td>
+        <td>Ubi</td><td>Nasi putih</td><td>Nasi putih</td><td>Ketan merah</td><td>Roti</td>
+        <td>Nasi putih</td><td>Nasi putih</td><td>Nasi putih</td><td>Mie kuning</td><td>Nasi putih</td>
+      </tr>
+      <tr>
+        <td class="kategori">Lauk Hewani</td>
+        <td>Ayam</td><td>Ikan kembung</td><td>Telur</td><td>Ikan dori</td><td>Telur</td>
+        <td>Ikan nila</td><td>Ayam</td><td>Ikan lele</td><td>Telur</td><td>Ayam</td>
+      </tr>
+      <tr>
+        <td class="kategori">Lauk Nabati</td>
+        <td>Tahu</td><td>Tahu</td><td>Kacang tanah</td><td>Kacang merah</td><td>Kacang tanah</td>
+        <td>Tempe</td><td>Tahu</td><td>Tempe</td><td>Tahu</td><td>Tempe</td>
+      </tr>
+      <tr>
+        <td class="kategori">Sayur</td>
+        <td>Sup wortel, brokoli</td>
+        <td>Labu siam, wortel, kentang</td>
+        <td>Wortel, brokoli, jagung manis</td>
+        <td>Bayam, wortel</td>
+        <td>Labu, ketimun</td>
+        <td>Brokoli, wortel</td>
+        <td>Labu siam, wortel, jagung manis</td>
+        <td>Kacang panjang, wortel</td>
+        <td>Wortel, brokoli, jagung manis</td>
+        <td>Tomat, wortel</td>
+      </tr>
+      <tr>
+        <td class="kategori">Buah</td>
+        <td>Pepaya</td><td>Salak</td><td>Pisang raja</td><td>Pisang ambon</td><td>Apel</td>
+        <td>Pepaya</td><td>Melon</td><td>Jeruk manis</td><td>Pisang raja</td><td>Pepaya</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="subtitle">B. Menu Hari ke-11 s.d. ke-20</div>
+  <table class="menu">
+    <thead>
+      <tr>
+        <th>Kelompok Bahan Makanan</th>
+        <th>Menu 11</th>
+        <th>Menu 12</th>
+        <th>Menu 13</th>
+        <th>Menu 14</th>
+        <th>Menu 15</th>
+        <th>Menu 16</th>
+        <th>Menu 17</th>
+        <th>Menu 18</th>
+        <th>Menu 19</th>
+        <th>Menu 20</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="kategori">Makanan Pokok</td>
+        <td>Nasi putih</td><td>Nasi putih</td><td>Nasi putih</td><td>Mie kuning</td><td>Nasi uduk</td>
+        <td>Nasi putih</td><td>Nasi putih</td><td>Nasi putih</td><td>Nasi putih</td><td>Nasi putih</td>
+      </tr>
+      <tr>
+        <td class="kategori">Lauk Hewani</td>
+        <td>Ikan kembung</td><td>Daging sapi</td><td>Telur</td><td>Ayam</td><td>Bakso</td>
+        <td>Telur</td><td>Ayam</td><td>Daging sapi</td><td>Ikan kakap</td><td>Telur</td>
+      </tr>
+      <tr>
+        <td class="kategori">Lauk Nabati</td>
+        <td>Tempe</td><td>Tahu</td><td>Kacang tanah</td><td>Kacang merah</td><td>Tahu</td>
+        <td>Tempe</td><td>Kacang merah</td><td>Tahu</td><td>Kacang tanah</td><td>Tempe</td>
+      </tr>
+      <tr>
+        <td class="kategori">Sayur</td>
+        <td>Brokoli, wortel</td>
+        <td>Labu siam, wortel</td>
+        <td>Kacang panjang, wortel</td>
+        <td>Bayam, buncis, wortel</td>
+        <td>Brokoli, wortel, jagung manis</td>
+        <td>Mangga muda, wortel</td>
+        <td>Kacang panjang, wortel</td>
+        <td>Labu, mentimun</td>
+        <td>Bayam buncis, wortel</td>
+        <td>Brokoli, wortel</td>
+      </tr>
+      <tr>
+        <td class="kategori">Buah</td>
+        <td>Pepaya</td><td>Melon</td><td>Jeruk manis</td><td>Salak</td><td>Anggur</td>
+        <td>Pepaya</td><td>Jeruk manis</td><td>Pisang raja</td><td>Apel</td><td>Pisang ambon</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="catatan">
+    <strong>Catatan:</strong> Siklus menu 20 hari ini dapat diulang setelah periode berakhir dan wajib diunggah pada fitur
+    <em>Menu Planner</em> SIPGN. Menu disusun mengacu pada Standar AKG Kemenkes, Pedoman Gizi Seimbang,
+    serta PerBGN Nomor 5 Tahun 2026 tentang Standar Gizi dalam Pelaksanaan Program MBG.
+  </div>
+
+  <!-- TTD -->
+  <table style="width:100%; margin-top:14px; border:none;">
+    <tr>
+      <td class="signature-cell" style="width:33%;">
+        <div>Dibuat oleh,</div>
+        <div><strong>Tim Perencanaan Menu</strong></div>
+        <div style="height:60px;"></div>
+        <div>(................................................)</div>
+      </td>
+      <td class="signature-cell" style="width:33%;">
+        <div>Diperiksa oleh,</div>
+        <div><strong>Pengawas Gizi</strong></div>
+        <div style="height:60px;"></div>
+        <div>(................................................)</div>
+      </td>
+      <td class="signature-cell" style="width:33%;">
+        <div>Disetujui oleh,</div>
+        <div><strong>Kepala SPPG</strong></div>
+        <div style="height:60px;"></div>
+        <div>(................................................)</div>
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+<!-- ===================== HALAMAN 2: KELOMPOK 3B ===================== -->
+<div class="page page-break">
+
+  <h2 class="section-title">
+    SIKLUS MENU 20 HARI — KELOMPOK 3B<br/>
+    <span style="font-size:10pt; font-weight:normal;">(Ibu Hamil, Ibu Menyusui, dan Balita non-PAUD) — Program MBG</span>
+  </h2>
+
+  <div class="subtitle">A. Menu Hari ke-1 s.d. ke-10 (Kelompok 3B)</div>
+  <table class="menu">
+    <thead>
+      <tr>
+        <th>Kelompok Bahan Makanan</th>
+        <th>Menu 1</th>
+        <th>Menu 2</th>
+        <th>Menu 3</th>
+        <th>Menu 4</th>
+        <th>Menu 5</th>
+        <th>Menu 6</th>
+        <th>Menu 7</th>
+        <th>Menu 8</th>
+        <th>Menu 9</th>
+        <th>Menu 10</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="kategori">Makanan Pokok</td>
+        <td>Ubi (dikukus lembut)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Ketan merah (lunak)</td>
+        <td>Roti tawar (tanpa isi)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Bihun rebus (tanpa mie instan)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+      </tr>
+      <tr>
+        <td class="kategori">Lauk Hewani</td>
+        <td>Ayam (cincang halus)</td>
+        <td>Ikan kembung (kukus, tanpa duri)</td>
+        <td>Telur (rebus/ceplok air)</td>
+        <td>Ikan dori (kukus, tanpa duri)</td>
+        <td>Telur (rebus)</td>
+        <td>Ikan nila (kukus, tanpa duri)</td>
+        <td>Ayam (cincang halus)</td>
+        <td>Ikan lele (kukus, tanpa duri)</td>
+        <td>Telur (rebus)</td>
+        <td>Ayam (cincang halus)</td>
+      </tr>
+      <tr>
+        <td class="kategori">Lauk Nabati</td>
+        <td>Tahu (kukus, lunak)</td>
+        <td>Tahu (kukus, lunak)</td>
+        <td>Kacang tanah (bubur halus)</td>
+        <td>Kacang merah (bubur halus)</td>
+        <td>Kacang tanah (bubur halus)</td>
+        <td>Tempe (kukus, lunak)</td>
+        <td>Tahu (kukus, lunak)</td>
+        <td>Tempe (kukus, lunak)</td>
+        <td>Tahu (kukus, lunak)</td>
+        <td>Tempe (kukus, lunak)</td>
+      </tr>
+      <tr>
+        <td class="kategori">Sayur</td>
+        <td>Sup wortel, brokoli (lunak)</td>
+        <td>Labu siam, wortel, kentang (lunak)</td>
+        <td>Wortel, brokoli, jagung manis (lunak)</td>
+        <td>Bayam, wortel (lunak)</td>
+        <td>Labu, ketimun (lunak)</td>
+        <td>Brokoli, wortel (lunak)</td>
+        <td>Labu siam, wortel, jagung manis (lunak)</td>
+        <td>Kacang panjang, wortel (lunak)</td>
+        <td>Wortel, brokoli, jagung manis (lunak)</td>
+        <td>Tomat, wortel (lunak)</td>
+      </tr>
+      <tr>
+        <td class="kategori">Buah</td>
+        <td>Pepaya (potong kecil)</td>
+        <td>Salak (dikeruk)</td>
+        <td>Pisang raja (lunak)</td>
+        <td>Pisang ambon (lunak)</td>
+        <td>Apel (dikeruk)</td>
+        <td>Pepaya (potong kecil)</td>
+        <td>Melon (potong kecil)</td>
+        <td>Jeruk manis (peras)</td>
+        <td>Pisang raja (lunak)</td>
+        <td>Pepaya (potong kecil)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="subtitle">B. Menu Hari ke-11 s.d. ke-20 (Kelompok 3B)</div>
+  <table class="menu">
+    <thead>
+      <tr>
+        <th>Kelompok Bahan Makanan</th>
+        <th>Menu 11</th>
+        <th>Menu 12</th>
+        <th>Menu 13</th>
+        <th>Menu 14</th>
+        <th>Menu 15</th>
+        <th>Menu 16</th>
+        <th>Menu 17</th>
+        <th>Menu 18</th>
+        <th>Menu 19</th>
+        <th>Menu 20</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="kategori">Makanan Pokok</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Bihun rebus (tanpa mie instan)</td>
+        <td>Nasi uduk (rendah santan)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+        <td>Nasi putih (tekstur lunak)</td>
+      </tr>
+      <tr>
+        <td class="kategori">Lauk Hewani</td>
+        <td>Ikan kembung (kukus, tanpa duri)</td>
+        <td>Daging sapi (cincang halus)</td>
+        <td>Telur (rebus)</td>
+        <td>Ayam (cincang halus)</td>
+        <td>Bakso ikan (homemade, tanpa pengawet)</td>
+        <td>Telur (rebus)</td>
+        <td>Ayam (cincang halus)</td>
+        <td>Daging sapi (cincang halus)</td>
+        <td>Ikan kakap (kukus, tanpa duri)</td>
+        <td>Telur (rebus)</td>
+      </tr>
+      <tr>
+        <td class="kategori">Lauk Nabati</td>
+        <td>Tempe (kukus, lunak)</td>
+        <td>Tahu (kukus, lunak)</td>
+        <td>Kacang tanah (bubur halus)</td>
+        <td>Kacang merah (bubur halus)</td>
+        <td>Tahu (kukus, lunak)</td>
+        <td>Tempe (kukus, lunak)</td>
+        <td>Kacang merah (bubur halus)</td>
+        <td>Tahu (kukus, lunak)</td>
+        <td>Kacang tanah (bubur halus)</td>
+        <td>Tempe (kukus, lunak)</td>
+      </tr>
+      <tr>
+        <td class="kategori">Sayur</td>
+        <td>Brokoli, wortel (lunak)</td>
+        <td>Labu siam, wortel (lunak)</td>
+        <td>Kacang panjang, wortel (lunak)</td>
+        <td>Bayam, buncis, wortel (lunak)</td>
+        <td>Brokoli, wortel, jagung manis (lunak)</td>
+        <td>Mangga muda, wortel (lunak)</td>
+        <td>Kacang panjang, wortel (lunak)</td>
+        <td>Labu, mentimun (lunak)</td>
+        <td>Bayam buncis, wortel (lunak)</td>
+        <td>Brokoli, wortel (lunak)</td>
+      </tr>
+      <tr>
+        <td class="kategori">Buah</td>
+        <td>Pepaya (potong kecil)</td>
+        <td>Melon (potong kecil)</td>
+        <td>Jeruk manis (peras)</td>
+        <td>Salak (dikeruk)</td>
+        <td>Anggur (tanpa biji)</td>
+        <td>Pepaya (potong kecil)</td>
+        <td>Jeruk manis (peras)</td>
+        <td>Pisang raja (lunak)</td>
+        <td>Apel (dikeruk)</td>
+        <td>Pisang ambon (lunak)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="catatan">
+    <strong>Catatan Khusus Kelompok 3B:</strong>
+    <ol style="margin: 4px 0 0 18px; padding: 0;">
+      <li>Pembatasan penggunaan <strong>Gula, Garam, dan Lemak (GGL)</strong> sesuai ketentuan PerBGN No. 5 Tahun 2026.</li>
+      <li>Sebisa mungkin <strong>menghindari penggunaan Ultra Processed Food (UPF)</strong>; bakso, mie instan, dan sejenisnya diganti versi <em>homemade</em> atau bahan segar.</li>
+      <li><strong>Tekstur menu disesuaikan</strong> dengan kelompok sasaran: bumil/busui (makanan biasa lunak), balita 6–11 bulan (bubur saring), balita 12–23 bulan (bubur kasar/makanan lunak), balita 24–59 bulan (makanan keluarga lunak).</li>
+      <li>Penyesuaian porsi mengacu pada AKG spesifik tiap sub-kelompok umur.</li>
+    </ol>
+  </div>
+
+  <!-- TTD -->
+  <table style="width:100%; margin-top:14px; border:none;">
+    <tr>
+      <td class="signature-cell" style="width:33%;">
+        <div>Dibuat oleh,</div>
+        <div><strong>Tim Perencanaan Menu</strong></div>
+        <div style="height:60px;"></div>
+        <div>(................................................)</div>
+      </td>
+      <td class="signature-cell" style="width:33%;">
+        <div>Diperiksa oleh,</div>
+        <div><strong>Pengawas Gizi</strong></div>
+        <div style="height:60px;"></div>
+        <div>(................................................)</div>
+      </td>
+      <td class="signature-cell" style="width:33%;">
+        <div>Disetujui oleh,</div>
+        <div><strong>Kepala SPPG</strong></div>
+        <div style="height:60px;"></div>
+        <div>(................................................)</div>
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+<!-- TOMBOL CETAK -->
+<div class="no-print fixed bottom-6 right-6 flex gap-3">
+  <button onclick="window.print()"
+    class="bg-blue-700 hover:bg-blue-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg">
+    🖨️ Cetak / Simpan PDF
+  </button>
+</div>
+
+</body>
+</html>
