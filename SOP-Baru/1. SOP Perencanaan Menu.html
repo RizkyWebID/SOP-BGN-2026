@@ -77,6 +77,24 @@
         margin-top: 2px;
       }
 
+      /* ===== SPACING KONSISTEN ANTAR TABEL (6px) ===== */
+      table + table,
+      .tabel-caption + table,
+      table + .tabel-caption {
+        margin-top: 6px;
+      }
+      table.formal,
+      table.menu,
+      table.standar,
+      table.jadwal {
+        margin-bottom: 0;
+      }
+      table + .catatan,
+      table + .ttd-verifikasi,
+      .catatan + .ttd-verifikasi {
+        margin-top: 6px;
+      }
+
       table.formal {
         width: 100%;
         border-collapse: collapse;
@@ -174,23 +192,22 @@
       }
 
       .tabel-caption {
-        font-size: 9.5pt;
+        font-size: 10pt;
         font-weight: bold;
         text-align: center;
-        margin: 8px 0 4px 0;
+        margin: 6px 0 0 0;
         background: #f3f4f6;
         padding: 3px;
         border-top: 2px solid #1e3a8a;
         border-bottom: 2px solid #1e3a8a;
       }
 
-      /* ===== TABEL MENU — 6 KOLOM (Kategori + 5 Menu) ===== */
+      /* ===== TABEL MENU — 6 KOLOM ===== */
       table.menu {
         width: 100%;
         border-collapse: collapse;
-        font-size: 10pt; /* ✓ lebih besar karena kolom lebih sedikit */
+        font-size: 10pt;
         table-layout: fixed;
-        margin-bottom: 4px;
       }
 
       table.menu th,
@@ -200,7 +217,7 @@
         vertical-align: middle;
         text-align: center;
         word-wrap: break-word;
-        height: 34px; /* tinggi seragam */
+        height: 34px;
         line-height: 1.25;
         font-size: 10pt;
       }
@@ -226,21 +243,10 @@
         background: #fafafa;
       }
 
-      .tabel-caption {
-        font-size: 10pt;
-        font-weight: bold;
-        text-align: center;
-        margin: 5px 0 3px 0;
-        background: #f3f4f6;
-        padding: 3px;
-        border-top: 2px solid #1e3a8a;
-        border-bottom: 2px solid #1e3a8a;
-      }
       table.jadwal {
         width: 100%;
         border-collapse: collapse;
         font-size: 8pt;
-        margin-bottom: 6px;
       }
       table.jadwal th,
       table.jadwal td {
@@ -276,7 +282,7 @@
         background: #1e3a8a;
         color: #fff;
         padding: 4px 8px;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
         text-align: center;
       }
 
@@ -288,7 +294,7 @@
         padding: 3px 8px;
         border-left: 5px solid #1e3a8a;
         margin-top: 10px;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
       }
 
       h4.sub-anak {
@@ -305,7 +311,7 @@
         background: #f3f4f6;
         padding: 3px 8px;
         border-left: 4px solid #1e3a8a;
-        margin: 6px 0 3px 0;
+        margin: 6px 0;
       }
 
       ol.legal {
@@ -324,10 +330,11 @@
         border: 1px solid #eab308;
         padding: 6px 10px;
         margin-top: 6px;
+        margin-bottom: 0;
       }
 
       .ttd-verifikasi {
-        margin-top: 10px;
+        margin-top: 6px;
         border: 1px solid #000;
         padding: 6px 10px;
         background: #f9fafb;
@@ -740,7 +747,7 @@
         Kelompok Bahan Pangan, Jenis, dan Frekuensi Bahan Baku
       </div>
 
-      <table class="formal" style="margin-top: 6px">
+      <table class="formal">
         <thead>
           <tr>
             <th style="width: 26%">Kelompok Bahan Pangan</th>
@@ -963,53 +970,53 @@
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
-            <th>Menu 1</th>
-            <th>Menu 2</th>
-            <th>Menu 3</th>
-            <th>Menu 4</th>
-            <th>Menu 5</th>
+            <th>Menu 6</th>
+            <th>Menu 7</th>
+            <th>Menu 8</th>
+            <th>Menu 9</th>
+            <th>Menu 10</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="kategori">Makanan Pokok</td>
-            <td>Ubi</td>
             <td>Nasi putih</td>
             <td>Nasi putih</td>
-            <td>Ketan merah</td>
-            <td>Roti</td>
+            <td>Nasi putih</td>
+            <td>Mie kuning</td>
+            <td>Nasi putih</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Hewani</td>
+            <td>Ikan nila</td>
             <td>Ayam</td>
-            <td>Ikan kembung</td>
+            <td>Ikan lele</td>
             <td>Telur</td>
-            <td>Ikan dori</td>
-            <td>Telur</td>
+            <td>Ayam</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Nabati</td>
+            <td>Tempe</td>
             <td>Tahu</td>
+            <td>Tempe</td>
             <td>Tahu</td>
-            <td>Kacang tanah</td>
-            <td>Kacang merah</td>
-            <td>Kacang tanah</td>
+            <td>Tempe</td>
           </tr>
           <tr>
             <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli</td>
-            <td>Labu siam, wortel, kentang</td>
+            <td>Brokoli, wortel</td>
+            <td>Labu siam, wortel, jagung manis</td>
+            <td>Kacang panjang, wortel</td>
             <td>Wortel, brokoli, jagung manis</td>
-            <td>Bayam, wortel</td>
-            <td>Labu, ketimun</td>
+            <td>Tomat, wortel</td>
           </tr>
           <tr>
             <td class="kategori">Buah</td>
             <td>Pepaya</td>
-            <td>Salak</td>
+            <td>Melon</td>
+            <td>Jeruk manis</td>
             <td>Pisang raja</td>
-            <td>Pisang ambon</td>
-            <td>Apel</td>
+            <td>Pepaya</td>
           </tr>
         </tbody>
       </table>
@@ -1018,53 +1025,53 @@
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
-            <th>Menu 1</th>
-            <th>Menu 2</th>
-            <th>Menu 3</th>
-            <th>Menu 4</th>
-            <th>Menu 5</th>
+            <th>Menu 11</th>
+            <th>Menu 12</th>
+            <th>Menu 13</th>
+            <th>Menu 14</th>
+            <th>Menu 15</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="kategori">Makanan Pokok</td>
-            <td>Ubi</td>
             <td>Nasi putih</td>
             <td>Nasi putih</td>
-            <td>Ketan merah</td>
-            <td>Roti</td>
+            <td>Nasi putih</td>
+            <td>Mie kuning</td>
+            <td>Nasi uduk</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Hewani</td>
-            <td>Ayam</td>
             <td>Ikan kembung</td>
+            <td>Daging sapi</td>
             <td>Telur</td>
-            <td>Ikan dori</td>
-            <td>Telur</td>
+            <td>Ayam</td>
+            <td>Bakso</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Nabati</td>
-            <td>Tahu</td>
+            <td>Tempe</td>
             <td>Tahu</td>
             <td>Kacang tanah</td>
             <td>Kacang merah</td>
-            <td>Kacang tanah</td>
+            <td>Tahu</td>
           </tr>
           <tr>
             <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli</td>
-            <td>Labu siam, wortel, kentang</td>
-            <td>Wortel, brokoli, jagung manis</td>
-            <td>Bayam, wortel</td>
-            <td>Labu, ketimun</td>
+            <td>Brokoli, wortel</td>
+            <td>Labu siam, wortel</td>
+            <td>Kacang panjang, wortel</td>
+            <td>Bayam, buncis, wortel</td>
+            <td>Brokoli, wortel, jagung manis</td>
           </tr>
           <tr>
             <td class="kategori">Buah</td>
             <td>Pepaya</td>
+            <td>Melon</td>
+            <td>Jeruk manis</td>
             <td>Salak</td>
-            <td>Pisang raja</td>
-            <td>Pisang ambon</td>
-            <td>Apel</td>
+            <td>Anggur</td>
           </tr>
         </tbody>
       </table>
@@ -1073,53 +1080,53 @@
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
-            <th>Menu 1</th>
-            <th>Menu 2</th>
-            <th>Menu 3</th>
-            <th>Menu 4</th>
-            <th>Menu 5</th>
+            <th>Menu 16</th>
+            <th>Menu 17</th>
+            <th>Menu 18</th>
+            <th>Menu 19</th>
+            <th>Menu 20</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="kategori">Makanan Pokok</td>
-            <td>Ubi</td>
             <td>Nasi putih</td>
             <td>Nasi putih</td>
-            <td>Ketan merah</td>
-            <td>Roti</td>
+            <td>Nasi putih</td>
+            <td>Nasi putih</td>
+            <td>Nasi putih</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Hewani</td>
-            <td>Ayam</td>
-            <td>Ikan kembung</td>
             <td>Telur</td>
-            <td>Ikan dori</td>
+            <td>Ayam</td>
+            <td>Daging sapi</td>
+            <td>Ikan kakap</td>
             <td>Telur</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Nabati</td>
-            <td>Tahu</td>
-            <td>Tahu</td>
-            <td>Kacang tanah</td>
+            <td>Tempe</td>
             <td>Kacang merah</td>
+            <td>Tahu</td>
             <td>Kacang tanah</td>
+            <td>Tempe</td>
           </tr>
           <tr>
             <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli</td>
-            <td>Labu siam, wortel, kentang</td>
-            <td>Wortel, brokoli, jagung manis</td>
-            <td>Bayam, wortel</td>
-            <td>Labu, ketimun</td>
+            <td>Mangga muda, wortel</td>
+            <td>Kacang panjang, wortel</td>
+            <td>Labu, mentimun</td>
+            <td>Bayam buncis, wortel</td>
+            <td>Brokoli, wortel</td>
           </tr>
           <tr>
             <td class="kategori">Buah</td>
             <td>Pepaya</td>
-            <td>Salak</td>
+            <td>Jeruk manis</td>
             <td>Pisang raja</td>
-            <td>Pisang ambon</td>
             <td>Apel</td>
+            <td>Pisang ambon</td>
           </tr>
         </tbody>
       </table>
@@ -1183,43 +1190,43 @@
         <tbody>
           <tr>
             <td class="kategori">Makanan Pokok</td>
-            <td>Ubi</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Ketan merah</td>
-            <td>Roti</td>
+            <td>Ubi (dikukus lembut)</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Ketan merah (lunak)</td>
+            <td>Roti tawar (tanpa isi)</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Hewani</td>
-            <td>Ayam</td>
-            <td>Ikan kembung</td>
-            <td>Telur</td>
-            <td>Ikan dori</td>
-            <td>Telur</td>
+            <td>Ayam (cincang halus)</td>
+            <td>Ikan kembung (kukus)</td>
+            <td>Telur (rebus/ceplok air)</td>
+            <td>Ikan dori (kukus)</td>
+            <td>Telur (rebus)</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Nabati</td>
-            <td>Tahu</td>
-            <td>Tahu</td>
-            <td>Kacang tanah</td>
-            <td>Kacang merah</td>
-            <td>Kacang tanah</td>
+            <td>Tahu (kukus, lunak)</td>
+            <td>Tahu (kukus, lunak)</td>
+            <td>Kacang tanah (bubur halus)</td>
+            <td>Kacang merah (bubur halus)</td>
+            <td>Kacang tanah (bubur halus)</td>
           </tr>
           <tr>
             <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli</td>
-            <td>Labu siam, wortel, kentang</td>
-            <td>Wortel, brokoli, jagung manis</td>
-            <td>Bayam, wortel</td>
-            <td>Labu, ketimun</td>
+            <td>Sup wortel, brokoli (lunak)</td>
+            <td>Labu siam, wortel (lunak)</td>
+            <td>Wortel, brokoli, jagung (lunak)</td>
+            <td>Bayam, wortel (lunak)</td>
+            <td>Labu, ketimun (lunak)</td>
           </tr>
           <tr>
             <td class="kategori">Buah</td>
-            <td>Pepaya</td>
-            <td>Salak</td>
-            <td>Pisang raja</td>
-            <td>Pisang ambon</td>
-            <td>Apel</td>
+            <td>Pepaya (potong kecil)</td>
+            <td>Salak (dikeruk)</td>
+            <td>Pisang raja (lunak)</td>
+            <td>Pisang ambon (lunak)</td>
+            <td>Apel (dikeruk)</td>
           </tr>
         </tbody>
       </table>
@@ -1228,53 +1235,53 @@
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
-            <th>Menu 1</th>
-            <th>Menu 2</th>
-            <th>Menu 3</th>
-            <th>Menu 4</th>
-            <th>Menu 5</th>
+            <th>Menu 6</th>
+            <th>Menu 7</th>
+            <th>Menu 8</th>
+            <th>Menu 9</th>
+            <th>Menu 10</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="kategori">Makanan Pokok</td>
-            <td>Ubi</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Ketan merah</td>
-            <td>Roti</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Bihun rebus (tanpa mie instan)</td>
+            <td>Nasi putih (tekstur lunak)</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Hewani</td>
-            <td>Ayam</td>
-            <td>Ikan kembung</td>
-            <td>Telur</td>
-            <td>Ikan dori</td>
-            <td>Telur</td>
+            <td>Ikan nila (kukus)</td>
+            <td>Ayam (cincang halus)</td>
+            <td>Ikan lele (kukus)</td>
+            <td>Telur (rebus)</td>
+            <td>Ayam (cincang halus)</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Nabati</td>
-            <td>Tahu</td>
-            <td>Tahu</td>
-            <td>Kacang tanah</td>
-            <td>Kacang merah</td>
-            <td>Kacang tanah</td>
+            <td>Tempe (kukus, lunak)</td>
+            <td>Tahu (kukus, lunak)</td>
+            <td>Tempe (kukus, lunak)</td>
+            <td>Tahu (kukus, lunak)</td>
+            <td>Tempe (kukus, lunak)</td>
           </tr>
           <tr>
             <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli</td>
-            <td>Labu siam, wortel, kentang</td>
-            <td>Wortel, brokoli, jagung manis</td>
-            <td>Bayam, wortel</td>
-            <td>Labu, ketimun</td>
+            <td>Brokoli, wortel (lunak)</td>
+            <td>Labu siam, wortel (lunak)</td>
+            <td>Kacang panjang, wortel (lunak)</td>
+            <td>Wortel, brokoli (lunak)</td>
+            <td>Tomat, wortel (lunak)</td>
           </tr>
           <tr>
             <td class="kategori">Buah</td>
-            <td>Pepaya</td>
-            <td>Salak</td>
-            <td>Pisang raja</td>
-            <td>Pisang ambon</td>
-            <td>Apel</td>
+            <td>Pepaya (potong kecil)</td>
+            <td>Melon (potong kecil)</td>
+            <td>Jeruk manis (peras)</td>
+            <td>Pisang raja (lunak)</td>
+            <td>Pepaya (potong kecil)</td>
           </tr>
         </tbody>
       </table>
@@ -1283,53 +1290,53 @@
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
-            <th>Menu 1</th>
-            <th>Menu 2</th>
-            <th>Menu 3</th>
-            <th>Menu 4</th>
-            <th>Menu 5</th>
+            <th>Menu 11</th>
+            <th>Menu 12</th>
+            <th>Menu 13</th>
+            <th>Menu 14</th>
+            <th>Menu 15</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="kategori">Makanan Pokok</td>
-            <td>Ubi</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Ketan merah</td>
-            <td>Roti</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Bihun rebus (tanpa mie instan)</td>
+            <td>Nasi uduk (rendah santan)</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Hewani</td>
-            <td>Ayam</td>
-            <td>Ikan kembung</td>
-            <td>Telur</td>
-            <td>Ikan dori</td>
-            <td>Telur</td>
+            <td>Ikan kembung (kukus)</td>
+            <td>Daging sapi (cincang halus)</td>
+            <td>Telur (rebus)</td>
+            <td>Ayam (cincang halus)</td>
+            <td>Bakso ikan (homemade)</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Nabati</td>
-            <td>Tahu</td>
-            <td>Tahu</td>
-            <td>Kacang tanah</td>
-            <td>Kacang merah</td>
-            <td>Kacang tanah</td>
+            <td>Tempe (kukus, lunak)</td>
+            <td>Tahu (kukus, lunak)</td>
+            <td>Kacang tanah (bubur halus)</td>
+            <td>Kacang merah (bubur halus)</td>
+            <td>Tahu (kukus, lunak)</td>
           </tr>
           <tr>
             <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli</td>
-            <td>Labu siam, wortel, kentang</td>
-            <td>Wortel, brokoli, jagung manis</td>
-            <td>Bayam, wortel</td>
-            <td>Labu, ketimun</td>
+            <td>Brokoli, wortel (lunak)</td>
+            <td>Labu siam, wortel (lunak)</td>
+            <td>Kacang panjang, wortel (lunak)</td>
+            <td>Bayam, buncis, wortel (lunak)</td>
+            <td>Brokoli, wortel, jagung (lunak)</td>
           </tr>
           <tr>
             <td class="kategori">Buah</td>
-            <td>Pepaya</td>
-            <td>Salak</td>
-            <td>Pisang raja</td>
-            <td>Pisang ambon</td>
-            <td>Apel</td>
+            <td>Pepaya (potong kecil)</td>
+            <td>Melon (potong kecil)</td>
+            <td>Jeruk manis (peras)</td>
+            <td>Salak (dikeruk)</td>
+            <td>Anggur (tanpa biji)</td>
           </tr>
         </tbody>
       </table>
@@ -1338,53 +1345,53 @@
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
-            <th>Menu 1</th>
-            <th>Menu 2</th>
-            <th>Menu 3</th>
-            <th>Menu 4</th>
-            <th>Menu 5</th>
+            <th>Menu 16</th>
+            <th>Menu 17</th>
+            <th>Menu 18</th>
+            <th>Menu 19</th>
+            <th>Menu 20</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="kategori">Makanan Pokok</td>
-            <td>Ubi</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Ketan merah</td>
-            <td>Roti</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Nasi putih (tekstur lunak)</td>
+            <td>Nasi putih (tekstur lunak)</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Hewani</td>
-            <td>Ayam</td>
-            <td>Ikan kembung</td>
-            <td>Telur</td>
-            <td>Ikan dori</td>
-            <td>Telur</td>
+            <td>Telur (rebus)</td>
+            <td>Ayam (cincang halus)</td>
+            <td>Daging sapi (cincang halus)</td>
+            <td>Ikan kakap (kukus)</td>
+            <td>Telur (rebus)</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Nabati</td>
-            <td>Tahu</td>
-            <td>Tahu</td>
-            <td>Kacang tanah</td>
-            <td>Kacang merah</td>
-            <td>Kacang tanah</td>
+            <td>Tempe (kukus, lunak)</td>
+            <td>Kacang merah (bubur halus)</td>
+            <td>Tahu (kukus, lunak)</td>
+            <td>Kacang tanah (bubur halus)</td>
+            <td>Tempe (kukus, lunak)</td>
           </tr>
           <tr>
             <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli</td>
-            <td>Labu siam, wortel, kentang</td>
-            <td>Wortel, brokoli, jagung manis</td>
-            <td>Bayam, wortel</td>
-            <td>Labu, ketimun</td>
+            <td>Mangga muda, wortel (lunak)</td>
+            <td>Kacang panjang, wortel (lunak)</td>
+            <td>Labu, mentimun (lunak)</td>
+            <td>Bayam buncis, wortel (lunak)</td>
+            <td>Brokoli, wortel (lunak)</td>
           </tr>
           <tr>
             <td class="kategori">Buah</td>
-            <td>Pepaya</td>
-            <td>Salak</td>
-            <td>Pisang raja</td>
-            <td>Pisang ambon</td>
-            <td>Apel</td>
+            <td>Pepaya (potong kecil)</td>
+            <td>Jeruk manis (peras)</td>
+            <td>Pisang raja (lunak)</td>
+            <td>Apel (dikeruk)</td>
+            <td>Pisang ambon (lunak)</td>
           </tr>
         </tbody>
       </table>
@@ -1397,7 +1404,7 @@
 
       <div class="ttd-verifikasi">
         <div class="ttd-title">
-          LEMBAR VERIFIKASI — F.2 SIKLUS MENU 20 HARI PESERTA DIDIK
+          LEMBAR VERIFIKASI — F.2 SIKLUS MENU 20 HARI BALITA
         </div>
         <table>
           <tr>
@@ -1425,7 +1432,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 5 (LANDSCAPE): F.2 SIKLUS MENU — KELOMPOK 3B        -->
+    <!-- HALAMAN 6 (LANDSCAPE): KONDISI KHUSUS / ALERGI              -->
     <!-- ============================================================ -->
     <div class="page-landscape page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -1493,53 +1500,53 @@
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
-            <th>Menu 1</th>
-            <th>Menu 2</th>
-            <th>Menu 3</th>
-            <th>Menu 4</th>
-            <th>Menu 5</th>
+            <th>Menu 6</th>
+            <th>Menu 7</th>
+            <th>Menu 8</th>
+            <th>Menu 9</th>
+            <th>Menu 10</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="kategori">Makanan Pokok</td>
-            <td>Ubi</td>
             <td>Nasi putih</td>
             <td>Nasi putih</td>
-            <td>Ketan merah</td>
-            <td>Roti</td>
+            <td>Nasi putih</td>
+            <td>Mie kuning</td>
+            <td>Nasi putih</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Hewani</td>
+            <td>Ikan nila</td>
             <td>Ayam</td>
-            <td>Ikan kembung</td>
+            <td>Ikan lele</td>
             <td>Telur</td>
-            <td>Ikan dori</td>
-            <td>Telur</td>
+            <td>Ayam</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Nabati</td>
+            <td>Tempe</td>
             <td>Tahu</td>
+            <td>Tempe</td>
             <td>Tahu</td>
-            <td>Kacang tanah</td>
-            <td>Kacang merah</td>
-            <td>Kacang tanah</td>
+            <td>Tempe</td>
           </tr>
           <tr>
             <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli</td>
-            <td>Labu siam, wortel, kentang</td>
-            <td>Wortel, brokoli, jagung manis</td>
-            <td>Bayam, wortel</td>
-            <td>Labu, ketimun</td>
+            <td>Brokoli, wortel</td>
+            <td>Labu siam, wortel</td>
+            <td>Kacang panjang, wortel</td>
+            <td>Wortel, brokoli, jagung</td>
+            <td>Tomat, wortel</td>
           </tr>
           <tr>
             <td class="kategori">Buah</td>
             <td>Pepaya</td>
-            <td>Salak</td>
+            <td>Melon</td>
+            <td>Jeruk manis</td>
             <td>Pisang raja</td>
-            <td>Pisang ambon</td>
-            <td>Apel</td>
+            <td>Pepaya</td>
           </tr>
         </tbody>
       </table>
@@ -1548,53 +1555,53 @@
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
-            <th>Menu 1</th>
-            <th>Menu 2</th>
-            <th>Menu 3</th>
-            <th>Menu 4</th>
-            <th>Menu 5</th>
+            <th>Menu 11</th>
+            <th>Menu 12</th>
+            <th>Menu 13</th>
+            <th>Menu 14</th>
+            <th>Menu 15</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="kategori">Makanan Pokok</td>
-            <td>Ubi</td>
             <td>Nasi putih</td>
             <td>Nasi putih</td>
-            <td>Ketan merah</td>
-            <td>Roti</td>
+            <td>Nasi putih</td>
+            <td>Mie kuning</td>
+            <td>Nasi uduk</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Hewani</td>
-            <td>Ayam</td>
             <td>Ikan kembung</td>
+            <td>Daging sapi</td>
             <td>Telur</td>
-            <td>Ikan dori</td>
-            <td>Telur</td>
+            <td>Ayam</td>
+            <td>Bakso</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Nabati</td>
-            <td>Tahu</td>
+            <td>Tempe</td>
             <td>Tahu</td>
             <td>Kacang tanah</td>
             <td>Kacang merah</td>
-            <td>Kacang tanah</td>
+            <td>Tahu</td>
           </tr>
           <tr>
             <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli</td>
-            <td>Labu siam, wortel, kentang</td>
-            <td>Wortel, brokoli, jagung manis</td>
-            <td>Bayam, wortel</td>
-            <td>Labu, ketimun</td>
+            <td>Brokoli, wortel</td>
+            <td>Labu siam, wortel</td>
+            <td>Kacang panjang, wortel</td>
+            <td>Bayam, buncis, wortel</td>
+            <td>Brokoli, wortel, jagung</td>
           </tr>
           <tr>
             <td class="kategori">Buah</td>
             <td>Pepaya</td>
+            <td>Melon</td>
+            <td>Jeruk manis</td>
             <td>Salak</td>
-            <td>Pisang raja</td>
-            <td>Pisang ambon</td>
-            <td>Apel</td>
+            <td>Anggur</td>
           </tr>
         </tbody>
       </table>
@@ -1603,53 +1610,53 @@
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
-            <th>Menu 1</th>
-            <th>Menu 2</th>
-            <th>Menu 3</th>
-            <th>Menu 4</th>
-            <th>Menu 5</th>
+            <th>Menu 16</th>
+            <th>Menu 17</th>
+            <th>Menu 18</th>
+            <th>Menu 19</th>
+            <th>Menu 20</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="kategori">Makanan Pokok</td>
-            <td>Ubi</td>
             <td>Nasi putih</td>
             <td>Nasi putih</td>
-            <td>Ketan merah</td>
-            <td>Roti</td>
+            <td>Nasi putih</td>
+            <td>Nasi putih</td>
+            <td>Nasi putih</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Hewani</td>
-            <td>Ayam</td>
-            <td>Ikan kembung</td>
             <td>Telur</td>
-            <td>Ikan dori</td>
+            <td>Ayam</td>
+            <td>Daging sapi</td>
+            <td>Ikan kakap</td>
             <td>Telur</td>
           </tr>
           <tr>
             <td class="kategori">Lauk Nabati</td>
-            <td>Tahu</td>
-            <td>Tahu</td>
-            <td>Kacang tanah</td>
+            <td>Tempe</td>
             <td>Kacang merah</td>
+            <td>Tahu</td>
             <td>Kacang tanah</td>
+            <td>Tempe</td>
           </tr>
           <tr>
             <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli</td>
-            <td>Labu siam, wortel, kentang</td>
-            <td>Wortel, brokoli, jagung manis</td>
-            <td>Bayam, wortel</td>
-            <td>Labu, ketimun</td>
+            <td>Mangga muda, wortel</td>
+            <td>Kacang panjang, wortel</td>
+            <td>Labu, mentimun</td>
+            <td>Bayam buncis, wortel</td>
+            <td>Brokoli, wortel</td>
           </tr>
           <tr>
             <td class="kategori">Buah</td>
             <td>Pepaya</td>
-            <td>Salak</td>
+            <td>Jeruk manis</td>
             <td>Pisang raja</td>
-            <td>Pisang ambon</td>
             <td>Apel</td>
+            <td>Pisang ambon</td>
           </tr>
         </tbody>
       </table>
@@ -1662,7 +1669,7 @@
 
       <div class="ttd-verifikasi">
         <div class="ttd-title">
-          LEMBAR VERIFIKASI — F.2 SIKLUS MENU 20 HARI PESERTA DIDIK
+          LEMBAR VERIFIKASI — F.2 SIKLUS MENU 20 HARI KONDISI KHUSUS
         </div>
         <table>
           <tr>
@@ -1690,7 +1697,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 5: F.3 PENERAPAN STANDAR MAKANAN                    -->
+    <!-- HALAMAN 7: F.3 PENERAPAN STANDAR MAKANAN — BUMIL/BUSUI/SMA  -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -1768,7 +1775,7 @@
           </tr>
         </tbody>
       </table>
-      {kasi jarak}
+
       <table class="standar">
         <thead>
           <tr>
@@ -1885,7 +1892,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 5: F.3 PENERAPAN STANDAR MAKANAN                    -->
+    <!-- HALAMAN 8: F.3 PENERAPAN STANDAR MAKANAN — SMP              -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -1963,7 +1970,7 @@
           </tr>
         </tbody>
       </table>
-      {kasi jarak}
+
       <table class="standar">
         <thead>
           <tr>
@@ -2080,7 +2087,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 5: F.3 PENERAPAN STANDAR MAKANAN                    -->
+    <!-- HALAMAN 9: F.3 PENERAPAN STANDAR MAKANAN — SD 4-6           -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -2158,7 +2165,7 @@
           </tr>
         </tbody>
       </table>
-      {kasi jarak}
+
       <table class="standar">
         <thead>
           <tr>
@@ -2275,13 +2282,13 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 5: F.3 PENERAPAN STANDAR MAKANAN                    -->
+    <!-- HALAMAN 10: F.3 PENERAPAN STANDAR MAKANAN — SD 1-3/TK/PAUD  -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
 
       <div class="tabel-caption">
-        Laporan Standar Menu Makanan Harian Peserta Didik SD 1-3, TK, dan Paud
+        Laporan Standar Menu Makanan Harian Peserta Didik SD 1-3, TK, dan PAUD
       </div>
       <table class="standar">
         <thead>
@@ -2353,7 +2360,7 @@
           </tr>
         </tbody>
       </table>
-      {kasi jarak}
+
       <table class="standar">
         <thead>
           <tr>
@@ -2470,7 +2477,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 5: F.3 PENERAPAN STANDAR MAKANAN                    -->
+    <!-- HALAMAN 11: F.3 PENERAPAN STANDAR MAKANAN — BALITA          -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -2548,7 +2555,7 @@
           </tr>
         </tbody>
       </table>
-      {kasi jarak}
+
       <table class="standar">
         <thead>
           <tr>
@@ -2665,13 +2672,13 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 6: F.4 HASIL PERENCANAAN                             -->
+    <!-- HALAMAN 12: F.4 HASIL PERENCANAAN — DATA SASARAN            -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
 
-      <div class="tabel-caption">Data Distribusi Harian</div>
-      <table class="formal" style="margin-top: 4px">
+      <div class="tabel-caption">Data Distribusi Harian — Peserta Didik</div>
+      <table class="formal">
         <thead>
           <tr>
             <th style="width: 45px">No</th>
@@ -2719,8 +2726,9 @@
           </tr>
         </tbody>
       </table>
-      {kasi jarak}
-      <table class="formal" style="margin-top: 4px">
+
+      <div class="tabel-caption">Data Distribusi Harian — Kelompok 3B</div>
+      <table class="formal">
         <thead>
           <tr>
             <th style="width: 45px">No</th>
@@ -2763,7 +2771,7 @@
         </tbody>
       </table>
 
-      <div class="ttd-verifikasi" style="margin-top: 20px">
+      <div class="ttd-verifikasi">
         <table>
           <tr>
             <td style="width: 33%">
@@ -2790,7 +2798,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 7: F.5 JADWAL JENIS PAKET — 4 MINGGU                -->
+    <!-- HALAMAN 13: F.5 JADWAL JENIS PAKET — 4 MINGGU                -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -3025,7 +3033,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 8: G + H + I                                         -->
+    <!-- HALAMAN 14: G + H + I                                        -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">G. VERIFIKASI DAN PERSETUJUAN DOKUMEN</h2>
