@@ -12,10 +12,6 @@
         size: A4 portrait;
         margin: 15mm 15mm 15mm 20mm;
       }
-      @page landscape {
-        size: A4 landscape;
-        margin: 10mm;
-      }
 
       body {
         font-family: "Times New Roman", Times, serif;
@@ -24,7 +20,6 @@
         line-height: 1.4;
         background: #e5e7eb;
       }
-
       .page {
         width: 210mm;
         min-height: 297mm;
@@ -33,22 +28,11 @@
         background: #fff;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
       }
-
-      .page-landscape {
-        width: 297mm;
-        min-height: 210mm;
-        padding: 10mm;
-        margin: 10mm auto;
-        background: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-      }
-
       @media print {
         body {
           background: #fff;
         }
-        .page,
-        .page-landscape {
+        .page {
           margin: 0;
           box-shadow: none;
           width: auto;
@@ -77,17 +61,11 @@
         margin-top: 2px;
       }
 
-      /* ===== SPACING KONSISTEN ANTAR TABEL (6px) ===== */
+      /* Jarak konsisten antar elemen */
       table + table,
       .tabel-caption + table,
       table + .tabel-caption {
         margin-top: 6px;
-      }
-      table.formal,
-      table.menu,
-      table.standar,
-      table.jadwal {
-        margin-bottom: 0;
       }
       table + .catatan,
       table + .ttd-verifikasi,
@@ -114,7 +92,6 @@
       table.formal td.center {
         text-align: center;
       }
-
       table.matrix {
         font-size: 8pt;
       }
@@ -156,9 +133,6 @@
       table.keterkaitan ol {
         padding-left: 18px;
         margin: 0;
-      }
-      table.keterkaitan ol li {
-        margin-bottom: 1px;
       }
 
       table.standar {
@@ -202,14 +176,12 @@
         border-bottom: 2px solid #1e3a8a;
       }
 
-      /* ===== TABEL MENU — 6 KOLOM ===== */
       table.menu {
         width: 100%;
         border-collapse: collapse;
         font-size: 10pt;
         table-layout: fixed;
       }
-
       table.menu th,
       table.menu td {
         border: 1px solid #000;
@@ -221,7 +193,6 @@
         line-height: 1.25;
         font-size: 10pt;
       }
-
       table.menu th {
         background: #1e3a8a;
         color: #fff;
@@ -229,7 +200,6 @@
         height: 30px;
         font-size: 10pt;
       }
-
       table.menu td.kategori {
         background: #e5e7eb;
         font-weight: bold;
@@ -238,7 +208,6 @@
         font-size: 9.5pt;
         padding-left: 8px;
       }
-
       table.menu tr:nth-child(even) td:not(.kategori) {
         background: #fafafa;
       }
@@ -276,44 +245,6 @@
         text-align: center;
       }
 
-      h2.section-title-lg {
-        font-size: 11pt;
-        font-weight: bold;
-        background: #1e3a8a;
-        color: #fff;
-        padding: 4px 8px;
-        margin-bottom: 6px;
-        text-align: center;
-      }
-
-      h3.subsection-title {
-        font-size: 10.5pt;
-        font-weight: bold;
-        background: #dbeafe;
-        color: #1e3a8a;
-        padding: 3px 8px;
-        border-left: 5px solid #1e3a8a;
-        margin-top: 10px;
-        margin-bottom: 6px;
-      }
-
-      h4.sub-anak {
-        font-size: 9.5pt;
-        font-weight: bold;
-        color: #1e3a8a;
-        margin-top: 8px;
-        margin-bottom: 3px;
-      }
-
-      .subtitle {
-        font-size: 9pt;
-        font-weight: bold;
-        background: #f3f4f6;
-        padding: 3px 8px;
-        border-left: 4px solid #1e3a8a;
-        margin: 6px 0;
-      }
-
       ol.legal {
         list-style: decimal;
         padding-left: 20px;
@@ -332,12 +263,13 @@
         margin-top: 6px;
         margin-bottom: 0;
       }
+      .catatan strong {
+        font-style: normal;
+      }
 
       .ttd-verifikasi {
         margin-top: 6px;
-        border: 1px solid #000;
         padding: 6px 10px;
-        background: #f9fafb;
       }
       .ttd-verifikasi .ttd-title {
         font-weight: bold;
@@ -360,7 +292,7 @@
         border: none;
       }
       .ttd-space {
-        height: 50px;
+        height: 70px;
       }
       .ttd-name-line {
         border-top: 1px solid #000;
@@ -369,7 +301,6 @@
         margin: 0 auto;
         height: 1px;
       }
-
       .signature-box {
         height: 80px;
       }
@@ -417,9 +348,6 @@
         </div>
         <div class="text-[11.5pt] font-bold">
           PROGRAM MAKAN BERGIZI GRATIS (MBG)
-        </div>
-        <div class="text-[10.5pt] mt-1">
-          Periode Siklus: ............................................
         </div>
       </div>
 
@@ -505,7 +433,9 @@
           Edukasi Gizi pada Program MBG.
         </li>
       </ol>
+    </div>
 
+    <div class="page page-break">
       <h2 class="section-title">
         C. KETERKAITAN, PERALATAN, PERINGATAN, DAN PENCATATAN
       </h2>
@@ -551,8 +481,12 @@
           <tr>
             <td class="item">PERINGATAN</td>
             <td>
-              Jika SOP ini tidak dijalankan, maka dapat mengakibatkan kesalahan
-              dalam perencanaan menu.
+              <ol>
+                <li>
+                  Jika SOP ini tidak dijalankan, maka dapat mengakibatkan
+                  kesalahan dalam perencanaan menu.
+                </li>
+              </ol>
             </td>
           </tr>
           <tr>
@@ -567,19 +501,17 @@
           </tr>
         </tbody>
       </table>
-    </div>
 
-    <!-- ============================================================ -->
-    <!-- HALAMAN 2: D + E                                             -->
-    <!-- ============================================================ -->
-    <div class="page page-break">
+      <!-- ============================================================ -->
+      <!-- HALAMAN 2: D + E                                             -->
+      <!-- ============================================================ -->
       <h2 class="section-title">D. KUALIFIKASI PELAKSANA</h2>
       <table class="formal">
         <thead>
           <tr>
             <th style="width: 50px">No</th>
-            <th>Kualifikasi Pelaksana</th>
-            <th style="width: 40%">Nama / Jabatan</th>
+            <th style="width: 250px">Kualifikasi Pelaksana</th>
+            <th>Nama / Jabatan</th>
           </tr>
         </thead>
         <tbody>
@@ -590,45 +522,47 @@
           </tr>
           <tr>
             <td class="center">2</td>
-            <td>Pengawas Gizi</td>
+            <td>Pengawas Ahli Gizi</td>
             <td style="height: 32px"></td>
           </tr>
           <tr>
             <td class="center">3</td>
-            <td>Jurutama Masak</td>
-            <td style="height: 32px"></td>
-          </tr>
-          <tr>
-            <td class="center">4</td>
             <td>Asisten Lapangan</td>
             <td style="height: 32px"></td>
           </tr>
           <tr>
-            <td class="center">5</td>
-            <td>Penanggung Jawab Satuan Pendidikan</td>
+            <td class="center">4</td>
+            <td>Jurutama Masak</td>
             <td style="height: 32px"></td>
           </tr>
           <tr>
+            <td class="center">5</td>
+            <td>Penanggung Jawab<br />Satuan Pendidikan Paud - SMA/K</td>
+            <td style="height: 32px">1.<br />{enter samapi}<br />10.</td>
+          </tr>
+          <tr>
             <td class="center">6</td>
-            <td>Penanggung Jawab 3B</td>
-            <td style="height: 32px"></td>
+            <td>Penanggung Jawab<br />Balita, Ibu Hamil, Ibu Menyusui</td>
+            <td style="height: 32px">1.<br />{enter samapi}<br />5.</td>
           </tr>
         </tbody>
       </table>
+    </div>
 
+    <div class="page page-break">
       <h2 class="section-title">
         E. PROSEDUR KERJA PERENCANAAN MENU (DIAGRAM ALIR)
       </h2>
       <table class="formal matrix">
         <thead>
           <tr>
-            <th style="width: 30px">No</th>
+            <th style="width: 50px">No</th>
             <th>Uraian Kegiatan</th>
             <th style="width: 80px">Pelaksana</th>
             <th style="width: 130px">Kelengkapan</th>
-            <th style="width: 45px">Waktu</th>
-            <th style="width: 110px">Output</th>
-            <th style="width: 45px">Ket</th>
+            <th style="width: 70px">Waktu</th>
+            <th style="width: 100px">Output</th>
+            <th style="width: 50px">Ket</th>
           </tr>
         </thead>
         <tbody>
@@ -669,16 +603,16 @@
               manfaat
             </td>
             <td>Pengawas Gizi</td>
-            <td>Formulir Pendataan Penerima Manfaat, Daftar bahan baku</td>
+            <td>Formulir Pendataan, Daftar bahan baku</td>
             <td class="center">1 Hari</td>
-            <td>Jenis bahan baku teridentifikasi sesuai kebutuhan gizi</td>
+            <td>Jenis bahan baku teridentifikasi</td>
             <td></td>
           </tr>
           <tr>
             <td class="center">5</td>
             <td>Menyusun resep standar berdasarkan beberapa referensi</td>
             <td>Pengawas Gizi &amp; Jurutama Masak</td>
-            <td>Buku Referensi menu, Dokumen AKG, Dokumen kebutuhan gizi</td>
+            <td>Buku Referensi, Dokumen AKG</td>
             <td class="center">1 Hari</td>
             <td>Standar Resep tersusun</td>
             <td></td>
@@ -689,10 +623,7 @@
               Menentukan frekuensi penggunaan bahan pangan untuk siklus 20 hari
             </td>
             <td>Pengawas Gizi</td>
-            <td>
-              Formulir Pendataan Penerima Manfaat, Daftar bahan baku, Dokumen
-              AKG
-            </td>
+            <td>Formulir, Daftar bahan baku, AKG</td>
             <td class="center">1 Hari</td>
             <td>Siklus Menu 20 Hari</td>
             <td></td>
@@ -712,14 +643,14 @@
             <td>Pengawas Gizi</td>
             <td>Dokumen siklus menu</td>
             <td class="center">1 Hari</td>
-            <td>Informasi siklus menu tersampaikan</td>
+            <td>Informasi tersampaikan</td>
             <td></td>
           </tr>
           <tr>
             <td class="center">9</td>
             <td>Mengunggah perencanaan satu siklus menu</td>
             <td>Pengawas Gizi</td>
-            <td>Komputer, Internet, Akun SIPGN</td>
+            <td>Komputer, Internet, SIPGN</td>
             <td class="center">1 Jam</td>
             <td>Siklus Menu terunggah</td>
             <td></td>
@@ -728,7 +659,7 @@
             <td class="center">10</td>
             <td>Memastikan siklus menu berhasil terunggah</td>
             <td>Pengawas Gizi</td>
-            <td>Komputer/Gadget, Internet, Akun SIPGN</td>
+            <td>Komputer/Gadget, Internet, SIPGN</td>
             <td class="center">30 Menit</td>
             <td>Siklus Menu terunggah</td>
             <td></td>
@@ -738,13 +669,13 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 3: F + F.1 LAPORAN MENENTUKAN JENIS & FREKUENSI     -->
+    <!-- HALAMAN 3: F.1 FREKUENSI BAHAN BAKU                          -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
 
       <div class="tabel-caption">
-        Kelompok Bahan Pangan, Jenis, dan Frekuensi Bahan Baku
+        Kelompok Bahan Pangan, Jenis, dan Frekuensi Bahan Baku (20 Hari)
       </div>
 
       <table class="formal">
@@ -869,12 +800,9 @@
       </table>
 
       <div class="catatan">
-        <strong>Keterangan:</strong> Frekuensi adalah jumlah penggunaan bahan
-        pangan dalam satu siklus menu (20 hari). Penyusunan frekuensi
-        mempertimbangkan keseimbangan gizi, variasi menu, ketersediaan bahan,
-        serta potensi kelangkaan bahan baku antar wilayah SPPG.
+        <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
       </div>
-
+      <br />
       <div class="ttd-verifikasi">
         <table>
           <tr>
@@ -902,13 +830,13 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 4 (LANDSCAPE): F.2 SIKLUS MENU — PESERTA DIDIK      -->
+    <!-- HALAMAN 4: F.2 SIKLUS MENU — PESERTA DIDIK/BUMIL/BUSUI 1-10 -->
     <!-- ============================================================ -->
-    <div class="page-landscape page-break">
+    <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
-
       <div class="tabel-caption">
-        Siklus Menu Penerima Manfaat Peserta Didik, Bumil, Busui 20 Hari
+        Siklus Menu Penerima Manfaat Peserta Didik - 3B (20 Hari)<br />
+        Halaman dapat lebih dari satu jika ada perbedaan maupun alergi
       </div>
 
       <table class="menu">
@@ -1021,6 +949,46 @@
         </tbody>
       </table>
 
+      <div class="catatan">
+        <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
+      </div>
+      <br />
+      <div class="ttd-verifikasi">
+        <table>
+          <tr>
+            <td style="width: 33%">
+              <div>Dibuat oleh,</div>
+              <div><strong>Tim Perencanaan Menu</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td style="width: 33%">
+              <div>Diperiksa oleh,</div>
+              <div><strong>Pengawas Gizi</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td style="width: 33%">
+              <div>Disetujui oleh,</div>
+              <div><strong>Kepala SPPG</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- HALAMAN 5: F.2 SIKLUS MENU — PESERTA DIDIK/BUMIL/BUSUI 11-20-->
+    <!-- ============================================================ -->
+    <div class="page page-break">
+      <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
+      <div class="tabel-caption">
+        Siklus Menu Penerima Manfaat Peserta Didik - 3B (20 Hari)<br />
+        Halaman dapat lebih dari satu jika ada perbedaan maupun alergi
+      </div>
+
       <table class="menu">
         <thead>
           <tr>
@@ -1132,15 +1100,10 @@
       </table>
 
       <div class="catatan">
-        <strong>Catatan:</strong> Siklus menu 20 hari ini dapat diulang setelah
-        periode berakhir dan wajib diunggah pada fitur
-        <em>Menu Planner</em> SIPGN.
+        <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
       </div>
-
+      <br />
       <div class="ttd-verifikasi">
-        <div class="ttd-title">
-          LEMBAR VERIFIKASI — F.2 SIKLUS MENU 20 HARI PESERTA DIDIK
-        </div>
         <table>
           <tr>
             <td style="width: 33%">
@@ -1167,553 +1130,23 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 5 (LANDSCAPE): F.2 SIKLUS MENU — KELOMPOK 3B        -->
-    <!-- ============================================================ -->
-    <div class="page-landscape page-break">
-      <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
-
-      <div class="tabel-caption">
-        Siklus Menu Penerima Manfaat Balita 20 Hari
-      </div>
-
-      <table class="menu">
-        <thead>
-          <tr>
-            <th style="width: 15%">Kelompok</th>
-            <th>Menu 1</th>
-            <th>Menu 2</th>
-            <th>Menu 3</th>
-            <th>Menu 4</th>
-            <th>Menu 5</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kategori">Makanan Pokok</td>
-            <td>Ubi (dikukus lembut)</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Ketan merah (lunak)</td>
-            <td>Roti tawar (tanpa isi)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Hewani</td>
-            <td>Ayam (cincang halus)</td>
-            <td>Ikan kembung (kukus)</td>
-            <td>Telur (rebus/ceplok air)</td>
-            <td>Ikan dori (kukus)</td>
-            <td>Telur (rebus)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Nabati</td>
-            <td>Tahu (kukus, lunak)</td>
-            <td>Tahu (kukus, lunak)</td>
-            <td>Kacang tanah (bubur halus)</td>
-            <td>Kacang merah (bubur halus)</td>
-            <td>Kacang tanah (bubur halus)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli (lunak)</td>
-            <td>Labu siam, wortel (lunak)</td>
-            <td>Wortel, brokoli, jagung (lunak)</td>
-            <td>Bayam, wortel (lunak)</td>
-            <td>Labu, ketimun (lunak)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Buah</td>
-            <td>Pepaya (potong kecil)</td>
-            <td>Salak (dikeruk)</td>
-            <td>Pisang raja (lunak)</td>
-            <td>Pisang ambon (lunak)</td>
-            <td>Apel (dikeruk)</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="menu">
-        <thead>
-          <tr>
-            <th style="width: 15%">Kelompok</th>
-            <th>Menu 6</th>
-            <th>Menu 7</th>
-            <th>Menu 8</th>
-            <th>Menu 9</th>
-            <th>Menu 10</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kategori">Makanan Pokok</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Bihun rebus (tanpa mie instan)</td>
-            <td>Nasi putih (tekstur lunak)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Hewani</td>
-            <td>Ikan nila (kukus)</td>
-            <td>Ayam (cincang halus)</td>
-            <td>Ikan lele (kukus)</td>
-            <td>Telur (rebus)</td>
-            <td>Ayam (cincang halus)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Nabati</td>
-            <td>Tempe (kukus, lunak)</td>
-            <td>Tahu (kukus, lunak)</td>
-            <td>Tempe (kukus, lunak)</td>
-            <td>Tahu (kukus, lunak)</td>
-            <td>Tempe (kukus, lunak)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Sayur</td>
-            <td>Brokoli, wortel (lunak)</td>
-            <td>Labu siam, wortel (lunak)</td>
-            <td>Kacang panjang, wortel (lunak)</td>
-            <td>Wortel, brokoli (lunak)</td>
-            <td>Tomat, wortel (lunak)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Buah</td>
-            <td>Pepaya (potong kecil)</td>
-            <td>Melon (potong kecil)</td>
-            <td>Jeruk manis (peras)</td>
-            <td>Pisang raja (lunak)</td>
-            <td>Pepaya (potong kecil)</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="menu">
-        <thead>
-          <tr>
-            <th style="width: 15%">Kelompok</th>
-            <th>Menu 11</th>
-            <th>Menu 12</th>
-            <th>Menu 13</th>
-            <th>Menu 14</th>
-            <th>Menu 15</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kategori">Makanan Pokok</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Bihun rebus (tanpa mie instan)</td>
-            <td>Nasi uduk (rendah santan)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Hewani</td>
-            <td>Ikan kembung (kukus)</td>
-            <td>Daging sapi (cincang halus)</td>
-            <td>Telur (rebus)</td>
-            <td>Ayam (cincang halus)</td>
-            <td>Bakso ikan (homemade)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Nabati</td>
-            <td>Tempe (kukus, lunak)</td>
-            <td>Tahu (kukus, lunak)</td>
-            <td>Kacang tanah (bubur halus)</td>
-            <td>Kacang merah (bubur halus)</td>
-            <td>Tahu (kukus, lunak)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Sayur</td>
-            <td>Brokoli, wortel (lunak)</td>
-            <td>Labu siam, wortel (lunak)</td>
-            <td>Kacang panjang, wortel (lunak)</td>
-            <td>Bayam, buncis, wortel (lunak)</td>
-            <td>Brokoli, wortel, jagung (lunak)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Buah</td>
-            <td>Pepaya (potong kecil)</td>
-            <td>Melon (potong kecil)</td>
-            <td>Jeruk manis (peras)</td>
-            <td>Salak (dikeruk)</td>
-            <td>Anggur (tanpa biji)</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="menu">
-        <thead>
-          <tr>
-            <th style="width: 15%">Kelompok</th>
-            <th>Menu 16</th>
-            <th>Menu 17</th>
-            <th>Menu 18</th>
-            <th>Menu 19</th>
-            <th>Menu 20</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kategori">Makanan Pokok</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Nasi putih (tekstur lunak)</td>
-            <td>Nasi putih (tekstur lunak)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Hewani</td>
-            <td>Telur (rebus)</td>
-            <td>Ayam (cincang halus)</td>
-            <td>Daging sapi (cincang halus)</td>
-            <td>Ikan kakap (kukus)</td>
-            <td>Telur (rebus)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Nabati</td>
-            <td>Tempe (kukus, lunak)</td>
-            <td>Kacang merah (bubur halus)</td>
-            <td>Tahu (kukus, lunak)</td>
-            <td>Kacang tanah (bubur halus)</td>
-            <td>Tempe (kukus, lunak)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Sayur</td>
-            <td>Mangga muda, wortel (lunak)</td>
-            <td>Kacang panjang, wortel (lunak)</td>
-            <td>Labu, mentimun (lunak)</td>
-            <td>Bayam buncis, wortel (lunak)</td>
-            <td>Brokoli, wortel (lunak)</td>
-          </tr>
-          <tr>
-            <td class="kategori">Buah</td>
-            <td>Pepaya (potong kecil)</td>
-            <td>Jeruk manis (peras)</td>
-            <td>Pisang raja (lunak)</td>
-            <td>Apel (dikeruk)</td>
-            <td>Pisang ambon (lunak)</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="catatan">
-        <strong>Catatan:</strong> Siklus menu 20 hari ini dapat diulang setelah
-        periode berakhir dan wajib diunggah pada fitur
-        <em>Menu Planner</em> SIPGN.
-      </div>
-
-      <div class="ttd-verifikasi">
-        <div class="ttd-title">
-          LEMBAR VERIFIKASI — F.2 SIKLUS MENU 20 HARI BALITA
-        </div>
-        <table>
-          <tr>
-            <td style="width: 33%">
-              <div>Dibuat oleh,</div>
-              <div><strong>Tim Perencanaan Menu</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Diperiksa oleh,</div>
-              <div><strong>Pengawas Gizi</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Disetujui oleh,</div>
-              <div><strong>Kepala SPPG</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- HALAMAN 6 (LANDSCAPE): KONDISI KHUSUS / ALERGI              -->
-    <!-- ============================================================ -->
-    <div class="page-landscape page-break">
-      <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
-
-      <div class="tabel-caption">
-        Siklus Menu Penerima Manfaat Kondisi Khusus / Alergi 20 Hari
-      </div>
-
-      <table class="menu">
-        <thead>
-          <tr>
-            <th style="width: 15%">Kelompok</th>
-            <th>Menu 1</th>
-            <th>Menu 2</th>
-            <th>Menu 3</th>
-            <th>Menu 4</th>
-            <th>Menu 5</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kategori">Makanan Pokok</td>
-            <td>Ubi</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Ketan merah</td>
-            <td>Roti</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Hewani</td>
-            <td>Ayam</td>
-            <td>Ikan kembung</td>
-            <td>Telur</td>
-            <td>Ikan dori</td>
-            <td>Telur</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Nabati</td>
-            <td>Tahu</td>
-            <td>Tahu</td>
-            <td>Kacang tanah</td>
-            <td>Kacang merah</td>
-            <td>Kacang tanah</td>
-          </tr>
-          <tr>
-            <td class="kategori">Sayur</td>
-            <td>Sup wortel, brokoli</td>
-            <td>Labu siam, wortel, kentang</td>
-            <td>Wortel, brokoli, jagung manis</td>
-            <td>Bayam, wortel</td>
-            <td>Labu, ketimun</td>
-          </tr>
-          <tr>
-            <td class="kategori">Buah</td>
-            <td>Pepaya</td>
-            <td>Salak</td>
-            <td>Pisang raja</td>
-            <td>Pisang ambon</td>
-            <td>Apel</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="menu">
-        <thead>
-          <tr>
-            <th style="width: 15%">Kelompok</th>
-            <th>Menu 6</th>
-            <th>Menu 7</th>
-            <th>Menu 8</th>
-            <th>Menu 9</th>
-            <th>Menu 10</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kategori">Makanan Pokok</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Mie kuning</td>
-            <td>Nasi putih</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Hewani</td>
-            <td>Ikan nila</td>
-            <td>Ayam</td>
-            <td>Ikan lele</td>
-            <td>Telur</td>
-            <td>Ayam</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Nabati</td>
-            <td>Tempe</td>
-            <td>Tahu</td>
-            <td>Tempe</td>
-            <td>Tahu</td>
-            <td>Tempe</td>
-          </tr>
-          <tr>
-            <td class="kategori">Sayur</td>
-            <td>Brokoli, wortel</td>
-            <td>Labu siam, wortel</td>
-            <td>Kacang panjang, wortel</td>
-            <td>Wortel, brokoli, jagung</td>
-            <td>Tomat, wortel</td>
-          </tr>
-          <tr>
-            <td class="kategori">Buah</td>
-            <td>Pepaya</td>
-            <td>Melon</td>
-            <td>Jeruk manis</td>
-            <td>Pisang raja</td>
-            <td>Pepaya</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="menu">
-        <thead>
-          <tr>
-            <th style="width: 15%">Kelompok</th>
-            <th>Menu 11</th>
-            <th>Menu 12</th>
-            <th>Menu 13</th>
-            <th>Menu 14</th>
-            <th>Menu 15</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kategori">Makanan Pokok</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Mie kuning</td>
-            <td>Nasi uduk</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Hewani</td>
-            <td>Ikan kembung</td>
-            <td>Daging sapi</td>
-            <td>Telur</td>
-            <td>Ayam</td>
-            <td>Bakso</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Nabati</td>
-            <td>Tempe</td>
-            <td>Tahu</td>
-            <td>Kacang tanah</td>
-            <td>Kacang merah</td>
-            <td>Tahu</td>
-          </tr>
-          <tr>
-            <td class="kategori">Sayur</td>
-            <td>Brokoli, wortel</td>
-            <td>Labu siam, wortel</td>
-            <td>Kacang panjang, wortel</td>
-            <td>Bayam, buncis, wortel</td>
-            <td>Brokoli, wortel, jagung</td>
-          </tr>
-          <tr>
-            <td class="kategori">Buah</td>
-            <td>Pepaya</td>
-            <td>Melon</td>
-            <td>Jeruk manis</td>
-            <td>Salak</td>
-            <td>Anggur</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="menu">
-        <thead>
-          <tr>
-            <th style="width: 15%">Kelompok</th>
-            <th>Menu 16</th>
-            <th>Menu 17</th>
-            <th>Menu 18</th>
-            <th>Menu 19</th>
-            <th>Menu 20</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kategori">Makanan Pokok</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-            <td>Nasi putih</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Hewani</td>
-            <td>Telur</td>
-            <td>Ayam</td>
-            <td>Daging sapi</td>
-            <td>Ikan kakap</td>
-            <td>Telur</td>
-          </tr>
-          <tr>
-            <td class="kategori">Lauk Nabati</td>
-            <td>Tempe</td>
-            <td>Kacang merah</td>
-            <td>Tahu</td>
-            <td>Kacang tanah</td>
-            <td>Tempe</td>
-          </tr>
-          <tr>
-            <td class="kategori">Sayur</td>
-            <td>Mangga muda, wortel</td>
-            <td>Kacang panjang, wortel</td>
-            <td>Labu, mentimun</td>
-            <td>Bayam buncis, wortel</td>
-            <td>Brokoli, wortel</td>
-          </tr>
-          <tr>
-            <td class="kategori">Buah</td>
-            <td>Pepaya</td>
-            <td>Jeruk manis</td>
-            <td>Pisang raja</td>
-            <td>Apel</td>
-            <td>Pisang ambon</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="catatan">
-        <strong>Catatan:</strong> Siklus menu 20 hari ini dapat diulang setelah
-        periode berakhir dan wajib diunggah pada fitur
-        <em>Menu Planner</em> SIPGN.
-      </div>
-
-      <div class="ttd-verifikasi">
-        <div class="ttd-title">
-          LEMBAR VERIFIKASI — F.2 SIKLUS MENU 20 HARI KONDISI KHUSUS
-        </div>
-        <table>
-          <tr>
-            <td style="width: 33%">
-              <div>Dibuat oleh,</div>
-              <div><strong>Tim Perencanaan Menu</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Diperiksa oleh,</div>
-              <div><strong>Pengawas Gizi</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Disetujui oleh,</div>
-              <div><strong>Kepala SPPG</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- HALAMAN 7: F.3 PENERAPAN STANDAR MAKANAN — BUMIL/BUSUI/SMA  -->
+    <!-- HALAMAN 10: F.3 BUMIL/BUSUI/SMA                              -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
-
       <div class="tabel-caption">
-        Laporan Standar Menu Makanan Harian Bumil, Busui, dan Peserta Didik SMA
+        Standar Menu Makanan Harian Peserta Didik - 3B (20 Hari)<br />
+        Halaman dapat lebih dari satu jika ada perbedaan maupun alergi
       </div>
       <table class="standar">
         <thead>
           <tr>
-            <th style="width: 26%">Sumber Pangan</th>
-            <th>Satuan Penukar (SP)</th>
-            <th>Energi (kkal)</th>
-            <th>Protein (g)</th>
-            <th>Lemak (g)</th>
-            <th>Karbohidrat (g)</th>
+            <th>Sumber Pangan</th>
+            <th style="width: 100px">Satuan Penukar<br />(SP)</th>
+            <th style="width: 100px">Energi<br />(kkal)</th>
+            <th style="width: 100px">Protein<br />(g)</th>
+            <th style="width: 100px">Lemak<br />(g)</th>
+            <th style="width: 100px">Karbohidrat<br />(g)</th>
           </tr>
         </thead>
         <tbody>
@@ -1779,12 +1212,12 @@
       <table class="standar">
         <thead>
           <tr>
-            <th style="width: 16%">Bahan Pangan</th>
-            <th>Berat Bersih (gram)</th>
-            <th>Persen Bahan yang Dapat Dimakan</th>
-            <th>Berat Kotor</th>
-            <th>Jumlah Peserta Didik</th>
-            <th>Kebutuhan Bahan Pangan (kg)</th>
+            <th>Bahan Pangan</th>
+            <th style="width: 100px">Berat Bersih<br />(gram)</th>
+            <th style="width: 100px">BDD<br />(%)</th>
+            <th style="width: 100px">Berat Kotor<br />(gram)</th>
+            <th style="width: 100px">Jumlah Peserta Didik</th>
+            <th style="width: 100px">Kebutuhan Bahan Pangan</th>
           </tr>
         </thead>
         <tbody>
@@ -1856,15 +1289,9 @@
       </table>
 
       <div class="catatan">
-        *Jika bumbu sudah diketahui dari resep dapat diperhitungkan menggunakan
-        rumus pada tabel di atas.
-        <br /><strong>Catatan 3B:</strong> Nilai SP dapat disesuaikan untuk Ibu
-        Hamil TM 2–3 (tambahan energi ~300 kkal/hari); Ibu Menyusui tambahan
-        ~330 kkal/hari; balita 6–11 bulan, 12–23 bulan, dan 24–59 bulan
-        disesuaikan dengan AKG masing-masing. Pembatasan GGL dan hindari UPF
-        sesuai PerBGN No. 5 Tahun 2026.
+        <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
       </div>
-
+      <br />
       <div class="ttd-verifikasi">
         <table>
           <tr>
@@ -1892,792 +1319,14 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 8: F.3 PENERAPAN STANDAR MAKANAN — SMP              -->
+    <!-- HALAMAN 15: F.4 HASIL PERENCANAAN                            -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
-
       <div class="tabel-caption">
-        Laporan Standar Menu Makanan Harian Peserta Didik SMP
+        Hasil Perencanaan Data Sasaran Peserta Didik - 3B (20 Hari)<br />
+        Halaman dapat lebih dari satu jika ada perbedaan maupun alergi
       </div>
-      <table class="standar">
-        <thead>
-          <tr>
-            <th style="width: 26%">Sumber Pangan</th>
-            <th>Satuan Penukar (SP)</th>
-            <th>Energi (kkal)</th>
-            <th>Protein (g)</th>
-            <th>Lemak (g)</th>
-            <th>Karbohidrat (g)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kiri">Nasi goreng</td>
-            <td>0,75</td>
-            <td>131,25</td>
-            <td>3</td>
-            <td>0</td>
-            <td>30</td>
-          </tr>
-          <tr>
-            <td class="kiri">Ayam udang</td>
-            <td>0,25</td>
-            <td>18,75</td>
-            <td>1,75</td>
-            <td>1,25</td>
-            <td>0</td>
-          </tr>
-          <tr>
-            <td class="kiri">Tahu</td>
-            <td>0,2</td>
-            <td>15</td>
-            <td>1</td>
-            <td>0,6</td>
-            <td>1,4</td>
-          </tr>
-          <tr>
-            <td class="kiri">Kacang polong</td>
-            <td>0,5</td>
-            <td>12,5</td>
-            <td>0,5</td>
-            <td>0</td>
-            <td>2,5</td>
-          </tr>
-          <tr>
-            <td class="kiri">Jeruk</td>
-            <td>1</td>
-            <td>50</td>
-            <td>0</td>
-            <td>0</td>
-            <td>12</td>
-          </tr>
-          <tr>
-            <td class="kiri">Mentega / minyak</td>
-            <td>2</td>
-            <td>100</td>
-            <td>0</td>
-            <td>10</td>
-            <td>0</td>
-          </tr>
-          <tr class="total">
-            <td class="kiri">Total</td>
-            <td></td>
-            <td>328</td>
-            <td>6,3</td>
-            <td>11,9</td>
-            <td>45,9</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="standar">
-        <thead>
-          <tr>
-            <th style="width: 16%">Bahan Pangan</th>
-            <th>Berat Bersih (gram)</th>
-            <th>Persen Bahan yang Dapat Dimakan</th>
-            <th>Berat Kotor</th>
-            <th>Jumlah Peserta Didik</th>
-            <th>Kebutuhan Bahan Pangan (kg)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="header-row">
-            <td>(1)</td>
-            <td>(2)</td>
-            <td>(3)</td>
-            <td>(2)×100/(3)=(4)</td>
-            <td>(5)</td>
-            <td>(4)×(5)/1000=(6)</td>
-          </tr>
-          <tr>
-            <td class="kiri">Beras</td>
-            <td>0,75 g</td>
-            <td>100</td>
-            <td>75</td>
-            <td>100</td>
-            <td>7,5 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Ayam</td>
-            <td>4 g</td>
-            <td>58</td>
-            <td>6,9</td>
-            <td>100</td>
-            <td>0,69 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Udang</td>
-            <td>5,25 g</td>
-            <td>68</td>
-            <td>7,7</td>
-            <td>100</td>
-            <td>0,77 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Tahu</td>
-            <td>20 g</td>
-            <td>100</td>
-            <td>20</td>
-            <td>100</td>
-            <td>2,0 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Kacang polong</td>
-            <td>50 g</td>
-            <td>100</td>
-            <td>50</td>
-            <td>100</td>
-            <td>5,0 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Jeruk</td>
-            <td>50 g</td>
-            <td>72</td>
-            <td>69,4</td>
-            <td>100</td>
-            <td>6,9 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Mentega / minyak</td>
-            <td>10 g</td>
-            <td>100</td>
-            <td>10</td>
-            <td>100</td>
-            <td>1,0 kg</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="catatan">
-        *Jika bumbu sudah diketahui dari resep dapat diperhitungkan menggunakan
-        rumus pada tabel di atas.
-        <br /><strong>Catatan 3B:</strong> Nilai SP dapat disesuaikan untuk Ibu
-        Hamil TM 2–3 (tambahan energi ~300 kkal/hari); Ibu Menyusui tambahan
-        ~330 kkal/hari; balita 6–11 bulan, 12–23 bulan, dan 24–59 bulan
-        disesuaikan dengan AKG masing-masing. Pembatasan GGL dan hindari UPF
-        sesuai PerBGN No. 5 Tahun 2026.
-      </div>
-
-      <div class="ttd-verifikasi">
-        <table>
-          <tr>
-            <td style="width: 33%">
-              <div>Dibuat oleh,</div>
-              <div><strong>Tim Perencanaan Menu</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Diperiksa oleh,</div>
-              <div><strong>Pengawas Gizi</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Disetujui oleh,</div>
-              <div><strong>Kepala SPPG</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- HALAMAN 9: F.3 PENERAPAN STANDAR MAKANAN — SD 4-6           -->
-    <!-- ============================================================ -->
-    <div class="page page-break">
-      <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
-
-      <div class="tabel-caption">
-        Laporan Standar Menu Makanan Harian Peserta Didik SD 4-6
-      </div>
-      <table class="standar">
-        <thead>
-          <tr>
-            <th style="width: 26%">Sumber Pangan</th>
-            <th>Satuan Penukar (SP)</th>
-            <th>Energi (kkal)</th>
-            <th>Protein (g)</th>
-            <th>Lemak (g)</th>
-            <th>Karbohidrat (g)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kiri">Nasi goreng</td>
-            <td>0,75</td>
-            <td>131,25</td>
-            <td>3</td>
-            <td>0</td>
-            <td>30</td>
-          </tr>
-          <tr>
-            <td class="kiri">Ayam udang</td>
-            <td>0,25</td>
-            <td>18,75</td>
-            <td>1,75</td>
-            <td>1,25</td>
-            <td>0</td>
-          </tr>
-          <tr>
-            <td class="kiri">Tahu</td>
-            <td>0,2</td>
-            <td>15</td>
-            <td>1</td>
-            <td>0,6</td>
-            <td>1,4</td>
-          </tr>
-          <tr>
-            <td class="kiri">Kacang polong</td>
-            <td>0,5</td>
-            <td>12,5</td>
-            <td>0,5</td>
-            <td>0</td>
-            <td>2,5</td>
-          </tr>
-          <tr>
-            <td class="kiri">Jeruk</td>
-            <td>1</td>
-            <td>50</td>
-            <td>0</td>
-            <td>0</td>
-            <td>12</td>
-          </tr>
-          <tr>
-            <td class="kiri">Mentega / minyak</td>
-            <td>2</td>
-            <td>100</td>
-            <td>0</td>
-            <td>10</td>
-            <td>0</td>
-          </tr>
-          <tr class="total">
-            <td class="kiri">Total</td>
-            <td></td>
-            <td>328</td>
-            <td>6,3</td>
-            <td>11,9</td>
-            <td>45,9</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="standar">
-        <thead>
-          <tr>
-            <th style="width: 16%">Bahan Pangan</th>
-            <th>Berat Bersih (gram)</th>
-            <th>Persen Bahan yang Dapat Dimakan</th>
-            <th>Berat Kotor</th>
-            <th>Jumlah Peserta Didik</th>
-            <th>Kebutuhan Bahan Pangan (kg)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="header-row">
-            <td>(1)</td>
-            <td>(2)</td>
-            <td>(3)</td>
-            <td>(2)×100/(3)=(4)</td>
-            <td>(5)</td>
-            <td>(4)×(5)/1000=(6)</td>
-          </tr>
-          <tr>
-            <td class="kiri">Beras</td>
-            <td>0,75 g</td>
-            <td>100</td>
-            <td>75</td>
-            <td>100</td>
-            <td>7,5 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Ayam</td>
-            <td>4 g</td>
-            <td>58</td>
-            <td>6,9</td>
-            <td>100</td>
-            <td>0,69 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Udang</td>
-            <td>5,25 g</td>
-            <td>68</td>
-            <td>7,7</td>
-            <td>100</td>
-            <td>0,77 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Tahu</td>
-            <td>20 g</td>
-            <td>100</td>
-            <td>20</td>
-            <td>100</td>
-            <td>2,0 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Kacang polong</td>
-            <td>50 g</td>
-            <td>100</td>
-            <td>50</td>
-            <td>100</td>
-            <td>5,0 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Jeruk</td>
-            <td>50 g</td>
-            <td>72</td>
-            <td>69,4</td>
-            <td>100</td>
-            <td>6,9 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Mentega / minyak</td>
-            <td>10 g</td>
-            <td>100</td>
-            <td>10</td>
-            <td>100</td>
-            <td>1,0 kg</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="catatan">
-        *Jika bumbu sudah diketahui dari resep dapat diperhitungkan menggunakan
-        rumus pada tabel di atas.
-        <br /><strong>Catatan 3B:</strong> Nilai SP dapat disesuaikan untuk Ibu
-        Hamil TM 2–3 (tambahan energi ~300 kkal/hari); Ibu Menyusui tambahan
-        ~330 kkal/hari; balita 6–11 bulan, 12–23 bulan, dan 24–59 bulan
-        disesuaikan dengan AKG masing-masing. Pembatasan GGL dan hindari UPF
-        sesuai PerBGN No. 5 Tahun 2026.
-      </div>
-
-      <div class="ttd-verifikasi">
-        <table>
-          <tr>
-            <td style="width: 33%">
-              <div>Dibuat oleh,</div>
-              <div><strong>Tim Perencanaan Menu</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Diperiksa oleh,</div>
-              <div><strong>Pengawas Gizi</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Disetujui oleh,</div>
-              <div><strong>Kepala SPPG</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- HALAMAN 10: F.3 PENERAPAN STANDAR MAKANAN — SD 1-3/TK/PAUD  -->
-    <!-- ============================================================ -->
-    <div class="page page-break">
-      <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
-
-      <div class="tabel-caption">
-        Laporan Standar Menu Makanan Harian Peserta Didik SD 1-3, TK, dan PAUD
-      </div>
-      <table class="standar">
-        <thead>
-          <tr>
-            <th style="width: 26%">Sumber Pangan</th>
-            <th>Satuan Penukar (SP)</th>
-            <th>Energi (kkal)</th>
-            <th>Protein (g)</th>
-            <th>Lemak (g)</th>
-            <th>Karbohidrat (g)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kiri">Nasi goreng</td>
-            <td>0,75</td>
-            <td>131,25</td>
-            <td>3</td>
-            <td>0</td>
-            <td>30</td>
-          </tr>
-          <tr>
-            <td class="kiri">Ayam udang</td>
-            <td>0,25</td>
-            <td>18,75</td>
-            <td>1,75</td>
-            <td>1,25</td>
-            <td>0</td>
-          </tr>
-          <tr>
-            <td class="kiri">Tahu</td>
-            <td>0,2</td>
-            <td>15</td>
-            <td>1</td>
-            <td>0,6</td>
-            <td>1,4</td>
-          </tr>
-          <tr>
-            <td class="kiri">Kacang polong</td>
-            <td>0,5</td>
-            <td>12,5</td>
-            <td>0,5</td>
-            <td>0</td>
-            <td>2,5</td>
-          </tr>
-          <tr>
-            <td class="kiri">Jeruk</td>
-            <td>1</td>
-            <td>50</td>
-            <td>0</td>
-            <td>0</td>
-            <td>12</td>
-          </tr>
-          <tr>
-            <td class="kiri">Mentega / minyak</td>
-            <td>2</td>
-            <td>100</td>
-            <td>0</td>
-            <td>10</td>
-            <td>0</td>
-          </tr>
-          <tr class="total">
-            <td class="kiri">Total</td>
-            <td></td>
-            <td>328</td>
-            <td>6,3</td>
-            <td>11,9</td>
-            <td>45,9</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="standar">
-        <thead>
-          <tr>
-            <th style="width: 16%">Bahan Pangan</th>
-            <th>Berat Bersih (gram)</th>
-            <th>Persen Bahan yang Dapat Dimakan</th>
-            <th>Berat Kotor</th>
-            <th>Jumlah Peserta Didik</th>
-            <th>Kebutuhan Bahan Pangan (kg)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="header-row">
-            <td>(1)</td>
-            <td>(2)</td>
-            <td>(3)</td>
-            <td>(2)×100/(3)=(4)</td>
-            <td>(5)</td>
-            <td>(4)×(5)/1000=(6)</td>
-          </tr>
-          <tr>
-            <td class="kiri">Beras</td>
-            <td>0,75 g</td>
-            <td>100</td>
-            <td>75</td>
-            <td>100</td>
-            <td>7,5 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Ayam</td>
-            <td>4 g</td>
-            <td>58</td>
-            <td>6,9</td>
-            <td>100</td>
-            <td>0,69 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Udang</td>
-            <td>5,25 g</td>
-            <td>68</td>
-            <td>7,7</td>
-            <td>100</td>
-            <td>0,77 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Tahu</td>
-            <td>20 g</td>
-            <td>100</td>
-            <td>20</td>
-            <td>100</td>
-            <td>2,0 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Kacang polong</td>
-            <td>50 g</td>
-            <td>100</td>
-            <td>50</td>
-            <td>100</td>
-            <td>5,0 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Jeruk</td>
-            <td>50 g</td>
-            <td>72</td>
-            <td>69,4</td>
-            <td>100</td>
-            <td>6,9 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Mentega / minyak</td>
-            <td>10 g</td>
-            <td>100</td>
-            <td>10</td>
-            <td>100</td>
-            <td>1,0 kg</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="catatan">
-        *Jika bumbu sudah diketahui dari resep dapat diperhitungkan menggunakan
-        rumus pada tabel di atas.
-        <br /><strong>Catatan 3B:</strong> Nilai SP dapat disesuaikan untuk Ibu
-        Hamil TM 2–3 (tambahan energi ~300 kkal/hari); Ibu Menyusui tambahan
-        ~330 kkal/hari; balita 6–11 bulan, 12–23 bulan, dan 24–59 bulan
-        disesuaikan dengan AKG masing-masing. Pembatasan GGL dan hindari UPF
-        sesuai PerBGN No. 5 Tahun 2026.
-      </div>
-
-      <div class="ttd-verifikasi">
-        <table>
-          <tr>
-            <td style="width: 33%">
-              <div>Dibuat oleh,</div>
-              <div><strong>Tim Perencanaan Menu</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Diperiksa oleh,</div>
-              <div><strong>Pengawas Gizi</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Disetujui oleh,</div>
-              <div><strong>Kepala SPPG</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- HALAMAN 11: F.3 PENERAPAN STANDAR MAKANAN — BALITA          -->
-    <!-- ============================================================ -->
-    <div class="page page-break">
-      <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
-
-      <div class="tabel-caption">
-        Laporan Standar Menu Makanan Harian Balita
-      </div>
-      <table class="standar">
-        <thead>
-          <tr>
-            <th style="width: 26%">Sumber Pangan</th>
-            <th>Satuan Penukar (SP)</th>
-            <th>Energi (kkal)</th>
-            <th>Protein (g)</th>
-            <th>Lemak (g)</th>
-            <th>Karbohidrat (g)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="kiri">Nasi goreng</td>
-            <td>0,75</td>
-            <td>131,25</td>
-            <td>3</td>
-            <td>0</td>
-            <td>30</td>
-          </tr>
-          <tr>
-            <td class="kiri">Ayam udang</td>
-            <td>0,25</td>
-            <td>18,75</td>
-            <td>1,75</td>
-            <td>1,25</td>
-            <td>0</td>
-          </tr>
-          <tr>
-            <td class="kiri">Tahu</td>
-            <td>0,2</td>
-            <td>15</td>
-            <td>1</td>
-            <td>0,6</td>
-            <td>1,4</td>
-          </tr>
-          <tr>
-            <td class="kiri">Kacang polong</td>
-            <td>0,5</td>
-            <td>12,5</td>
-            <td>0,5</td>
-            <td>0</td>
-            <td>2,5</td>
-          </tr>
-          <tr>
-            <td class="kiri">Jeruk</td>
-            <td>1</td>
-            <td>50</td>
-            <td>0</td>
-            <td>0</td>
-            <td>12</td>
-          </tr>
-          <tr>
-            <td class="kiri">Mentega / minyak</td>
-            <td>2</td>
-            <td>100</td>
-            <td>0</td>
-            <td>10</td>
-            <td>0</td>
-          </tr>
-          <tr class="total">
-            <td class="kiri">Total</td>
-            <td></td>
-            <td>328</td>
-            <td>6,3</td>
-            <td>11,9</td>
-            <td>45,9</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <table class="standar">
-        <thead>
-          <tr>
-            <th style="width: 16%">Bahan Pangan</th>
-            <th>Berat Bersih (gram)</th>
-            <th>Persen Bahan yang Dapat Dimakan</th>
-            <th>Berat Kotor</th>
-            <th>Jumlah Peserta Didik</th>
-            <th>Kebutuhan Bahan Pangan (kg)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="header-row">
-            <td>(1)</td>
-            <td>(2)</td>
-            <td>(3)</td>
-            <td>(2)×100/(3)=(4)</td>
-            <td>(5)</td>
-            <td>(4)×(5)/1000=(6)</td>
-          </tr>
-          <tr>
-            <td class="kiri">Beras</td>
-            <td>0,75 g</td>
-            <td>100</td>
-            <td>75</td>
-            <td>100</td>
-            <td>7,5 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Ayam</td>
-            <td>4 g</td>
-            <td>58</td>
-            <td>6,9</td>
-            <td>100</td>
-            <td>0,69 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Udang</td>
-            <td>5,25 g</td>
-            <td>68</td>
-            <td>7,7</td>
-            <td>100</td>
-            <td>0,77 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Tahu</td>
-            <td>20 g</td>
-            <td>100</td>
-            <td>20</td>
-            <td>100</td>
-            <td>2,0 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Kacang polong</td>
-            <td>50 g</td>
-            <td>100</td>
-            <td>50</td>
-            <td>100</td>
-            <td>5,0 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Jeruk</td>
-            <td>50 g</td>
-            <td>72</td>
-            <td>69,4</td>
-            <td>100</td>
-            <td>6,9 kg</td>
-          </tr>
-          <tr>
-            <td class="kiri">Mentega / minyak</td>
-            <td>10 g</td>
-            <td>100</td>
-            <td>10</td>
-            <td>100</td>
-            <td>1,0 kg</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="catatan">
-        *Jika bumbu sudah diketahui dari resep dapat diperhitungkan menggunakan
-        rumus pada tabel di atas.
-        <br /><strong>Catatan 3B:</strong> Nilai SP dapat disesuaikan untuk Ibu
-        Hamil TM 2–3 (tambahan energi ~300 kkal/hari); Ibu Menyusui tambahan
-        ~330 kkal/hari; balita 6–11 bulan, 12–23 bulan, dan 24–59 bulan
-        disesuaikan dengan AKG masing-masing. Pembatasan GGL dan hindari UPF
-        sesuai PerBGN No. 5 Tahun 2026.
-      </div>
-
-      <div class="ttd-verifikasi">
-        <table>
-          <tr>
-            <td style="width: 33%">
-              <div>Dibuat oleh,</div>
-              <div><strong>Tim Perencanaan Menu</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Diperiksa oleh,</div>
-              <div><strong>Pengawas Gizi</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-            <td style="width: 33%">
-              <div>Disetujui oleh,</div>
-              <div><strong>Kepala SPPG</strong></div>
-              <div class="ttd-space"></div>
-              <div class="ttd-name-line"></div>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- HALAMAN 12: F.4 HASIL PERENCANAAN — DATA SASARAN            -->
-    <!-- ============================================================ -->
-    <div class="page page-break">
-      <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
-
-      <div class="tabel-caption">Data Distribusi Harian — Peserta Didik</div>
       <table class="formal">
         <thead>
           <tr>
@@ -2691,43 +1340,47 @@
           <tr>
             <td class="center">1</td>
             <td>PAUD / TK</td>
-            <td style="height: 30px"></td>
+            <td class="row-h"></td>
             <td></td>
           </tr>
           <tr>
             <td class="center">2</td>
             <td>SD Kelas 1–3</td>
-            <td style="height: 30px"></td>
+            <td class="row-h"></td>
             <td></td>
           </tr>
           <tr>
             <td class="center">3</td>
             <td>SD Kelas 4–6</td>
-            <td style="height: 30px"></td>
+            <td class="row-h"></td>
             <td></td>
           </tr>
           <tr>
             <td class="center">4</td>
-            <td>SMP</td>
-            <td style="height: 30px"></td>
+            <td>SMP / MTs</td>
+            <td class="row-h"></td>
             <td></td>
           </tr>
           <tr>
             <td class="center">5</td>
             <td>SMA / SMK</td>
-            <td style="height: 30px"></td>
+            <td class="row-h"></td>
             <td></td>
           </tr>
           <tr>
             <td class="center">6</td>
-            <td>Lainnya</td>
-            <td style="height: 30px"></td>
+            <td class="row-h"></td>
+            <td class="row-h"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center"><strong>Total</strong></td>
+            <td class="row-h"></td>
             <td></td>
           </tr>
         </tbody>
       </table>
-
-      <div class="tabel-caption">Data Distribusi Harian — Kelompok 3B</div>
+      {samakan jarak antar tabel yg lain jika tabel ketemu tabel}
       <table class="formal">
         <thead>
           <tr>
@@ -2741,36 +1394,51 @@
           <tr>
             <td class="center">1</td>
             <td>Ibu Hamil</td>
-            <td style="height: 30px"></td>
+            <td class="row-h"></td>
             <td></td>
           </tr>
           <tr>
             <td class="center">2</td>
             <td>Ibu Menyusui</td>
-            <td style="height: 30px"></td>
+            <td class="row-h"></td>
             <td></td>
           </tr>
           <tr>
             <td class="center">3</td>
             <td>Balita 6–11 bulan</td>
-            <td style="height: 30px"></td>
+            <td class="row-h"></td>
             <td></td>
           </tr>
           <tr>
             <td class="center">4</td>
             <td>Balita 12–23 bulan</td>
-            <td style="height: 30px"></td>
+            <td class="row-h"></td>
             <td></td>
           </tr>
           <tr>
             <td class="center">5</td>
             <td>Balita 24–59 bulan</td>
-            <td style="height: 30px"></td>
+            <td class="row-h"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="center">6</td>
+            <td class="row-h"></td>
+            <td class="row-h"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="2" class="center"><strong>Total</strong></td>
+            <td class="row-h"></td>
             <td></td>
           </tr>
         </tbody>
       </table>
 
+      <div class="catatan">
+        <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
+      </div>
+      <br />
       <div class="ttd-verifikasi">
         <table>
           <tr>
@@ -2798,12 +1466,14 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 13: F.5 JADWAL JENIS PAKET — 4 MINGGU                -->
+    <!-- HALAMAN 16: F.5 JADWAL JENIS PAKET — 4 MINGGU                -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
+      <div class="tabel-caption">
+        Jadwal Jenis Paket dan Jalur Penyaluran Peserta Didik - 3B (20 Hari)
+      </div>
 
-      <div class="tabel-caption">Penyaluran Mingguan I - IV</div>
       <table class="jadwal">
         <thead>
           <tr>
@@ -3001,11 +1671,9 @@
       </table>
 
       <div class="catatan">
-        <strong>Keterangan Jalur Penyaluran:</strong> Untuk Peserta Didik:
-        <em>Sekolah</em>; Untuk Kelompok 3B:
-        <em>Semua kelompok 3B (via Posyandu)</em> atau <em>Dibawa kader</em>.
+        <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
       </div>
-
+      <br />
       <div class="ttd-verifikasi">
         <table>
           <tr>
@@ -3033,7 +1701,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 14: G + H + I                                        -->
+    <!-- HALAMAN 17: G + H + I                                        -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">G. VERIFIKASI DAN PERSETUJUAN DOKUMEN</h2>
@@ -3067,23 +1735,55 @@
           <td>☐ Sudah ☐ Belum — Tanggal: ................................</td>
         </tr>
       </table>
-
+      <br />
       <h2 class="section-title">H. DAFTAR LAMPIRAN</h2>
       <ol class="legal">
-        <li>F.1. Laporan Menentukan Jenis dan Frekuensi Bahan Baku.</li>
-        <li>F.2. Siklus Menu 20 Hari — Peserta Didik dan 3B.</li>
         <li>
-          F.3. Penerapan Standar Makanan — Peserta Didik dan 3B (Tabel 13 &amp;
-          14).
+          <span class="flex justify-between items-baseline">
+            <span
+              >Laporan. Kelompok Bahan Pangan, Jenis, dan Frekuensi Bahan
+              Baku</span
+            >
+            <span class="font-bold">( 20 Hari )</span>
+          </span>
         </li>
-        <li>F.4. Hasil Perencanaan — Data Sasaran Peserta Didik &amp; 3B.</li>
-        <li>F.5. Formulir Jadwal Jenis Paket dan Jalur Penyaluran Mingguan.</li>
+        <li>
+          <span class="flex justify-between items-baseline">
+            <span
+              >Laporan. Siklus Menu Penerima Manfaat Peserta Didik - 3B</span
+            >
+            <span class="font-bold">( 20 Hari )</span>
+          </span>
+        </li>
+        <li>
+          <span class="flex justify-between items-baseline">
+            <span>Laporan. Standar Menu Makanan Harian Peserta Didik - 3B</span>
+            <span class="font-bold">( 20 Hari )</span>
+          </span>
+        </li>
+        <li>
+          <span class="flex justify-between items-baseline">
+            <span
+              >Laporan. Hasil Perencanaan Data Sasaran Peserta Didik - 3B</span
+            >
+            <span class="font-bold">( 20 Hari )</span>
+          </span>
+        </li>
+        <li>
+          <span class="flex justify-between items-baseline">
+            <span
+              >Laporan. Jadwal Jenis Paket dan Jalur Penyaluran Peserta Didik -
+              3B</span
+            >
+            <span class="font-bold">( 20 Hari )</span>
+          </span>
+        </li>
       </ol>
-
+      <br />
       <h2 class="section-title">I. LEMBAR PENGESAHAN</h2>
       <div class="mt-2 text-[10.5pt]">
         <div class="text-right mb-2">
-          Pekanbaru, ................................ 20......
+          Pekanbaru, .............................. 20.........
         </div>
         <table class="w-full text-center" style="border: none">
           <tr>
@@ -3111,6 +1811,7 @@
 
       <div
         class="mt-6 text-[9pt] italic text-gray-700 border-t border-gray-400 pt-2"
+        style="text-align: justify; text-justify: inter-word"
       >
         Dokumen ini merupakan bagian dari pelaksanaan SOP Nomor
         010/05/00/SOP.10/09/2026 tentang Perencanaan Menu pada Program Makan
