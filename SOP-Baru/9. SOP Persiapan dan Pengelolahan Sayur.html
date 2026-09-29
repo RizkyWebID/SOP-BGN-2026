@@ -1,0 +1,2638 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0369a1" />
+    <title>
+      SOP Persiapan dan Pengolahan Sayur — SPPG Kota Pekanbaru Binawidya
+      Tobekgodang
+    </title>
+
+    <style>
+      /* ============================================================
+         RESET & BASE — Arial 12pt, Line-height 1.5 (naskah dinas)
+         ============================================================ */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12pt;
+        line-height: 1.5;
+        color: #0f172a;
+        background: #e0f2fe;
+        -webkit-font-smoothing: antialiased;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* ============================================================
+         VARIABEL TEMA
+         ============================================================ */
+      :root {
+        --biru-utama: #0369a1;
+        --biru-gelap: #0c4a6e;
+        --biru-muda: #f0f9ff;
+        --biru-aksen: #e0f2fe;
+        --kuning-lembut: #fef3c7;
+        --kuning-border: #f59e0b;
+        --hijau: #16a34a;
+        --merah: #dc2626;
+        --teks: #0f172a;
+        --jarak-blok: 8px;
+        --indent-tab: 1.27cm;
+      }
+
+      /* ============================================================
+         HALAMAN
+         ============================================================ */
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 15mm 15mm 15mm 30mm;
+        margin: 10mm auto;
+        background: #fff;
+        box-shadow: 0 2px 12px rgba(3, 105, 161, 0.12);
+      }
+
+      /* ============================================================
+         KOP SURAT
+         ============================================================ */
+      .kop {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        padding-bottom: 8px;
+      }
+      .kop-logo {
+        width: 96px;
+        height: 96px;
+        flex: 0 0 96px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .kop-teks {
+        flex: 1 1 auto;
+        text-align: center;
+        line-height: 1.25;
+      }
+      .kop-teks .l1 {
+        font-size: 14pt;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+      }
+      .kop-teks .l2 {
+        font-size: 13pt;
+        font-weight: bold;
+        margin-top: 4px;
+      }
+      .kop-teks .l3 {
+        font-size: 13.5pt;
+        font-weight: bold;
+        margin-top: 4px;
+      }
+      .kop-teks .l4,
+      .kop-teks .l5 {
+        font-size: 10pt;
+        margin-top: 6px;
+      }
+      .kop-spacer {
+        width: 96px;
+        flex: 0 0 96px;
+      }
+      .kop-line-1 {
+        border-top: 3px solid var(--teks);
+      }
+      .kop-line-2 {
+        border-top: 1px solid var(--teks);
+        margin-top: 2px;
+      }
+
+      /* ============================================================
+         JUDUL LAPORAN
+         ============================================================ */
+      .judul-laporan {
+        text-align: center;
+        margin: 20px 0 12px;
+      }
+      .judul-laporan .t1 {
+        font-size: 14pt;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .judul-laporan .t2 {
+        font-size: 12.5pt;
+        font-weight: bold;
+      }
+
+      /* ============================================================
+         JUDUL SECTION
+         ============================================================ */
+      .section-title {
+        font-size: 12pt;
+        font-weight: bold;
+        background: var(--biru-utama);
+        color: #fff;
+        padding: 5px 10px;
+        margin: var(--jarak-blok) 0;
+        text-align: center;
+      }
+
+      /* ============================================================
+         TABEL — BASE
+         ============================================================ */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10pt;
+        line-height: 1.3;
+        margin: var(--jarak-blok) 0;
+      }
+      th,
+      td {
+        border: 1px solid var(--biru-gelap);
+        padding: 4px 6px;
+        vertical-align: middle;
+      }
+      th,
+      thead th {
+        background: var(--biru-utama);
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        vertical-align: middle;
+      }
+      td {
+        background: #fff;
+        color: var(--teks);
+      }
+
+      /* Sel penekanan */
+      td.center {
+        text-align: center;
+      }
+      td.kiri {
+        text-align: left;
+        font-weight: bold;
+      }
+      .label-cell {
+        width: 34%;
+        font-weight: bold;
+      }
+      td.kategori {
+        font-weight: bold;
+        text-align: left;
+        width: 15%;
+        padding-left: 8px;
+      }
+      td.tahap {
+        font-weight: bold;
+        text-align: center;
+        width: 85px;
+        font-size: 9pt;
+      }
+      td.no {
+        text-align: center;
+        font-weight: bold;
+        width: 32px;
+      }
+      tr.total td {
+        font-weight: bold;
+      }
+      tr.header-row td {
+        font-weight: bold;
+      }
+
+      /* Modifikator tabel */
+      table.t-frekuensi {
+        font-size: 9.5pt;
+        table-layout: fixed;
+      }
+      table.t-frekuensi th,
+      table.t-frekuensi td {
+        padding: 2px 6px;
+        height: 24px;
+      }
+      table.t-frekuensi th {
+        padding: 4px 6px;
+        height: 28px;
+      }
+      table.t-matrix {
+        font-size: 8.5pt;
+      }
+      table.t-matrix th,
+      table.t-matrix td {
+        padding: 2px 3px;
+      }
+      table.t-workflow {
+        font-size: 9pt;
+        table-layout: fixed;
+      }
+      table.t-workflow th,
+      table.t-workflow td {
+        padding: 5px 6px;
+      }
+      table.t-menu {
+        font-size: 10pt;
+        table-layout: fixed;
+      }
+      table.t-menu th,
+      table.t-menu td {
+        padding: 5px 6px;
+        text-align: center;
+        height: 32px;
+        word-wrap: break-word;
+      }
+      table.t-menu th {
+        height: 28px;
+      }
+      table.t-keterkaitan {
+        font-size: 10pt;
+        table-layout: fixed;
+      }
+      table.t-keterkaitan th,
+      table.t-keterkaitan td {
+        padding: 6px 8px;
+      }
+      table.t-keterkaitan ol {
+        padding-left: 18px;
+        margin: 0;
+      }
+      table.t-jadwal {
+        font-size: 9pt;
+      }
+      table.t-jadwal th,
+      table.t-jadwal td {
+        padding: 3px 5px;
+      }
+      .row-h {
+        height: 30px;
+      }
+
+      /* t-standar — isi sel rata tengah */
+      table.t-standar td,
+      table.t-standar td.kiri,
+      table.t-standar th {
+        text-align: center;
+      }
+
+      /* ============================================================
+         TABEL CAPTION
+         ============================================================ */
+      .tabel-caption {
+        font-size: 11pt;
+        font-weight: bold;
+        text-align: center;
+        margin: var(--jarak-blok) 0;
+        background: var(--biru-muda);
+        padding: 4px;
+        border-top: 2px solid var(--biru-utama);
+        border-bottom: 2px solid var(--biru-utama);
+      }
+
+      /* ============================================================
+         CATATAN
+         ============================================================ */
+      .catatan {
+        font-size: 9pt;
+        font-style: italic;
+        background: var(--kuning-lembut);
+        border: 1px solid var(--kuning-border);
+        padding: 6px 10px;
+        margin: var(--jarak-blok) 0 0;
+      }
+      .catatan strong {
+        font-style: normal;
+      }
+      .catatan + .ttd-verifikasi {
+        margin-top: 1.5em;
+      }
+
+      /* ============================================================
+         TANDA TANGAN / VERIFIKASI
+         ============================================================ */
+      .ttd-verifikasi {
+        margin-top: var(--jarak-blok);
+        padding: 6px 10px;
+      }
+      .ttd-verifikasi table {
+        border: none;
+        width: 100%;
+        margin: 0;
+      }
+      .ttd-verifikasi td {
+        width: 33.333%;
+        border: none;
+        background: transparent;
+        text-align: center;
+        vertical-align: top;
+        padding: 3px;
+      }
+      .ttd-space {
+        height: 90px;
+      }
+      .ttd-name-line {
+        border-top: 1px solid var(--teks);
+        display: block;
+        min-width: 80%;
+        margin: 0 auto;
+        height: 1px;
+      }
+      .signature-box {
+        height: 80px;
+      }
+
+      /* ============================================================
+         LIST
+         ============================================================ */
+      ol.legal {
+        list-style: decimal;
+        padding-left: 22px;
+        margin: 0;
+      }
+      ol.legal-dasar-hukum {
+        font-size: 11pt;
+      }
+      ol.legal li {
+        margin-bottom: 3px;
+        text-align: justify;
+        line-height: 1.5;
+      }
+      .list-nomor {
+        text-align: left;
+        padding: 6px 10px;
+        line-height: 1.8;
+        font-size: 10pt;
+      }
+      .list-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .list-flex .kanan {
+        font-weight: bold;
+        white-space: nowrap;
+      }
+
+      /* ============================================================
+         DIAGRAM ALIR
+         ============================================================ */
+      .flow-chain {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        padding: 10px;
+        background: var(--biru-muda);
+        border: 1px solid #bae6fd;
+        border-radius: 4px;
+        margin: var(--jarak-blok) 0;
+      }
+      .flow-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        background: var(--biru-aksen);
+        border: 1.5px solid var(--biru-utama);
+        border-radius: 20px;
+        font-size: 9pt;
+        font-weight: bold;
+        color: var(--biru-utama);
+        white-space: nowrap;
+      }
+      .flow-item .fn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        background: var(--biru-utama);
+        color: #fff;
+        border-radius: 50%;
+        font-size: 8pt;
+      }
+      .flow-item.start {
+        background: var(--hijau);
+        border-color: #14532d;
+        color: #fff;
+      }
+      .flow-item.end {
+        background: var(--merah);
+        border-color: #7f1d1d;
+        color: #fff;
+      }
+      .flow-conn {
+        color: var(--biru-utama);
+        font-size: 12pt;
+        font-weight: bold;
+        padding: 0 2px;
+      }
+
+      /* ============================================================
+         FOOTER DOKUMEN & NARASI SOP
+         ============================================================ */
+      .footer-dokumen {
+        margin-top: 24px;
+        font-size: 10pt;
+        font-style: italic;
+        color: #475569;
+        border-top: 1px solid #cbd5e1;
+        padding-top: 8px;
+        text-align: justify;
+        text-justify: inter-word;
+      }
+      .narasi-sop {
+        font-size: 12pt;
+        line-height: 1.5;
+        text-align: justify;
+        text-justify: inter-word;
+        padding: 4px 0;
+      }
+      .narasi-sop p {
+        margin: 0 0 8px;
+        text-indent: var(--indent-tab);
+      }
+      .narasi-sop ol {
+        padding-left: 22px;
+        margin: 0;
+      }
+      .narasi-sop ol li {
+        margin-bottom: 6px;
+      }
+
+      /* ============================================================
+         LEMBAR PENGESAHAN
+         ============================================================ */
+      .pengesahan {
+        font-size: 12pt;
+        margin-top: var(--jarak-blok);
+      }
+      .pengesahan-tanggal {
+        text-align: right;
+        margin: var(--jarak-blok) 0;
+      }
+      .pengesahan-garis {
+        border-top: 1px solid var(--teks);
+      }
+
+      /* ============================================================
+         TOOLBAR
+         ============================================================ */
+      .toolbar {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        width: 180px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px;
+        background: #fff;
+        border: 2px solid var(--biru-utama, #0369a1);
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(3, 105, 161, 0.2);
+        z-index: 100;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10pt;
+        box-sizing: border-box;
+      }
+      .toolbar-group {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        align-items: center;
+      }
+      .toolbar-label {
+        font-weight: bold;
+        color: var(--biru-gelap, #0c4a6e);
+        font-size: 9.5pt;
+        line-height: 1.2;
+        text-align: center;
+        width: 100%;
+      }
+      .toolbar-select {
+        width: 100%;
+        padding: 6px 22px 6px 8px;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 6px;
+        background-color: #fff;
+        font-family: inherit;
+        font-size: 9.5pt;
+        color: var(--teks, #0f172a);
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230c4a6e' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 7px center;
+        background-size: 11px 11px;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+        text-align: center;
+      }
+      .toolbar-select:focus {
+        outline: none;
+        border-color: var(--biru-utama, #0369a1);
+        box-shadow: 0 0 0 2px rgba(3, 105, 161, 0.15);
+      }
+      .toolbar .btn-print {
+        width: 100%;
+        padding: 8px 10px;
+        margin-top: 0;
+        background: var(--biru-utama, #0369a1);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-family: inherit;
+        font-weight: bold;
+        font-size: 10pt;
+        cursor: pointer;
+        text-align: center;
+        transition: background 0.15s;
+      }
+      .toolbar .btn-print:hover {
+        background: var(--biru-gelap, #0c4a6e);
+      }
+      .toolbar .btn-print:active {
+        transform: translateY(1px);
+      }
+
+      /* ============================================================
+         RESPONSIVE
+         ============================================================ */
+      @media screen and (max-width: 1024px) {
+        body {
+          font-size: 11pt;
+          padding: 8px;
+        }
+        .page {
+          width: 100%;
+          min-height: auto;
+          padding: 16px;
+          margin: 8px 0;
+        }
+        .kop {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 8px;
+        }
+        .kop-logo,
+        .kop-spacer {
+          width: 72px;
+          flex-basis: 72px;
+          height: 72px;
+        }
+        .kop-teks .l1 {
+          font-size: 13pt;
+        }
+        .kop-teks .l2 {
+          font-size: 12pt;
+        }
+        .kop-teks .l3 {
+          font-size: 12.5pt;
+        }
+        table {
+          font-size: 10pt;
+        }
+        th,
+        td {
+          padding: 6px 8px;
+        }
+        .toolbar {
+          width: auto;
+          left: 10px;
+          right: 10px;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        .page {
+          padding: 12px 10px;
+        }
+        table {
+          font-size: 9pt;
+        }
+        th,
+        td {
+          padding: 4px 5px;
+        }
+        .section-title {
+          font-size: 11pt;
+          padding: 4px 6px;
+        }
+        .tabel-caption {
+          font-size: 10pt;
+        }
+        .toolbar {
+          font-size: 9pt;
+          bottom: 10px;
+        }
+      }
+
+      /* ============================================================
+         CETAK / PDF
+         ============================================================ */
+      @media print {
+        body {
+          background: #fff;
+          font-size: 12pt;
+        }
+        .page {
+          width: auto;
+          min-height: auto;
+          padding: 0;
+          margin: 0;
+          box-shadow: none;
+        }
+        .page-break {
+          page-break-before: always;
+        }
+        table {
+          page-break-inside: auto;
+        }
+        tr,
+        .flow-chain,
+        .catatan {
+          page-break-inside: avoid;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .flow-item {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        thead {
+          display: table-header-group;
+        }
+      }
+    </style>
+
+    <!-- @page default — margin kiri 3 cm (ruang jilid), diubah JS bila perlu -->
+    <style id="dynamic-page-style">
+      @page {
+        size: A4 portrait;
+        margin: 15mm 15mm 15mm 30mm;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 1 — KOP + A. IDENTITAS + B. DASAR HUKUM
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page">
+      <div class="kop">
+        <div class="kop-logo">
+          <img
+            alt="Logo BGN"
+            src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='white' stroke='%230369a1' stroke-width='4'/><text x='50' y='58' font-family='Arial' font-size='14' font-weight='bold' text-anchor='middle' fill='%230369a1'>BGN</text></svg>"
+          />
+        </div>
+        <div class="kop-teks">
+          <div class="l1">BADAN GIZI NASIONAL</div>
+          <div class="l2">SATUAN PELAYANAN PEMENUHAN GIZI (SPPG)</div>
+          <div class="l3">KOTA PEKANBARU BINAWIDYA TOBEKGODANG</div>
+          <div class="l4">
+            Jl. Rajawali Sakti / Jl. Gereja (SMK Taruna Mandiri)
+          </div>
+          <div class="l5">
+            Telp: +62 813 9131 6060 &nbsp; Email: SPPG.Rajawali@GMail.Com
+          </div>
+        </div>
+        <div class="kop-spacer"></div>
+      </div>
+      <div class="kop-line-1"></div>
+      <div class="kop-line-2"></div>
+
+      <div class="judul-laporan">
+        <div class="t1">Laporan Persiapan dan Pengolahan Sayur</div>
+        <div class="t2">PROGRAM MAKAN BERGIZI GRATIS (MBG)</div>
+      </div>
+
+      <h2 class="section-title">A. IDENTITAS DOKUMEN</h2>
+      <table>
+        <tr>
+          <td class="label-cell">Nomor SOP</td>
+          <td>022/05/00/SOP.22/09/2026</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Nama SOP</td>
+          <td>Persiapan dan Pengolahan Sayur</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Nama SPPG</td>
+          <td>SPPG Kota Pekanbaru Binawidya Tobekgodang</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Tanggal Laporan</td>
+          <td style="height: 28px"></td>
+        </tr>
+      </table>
+
+      <h2 class="section-title">B. DASAR HUKUM</h2>
+      <ol class="legal legal-dasar-hukum">
+        <li>
+          Undang-Undang Nomor 18 Tahun 2012 tentang Pangan sebagaimana telah
+          beberapa kali diubah, terakhir dengan Undang-Undang Nomor 6 Tahun 2023
+          tentang Penetapan Peraturan Pemerintah Pengganti Undang-Undang Nomor 2
+          Tahun 2022 tentang Cipta Kerja menjadi Undang-Undang.
+        </li>
+        <li>Undang-Undang Nomor 17 Tahun 2023 tentang Kesehatan.</li>
+        <li>
+          Peraturan Pemerintah Nomor 1 Tahun 2026 tentang Perubahan Atas
+          Peraturan Pemerintah Nomor 86 Tahun 2019 tentang Keamanan Pangan.
+        </li>
+        <li>
+          Peraturan Presiden Nomor 83 Tahun 2024 tentang Badan Gizi Nasional.
+        </li>
+        <li>
+          Peraturan Presiden Nomor 115 Tahun 2025 tentang Tata Kelola
+          Penyelenggaraan Program Makan Bergizi Gratis.
+        </li>
+        <li>
+          Peraturan Menteri Kesehatan Nomor 1096/Menkes/PER/VI/2011 tentang
+          Higiene Sanitasi Jasaboga.
+        </li>
+        <li>
+          Peraturan Menteri Pendayagunaan Aparatur Negara dan Reformasi
+          Birokrasi Nomor 35 Tahun 2012 tentang Pedoman Penyusunan Standar
+          Operasional Prosedur Administrasi Pemerintahan.
+        </li>
+        <li>
+          Peraturan Menteri Kesehatan Nomor 2 Tahun 2013 tentang Kejadian Luar
+          Biasa Keracunan Pangan.
+        </li>
+        <li>
+          Peraturan Menteri Kesehatan Republik Indonesia Nomor 41 Tahun 2014
+          tentang Pedoman Gizi Seimbang.
+        </li>
+        <li>
+          Peraturan Menteri Pertanian Nomor 53/Permenatan/KR.040/12/2018 tentang
+          Keamanan dan Mutu Pangan Segar Asal Tumbuhan (PSAT).
+        </li>
+        <li>
+          Peraturan Badan Pangan Nasional Nomor 12 Tahun 2023 tentang
+          Penyelenggaraan Sistem Jaminan Keamanan dan Mutu Pangan Segar Asal
+          Tumbuhan.
+        </li>
+        <li>
+          Peraturan Badan Pengawas Obat dan Makanan Nomor 13 Tahun 2023 tentang
+          Kategori Pangan.
+        </li>
+        <li>
+          Peraturan Badan Pangan Nasional Nomor 2 Tahun 2024 tentang Standar
+          Keamanan dan Mutu Pangan Segar.
+        </li>
+        <li>
+          Peraturan Badan Gizi Nasional Nomor 1 Tahun 2026 tentang Sisa Pangan,
+          Limbah, dan Air Limbah Domestik dari Penyelenggaraan Program Makan
+          Bergizi Gratis.
+        </li>
+        <li>
+          Peraturan Badan Gizi Nasional Nomor 4 Tahun 2026 tentang Sistem
+          Penjaminan Keamanan Pangan dan Mutu Pangan di Lingkungan Badan Gizi
+          Nasional.
+        </li>
+        <li>
+          Peraturan Badan Gizi Nasional Nomor 5 Tahun 2026 tentang Standar Gizi
+          dalam Pelaksanaan Program Makan Bergizi Gratis.
+        </li>
+        <li>
+          Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang
+          Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi
+          Gratis Tahun Anggaran 2026.
+        </li>
+      </ol>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 2 — C. TUJUAN + D. RUANG LINGKUP + E. DEFINISI
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">C. TUJUAN</h2>
+      <div class="narasi-sop">
+        <p>
+          Standar Operasional Prosedur (SOP) Persiapan dan Pengolahan Sayur ini
+          disusun sebagai acuan baku bagi seluruh pelaksana di lingkungan SPPG
+          Kota Pekanbaru Binawidya Tobekgodang dengan tujuan sebagai berikut:
+        </p>
+        <ol>
+          <li>
+            Memastikan bahan baku sayuran yang diolah memenuhi persyaratan mutu
+            dan keamanan pangan, serta bebas dari cemaran fisik, hama, biologis,
+            maupun residu kimia (seperti pestisida).
+          </li>
+          <li>
+            Menjamin proses persiapan dan pengolahan sayuran dilakukan dengan
+            tepat, termasuk pemisahan alat dan area kerja, untuk mencegah
+            terjadinya kontaminasi silang dari bahan baku hewani.
+          </li>
+          <li>
+            Menjaga kualitas, kesegaran, dan meminimalkan hilangnya kandungan
+            gizi sayuran selama proses persiapan dan pemasakan.
+          </li>
+          <li>
+            Memastikan bahan baku sayuran diolah/dimasak hingga mencapai tingkat
+            kematangan yang aman untuk dikonsumsi tanpa merusak tekstur dan
+            nilai gizi, sesuai standar Program Makan Bergizi Gratis.
+          </li>
+        </ol>
+      </div>
+
+      <h2 class="section-title">D. RUANG LINGKUP</h2>
+      <div class="narasi-sop">
+        <p>
+          Prosedur ini berlaku untuk seluruh kegiatan persiapan dan pengolahan
+          sayuran yang digunakan dalam proses produksi makanan di area dapur
+          Satuan Pelayanan Pemenuhan Gizi (SPPG). Ruang lingkup meliputi
+          pencucian dengan air bersih mengalir, pengupasan, pemotongan,
+          penyimpanan sementara sebelum dimasak, hingga seluruh tahapan
+          pengolahan/pemasakan (penerapan panas, uji organoleptik) sampai
+          sayuran siap didinginkan dan siap didistribusikan kepada penerima
+          manfaat Program Makan Bergizi Gratis.
+        </p>
+      </div>
+
+      <h2 class="section-title">E. DEFINISI</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 50px">No</th>
+            <th style="width: 180px">Istilah</th>
+            <th>Pengertian</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="center">1</td>
+            <td class="kiri">Persiapan Sayuran</td>
+            <td>
+              Kegiatan penanganan sayuran sebelum proses pengolahan yang
+              meliputi pengambilan bahan dari penyimpanan, pencucian,
+              pengupasan, pemotongan, hingga bahan siap diolah.
+            </td>
+          </tr>
+          <tr>
+            <td class="center">2</td>
+            <td class="kiri">Pengolahan Sayuran</td>
+            <td>
+              Kegiatan memasak sayuran yang telah disiapkan menjadi hidangan
+              matang yang siap dikonsumsi dengan menerapkan prinsip higiene
+              sanitasi.
+            </td>
+          </tr>
+          <tr>
+            <td class="center">3</td>
+            <td class="kiri">Penyortiran dan Pencucian</td>
+            <td>
+              Proses memisahkan sayuran dari bagian yang rusak/layu/busuk serta
+              mencucinya dengan air mengalir guna menghilangkan kotoran fisik,
+              serangga/hama, dan sisa bahan kimia sebelum dilakukan pemotongan.
+            </td>
+          </tr>
+          <tr>
+            <td class="center">4</td>
+            <td class="kiri">Kontaminasi Silang<br />(Cross-Contamination)</td>
+            <td>
+              Perpindahan mikroba atau cemaran berbahaya dari bahan mentah lain
+              (seperti daging/ikan) ke sayuran melalui penggunaan peralatan
+              kerja (pisau, talenan, wadah) yang sama tanpa proses pembersihan
+              dan sanitasi terlebih dahulu.
+            </td>
+          </tr>
+          <tr>
+            <td class="center">5</td>
+            <td class="kiri">Zona Bahaya<br />(Danger Zone)</td>
+            <td>
+              Rentang suhu 5&nbsp;°C sampai dengan 60&nbsp;°C yang memungkinkan
+              pertumbuhan bakteri patogen secara cepat, sehingga hidangan sayur
+              matang tidak boleh berada pada rentang suhu tersebut dalam waktu
+              yang lama.
+            </td>
+          </tr>
+          <tr>
+            <td class="center">6</td>
+            <td class="kiri">Sampel Uji Makanan<br />(Retained Sample)</td>
+            <td>
+              Contoh hidangan sayur matang (minimal 100 gram/1 porsi) yang
+              disimpan terpisah di dalam <em>chiller</em> pada suhu berkisar
+              2–8&nbsp;°C selama 3×24 jam sebagai dokumentasi kontrol
+              investigasi.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 3 — F. KETERKAITAN + G. KUALIFIKASI PELAKSANA
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">
+        F. KETERKAITAN, PERALATAN, PERINGATAN, DAN PENCATATAN
+      </h2>
+      <table class="t-keterkaitan">
+        <thead>
+          <tr>
+            <th style="width: 28%">Item</th>
+            <th>Uraian</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tahap">KETERKAITAN</td>
+            <td>
+              <ol>
+                <li>SOP Penerimaan dan Penyimpanan Sayur dan Buah.</li>
+                <li>SOP Penggunaan Talenan dan Pisau.</li>
+                <li>SOP Pembersihan Berkala Chiller dan Freezer.</li>
+                <li>SOP Pembersihan dan Penyimpanan Peralatan Masak.</li>
+                <li>SOP Penerimaan dan Penyimpanan Daging dan Unggas.</li>
+                <li>SOP Pembersihan dan Pelabelan Ompregn.</li>
+                <li>SOP Kebersihan Ruangan.</li>
+                <li>SOP Personal Higiene.</li>
+                <li>SOP Manajemen IPAL.</li>
+                <li>SOP Manajemen Grease Trap.</li>
+                <li>SOP Manajemen Sampah.</li>
+                <li>SOP Pemeriksaan Alat Ukur (Termometer dan Timbangan).</li>
+                <li>
+                  SOP Pengambilan, Penyimpanan Sampel dan Uji Organoleptik di
+                  SPPG.
+                </li>
+              </ol>
+            </td>
+          </tr>
+          <tr>
+            <td class="tahap">PERALATAN / PERLENGKAPAN</td>
+            <td>
+              <ol>
+                <li>Alat Pelindung Diri (APD)</li>
+                <li>Talenan Khusus (warna hijau)</li>
+                <li>Pisau Khusus Bahan Nabati</li>
+                <li>Wadah / Baskom Tertutup</li>
+                <li>Timbangan</li>
+                <li>Termometer</li>
+                <li>Bak Pencucian</li>
+                <li>Tempat Sampah dan Plastik Sampah</li>
+                <li>Kompor / Peralatan Masak</li>
+                <li>Wajan / Panci Khusus Sayur</li>
+                <li>Termometer Makanan</li>
+                <li>Wadah Penyajian / Pengemasan Tertutup</li>
+                <li>Wadah dan Label Sampel Uji Makanan</li>
+              </ol>
+            </td>
+          </tr>
+          <tr>
+            <td class="tahap">PERINGATAN</td>
+            <td>
+              <ol>
+                <li>
+                  Jika SOP Persiapan bahan baku sayuran tidak dilakukan sesuai
+                  prosedur, dapat terjadi kontaminasi silang serta tertinggalnya
+                  cemaran fisik, biologis, dan kimia (seperti kotoran, hama,
+                  atau residu pestisida) pada makanan.
+                </li>
+                <li>
+                  Apabila proses pengolahan sayuran tidak memenuhi standar
+                  kematangan yang dipersyaratkan atau dibiarkan terlalu lama
+                  berada pada zona suhu kritis (<em>danger zone</em>), kondisi
+                  ini dapat memicu pertumbuhan bakteri patogen yang secara
+                  signifikan meningkatkan risiko kejadian keracunan pangan bagi
+                  penerima manfaat Program Makan Bergizi Gratis.
+                </li>
+              </ol>
+            </td>
+          </tr>
+          <tr>
+            <td class="tahap">PENCATATAN DAN PENDATAAN</td>
+            <td>
+              <ol>
+                <li>Formulir Perencanaan Menu.</li>
+                <li>Formulir Persiapan Sayuran.</li>
+                <li>Formulir Pengolahan Sayuran.</li>
+              </ol>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-title">G. KUALIFIKASI PELAKSANA</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 50px">No</th>
+            <th style="width: 250px">Kualifikasi Pelaksana</th>
+            <th>Nama / Jabatan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="center">1</td>
+            <td>Kepala SPPG</td>
+            <td style="height: 34px"></td>
+          </tr>
+          <tr>
+            <td class="center">2</td>
+            <td>Pengawas Gizi</td>
+            <td style="height: 34px"></td>
+          </tr>
+          <tr>
+            <td class="center">3</td>
+            <td>Pengawas Keuangan</td>
+            <td style="height: 34px"></td>
+          </tr>
+          <tr>
+            <td class="center">4</td>
+            <td>Jurutama Masak</td>
+            <td style="height: 34px"></td>
+          </tr>
+          <tr>
+            <td class="center">5</td>
+            <td>Asisten Lapangan</td>
+            <td style="height: 34px"></td>
+          </tr>
+          <tr>
+            <td class="center">6</td>
+            <td>Tim Persiapan</td>
+            <td style="height: 34px"></td>
+          </tr>
+          <tr>
+            <td class="center">7</td>
+            <td>Tim Pengolahan</td>
+            <td style="height: 34px"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 4 — H. PROSEDUR KERJA (DIAGRAM ALIR + WORKFLOW)
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">
+        H. PROSEDUR KERJA PERSIAPAN DAN PENGOLAHAN SAYUR (DIAGRAM ALIR)
+      </h2>
+
+      <div class="flow-chain">
+        <div class="flow-item start">MULAI</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">1</span>Siapkan APD &amp; Meja Terpisah
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">2</span>Ambil Sayur Sesuai Menu
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">3</span>Periksa Kualitas Sayur
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item"><span class="fn">4</span>Cuci Air Mengalir</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">5</span>Potong (Pisau &amp; Talenan Hijau)
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">6</span>Rendam Air Garam &amp; Tiriskan
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item"><span class="fn">7</span>Masak ≥ 70&nbsp;°C</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item"><span class="fn">8</span>Uji Organoleptik</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">9</span>Ambil Sampel 100 gr
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">10</span>Pendinginan &amp; Pelabelan
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item end">SELESAI</div>
+      </div>
+
+      <table class="t-workflow t-matrix">
+        <thead>
+          <tr>
+            <th style="width: 32px">No</th>
+            <th style="width: 85px">Tahap</th>
+            <th>Uraian Kegiatan</th>
+            <th style="width: 90px">Pelaksana</th>
+            <th style="width: 100px">Kelengkapan</th>
+            <th style="width: 50px">Waktu</th>
+            <th style="width: 120px">Output</th>
+            <th style="width: 40px">Ket</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td class="tahap" rowspan="10">Persiapan</td>
+            <td>Pastikan seluruh relawan menggunakan APD lengkap.</td>
+            <td>Tim Persiapan</td>
+            <td>APD lengkap</td>
+            <td class="center">5 mnt</td>
+            <td>APD terpasang lengkap</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td>
+              Siapkan meja persiapan <em>stainless steel</em> yang terpisah
+              untuk sayur dengan bahan lainnya.
+            </td>
+            <td>Tim Persiapan</td>
+            <td>Meja kerja terpisah</td>
+            <td class="center">5 mnt</td>
+            <td>Meja kerja siap pakai</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td>Ambil sayur yang sesuai dengan Perencanaan Menu Mingguan.</td>
+            <td>Tim Persiapan</td>
+            <td>Formulir menu</td>
+            <td class="center">10 mnt</td>
+            <td>Jenis &amp; jumlah sayur sesuai menu</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td>Periksa kesesuaian dan kualitas sayur.</td>
+            <td>Tim Persiapan &amp; Pengawas Gizi</td>
+            <td>Formulir penerimaan</td>
+            <td class="center">5 mnt</td>
+            <td>Sayur segar, tidak layu/busuk</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td>Mencuci sayur dengan air mengalir.</td>
+            <td>Tim Persiapan</td>
+            <td>Bak pencucian</td>
+            <td class="center">15 mnt</td>
+            <td>Bebas kotoran fisik &amp; hama</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td>
+              Menimbang, mengupas, dan memotong sayuran sesuai ukuran kebutuhan
+              menu menggunakan pisau dan talenan berwarna hijau yang khusus
+              diperuntukkan bagi bahan pangan nabati.
+            </td>
+            <td>Tim Persiapan</td>
+            <td>Pisau &amp; talenan hijau, timbangan</td>
+            <td class="center">30 mnt</td>
+            <td>Berat bersih &amp; potongan sesuai standar</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">7</td>
+            <td>
+              Bersihkan sayuran menggunakan rendaman air garam dan bilas
+              menggunakan air mengalir, simpan di wadah saringan bersih, lalu
+              tiriskan.
+            </td>
+            <td>Tim Persiapan</td>
+            <td>Air garam, wadah saringan</td>
+            <td class="center">10 mnt</td>
+            <td>Bebas residu &amp; hama</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td>Utamakan memproses sayuran berdaun (mudah layu).</td>
+            <td>Tim Persiapan</td>
+            <td>Wadah bersih</td>
+            <td class="center">—</td>
+            <td>Kesegaran sayur terjaga</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td>Kumpulkan dan buang sisa limbah organik.</td>
+            <td>Tim Persiapan</td>
+            <td>Tempat sampah</td>
+            <td class="center">5 mnt</td>
+            <td>Limbah terkelola sesuai SOP</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">10</td>
+            <td>
+              Setelah seluruh rangkaian proses persiapan sayuran selesai,
+              permukaan meja kerja <em>stainless steel</em> dan seluruh
+              peralatan wajib segera dibersihkan.
+            </td>
+            <td>Tim Persiapan</td>
+            <td>Alat pembersih</td>
+            <td class="center">10 mnt</td>
+            <td>Area kerja bersih &amp; siap digunakan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">11</td>
+            <td class="tahap" rowspan="8">Pengolahan</td>
+            <td>Sayur diterima oleh tim pengolahan.</td>
+            <td>Tim Pengolahan</td>
+            <td>Formulir serah terima</td>
+            <td class="center">5 mnt</td>
+            <td>Serah terima bahan tercatat</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">12</td>
+            <td>
+              Siapkan seluruh peralatan dalam kondisi bersih dan pastikan
+              jurutama masak dan tim pengolahan menggunakan APD lengkap sebelum
+              memasak.
+            </td>
+            <td>Jurutama Masak</td>
+            <td>APD &amp; peralatan bersih</td>
+            <td class="center">5 mnt</td>
+            <td>Peralatan &amp; APD siap</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">13</td>
+            <td>
+              Pengolahan sayuran dilakukan sebagai proses pengolahan bahan baku
+              paling akhir setelah bahan baku lain.
+            </td>
+            <td>Jurutama Masak</td>
+            <td>Kompor &amp; panci khusus sayur</td>
+            <td class="center">—</td>
+            <td>Bebas kontaminasi silang</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">14</td>
+            <td>
+              Proses memasak hingga kematangan sempurna dengan kriteria
+              kematangan dan cara masak sayur (suhu minimal 70&nbsp;°C).
+            </td>
+            <td>Jurutama Masak</td>
+            <td>Termometer makanan</td>
+            <td class="center">20–45 mnt</td>
+            <td>Sayur matang &amp; aman dikonsumsi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">15</td>
+            <td>
+              Lakukan penilaian terhadap makanan melalui uji organoleptik yang
+              meliputi aspek rasa, aroma, tekstur, dan warna.
+            </td>
+            <td>Pengawas Gizi</td>
+            <td>Formulir uji organoleptik</td>
+            <td class="center">10 mnt</td>
+            <td>Hasil uji organoleptik normal</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">16</td>
+            <td>
+              Lakukan pengambilan sampel seberat minimal 100 gram, masukkan ke
+              dalam plastik klip dan masukkan ke dalam <em>chiller</em>
+              (2–8&nbsp;°C, 3×24 jam).
+            </td>
+            <td>Tim Pengolahan</td>
+            <td>Plastik klip, label, chiller</td>
+            <td class="center">10 mnt</td>
+            <td>Sampel uji terdokumentasi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">17</td>
+            <td>Cantumkan label alergen pada kemasan.</td>
+            <td>Tim Pengolahan</td>
+            <td>Label alergen</td>
+            <td class="center">5 mnt</td>
+            <td>Label alergen terpasang</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">18</td>
+            <td>Makanan siap untuk proses pendinginan.</td>
+            <td>Tim Pengolahan</td>
+            <td>Wadah tertutup</td>
+            <td class="center">—</td>
+            <td>Hidangan siap distribusi</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="catatan">
+        <strong>Catatan Alur:</strong> Prosedur kerja persiapan dan pengolahan
+        sayur dibagi dalam 2 tahap utama.
+        <strong>Tahap Persiapan (1–10)</strong> berfokus pada penanganan bahan
+        baku nabati sejak pengambilan dari penyimpanan, pencucian, pengupasan,
+        pemotongan dengan alat khusus, hingga penirisan.
+        <strong>Tahap Pengolahan (11–18)</strong> mencakup pemasakan dengan suhu
+        minimal 70&nbsp;°C, uji organoleptik, pengambilan sampel uji minimal 100
+        gram, pelabelan alergen, hingga pendinginan. Setiap tahap wajib
+        didokumentasikan pada Formulir Persiapan Sayuran dan Formulir Pengolahan
+        Sayur, serta diarsipkan sebagai acuan pembanding pada tahap pencatatan
+        produksi dan penyaluran harian.
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 5 — I.1 DIAGRAM ALUR PROSEDUR
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">
+        I.1 DIAGRAM ALUR PROSEDUR PERSIAPAN DAN PENGOLAHAN SAYUR
+      </h2>
+      <div class="tabel-caption">
+        Titik Kendali Kritis Alur Prosedur Persiapan dan Pengolahan Sayur
+      </div>
+
+      <table class="t-standar">
+        <thead>
+          <tr>
+            <th style="width: 36px">No</th>
+            <th style="width: 130px">Tahapan Alur</th>
+            <th>Kegiatan Kunci</th>
+            <th style="width: 150px">Titik Kendali Kritis</th>
+            <th style="width: 110px">Penanggung Jawab</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td class="kategori">Penerimaan Sayur</td>
+            <td>
+              Pengambilan sayur dari area penyimpanan sesuai Perencanaan Menu
+              Mingguan.
+            </td>
+            <td>Suhu &amp; kesegaran bahan</td>
+            <td>Tim Persiapan</td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td class="kategori">Penyortiran</td>
+            <td>Pemisahan bagian sayur yang rusak, layu, atau busuk.</td>
+            <td>Tidak ada bagian busuk lolos</td>
+            <td>Tim Persiapan</td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td class="kategori">Pencucian</td>
+            <td>Pencucian dengan air bersih mengalir.</td>
+            <td>Air mengalir &amp; bersih</td>
+            <td>Tim Persiapan</td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td class="kategori">Pengupasan &amp; Pemotongan</td>
+            <td>
+              Pengupasan dan pemotongan dengan pisau dan talenan hijau khusus
+              bahan nabati.
+            </td>
+            <td>Peralatan khusus, bebas kontaminasi silang</td>
+            <td>Tim Persiapan</td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td class="kategori">Perendaman &amp; Penirisan</td>
+            <td>
+              Perendaman air garam, pembilasan air mengalir, dan penirisan.
+            </td>
+            <td>Bebas residu &amp; hama</td>
+            <td>Tim Persiapan</td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td class="kategori">Pemasakan</td>
+            <td>
+              Pemasakan sayur sebagai proses paling akhir setelah bahan baku
+              lain.
+            </td>
+            <td>Suhu inti minimal 70&nbsp;°C</td>
+            <td>Jurutama Masak</td>
+          </tr>
+          <tr>
+            <td class="no">7</td>
+            <td class="kategori">Uji Organoleptik</td>
+            <td>Penilaian rasa, aroma, tekstur, dan warna hidangan.</td>
+            <td>Hasil uji dinyatakan normal</td>
+            <td>Pengawas Gizi</td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td class="kategori">Pengambilan Sampel</td>
+            <td>
+              Pengambilan sampel minimal 100 gram dan penyimpanan di
+              <em>chiller</em>.
+            </td>
+            <td>Suhu <em>chiller</em> 2–8&nbsp;°C selama 3×24 jam</td>
+            <td>Tim Pengolahan</td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td class="kategori">Pendinginan</td>
+            <td>Makanan siap masuk proses pendinginan sebelum distribusi.</td>
+            <td>Keluar dari <em>danger zone</em> &lt; 2 jam</td>
+            <td>Tim Pengolahan</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="catatan">
+        <strong>Catatan:</strong> Diagram alur dan tabel titik kendali kritis
+        ini wajib ditempel pada dinding area persiapan sayur serta digunakan
+        sebagai acuan pengawasan harian oleh Pengawas Gizi. Setiap penyimpangan
+        pada titik kendali kritis wajib dicatat pada Formulir Persiapan Sayuran
+        dan Formulir Pengolahan Sayur.
+      </div>
+
+      <div class="ttd-verifikasi">
+        <table>
+          <tr>
+            <td>
+              <div>Dibuat oleh,</div>
+              <div><strong>Tim Persiapan</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diperiksa oleh,</div>
+              <div><strong>Pengawas Gizi</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Disetujui oleh,</div>
+              <div><strong>Kepala SPPG</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 6 — I.2 STANDAR KEMATANGAN, SUHU, DAN WAKTU
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">
+        I.2 STANDAR KEMATANGAN, SUHU, DAN WAKTU PENGOLAHAN SAYUR
+      </h2>
+      <div class="tabel-caption">
+        Standar Pengolahan Sayur Sesuai Jenis Bahan
+      </div>
+
+      <table class="t-standar">
+        <thead>
+          <tr>
+            <th style="width: 36px">No</th>
+            <th style="width: 170px">Jenis Sayur</th>
+            <th style="width: 130px">Metode Masak</th>
+            <th style="width: 80px">Suhu Minimal</th>
+            <th style="width: 80px">Waktu</th>
+            <th>Indikator Kematangan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td>Sayuran berdaun (bayam, kangkung, sawi)</td>
+            <td>Tumis / rebus singkat</td>
+            <td>70&nbsp;°C</td>
+            <td>3–5 menit</td>
+            <td>Warna hijau cerah, tekstur lembut namun tidak lembek</td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td>Sayuran buah (tomat, terong, labu siam)</td>
+            <td>Tumis / kuah</td>
+            <td>70&nbsp;°C</td>
+            <td>7–10 menit</td>
+            <td>Tekstur lunak merata, warna cerah, tidak berair berlebih</td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td>Sayuran umbi (wortel, kentang, bengkuang)</td>
+            <td>Rebus / tumis / sup</td>
+            <td>75&nbsp;°C</td>
+            <td>10–15 menit</td>
+            <td>Empuk saat ditusuk, tidak hancur, warna tetap cerah</td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td>Sayuran polong (buncis, kacang panjang)</td>
+            <td>Tumis / rebus</td>
+            <td>75&nbsp;°C</td>
+            <td>7–10 menit</td>
+            <td>Empuk namun masih renyah, warna hijau merata</td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td>Sayuran bunga (brokoli, kembang kol)</td>
+            <td>Rebus / tumis</td>
+            <td>75&nbsp;°C</td>
+            <td>5–7 menit</td>
+            <td>Tekstur lembut, warna tidak menguning</td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td>Sayuran campur (capcay, sop sayur)</td>
+            <td>Tumis / kuah</td>
+            <td>75&nbsp;°C</td>
+            <td>10–12 menit</td>
+            <td>Seluruh komponen matang merata, kuah tidak keruh</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="catatan">
+        <strong>Catatan:</strong> Suhu minimal yang dipersyaratkan untuk produk
+        olahan sayuran adalah 70&nbsp;°C. Pengukuran suhu dilakukan menggunakan
+        termometer makanan yang telah dikalibrasi. Hidangan sayur matang tidak
+        boleh berada pada rentang suhu 5&nbsp;°C–60&nbsp;°C (<em>danger zone</em
+        >) lebih dari 2 jam.
+      </div>
+
+      <div class="ttd-verifikasi">
+        <table>
+          <tr>
+            <td>
+              <div>Dibuat oleh,</div>
+              <div><strong>Jurutama Masak</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diperiksa oleh,</div>
+              <div><strong>Pengawas Gizi</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Disetujui oleh,</div>
+              <div><strong>Kepala SPPG</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 7 — I.3 JADWAL TAHAPAN PER SHIFT
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">
+        I.3 JADWAL TAHAPAN PERSIAPAN DAN PENGOLAHAN SAYUR PER SHIFT
+      </h2>
+      <div class="tabel-caption">
+        Jadwal Pelaksanaan Harian Persiapan dan Pengolahan Sayur
+      </div>
+
+      <table class="t-jadwal">
+        <thead>
+          <tr>
+            <th style="width: 36px">No</th>
+            <th style="width: 150px">Kegiatan</th>
+            <th style="width: 100px">Waktu</th>
+            <th style="width: 70px">Durasi</th>
+            <th>Keluaran</th>
+            <th style="width: 110px">Pelaksana</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td>Persiapan APD dan sterilisasi area kerja</td>
+            <td class="center">05.30 – 05.45</td>
+            <td class="center">15 mnt</td>
+            <td>Area kerja siap dan higienis</td>
+            <td>Tim Persiapan</td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td>Pengambilan sayur dari penyimpanan</td>
+            <td class="center">05.45 – 06.00</td>
+            <td class="center">15 mnt</td>
+            <td>Sayur sesuai Perencanaan Menu Mingguan</td>
+            <td>Tim Persiapan</td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td>Penyortiran dan pencucian air mengalir</td>
+            <td class="center">06.00 – 06.30</td>
+            <td class="center">30 mnt</td>
+            <td>Sayur bersih, bebas kotoran fisik</td>
+            <td>Tim Persiapan</td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td>Penimbangan, pengupasan, dan pemotongan</td>
+            <td class="center">06.30 – 07.15</td>
+            <td class="center">45 mnt</td>
+            <td>Sayur terpotong sesuai standar menu</td>
+            <td>Tim Persiapan</td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td>Perendaman air garam, pembilasan, penirisan</td>
+            <td class="center">07.15 – 07.35</td>
+            <td class="center">20 mnt</td>
+            <td>Sayur bebas residu, siap diolah</td>
+            <td>Tim Persiapan</td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td>Serah terima sayur ke tim pengolahan</td>
+            <td class="center">07.35 – 07.45</td>
+            <td class="center">10 mnt</td>
+            <td>Bahan tercatat pada Formulir Persiapan Sayuran</td>
+            <td>Tim Persiapan &amp; Tim Pengolahan</td>
+          </tr>
+          <tr>
+            <td class="no">7</td>
+            <td>Pemasakan sayur (proses paling akhir)</td>
+            <td class="center">07.45 – 08.30</td>
+            <td class="center">45 mnt</td>
+            <td>Sayur matang dengan suhu inti ≥ 70&nbsp;°C</td>
+            <td>Jurutama Masak</td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td>Uji organoleptik dan pengambilan sampel</td>
+            <td class="center">08.30 – 08.50</td>
+            <td class="center">20 mnt</td>
+            <td>Sampel uji 100 gram tersimpan di <em>chiller</em></td>
+            <td>Pengawas Gizi</td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td>Pelabelan alergen dan pendinginan</td>
+            <td class="center">08.50 – 09.10</td>
+            <td class="center">20 mnt</td>
+            <td>Hidangan siap distribusi</td>
+            <td>Tim Pengolahan</td>
+          </tr>
+          <tr>
+            <td class="no">10</td>
+            <td>Pembersihan akhir area &amp; peralatan</td>
+            <td class="center">09.10 – 09.30</td>
+            <td class="center">20 mnt</td>
+            <td>Dapur bersih, siap shift berikutnya</td>
+            <td>Tim Pengolahan</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="catatan">
+        <strong>Catatan:</strong> Jadwal ini merupakan acuan waktu pelaksanaan
+        harian dan dapat disesuaikan dengan jam distribusi setempat tanpa
+        mengurangi kepatuhan terhadap titik kendali kritis. Seluruh perubahan
+        jadwal wajib diketahui dan disetujui oleh Kepala SPPG.
+      </div>
+
+      <div class="ttd-verifikasi">
+        <table>
+          <tr>
+            <td>
+              <div>Dibuat oleh,</div>
+              <div><strong>Asisten Lapangan</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diperiksa oleh,</div>
+              <div><strong>Pengawas Gizi</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Disetujui oleh,</div>
+              <div><strong>Kepala SPPG</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 8 — I.4 FORMULIR PERSIAPAN SAYURAN
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">I.4 FORMULIR PERSIAPAN SAYURAN</h2>
+      <div class="tabel-caption">Formulir Persiapan Sayuran</div>
+
+      <table>
+        <tr>
+          <td class="label-cell" style="width: 22%">No. Dokumen</td>
+          <td style="width: 28%">022/05/00/SOP.22/09/2026</td>
+          <td class="label-cell" style="width: 22%">Tgl</td>
+          <td style="height: 28px"></td>
+        </tr>
+        <tr>
+          <td class="label-cell">Hari / Tanggal</td>
+          <td style="height: 28px"></td>
+          <td class="label-cell">Shift / Regu Kerja</td>
+          <td>Pagi / Siang / Malam</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Menu Hari Ini</td>
+          <td style="height: 28px"></td>
+          <td class="label-cell">Jumlah Porsi</td>
+          <td style="height: 28px"></td>
+        </tr>
+      </table>
+
+      <table class="t-menu">
+        <thead>
+          <tr>
+            <th style="width: 32px">No</th>
+            <th>Nama Bahan Baku</th>
+            <th style="width: 62px">Berat Kotor (Kg)</th>
+            <th style="width: 62px">Berat Bersih (Kg)</th>
+            <th style="width: 50px">Jam Mulai</th>
+            <th style="width: 50px">Jam Selesai</th>
+            <th style="width: 48px">Warna (N/TB)</th>
+            <th style="width: 48px">Aroma (N/TB)</th>
+            <th style="width: 100px">Catatan / Potongan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">7</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="catatan">
+        <strong>Catatan:</strong> N = Normal; TB = Tidak Biasa / Menyimpang.
+        Seluruh kolom wajib diisi pada setiap hari produksi dan diverifikasi
+        oleh Pengawas Gizi sebelum bahan diserahkan ke tim pengolahan.
+      </div>
+
+      <div class="ttd-verifikasi">
+        <table>
+          <tr>
+            <td>
+              <div>Dibuat oleh,</div>
+              <div><strong>Tim Persiapan</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diperiksa oleh,</div>
+              <div><strong>Pengawas Gizi</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Disetujui oleh,</div>
+              <div><strong>Kepala SPPG</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 9 — I.5 FORMULIR PENGOLAHAN SAYUR
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">I.5 FORMULIR PENGOLAHAN SAYUR</h2>
+      <div class="tabel-caption">Formulir Pengolahan Sayur</div>
+
+      <table>
+        <tr>
+          <td class="label-cell" style="width: 22%">No. Dokumen</td>
+          <td style="width: 28%">022/05/00/SOP.22/09/2026</td>
+          <td class="label-cell" style="width: 22%">Tgl</td>
+          <td style="height: 28px"></td>
+        </tr>
+        <tr>
+          <td class="label-cell">Hari / Tanggal</td>
+          <td style="height: 28px"></td>
+          <td class="label-cell">Shift / Regu Kerja</td>
+          <td>Pagi / Siang / Malam</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Menu Hari Ini</td>
+          <td style="height: 28px"></td>
+          <td class="label-cell">Jumlah Porsi</td>
+          <td style="height: 28px"></td>
+        </tr>
+      </table>
+
+      <table class="t-menu">
+        <thead>
+          <tr>
+            <th style="width: 32px">No</th>
+            <th>Nama Menu</th>
+            <th style="width: 80px">Metode Masak</th>
+            <th style="width: 50px">Jam Mulai</th>
+            <th style="width: 50px">Jam Selesai</th>
+            <th style="width: 55px">Suhu (°C)</th>
+            <th style="width: 100px">Warna / Aroma / Tekstur (N/TB)</th>
+            <th style="width: 100px">Catatan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">7</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td style="height: 28px"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="catatan">
+        <strong>Catatan:</strong> N = Normal; TB = Tidak Biasa / Menyimpang.
+        Suhu minimal yang dipersyaratkan untuk produk olahan sayuran adalah
+        70&nbsp;°C. Sampel uji diambil minimal 100 gram dan disimpan pada
+        <em>chiller</em> bersuhu 2–8&nbsp;°C selama 3×24 jam.
+      </div>
+
+      <div class="ttd-verifikasi">
+        <table>
+          <tr>
+            <td>
+              <div>Dibuat oleh,</div>
+              <div><strong>Jurutama Masak</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diperiksa oleh,</div>
+              <div><strong>Pengawas Gizi</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Disetujui oleh,</div>
+              <div><strong>Kepala SPPG</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 10 — I.6 MATRIKS URAIAN KEGIATAN & PELAKSANA
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">I.6 MATRIKS URAIAN KEGIATAN DAN PELAKSANA</h2>
+      <div class="tabel-caption">
+        Matriks Pelaksana Prosedur Persiapan dan Pengolahan Sayur
+      </div>
+
+      <table class="t-matrix">
+        <thead>
+          <tr>
+            <th style="width: 28px" rowspan="2">No</th>
+            <th rowspan="2">Uraian Kegiatan</th>
+            <th colspan="7">Pelaksana</th>
+          </tr>
+          <tr class="header-row">
+            <th style="width: 58px">Kepala SPPG</th>
+            <th style="width: 58px">Pengawas Gizi</th>
+            <th style="width: 58px">Pengawas Keuangan</th>
+            <th style="width: 58px">Jurutama Masak</th>
+            <th style="width: 58px">Asisten Lapangan</th>
+            <th style="width: 58px">Tim Persiapan</th>
+            <th style="width: 58px">Tim Pengolahan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="header-row">
+            <td class="no">—</td>
+            <td colspan="8"><strong>TAHAP PERSIAPAN</strong></td>
+          </tr>
+          <tr>
+            <td class="no">1</td>
+            <td>Penggunaan APD lengkap sebelum bekerja</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td class="center">✓</td>
+            <td class="center">✓</td>
+            <td class="center">✓</td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td>Penyiapan meja kerja terpisah untuk sayur</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+            <td class="center">✓</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td>Pengambilan sayur sesuai Perencanaan Menu Mingguan</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td>Pemeriksaan kesesuaian dan kualitas sayur</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+            <td class="center">✓</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td>Pencucian sayur dengan air mengalir</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td>
+              Penimbangan, pengupasan, dan pemotongan dengan talenan hijau
+            </td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">7</td>
+            <td>Perendaman air garam, pembilasan, dan penirisan</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td>Pengelolaan limbah organik sisa persiapan</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+            <td class="center">✓</td>
+            <td></td>
+          </tr>
+          <tr class="header-row">
+            <td class="no">—</td>
+            <td colspan="8"><strong>TAHAP PENGOLAHAN</strong></td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td>Serah terima bahan dari tim persiapan</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td class="center">✓</td>
+          </tr>
+          <tr>
+            <td class="no">10</td>
+            <td>Pemasakan sayur sebagai proses paling akhir</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+          </tr>
+          <tr>
+            <td class="no">11</td>
+            <td>Uji organoleptik (rasa, aroma, tekstur, warna)</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+          </tr>
+          <tr>
+            <td class="no">12</td>
+            <td>Pengambilan dan penyimpanan sampel uji 100 gram</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+          </tr>
+          <tr>
+            <td class="no">13</td>
+            <td>Pelabelan alergen pada kemasan</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+          </tr>
+          <tr class="header-row">
+            <td class="no">—</td>
+            <td colspan="8"><strong>VERIFIKASI DAN PENGENDALIAN</strong></td>
+          </tr>
+          <tr>
+            <td class="no">14</td>
+            <td>Verifikasi harian Formulir Persiapan dan Pengolahan Sayur</td>
+            <td class="center">✓</td>
+            <td class="center">✓</td>
+            <td></td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">15</td>
+            <td>Evaluasi kepatuhan SOP dan tindak lanjut penyimpangan</td>
+            <td class="center">✓</td>
+            <td class="center">✓</td>
+            <td class="center">✓</td>
+            <td></td>
+            <td class="center">✓</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="catatan">
+        <strong>Catatan:</strong> Tanda ✓ menunjukkan pihak yang bertanggung
+        jawab melaksanakan dan/atau memverifikasi kegiatan. Matriks ini menjadi
+        dasar pembagian tugas pada <em>briefing</em> harian dan evaluasi berkala
+        oleh Kepala SPPG.
+      </div>
+
+      <div class="ttd-verifikasi">
+        <table>
+          <tr>
+            <td>
+              <div>Dibuat oleh,</div>
+              <div><strong>Asisten Lapangan</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diperiksa oleh,</div>
+              <div><strong>Pengawas Gizi</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Disetujui oleh,</div>
+              <div><strong>Kepala SPPG</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 11 — J. VERIFIKASI + K. DAFTAR LAMPIRAN + L. PENGESAHAN
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">J. VERIFIKASI DAN PERSETUJUAN DOKUMEN</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 36px">No</th>
+            <th>Butir Verifikasi</th>
+            <th style="width: 80px">Sesuai</th>
+            <th style="width: 80px">Tidak Sesuai</th>
+            <th style="width: 150px">Keterangan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td>
+              Seluruh pelaksana telah memahami isi dan urutan prosedur SOP ini.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td>
+              Peralatan khusus bahan nabati (talenan dan pisau hijau) tersedia
+              dan digunakan sesuai peruntukan.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td>
+              Pencucian sayur dilakukan dengan air bersih mengalir pada bak
+              pencucian terpisah.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td>
+              Pengolahan sayur dilakukan setelah seluruh bahan baku lain selesai
+              diolah.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td>
+              Suhu akhir pemasakan sayur mencapai minimal 70&nbsp;°C dan
+              tercatat pada Formulir Pengolahan Sayur.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td>
+              Uji organoleptik dilaksanakan dan hasilnya dicatat dengan status
+              N/TB.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">7</td>
+            <td>
+              Sampel uji minimal 100 gram tersimpan pada <em>chiller</em>
+              2–8&nbsp;°C selama 3×24 jam.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td>Label alergen tercantum pada setiap kemasan hidangan.</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td>
+              Seluruh formulir pencatatan terisi lengkap dan terverifikasi.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">10</td>
+            <td>
+              Area kerja dan peralatan dibersihkan kembali setelah proses
+              selesai.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="section-title">K. DAFTAR LAMPIRAN</h2>
+      <ol class="legal">
+        <li>
+          <span class="list-flex"
+            ><span
+              >I.1 Laporan. Diagram Alur Prosedur Persiapan dan Pengolahan
+              Sayur</span
+            ><span class="kanan">( 9 Titik Kendali )</span></span
+          >
+        </li>
+        <li>
+          <span class="list-flex"
+            ><span
+              >I.2 Laporan. Standar Kematangan, Suhu, dan Waktu Pengolahan
+              Sayur</span
+            ><span class="kanan">( 6 Jenis Sayur )</span></span
+          >
+        </li>
+        <li>
+          <span class="list-flex"
+            ><span
+              >I.3 Laporan. Jadwal Tahapan Persiapan dan Pengolahan Sayur per
+              Shift</span
+            ><span class="kanan">( 10 Kegiatan )</span></span
+          >
+        </li>
+        <li>
+          <span class="list-flex"
+            ><span>I.4 Formulir. Persiapan Sayuran</span
+            ><span class="kanan">( 9 Baris Isian )</span></span
+          >
+        </li>
+        <li>
+          <span class="list-flex"
+            ><span>I.5 Formulir. Pengolahan Sayur</span
+            ><span class="kanan">( 9 Baris Isian )</span></span
+          >
+        </li>
+        <li>
+          <span class="list-flex"
+            ><span>I.6 Laporan. Matriks Uraian Kegiatan dan Pelaksana</span
+            ><span class="kanan">( 15 Uraian )</span></span
+          >
+        </li>
+      </ol>
+
+      <br />
+      <h2 class="section-title">L. LEMBAR PENGESAHAN</h2>
+      <div class="pengesahan">
+        <div class="pengesahan-tanggal">
+          Pekanbaru, .............................. 20.........
+        </div>
+        <div class="ttd-verifikasi">
+          <table>
+            <tr>
+              <td>
+                <div><strong>Dibuat oleh,</strong></div>
+                <div>Jurutama Masak</div>
+                <div class="signature-box"></div>
+                <div class="pengesahan-garis"></div>
+              </td>
+              <td>
+                <div><strong>Diperiksa oleh,</strong></div>
+                <div>Pengawas Gizi</div>
+                <div class="signature-box"></div>
+                <div class="pengesahan-garis"></div>
+              </td>
+              <td>
+                <div><strong>Disetujui oleh,</strong></div>
+                <div>Kepala SPPG</div>
+                <div class="signature-box"></div>
+                <div class="pengesahan-garis"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <p style="text-align: center; margin-top: 12px">
+          Disahkan oleh,<br />
+          <strong>Deputi Bidang Sistem dan Tata Kelola</strong>
+        </p>
+      </div>
+
+      <div class="footer-dokumen">
+        Dokumen ini merupakan bagian dari pelaksanaan SOP Nomor
+        022/05/00/SOP.22/09/2026 tentang Persiapan dan Pengolahan Sayur pada
+        Program Makan Bergizi Gratis (MBG) di lingkungan Badan Gizi Nasional.
+        Dokumen mencakup: (A) Identitas, (B) Dasar Hukum, (C) Tujuan, (D) Ruang
+        Lingkup, (E) Definisi, (F) Keterkaitan, (G) Kualifikasi Pelaksana, (H)
+        Prosedur Kerja, (I) Lampiran Kerja, (J) Verifikasi, (K) Daftar Lampiran,
+        dan (L) Lembar Pengesahan. Dokumen bersifat resmi dan wajib diarsipkan
+        sebagai acuan pembanding pada tahap pencatatan produksi dan penyaluran
+        harian.
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         TOOLBAR — Pilihan Kertas, Margin, & Cetak
+         ════════════════════════════════════════════════════════════ -->
+    <div class="toolbar no-print">
+      <div class="toolbar-group">
+        <label class="toolbar-label" for="paperSelect">Ukuran Kertas</label>
+        <select id="paperSelect" class="toolbar-select">
+          <option value="A4">A4 (210 × 297 mm)</option>
+          <option value="F4">F4 (215 × 330 mm)</option>
+          <option value="Letter">Letter (216 × 279 mm)</option>
+          <option value="Legal">Legal (216 × 356 mm)</option>
+        </select>
+      </div>
+
+      <div class="toolbar-group">
+        <label class="toolbar-label" for="marginSelect">Margin Kiri</label>
+        <select id="marginSelect" class="toolbar-select">
+          <option value="30mm" selected>Kiri 3 cm</option>
+          <option value="40mm">Kiri 4 cm</option>
+          <option value="20mm">Kiri 2 cm (non-standar)</option>
+          <option value="25mm">Kiri 2,5 cm (non-standar)</option>
+        </select>
+      </div>
+
+      <button class="btn-print" onclick="window.print()">🖨️ Cetak PDF</button>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         JAVASCRIPT — Toggle Kertas & Margin
+         ════════════════════════════════════════════════════════════ -->
+    <script>
+      (function () {
+        "use strict";
+
+        /* Daftar ukuran kertas yang didukung */
+        const PAPER = {
+          A4: { cssSize: "A4 portrait", width: "210mm", height: "297mm" },
+          F4: {
+            cssSize: "215mm 330mm portrait",
+            width: "215mm",
+            height: "330mm",
+          },
+          Letter: {
+            cssSize: "Letter portrait",
+            width: "216mm",
+            height: "279mm",
+          },
+          Legal: { cssSize: "Legal portrait", width: "216mm", height: "356mm" },
+        };
+
+        /* State aktif — default: A4, margin kiri 3 cm (standar naskah dinas) */
+        const state = { paper: "A4", marginLeft: "30mm" };
+
+        /* Elemen */
+        const styleEl = document.getElementById("dynamic-page-style");
+        const paperSelect = document.getElementById("paperSelect");
+        const marginSelect = document.getElementById("marginSelect");
+
+        /* Render aturan @page & ukuran .page secara dinamis */
+        function render() {
+          const p = PAPER[state.paper];
+          const m = state.marginLeft;
+
+          styleEl.textContent = `
+            @page { size: ${p.cssSize}; margin: 15mm 15mm 15mm ${m}; }
+            @media screen {
+              .page {
+                width: ${p.width};
+                min-height: ${p.height};
+                padding: 15mm 15mm 15mm ${m};
+              }
+            }
+            @media print {
+              .page { width: auto; min-height: auto; padding: 0; margin: 0; }
+            }
+          `;
+        }
+
+        /* Event listener dropdown */
+        paperSelect.addEventListener("change", function () {
+          state.paper = this.value;
+          render();
+        });
+
+        marginSelect.addEventListener("change", function () {
+          state.marginLeft = this.value;
+          render();
+        });
+
+        /* Inisialisasi awal */
+        render();
+      })();
+    </script>
+  </body>
+</html>
