@@ -238,8 +238,6 @@
       table.t-matrix td {
         padding: 2px 3px;
       }
-      /* PERBAIKAN #4: seragamkan tinggi baris di matriks agar
-         sel berisi 1 baris & 2 baris teks sejajar sama tinggi */
       table.t-matrix tbody td {
         height: 32px;
         vertical-align: middle;
@@ -295,10 +293,33 @@
       table.t-standar th {
         text-align: center;
       }
-      /* PERBAIKAN #6: tinggi minimum seragam kolom waktu */
       table.t-standar tbody td {
         height: 42px;
         vertical-align: middle;
+      }
+
+      /* ============================================================
+         FORM HEADER (I.4 & I.5) — SIMETRIS & SIAP TULIS TANGAN
+         4 kolom × 25% (label / isian / label / isian)
+         ============================================================ */
+      table.form-header {
+        table-layout: fixed;
+      }
+      table.form-header td {
+        width: 25%;
+        height: 32px;
+        vertical-align: middle;
+        text-align: center;
+      }
+      table.form-header td.label-cell {
+        width: 25%;
+        font-weight: bold;
+        text-align: left;
+        background: var(--biru-muda);
+        padding-left: 10px;
+      }
+      table.form-header td.isi {
+        background: #fff;
       }
 
       /* ============================================================
@@ -489,7 +510,7 @@
       }
 
       /* ============================================================
-         LEMBAR PENGESAHAN — mengikuti format HTML referensi
+         LEMBAR PENGESAHAN
          ============================================================ */
       .pengesahan {
         font-size: 12pt;
@@ -699,7 +720,6 @@
       }
     </style>
 
-    <!-- @page default — margin kiri 3 cm (ruang jilid), diubah JS bila perlu -->
     <style id="dynamic-page-style">
       @page {
         size: A4 portrait;
@@ -974,7 +994,6 @@
           <tr>
             <td class="tahap">KETERKAITAN</td>
             <td>
-              <!-- PERBAIKAN #3: mengembalikan 14 item sesuai PDF referensi -->
               <ol>
                 <li>SOP Penerimaan dan Penyimpanan Sayur dan Buah.</li>
                 <li>SOP Penggunaan Talenan dan Pisau.</li>
@@ -1539,7 +1558,6 @@
             <td>Sayuran berdaun (bayam, kangkung, sawi)</td>
             <td>Tumis / rebus singkat</td>
             <td>70&nbsp;°C</td>
-            <!-- PERBAIKAN #6: waktu dipisah baris -->
             <td>3–5<br />menit</td>
             <td>Warna hijau cerah, tekstur lembut namun tidak lembek</td>
           </tr>
@@ -1621,14 +1639,15 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════════════
-         HALAMAN 7 — I.3 JADWAL TAHAPAN PER SHIFT
+         HALAMAN 7 — I.3 JADWAL TAHAPAN PER SHIFT (DIMULAI 19.00 WIB)
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">
         I.3 JADWAL TAHAPAN PERSIAPAN DAN PENGOLAHAN SAYUR PER SHIFT
       </h2>
       <div class="tabel-caption">
-        Jadwal Pelaksanaan Harian Persiapan dan Pengolahan Sayur
+        Jadwal Pelaksanaan Harian Persiapan dan Pengolahan Sayur (Shift Malam,
+        Mulai 19.00 WIB)
       </div>
 
       <table class="t-jadwal">
@@ -1646,7 +1665,7 @@
           <tr>
             <td class="no">1</td>
             <td>Persiapan APD dan sterilisasi area kerja</td>
-            <td class="center">05.30 – 05.45</td>
+            <td class="center">19.00 – 19.15</td>
             <td class="center">15 mnt</td>
             <td>Area kerja siap dan higienis</td>
             <td>Tim Persiapan</td>
@@ -1654,7 +1673,7 @@
           <tr>
             <td class="no">2</td>
             <td>Pengambilan sayur dari penyimpanan</td>
-            <td class="center">05.45 – 06.00</td>
+            <td class="center">19.15 – 19.30</td>
             <td class="center">15 mnt</td>
             <td>Sayur sesuai Perencanaan Menu Mingguan</td>
             <td>Tim Persiapan</td>
@@ -1662,7 +1681,7 @@
           <tr>
             <td class="no">3</td>
             <td>Penyortiran dan pencucian air mengalir</td>
-            <td class="center">06.00 – 06.30</td>
+            <td class="center">19.30 – 20.00</td>
             <td class="center">30 mnt</td>
             <td>Sayur bersih, bebas kotoran fisik</td>
             <td>Tim Persiapan</td>
@@ -1670,7 +1689,7 @@
           <tr>
             <td class="no">4</td>
             <td>Penimbangan, pengupasan, dan pemotongan</td>
-            <td class="center">06.30 – 07.15</td>
+            <td class="center">20.00 – 20.45</td>
             <td class="center">45 mnt</td>
             <td>Sayur terpotong sesuai standar menu</td>
             <td>Tim Persiapan</td>
@@ -1678,7 +1697,7 @@
           <tr>
             <td class="no">5</td>
             <td>Perendaman air garam, pembilasan, penirisan</td>
-            <td class="center">07.15 – 07.35</td>
+            <td class="center">20.45 – 21.05</td>
             <td class="center">20 mnt</td>
             <td>Sayur bebas residu, siap diolah</td>
             <td>Tim Persiapan</td>
@@ -1686,7 +1705,7 @@
           <tr>
             <td class="no">6</td>
             <td>Serah terima sayur ke tim pengolahan</td>
-            <td class="center">07.35 – 07.45</td>
+            <td class="center">21.05 – 21.15</td>
             <td class="center">10 mnt</td>
             <td>Bahan tercatat pada Formulir Persiapan Sayuran</td>
             <td>Tim Persiapan &amp; Tim Pengolahan</td>
@@ -1694,7 +1713,7 @@
           <tr>
             <td class="no">7</td>
             <td>Pemasakan sayur (proses paling akhir)</td>
-            <td class="center">07.45 – 08.30</td>
+            <td class="center">21.15 – 22.00</td>
             <td class="center">45 mnt</td>
             <td>Sayur matang dengan suhu inti ≥ 70&nbsp;°C</td>
             <td>Jurutama Masak</td>
@@ -1702,7 +1721,7 @@
           <tr>
             <td class="no">8</td>
             <td>Uji organoleptik dan pengambilan sampel</td>
-            <td class="center">08.30 – 08.50</td>
+            <td class="center">22.00 – 22.20</td>
             <td class="center">20 mnt</td>
             <td>Sampel uji 100 gram tersimpan di <em>chiller</em></td>
             <td>Pengawas Gizi</td>
@@ -1710,7 +1729,7 @@
           <tr>
             <td class="no">9</td>
             <td>Pelabelan alergen dan pendinginan</td>
-            <td class="center">08.50 – 09.10</td>
+            <td class="center">22.20 – 22.40</td>
             <td class="center">20 mnt</td>
             <td>Hidangan siap distribusi</td>
             <td>Tim Pengolahan</td>
@@ -1718,7 +1737,7 @@
           <tr>
             <td class="no">10</td>
             <td>Pembersihan akhir area &amp; peralatan</td>
-            <td class="center">09.10 – 09.30</td>
+            <td class="center">22.40 – 23.00</td>
             <td class="center">20 mnt</td>
             <td>Dapur bersih, siap shift berikutnya</td>
             <td>Tim Pengolahan</td>
@@ -1728,9 +1747,10 @@
 
       <div class="catatan">
         <strong>Catatan:</strong> Jadwal ini merupakan acuan waktu pelaksanaan
-        harian dan dapat disesuaikan dengan jam distribusi setempat tanpa
-        mengurangi kepatuhan terhadap titik kendali kritis. Seluruh perubahan
-        jadwal wajib diketahui dan disetujui oleh Kepala SPPG.
+        harian <strong>Shift Malam mulai pukul 19.00 WIB</strong> dan dapat
+        disesuaikan dengan jam distribusi setempat tanpa mengurangi kepatuhan
+        terhadap titik kendali kritis. Seluruh perubahan jadwal wajib diketahui
+        dan disetujui oleh Kepala SPPG.
       </div>
 
       <div class="ttd-verifikasi">
@@ -1761,30 +1781,31 @@
 
     <!-- ════════════════════════════════════════════════════════════
          HALAMAN 8 — I.4 FORMULIR PERSIAPAN SAYURAN
+         Header simetris 4 kolom × 25% (label-isi-label-isi)
+         Tinggi 32px per baris → siap tulis tangan
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">I.4 FORMULIR PERSIAPAN SAYURAN</h2>
       <div class="tabel-caption">Formulir Persiapan Sayuran</div>
 
-      <!-- PERBAIKAN #5: mengikuti layout header PDF — 3 baris × 2 pasang label:nilai -->
-      <table>
+      <table class="form-header">
         <tr>
-          <td class="label-cell" style="width: 22%">No. Dokumen</td>
-          <td style="width: 28%; height: 28px"></td>
-          <td class="label-cell" style="width: 22%">Tgl</td>
-          <td style="height: 28px"></td>
+          <td class="label-cell">No. Dokumen</td>
+          <td class="isi"></td>
+          <td class="label-cell">Tgl</td>
+          <td class="isi"></td>
         </tr>
         <tr>
           <td class="label-cell">Hari / Tanggal</td>
-          <td style="height: 28px"></td>
+          <td class="isi"></td>
           <td class="label-cell">Shift / Regu Kerja</td>
-          <td style="height: 28px"></td>
+          <td class="isi"></td>
         </tr>
         <tr>
           <td class="label-cell">Menu Hari Ini</td>
-          <td style="height: 28px"></td>
+          <td class="isi"></td>
           <td class="label-cell">Jumlah Porsi</td>
-          <td style="height: 28px"></td>
+          <td class="isi"></td>
         </tr>
       </table>
 
@@ -1939,29 +1960,30 @@
 
     <!-- ════════════════════════════════════════════════════════════
          HALAMAN 9 — I.5 FORMULIR PENGOLAHAN SAYUR
+         Header simetris 4 kolom × 25% (label-isi-label-isi)
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">I.5 FORMULIR PENGOLAHAN SAYUR</h2>
       <div class="tabel-caption">Formulir Pengolahan Sayur</div>
 
-      <table>
+      <table class="form-header">
         <tr>
-          <td class="label-cell" style="width: 22%">No. Dokumen</td>
-          <td style="width: 28%; height: 28px"></td>
-          <td class="label-cell" style="width: 22%">Tgl</td>
-          <td style="height: 28px"></td>
+          <td class="label-cell">No. Dokumen</td>
+          <td class="isi"></td>
+          <td class="label-cell">Tgl</td>
+          <td class="isi"></td>
         </tr>
         <tr>
           <td class="label-cell">Hari / Tanggal</td>
-          <td style="height: 28px"></td>
+          <td class="isi"></td>
           <td class="label-cell">Shift / Regu Kerja</td>
-          <td style="height: 28px"></td>
+          <td class="isi"></td>
         </tr>
         <tr>
           <td class="label-cell">Menu Hari Ini</td>
-          <td style="height: 28px"></td>
+          <td class="isi"></td>
           <td class="label-cell">Jumlah Porsi</td>
-          <td style="height: 28px"></td>
+          <td class="isi"></td>
         </tr>
       </table>
 
@@ -2461,7 +2483,6 @@
         </tbody>
       </table>
 
-      <!-- PERBAIKAN #2: pertahankan <br /> sebelum K -->
       <br />
       <h2 class="section-title">K. DAFTAR LAMPIRAN</h2>
       <ol class="legal">
@@ -2509,8 +2530,6 @@
         </li>
       </ol>
 
-      <!-- PERBAIKAN #1 & #2: Lembar Pengesahan mengikuti format HTML referensi
-           (hanya 3 kolom TTD, tanpa blok "Disahkan oleh Deputi ...") -->
       <br />
       <h2 class="section-title">L. LEMBAR PENGESAHAN</h2>
       <div class="pengesahan">
@@ -2590,7 +2609,6 @@
       (function () {
         "use strict";
 
-        /* Daftar ukuran kertas yang didukung */
         const PAPER = {
           A4: { cssSize: "A4 portrait", width: "210mm", height: "297mm" },
           F4: {
@@ -2606,15 +2624,12 @@
           Legal: { cssSize: "Legal portrait", width: "216mm", height: "356mm" },
         };
 
-        /* State aktif — default: A4, margin kiri 3 cm (standar naskah dinas) */
         const state = { paper: "A4", marginLeft: "30mm" };
 
-        /* Elemen */
         const styleEl = document.getElementById("dynamic-page-style");
         const paperSelect = document.getElementById("paperSelect");
         const marginSelect = document.getElementById("marginSelect");
 
-        /* Render aturan @page & ukuran .page secara dinamis */
         function render() {
           const p = PAPER[state.paper];
           const m = state.marginLeft;
@@ -2634,7 +2649,6 @@
           `;
         }
 
-        /* Event listener dropdown */
         paperSelect.addEventListener("change", function () {
           state.paper = this.value;
           render();
@@ -2645,7 +2659,6 @@
           render();
         });
 
-        /* Inisialisasi awal */
         render();
       })();
     </script>
