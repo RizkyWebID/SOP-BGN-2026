@@ -11,10 +11,13 @@
       Laporan Perencanaan Menu MBG — SPPG Kota Pekanbaru Binawidya Tobekgodang
     </title>
 
-    <style>
-      /* ============================================================
-         RESET & BASE — Arial 12pt, Line-height 1.5 (naskah dinas)
-         ============================================================ */
+    <!-- ════════════════════════════════════════════════════════════════
+     STYLE GLOBAL — JANGAN DIUBAH PER-FILE
+     Salin sama persis di setiap SOP SPPG.
+     Nanti bisa dipindah ke file eksternal: sop-global.css
+     ════════════════════════════════════════════════════════════════ -->
+    <style id="style-global">
+      /* RESET & BASE */
       *,
       *::before,
       *::after {
@@ -38,9 +41,7 @@
         display: block;
       }
 
-      /* ============================================================
-         VARIABEL TEMA
-         ============================================================ */
+      /* VARIABEL TEMA */
       :root {
         --biru-utama: #0369a1;
         --biru-gelap: #0c4a6e;
@@ -51,25 +52,21 @@
         --hijau: #16a34a;
         --merah: #dc2626;
         --teks: #0f172a;
-        --jarak-blok: 8px; /* jarak seragam antar blok */
-        --indent-tab: 1.27cm; /* 1 tab Word = 0,5 inci */
+        --jarak-blok: 8px;
+        --indent-tab: 1.27cm;
       }
 
-      /* ============================================================
-         HALAMAN
-         ============================================================ */
+      /* HALAMAN */
       .page {
         width: 210mm;
         min-height: 297mm;
-        padding: 15mm 15mm 15mm 30mm; /* kiri 3 cm (ruang jilid) */
+        padding: 15mm 15mm 15mm 30mm;
         margin: 10mm auto;
         background: #fff;
         box-shadow: 0 2px 12px rgba(3, 105, 161, 0.12);
       }
 
-      /* ============================================================
-         KOP SURAT
-         ============================================================ */
+      /* KOP SURAT */
       .kop {
         display: flex;
         align-items: flex-start;
@@ -121,9 +118,7 @@
         margin-top: 2px;
       }
 
-      /* ============================================================
-         JUDUL LAPORAN
-         ============================================================ */
+      /* JUDUL LAPORAN */
       .judul-laporan {
         text-align: center;
         margin: 20px 0 12px;
@@ -138,9 +133,7 @@
         font-weight: bold;
       }
 
-      /* ============================================================
-         JUDUL SECTION — jarak seragam
-         ============================================================ */
+      /* JUDUL SECTION */
       .section-title {
         font-size: 12pt;
         font-weight: bold;
@@ -151,9 +144,7 @@
         text-align: center;
       }
 
-      /* ============================================================
-         TABEL — BASE (th biru-putih, td putih-gelap)
-         ============================================================ */
+      /* TABEL BASE */
       table {
         width: 100%;
         border-collapse: collapse;
@@ -195,7 +186,6 @@
       td.kategori {
         font-weight: bold;
         text-align: left;
-        width: 15%;
         padding-left: 8px;
       }
       td.tahap {
@@ -216,20 +206,8 @@
         font-weight: bold;
       }
 
-      /* Modifikator tabel */
-      table.t-frekuensi {
-        font-size: 9.5pt;
-        table-layout: fixed;
-      }
-      table.t-frekuensi th,
-      table.t-frekuensi td {
-        padding: 2px 6px;
-        height: 24px;
-      }
-      table.t-frekuensi th {
-        padding: 4px 6px;
-        height: 28px;
-      }
+      /* ⚠️ URUTAN MATRIX → WORKFLOW HARUS DIPERTAHANKAN
+     (agar t-workflow menang pada <table class="t-workflow t-matrix">) */
       table.t-matrix {
         font-size: 8.5pt;
       }
@@ -237,6 +215,7 @@
       table.t-matrix td {
         padding: 2px 3px;
       }
+
       table.t-workflow {
         font-size: 9pt;
         table-layout: fixed;
@@ -245,6 +224,7 @@
       table.t-workflow td {
         padding: 5px 6px;
       }
+
       table.t-menu {
         font-size: 10pt;
         table-layout: fixed;
@@ -259,6 +239,7 @@
       table.t-menu th {
         height: 28px;
       }
+
       table.t-keterkaitan {
         font-size: 10pt;
         table-layout: fixed;
@@ -271,30 +252,15 @@
         padding-left: 18px;
         margin: 0;
       }
-      table.t-jadwal {
-        font-size: 9pt;
-      }
-      table.t-jadwal th,
-      table.t-jadwal td {
-        padding: 3px 5px;
-      }
-      .row-h {
-        height: 30px;
-      }
 
-      /* I.3 Standar Menu — semua isi sel rata tengah */
+      /* Standar menu — rata tengah (dasar) */
       table.t-standar td,
       table.t-standar td.kiri,
       table.t-standar th {
         text-align: center;
       }
 
-      /* ============================================================
-         FORM HEADER (I.2 & I.3)
-         Layout kolom eksplisit via <colgroup>:
-           Kolom 1 (label) = 22%, Kolom 2 (value) = 28%,
-           Kolom 3 (label) = 22%, Kolom 4 (value) = 28%
-         ============================================================ */
+      /* FORM HEADER */
       table.form-header {
         table-layout: fixed;
         width: 100%;
@@ -325,9 +291,7 @@
         vertical-align: middle;
       }
 
-      /* ============================================================
-         TABEL CAPTION — jarak seragam
-         ============================================================ */
+      /* TABEL CAPTION */
       .tabel-caption {
         font-size: 11pt;
         font-weight: bold;
@@ -339,9 +303,7 @@
         border-bottom: 2px solid var(--biru-utama);
       }
 
-      /* ============================================================
-         CATATAN
-         ============================================================ */
+      /* CATATAN */
       .catatan {
         font-size: 9pt;
         font-style: italic;
@@ -353,15 +315,11 @@
       .catatan strong {
         font-style: normal;
       }
-
-      /* Jarak catatan → ttd-verifikasi setara satu <br> */
       .catatan + .ttd-verifikasi {
         margin-top: 1.5em;
       }
 
-      /* ============================================================
-         TANDA TANGAN / VERIFIKASI
-         ============================================================ */
+      /* TANDA TANGAN / VERIFIKASI */
       .ttd-verifikasi {
         margin-top: var(--jarak-blok);
         padding: 6px 10px;
@@ -393,9 +351,7 @@
         height: 80px;
       }
 
-      /* ============================================================
-         LIST
-         ============================================================ */
+      /* LIST */
       ol.legal {
         list-style: decimal;
         padding-left: 22px;
@@ -409,12 +365,6 @@
         text-align: justify;
         line-height: 1.5;
       }
-      .list-nomor {
-        text-align: left;
-        padding: 6px 10px;
-        line-height: 1.8;
-        font-size: 10pt;
-      }
       .list-flex {
         display: flex;
         justify-content: space-between;
@@ -426,9 +376,7 @@
         white-space: nowrap;
       }
 
-      /* ============================================================
-         DIAGRAM ALIR
-         ============================================================ */
+      /* DIAGRAM ALIR */
       .flow-chain {
         display: flex;
         flex-wrap: wrap;
@@ -482,10 +430,7 @@
         padding: 0 2px;
       }
 
-      /* ============================================================
-         FOOTER DOKUMEN & NARASI SOP
-         C & D: paragraf pakai tab awal (1,27 cm)
-         ============================================================ */
+      /* FOOTER & NARASI SOP */
       .footer-dokumen {
         margin-top: 24px;
         font-size: 10pt;
@@ -505,7 +450,7 @@
       }
       .narasi-sop p {
         margin: 0 0 8px;
-        text-indent: var(--indent-tab); /* 1 tab awal paragraf */
+        text-indent: var(--indent-tab);
       }
       .narasi-sop ol {
         padding-left: 22px;
@@ -515,9 +460,7 @@
         margin-bottom: 6px;
       }
 
-      /* ============================================================
-         LEMBAR PENGESAHAN (Section L)
-         ============================================================ */
+      /* LEMBAR PENGESAHAN */
       .pengesahan {
         font-size: 12pt;
         margin-top: var(--jarak-blok);
@@ -530,9 +473,7 @@
         border-top: 1px solid var(--teks);
       }
 
-      /* ============================================================
-         TOOLBAR (kertas, margin, cetak) — ringkas, proporsional, rata tengah
-         ============================================================ */
+      /* TOOLBAR */
       .toolbar {
         position: fixed;
         bottom: 16px;
@@ -614,9 +555,7 @@
         transform: translateY(1px);
       }
 
-      /* ============================================================
-         RESPONSIVE
-         ============================================================ */
+      /* RESPONSIVE */
       @media screen and (max-width: 1024px) {
         body {
           font-size: 11pt;
@@ -662,7 +601,6 @@
           right: 10px;
         }
       }
-
       @media screen and (max-width: 600px) {
         .page {
           padding: 12px 10px;
@@ -687,9 +625,7 @@
         }
       }
 
-      /* ============================================================
-         CETAK / PDF
-         ============================================================ */
+      /* CETAK / PDF */
       @media print {
         body {
           background: #fff;
@@ -723,6 +659,55 @@
         thead {
           display: table-header-group;
         }
+      }
+    </style>
+
+    <!-- ════════════════════════════════════════════════════════════════
+     STYLE SOP 1 — KHUSUS FILE INI
+     Boleh diubah tanpa memengaruhi SOP lain.
+     Nanti bisa dipindah ke file eksternal: sop-01.css
+     ════════════════════════════════════════════════════════════════ -->
+    <style id="style-sop">
+      /* Frekuensi bahan baku (I.1) */
+      table.t-frekuensi {
+        font-size: 9.5pt;
+        table-layout: fixed;
+      }
+      table.t-frekuensi th,
+      table.t-frekuensi td {
+        padding: 2px 6px;
+        height: 24px;
+      }
+      table.t-frekuensi th {
+        padding: 4px 6px;
+        height: 28px;
+      }
+
+      /* Jadwal jenis paket (I.5) */
+      table.t-jadwal {
+        font-size: 9pt;
+      }
+      table.t-jadwal th,
+      table.t-jadwal td {
+        padding: 3px 5px;
+      }
+
+      /* Baris kosong isian (I.4) */
+      .row-h {
+        height: 30px;
+      }
+
+      /* Daftar bernomor kualifikasi pelaksana (G) */
+      .list-nomor {
+        text-align: left;
+        padding: 6px 10px;
+        line-height: 1.8;
+        font-size: 10pt;
+      }
+
+      /* Lebar kolom kategori khusus SOP 1 */
+      td.kategori {
+        width: 15%;
       }
     </style>
 
@@ -2556,13 +2541,13 @@
       <button class="btn-print" onclick="window.print()">🖨️ Cetak PDF</button>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════════
-         JAVASCRIPT — Toggle Kertas & Margin
-         ════════════════════════════════════════════════════════════ -->
-    <script>
+    <!-- ════════════════════════════════════════════════════════════════
+     JS GLOBAL — JANGAN DIUBAH PER-FILE
+     Nanti bisa dipindah ke file eksternal: sop-global.js
+     ════════════════════════════════════════════════════════════════ -->
+    <script id="js-global">
       (function () {
         "use strict";
-
         const PAPER = {
           A4: { cssSize: "A4 portrait", width: "210mm", height: "297mm" },
           F4: { cssSize: "215mm 330mm", width: "215mm", height: "330mm" },
@@ -2571,66 +2556,38 @@
             width: "216mm",
             height: "279mm",
           },
-          Legal: {
-            cssSize: "Legal portrait",
-            width: "216mm",
-            height: "356mm",
-          },
+          Legal: { cssSize: "Legal portrait", width: "216mm", height: "356mm" },
         };
-
         const state = { paper: "A4", marginLeft: "30mm" };
-
         const styleEl = document.getElementById("dynamic-page-style");
         const paperSelect = document.getElementById("paperSelect");
         const marginSelect = document.getElementById("marginSelect");
-
         if (!styleEl || !paperSelect || !marginSelect) return;
 
         function render() {
           const p = PAPER[state.paper] || PAPER.A4;
           const m = state.marginLeft;
-
           styleEl.textContent = `
-            @page { size: ${p.cssSize}; margin: 15mm 15mm 15mm ${m}; }
-
-            @media screen and (min-width: 1025px) {
-              .page {
-                width: ${p.width};
-                min-height: ${p.height};
-                padding: 15mm 15mm 15mm ${m};
-              }
-            }
-
-            @media screen and (max-width: 1024px) {
-              .page {
-                width: 100%;
-                min-height: auto;
-                padding: 16px;
-                margin: 8px 0;
-              }
-            }
-
-            @media print {
-              .page {
-                width: auto;
-                min-height: auto;
-                padding: 0;
-                margin: 0;
-              }
-            }
-          `;
+        @page { size: ${p.cssSize}; margin: 15mm 15mm 15mm ${m}; }
+        @media screen and (min-width: 1025px) {
+          .page { width: ${p.width}; min-height: ${p.height}; padding: 15mm 15mm 15mm ${m}; }
         }
-
+        @media screen and (max-width: 1024px) {
+          .page { width: 100%; min-height: auto; padding: 16px; margin: 8px 0; }
+        }
+        @media print {
+          .page { width: auto; min-height: auto; padding: 0; margin: 0; }
+        }
+      `;
+        }
         paperSelect.addEventListener("change", function () {
           state.paper = this.value;
           render();
         });
-
         marginSelect.addEventListener("change", function () {
           state.marginLeft = this.value;
           render();
         });
-
         render();
       })();
     </script>
