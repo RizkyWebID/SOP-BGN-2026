@@ -300,23 +300,26 @@
 
       /* ============================================================
          FORM HEADER (I.4 & I.5) — SIMETRIS & SIAP TULIS TANGAN
-         4 kolom × 25% (label / isian / label / isian)
+         Layout 3 baris:
+           Baris 1: [No. Dokumen] [value colspan=3]
+           Baris 2: [Hari/Tanggal] [value] [Shift/Regu] [value]
+           Baris 3: [Menu Hari Ini] [value colspan=3]
+         Grid 4 kolom (25% × 4)
          ============================================================ */
       table.form-header {
         table-layout: fixed;
       }
       table.form-header td {
         width: 25%;
-        height: 32px;
+        height: 34px;
         vertical-align: middle;
-        text-align: center;
+        text-align: left;
       }
       table.form-header td.label-cell {
-        width: 25%;
         font-weight: bold;
-        text-align: left;
         background: var(--biru-muda);
         padding-left: 10px;
+        text-align: left;
       }
       table.form-header td.isi {
         background: #fff;
@@ -1781,8 +1784,10 @@
 
     <!-- ════════════════════════════════════════════════════════════
          HALAMAN 8 — I.4 FORMULIR PERSIAPAN SAYURAN
-         Header simetris 4 kolom × 25% (label-isi-label-isi)
-         Tinggi 32px per baris → siap tulis tangan
+         Header 3 baris sesuai layout baru:
+           Baris 1: No. Dokumen (25%) | value (75%)
+           Baris 2: Hari/Tanggal (25%) | value (25%) | Shift/Regu (25%) | value (25%)
+           Baris 3: Menu Hari Ini (25%) | value (75%)
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">I.4 FORMULIR PERSIAPAN SAYURAN</h2>
@@ -1791,9 +1796,7 @@
       <table class="form-header">
         <tr>
           <td class="label-cell">No. Dokumen</td>
-          <td class="isi"></td>
-          <td class="label-cell">Tgl</td>
-          <td class="isi"></td>
+          <td class="isi" colspan="3"></td>
         </tr>
         <tr>
           <td class="label-cell">Hari / Tanggal</td>
@@ -1803,9 +1806,7 @@
         </tr>
         <tr>
           <td class="label-cell">Menu Hari Ini</td>
-          <td class="isi"></td>
-          <td class="label-cell">Jumlah Porsi</td>
-          <td class="isi"></td>
+          <td class="isi" colspan="3"></td>
         </tr>
       </table>
 
@@ -1960,7 +1961,7 @@
 
     <!-- ════════════════════════════════════════════════════════════
          HALAMAN 9 — I.5 FORMULIR PENGOLAHAN SAYUR
-         Header simetris 4 kolom × 25% (label-isi-label-isi)
+         Header 3 baris sesuai layout baru (sama dengan I.4)
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">I.5 FORMULIR PENGOLAHAN SAYUR</h2>
@@ -1969,9 +1970,7 @@
       <table class="form-header">
         <tr>
           <td class="label-cell">No. Dokumen</td>
-          <td class="isi"></td>
-          <td class="label-cell">Tgl</td>
-          <td class="isi"></td>
+          <td class="isi" colspan="3"></td>
         </tr>
         <tr>
           <td class="label-cell">Hari / Tanggal</td>
@@ -1981,9 +1980,7 @@
         </tr>
         <tr>
           <td class="label-cell">Menu Hari Ini</td>
-          <td class="isi"></td>
-          <td class="label-cell">Jumlah Porsi</td>
-          <td class="isi"></td>
+          <td class="isi" colspan="3"></td>
         </tr>
       </table>
 
