@@ -92,6 +92,43 @@
       table.formal td.center {
         text-align: center;
       }
+
+      /* ===== TABEL FREKUENSI BAHAN BAKU — Kompak & Rata Tengah Vertikal ===== */
+      table.frekuensi {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 9pt;
+        table-layout: fixed;
+      }
+      table.frekuensi th,
+      table.frekuensi td {
+        border: 1px solid #000;
+        padding: 2px 6px;
+        vertical-align: middle; /* ✓ kategori rowspan rata tengah vertikal */
+        line-height: 1.15;
+        height: 22px; /* ✓ tinggi seragam tiap baris */
+      }
+      table.frekuensi th {
+        background: #e5e7eb;
+        text-align: center;
+        font-weight: bold;
+        padding: 4px 6px;
+        height: 26px;
+      }
+      table.frekuensi td.kategori {
+        background: #f3f4f6;
+        font-weight: bold;
+        text-align: center;
+        vertical-align: middle; /* ✓ pastikan tetap rata tengah */
+        width: 26%;
+        font-size: 9pt;
+        padding-left: 6px;
+        padding-right: 6px;
+      }
+      table.frekuensi td.center {
+        text-align: center;
+      }
+
       table.matrix {
         font-size: 8pt;
       }
@@ -234,6 +271,102 @@
         text-align: center;
       }
 
+      /* ===== DIAGRAM ALIR VISUAL ===== */
+      .flow-chain {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        padding: 10px;
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+        margin-bottom: 6px;
+      }
+      .flow-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        background: #dbeafe;
+        border: 1.5px solid #1e3a8a;
+        border-radius: 20px;
+        font-size: 8pt;
+        font-weight: bold;
+        color: #1e3a8a;
+        white-space: nowrap;
+      }
+      .flow-item .fn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        background: #1e3a8a;
+        color: #fff;
+        border-radius: 50%;
+        font-size: 7.5pt;
+      }
+      .flow-item.start,
+      .flow-item.end {
+        background: #16a34a;
+        border-color: #14532d;
+        color: #fff;
+      }
+      .flow-item.end {
+        background: #dc2626;
+        border-color: #7f1d1d;
+      }
+      .flow-conn {
+        color: #1e3a8a;
+        font-size: 12pt;
+        font-weight: bold;
+        padding: 0 2px;
+      }
+
+      /* ===== TABEL WORKFLOW — Lebih Lega & Terstruktur ===== */
+      table.workflow {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 8.5pt;
+        table-layout: fixed;
+      }
+      table.workflow th,
+      table.workflow td {
+        border: 1px solid #000;
+        padding: 6px 7px;
+        vertical-align: top;
+        line-height: 1.35;
+      }
+      table.workflow th {
+        background: #1e3a8a;
+        color: #fff;
+        text-align: center;
+        font-weight: bold;
+        padding: 7px 7px;
+      }
+      table.workflow td.no {
+        text-align: center;
+        font-weight: bold;
+        width: 32px;
+      }
+      table.workflow td.tahap {
+        background: #f3f4f6;
+        font-weight: bold;
+        width: 85px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 8pt;
+      }
+      table.workflow tbody tr:nth-child(even) td:not(.tahap) {
+        background: #fafafa;
+      }
+      table.workflow tbody tr.tahap-akhir td.no,
+      table.workflow tbody tr.tahap-akhir td.tahap {
+        background: #dbeafe;
+      }
+
       h2.section-title {
         font-size: 11pt;
         font-weight: bold;
@@ -304,11 +437,22 @@
       .signature-box {
         height: 80px;
       }
+      .row-h {
+        height: 30px;
+      }
+
+      /* List bernomor di dalam sel tabel */
+      .list-nomor {
+        text-align: left;
+        padding: 6px 10px;
+        line-height: 1.8;
+        font-size: 9.5pt;
+      }
     </style>
   </head>
   <body>
     <!-- ============================================================ -->
-    <!-- HALAMAN 1: A + B + C                                         -->
+    <!-- HALAMAN 1: KOP + A. IDENTITAS + B. DASAR HUKUM               -->
     <!-- ============================================================ -->
     <div class="page">
       <div class="flex items-start gap-4 pb-2">
@@ -435,6 +579,9 @@
       </ol>
     </div>
 
+    <!-- ============================================================ -->
+    <!-- HALAMAN 2: C. KETERKAITAN + D. KUALIFIKASI PELAKSANA         -->
+    <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">
         C. KETERKAITAN, PERALATAN, PERINGATAN, DAN PENCATATAN
@@ -470,11 +617,10 @@
             <td class="item">PERALATAN / PERLENGKAPAN</td>
             <td>
               <ol>
-                <li>ATK</li>
-                <li>Laptop/Komputer</li>
-                <li>Papan Tulis</li>
-                <li>Aplikasi Media Sosial</li>
-                <li>Gadget</li>
+                <li>
+                  ATK, Laptop/Komputer, Papan Tulis, Aplikasi Media Sosial, dan
+                  Gadget
+                </li>
               </ol>
             </td>
           </tr>
@@ -502,9 +648,6 @@
         </tbody>
       </table>
 
-      <!-- ============================================================ -->
-      <!-- HALAMAN 2: D + E                                             -->
-      <!-- ============================================================ -->
       <h2 class="section-title">D. KUALIFIKASI PELAKSANA</h2>
       <table class="formal">
         <thead>
@@ -537,139 +680,216 @@
           </tr>
           <tr>
             <td class="center">5</td>
-            <td>Penanggung Jawab<br />Satuan Pendidikan Paud - SMA/K</td>
-            <td style="height: 32px">1.<br />{enter samapi}<br />10.</td>
+            <td>Penanggung Jawab<br />Satuan Pendidikan PAUD - SMA/K</td>
+            <td class="list-nomor">
+              1. <br />
+              2. <br />
+              3. <br />
+              4. <br />
+              5. <br />
+              6. <br />
+              7. <br />
+              8. <br />
+              9. <br />
+              10.
+            </td>
           </tr>
           <tr>
             <td class="center">6</td>
             <td>Penanggung Jawab<br />Balita, Ibu Hamil, Ibu Menyusui</td>
-            <td style="height: 32px">1.<br />{enter samapi}<br />5.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="page page-break">
-      <h2 class="section-title">
-        E. PROSEDUR KERJA PERENCANAAN MENU (DIAGRAM ALIR)
-      </h2>
-      <table class="formal matrix">
-        <thead>
-          <tr>
-            <th style="width: 50px">No</th>
-            <th>Uraian Kegiatan</th>
-            <th style="width: 80px">Pelaksana</th>
-            <th style="width: 130px">Kelengkapan</th>
-            <th style="width: 70px">Waktu</th>
-            <th style="width: 100px">Output</th>
-            <th style="width: 50px">Ket</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="center">1</td>
-            <td>
-              Mendata dan mengklasifikasikan peserta didik dan kelompok 3B pada
-              formulir
+            <td class="list-nomor">
+              1. <br />
+              2. <br />
+              3. <br />
+              4. <br />
+              5.
             </td>
-            <td>Kepala SPPG</td>
-            <td>Data sekolah, Data posyandu</td>
-            <td class="center">1 Hari</td>
-            <td>Formulir Pendataan Peserta Didik &amp; 3B</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="center">2</td>
-            <td>Memutakhirkan data penerima manfaat</td>
-            <td>Kepala SPPG</td>
-            <td>Formulir Pendataan Penerima Manfaat</td>
-            <td class="center">30 Hari</td>
-            <td>Data Penerima Manfaat Terlaksana</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="center">3</td>
-            <td>Mencatat dan melaporkan kondisi khusus penerima manfaat</td>
-            <td>Kepala SPPG</td>
-            <td>Formulir Pendataan Penerima Manfaat</td>
-            <td class="center">1 Hari</td>
-            <td>Laporan Kondisi Khusus Penerima Manfaat</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="center">4</td>
-            <td>
-              Mengidentifikasi jenis bahan baku sesuai kebutuhan gizi penerima
-              manfaat
-            </td>
-            <td>Pengawas Gizi</td>
-            <td>Formulir Pendataan, Daftar bahan baku</td>
-            <td class="center">1 Hari</td>
-            <td>Jenis bahan baku teridentifikasi</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="center">5</td>
-            <td>Menyusun resep standar berdasarkan beberapa referensi</td>
-            <td>Pengawas Gizi &amp; Jurutama Masak</td>
-            <td>Buku Referensi, Dokumen AKG</td>
-            <td class="center">1 Hari</td>
-            <td>Standar Resep tersusun</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="center">6</td>
-            <td>
-              Menentukan frekuensi penggunaan bahan pangan untuk siklus 20 hari
-            </td>
-            <td>Pengawas Gizi</td>
-            <td>Formulir, Daftar bahan baku, AKG</td>
-            <td class="center">1 Hari</td>
-            <td>Siklus Menu 20 Hari</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="center">7</td>
-            <td>Mengoordinasikan master menu antar SPPG</td>
-            <td>Kepala SPPG</td>
-            <td>Whatsapp Group</td>
-            <td class="center">1 Hari</td>
-            <td>Siklus menu disepakati</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="center">8</td>
-            <td>Mensosialisasikan siklus menu</td>
-            <td>Pengawas Gizi</td>
-            <td>Dokumen siklus menu</td>
-            <td class="center">1 Hari</td>
-            <td>Informasi tersampaikan</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="center">9</td>
-            <td>Mengunggah perencanaan satu siklus menu</td>
-            <td>Pengawas Gizi</td>
-            <td>Komputer, Internet, SIPGN</td>
-            <td class="center">1 Jam</td>
-            <td>Siklus Menu terunggah</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td class="center">10</td>
-            <td>Memastikan siklus menu berhasil terunggah</td>
-            <td>Pengawas Gizi</td>
-            <td>Komputer/Gadget, Internet, SIPGN</td>
-            <td class="center">30 Menit</td>
-            <td>Siklus Menu terunggah</td>
-            <td></td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 3: F.1 FREKUENSI BAHAN BAKU                          -->
+    <!-- HALAMAN 3: E. PROSEDUR KERJA PERENCANAAN MENU (DIAGRAM ALIR) -->
+    <!-- ============================================================ -->
+    <div class="page page-break">
+      <h2 class="section-title">
+        E. PROSEDUR KERJA PERENCANAAN MENU (DIAGRAM ALIR)
+      </h2>
+      <br />
+      <!-- ====== VISUAL DIAGRAM ALIR ====== -->
+      <div class="flow-chain">
+        <div class="flow-item start">MULAI</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item"><span class="fn">1</span>Pendataan Sasaran</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item"><span class="fn">2</span>Pemutakhiran Data</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">3</span>Laporan Kondisi Khusus
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">4</span>Identifikasi Bahan Baku
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">5</span>Penyusunan Resep Standar
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">6</span>Penentuan Frekuensi
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">7</span>Koordinasi Antar SPPG
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item"><span class="fn">8</span>Sosialisasi Menu</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item"><span class="fn">9</span>Unggah SIPGN</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item end">SELESAI</div>
+      </div>
+      <br />
+      <!-- ====== TABEL WORKFLOW ====== -->
+      <table class="workflow">
+        <thead>
+          <tr>
+            <th style="width: 32px">No</th>
+            <th style="width: 85px">Tahap</th>
+            <th>Uraian Kegiatan</th>
+            <th style="width: 90px">Pelaksana</th>
+            <th style="width: 100px">Kelengkapan</th>
+            <th style="width: 50px">Waktu</th>
+            <th style="width: 120px">Output</th>
+            <th style="width: 40px">Ket</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td class="tahap" rowspan="3">Persiapan</td>
+            <td>
+              Mendata dan mengklasifikasikan peserta didik dan kelompok 3B pada
+              formulir
+            </td>
+            <td>Kepala SPPG</td>
+            <td>Data sekolah, Data posyandu</td>
+            <td class="center" style="text-align: center">1<br />Hari</td>
+            <td>Formulir Pendataan Peserta Didik &amp; 3B</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td>Memutakhirkan data penerima manfaat</td>
+            <td>Kepala SPPG</td>
+            <td>Formulir Pendataan Penerima Manfaat</td>
+            <td style="text-align: center">30<br />Hari</td>
+            <td>Data Penerima Manfaat Terlaksana</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td>Mencatat dan melaporkan kondisi khusus penerima manfaat</td>
+            <td>Kepala SPPG</td>
+            <td>Formulir Pendataan Penerima Manfaat</td>
+            <td style="text-align: center">1<br />Hari</td>
+            <td>Laporan Kondisi Khusus Penerima Manfaat</td>
+            <td></td>
+          </tr>
+
+          <tr>
+            <td class="no">4</td>
+            <td class="tahap" rowspan="3">Penyusunan</td>
+            <td>
+              Mengidentifikasi jenis bahan baku sesuai kebutuhan gizi penerima
+              manfaat
+            </td>
+            <td>Pengawas Ahli Gizi</td>
+            <td>Formulir Pendataan, Daftar bahan baku</td>
+            <td style="text-align: center">1<br />Hari</td>
+            <td>Jenis bahan baku teridentifikasi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td>Menyusun resep standar berdasarkan beberapa referensi</td>
+            <td>Pengawas Ahli Gizi &amp; Jurutama Masak</td>
+            <td>Buku Referensi, Dokumen AKG</td>
+            <td style="text-align: center">1<br />Hari</td>
+            <td>Standar Resep tersusun</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td>
+              Menentukan frekuensi penggunaan bahan pangan untuk siklus 20 hari
+            </td>
+            <td>Pengawas Ahli Gizi</td>
+            <td>Formulir, Daftar bahan baku, AKG</td>
+            <td style="text-align: center">1<br />Hari</td>
+            <td>Siklus Menu 20 Hari</td>
+            <td></td>
+          </tr>
+
+          <tr>
+            <td class="no">7</td>
+            <td class="tahap" rowspan="4">Finalisasi</td>
+            <td>Mengoordinasikan master menu antar SPPG</td>
+            <td>Kepala SPPG</td>
+            <td>Whatsapp Group</td>
+            <td style="text-align: center">1<br />Hari</td>
+            <td>Siklus menu disepakati</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td>Mensosialisasikan siklus menu</td>
+            <td>Pengawas Ahli Gizi</td>
+            <td>Dokumen siklus menu</td>
+            <td style="text-align: center">1<br />Hari</td>
+            <td>Informasi tersampaikan</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td>Mengunggah perencanaan satu siklus menu</td>
+            <td>Pengawas Ahli Gizi</td>
+            <td>Komputer, Internet, Akun SIPGN</td>
+            <td style="text-align: center">1<br />Jam</td>
+            <td>Siklus Menu terunggah</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">10</td>
+            <td>Memastikan siklus menu berhasil terunggah</td>
+            <td>Pengawas Ahli Gizi</td>
+            <td>Komputer/Gadget, Internet, Akun SIPGN</td>
+            <td style="text-align: center">30<br />Menit</td>
+            <td>Siklus Menu terunggah</td>
+            <td style="text-align: center"></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ====== CATATAN ALUR ====== -->
+      <div class="catatan">
+        <strong>Catatan Alur:</strong> Prosedur kerja perencanaan menu dibagi
+        dalam 3 tahap utama. <strong>Tahap A (Persiapan)</strong> berfokus pada
+        pendataan, pemutakhiran, dan pelaporan kondisi khusus sasaran.
+        <strong>Tahap B (Penyusunan)</strong> mencakup identifikasi bahan baku,
+        penyusunan resep standar, dan penentuan frekuensi bahan pangan dalam
+        siklus 20 hari. <strong>Tahap C (Finalisasi)</strong> mencakup
+        koordinasi antar SPPG, sosialisasi ke tim produksi &amp; penyaluran,
+        unggah ke SIPGN, dan verifikasi akhir. Setiap tahap wajib
+        didokumentasikan pada formulir terkait dan diarsipkan sebagai acuan
+        pembanding pada tahap pencatatan produksi dan penyaluran harian.
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- HALAMAN 4: Laporan 1. Kelompok Bahan Pangan, Jenis, dan Frekuensi Bahan Baku (20 Hari) -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -678,17 +898,17 @@
         Kelompok Bahan Pangan, Jenis, dan Frekuensi Bahan Baku (20 Hari)
       </div>
 
-      <table class="formal">
+      <table class="frekuensi">
         <thead>
           <tr>
-            <th style="width: 26%">Kelompok Bahan Pangan</th>
+            <th style="width: 200px">Kelompok Bahan Pangan</th>
             <th>Nama Bahan Baku</th>
             <th style="width: 100px">Frekuensi</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td rowspan="5" class="font-bold">Makanan Pokok</td>
+            <td rowspan="5" class="kategori">Makanan Pokok</td>
             <td>Beras / Nasi</td>
             <td class="center">14</td>
           </tr>
@@ -709,7 +929,7 @@
             <td class="center">1</td>
           </tr>
           <tr>
-            <td rowspan="3" class="font-bold">Lauk Hewani</td>
+            <td rowspan="3" class="kategori">Lauk Hewani</td>
             <td>Ayam</td>
             <td class="center">6</td>
           </tr>
@@ -722,7 +942,7 @@
             <td class="center">6</td>
           </tr>
           <tr>
-            <td rowspan="3" class="font-bold">Lauk Nabati</td>
+            <td rowspan="3" class="kategori">Lauk Nabati</td>
             <td>Ikan</td>
             <td class="center">6</td>
           </tr>
@@ -735,7 +955,7 @@
             <td class="center">6</td>
           </tr>
           <tr>
-            <td rowspan="8" class="font-bold">Sayur</td>
+            <td rowspan="8" class="kategori">Sayur</td>
             <td>Kacang tanah</td>
             <td class="center">4</td>
           </tr>
@@ -768,7 +988,7 @@
             <td class="center">5</td>
           </tr>
           <tr>
-            <td rowspan="7" class="font-bold">Buah</td>
+            <td rowspan="7" class="kategori">Buah</td>
             <td>Kubis / Kol</td>
             <td class="center">4</td>
           </tr>
@@ -802,7 +1022,7 @@
       <div class="catatan">
         <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
       </div>
-      <br />
+
       <div class="ttd-verifikasi">
         <table>
           <tr>
@@ -830,7 +1050,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 4: F.2 SIKLUS MENU — PESERTA DIDIK/BUMIL/BUSUI 1-10 -->
+    <!-- HALAMAN 5: Laporan 2. Siklus Menu Penerima Manfaat Peserta Didik - 3B (Hari 01-10) -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -952,7 +1172,7 @@
       <div class="catatan">
         <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
       </div>
-      <br />
+
       <div class="ttd-verifikasi">
         <table>
           <tr>
@@ -980,7 +1200,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 5: F.2 SIKLUS MENU — PESERTA DIDIK/BUMIL/BUSUI 11-20-->
+    <!-- HALAMAN 6: Laporan 2. Siklus Menu Penerima Manfaat Peserta Didik - 3B (Hari 11-20) -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -1102,7 +1322,7 @@
       <div class="catatan">
         <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
       </div>
-      <br />
+
       <div class="ttd-verifikasi">
         <table>
           <tr>
@@ -1130,7 +1350,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 10: F.3 BUMIL/BUSUI/SMA                              -->
+    <!-- HALAMAN 7: Laporan 3. Standar Menu Makanan Harian Peserta Didik - 3B (20 Hari) -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -1291,7 +1511,7 @@
       <div class="catatan">
         <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
       </div>
-      <br />
+
       <div class="ttd-verifikasi">
         <table>
           <tr>
@@ -1319,7 +1539,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 15: F.4 HASIL PERENCANAAN                            -->
+    <!-- HALAMAN 8: Laporan 4. Hasil Perencanaan Data Sasaran Peserta Didik - 3B (20 Hari) -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -1327,6 +1547,7 @@
         Hasil Perencanaan Data Sasaran Peserta Didik - 3B (20 Hari)<br />
         Halaman dapat lebih dari satu jika ada perbedaan maupun alergi
       </div>
+
       <table class="formal">
         <thead>
           <tr>
@@ -1380,7 +1601,7 @@
           </tr>
         </tbody>
       </table>
-      {samakan jarak antar tabel yg lain jika tabel ketemu tabel}
+
       <table class="formal">
         <thead>
           <tr>
@@ -1438,7 +1659,7 @@
       <div class="catatan">
         <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
       </div>
-      <br />
+
       <div class="ttd-verifikasi">
         <table>
           <tr>
@@ -1466,7 +1687,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 16: F.5 JADWAL JENIS PAKET — 4 MINGGU                -->
+    <!-- HALAMAN 9: Laporan 5. Jadwal Jenis Paket dan Jalur Penyaluran Peserta Didik - 3B (20 Hari) -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
@@ -1673,7 +1894,7 @@
       <div class="catatan">
         <strong>Catatan:</strong> Disini berisi Catatan Pada Halaman laporan
       </div>
-      <br />
+
       <div class="ttd-verifikasi">
         <table>
           <tr>
@@ -1701,7 +1922,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- HALAMAN 17: G + H + I                                        -->
+    <!-- HALAMAN 10: G. VERIFIKASI + H. DAFTAR LAMPIRAN + I. PENGESAHAN -->
     <!-- ============================================================ -->
     <div class="page page-break">
       <h2 class="section-title">G. VERIFIKASI DAN PERSETUJUAN DOKUMEN</h2>
@@ -1735,7 +1956,7 @@
           <td>☐ Sudah ☐ Belum — Tanggal: ................................</td>
         </tr>
       </table>
-      <br />
+
       <h2 class="section-title">H. DAFTAR LAMPIRAN</h2>
       <ol class="legal">
         <li>
@@ -1779,7 +2000,7 @@
           </span>
         </li>
       </ol>
-      <br />
+
       <h2 class="section-title">I. LEMBAR PENGESAHAN</h2>
       <div class="mt-2 text-[10.5pt]">
         <div class="text-right mb-2">
