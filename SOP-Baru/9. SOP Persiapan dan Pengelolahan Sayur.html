@@ -299,30 +299,46 @@
       }
 
       /* ============================================================
-         FORM HEADER (I.4 & I.5) — SIMETRIS & SIAP TULIS TANGAN
-         Layout 3 baris:
-           Baris 1: [No. Dokumen] [value colspan=3]
-           Baris 2: [Hari/Tanggal] [value] [Shift/Regu] [value]
-           Baris 3: [Menu Hari Ini] [value colspan=3]
-         Grid 4 kolom (25% × 4)
+         FORM HEADER (I.4 & I.5) — PAKAI CLASS BARU .flabel / .fvalue
+         agar tidak bentrok dengan .label-cell global.
+         Layout kolom eksplisit via <colgroup>:
+           Kolom 1 (label) = 22%
+           Kolom 2 (value) = 28%
+           Kolom 3 (label) = 22%
+           Kolom 4 (value) = 28%
+         Hasil:
+           Row 1 (No. Dokumen) → label 22% + isian 78% (panjang)
+           Row 2 (Hari/Tgl|Shift) → 22% + 28% + 22% + 28% (imbang)
+           Row 3 (Menu Hari Ini) → label 22% + isian 78% (panjang)
          ============================================================ */
       table.form-header {
         table-layout: fixed;
+        width: 100%;
+      }
+      table.form-header col.c-label {
+        width: 22%;
+      }
+      table.form-header col.c-value {
+        width: 28%;
       }
       table.form-header td {
-        width: 25%;
-        height: 34px;
+        height: 38px;
         vertical-align: middle;
         text-align: left;
+        padding: 6px 10px;
+        background: #fff;
       }
-      table.form-header td.label-cell {
+      table.form-header td.flabel {
         font-weight: bold;
         background: var(--biru-muda);
         padding-left: 10px;
         text-align: left;
+        vertical-align: middle;
       }
-      table.form-header td.isi {
+      table.form-header td.fvalue {
         background: #fff;
+        text-align: left;
+        vertical-align: middle;
       }
 
       /* ============================================================
@@ -1784,30 +1800,35 @@
 
     <!-- ════════════════════════════════════════════════════════════
          HALAMAN 8 — I.4 FORMULIR PERSIAPAN SAYURAN
-         Header 3 baris sesuai layout baru:
-           Baris 1: No. Dokumen (25%) | value (75%)
-           Baris 2: Hari/Tanggal (25%) | value (25%) | Shift/Regu (25%) | value (25%)
-           Baris 3: Menu Hari Ini (25%) | value (75%)
+         Layout header via colgroup 22/28/22/28 → proporsional
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">I.4 FORMULIR PERSIAPAN SAYURAN</h2>
       <div class="tabel-caption">Formulir Persiapan Sayuran</div>
 
       <table class="form-header">
-        <tr>
-          <td class="label-cell">No. Dokumen</td>
-          <td class="isi" colspan="3"></td>
-        </tr>
-        <tr>
-          <td class="label-cell">Hari / Tanggal</td>
-          <td class="isi"></td>
-          <td class="label-cell">Shift / Regu Kerja</td>
-          <td class="isi"></td>
-        </tr>
-        <tr>
-          <td class="label-cell">Menu Hari Ini</td>
-          <td class="isi" colspan="3"></td>
-        </tr>
+        <colgroup>
+          <col class="c-label" />
+          <col class="c-value" />
+          <col class="c-label" />
+          <col class="c-value" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="flabel">No. Dokumen</td>
+            <td class="fvalue" colspan="3"></td>
+          </tr>
+          <tr>
+            <td class="flabel">Hari / Tanggal</td>
+            <td class="fvalue"></td>
+            <td class="flabel">Shift / Regu Kerja</td>
+            <td class="fvalue"></td>
+          </tr>
+          <tr>
+            <td class="flabel">Menu Hari Ini</td>
+            <td class="fvalue" colspan="3"></td>
+          </tr>
+        </tbody>
       </table>
 
       <table class="t-menu">
@@ -1961,27 +1982,35 @@
 
     <!-- ════════════════════════════════════════════════════════════
          HALAMAN 9 — I.5 FORMULIR PENGOLAHAN SAYUR
-         Header 3 baris sesuai layout baru (sama dengan I.4)
+         Layout header via colgroup 22/28/22/28 → proporsional
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">I.5 FORMULIR PENGOLAHAN SAYUR</h2>
       <div class="tabel-caption">Formulir Pengolahan Sayur</div>
 
       <table class="form-header">
-        <tr>
-          <td class="label-cell">No. Dokumen</td>
-          <td class="isi" colspan="3"></td>
-        </tr>
-        <tr>
-          <td class="label-cell">Hari / Tanggal</td>
-          <td class="isi"></td>
-          <td class="label-cell">Shift / Regu Kerja</td>
-          <td class="isi"></td>
-        </tr>
-        <tr>
-          <td class="label-cell">Menu Hari Ini</td>
-          <td class="isi" colspan="3"></td>
-        </tr>
+        <colgroup>
+          <col class="c-label" />
+          <col class="c-value" />
+          <col class="c-label" />
+          <col class="c-value" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="flabel">No. Dokumen</td>
+            <td class="fvalue" colspan="3"></td>
+          </tr>
+          <tr>
+            <td class="flabel">Hari / Tanggal</td>
+            <td class="fvalue"></td>
+            <td class="flabel">Shift / Regu Kerja</td>
+            <td class="fvalue"></td>
+          </tr>
+          <tr>
+            <td class="flabel">Menu Hari Ini</td>
+            <td class="fvalue" colspan="3"></td>
+          </tr>
+        </tbody>
       </table>
 
       <table class="t-menu">
