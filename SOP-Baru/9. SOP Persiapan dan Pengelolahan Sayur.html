@@ -238,6 +238,12 @@
       table.t-matrix td {
         padding: 2px 3px;
       }
+      /* PERBAIKAN #4: seragamkan tinggi baris di matriks agar
+         sel berisi 1 baris & 2 baris teks sejajar sama tinggi */
+      table.t-matrix tbody td {
+        height: 32px;
+        vertical-align: middle;
+      }
       table.t-workflow {
         font-size: 9pt;
         table-layout: fixed;
@@ -288,6 +294,11 @@
       table.t-standar td.kiri,
       table.t-standar th {
         text-align: center;
+      }
+      /* PERBAIKAN #6: tinggi minimum seragam kolom waktu */
+      table.t-standar tbody td {
+        height: 42px;
+        vertical-align: middle;
       }
 
       /* ============================================================
@@ -478,7 +489,7 @@
       }
 
       /* ============================================================
-         LEMBAR PENGESAHAN
+         LEMBAR PENGESAHAN — mengikuti format HTML referensi
          ============================================================ */
       .pengesahan {
         font-size: 12pt;
@@ -963,6 +974,7 @@
           <tr>
             <td class="tahap">KETERKAITAN</td>
             <td>
+              <!-- PERBAIKAN #3: mengembalikan 14 item sesuai PDF referensi -->
               <ol>
                 <li>SOP Penerimaan dan Penyimpanan Sayur dan Buah.</li>
                 <li>SOP Penggunaan Talenan dan Pisau.</li>
@@ -971,6 +983,7 @@
                 <li>SOP Penerimaan dan Penyimpanan Daging dan Unggas.</li>
                 <li>SOP Pembersihan dan Pelabelan Ompregn.</li>
                 <li>SOP Kebersihan Ruangan.</li>
+                <li>SOP Pembersihan dan Penyimpanan Peralatan Masak.</li>
                 <li>SOP Personal Higiene.</li>
                 <li>SOP Manajemen IPAL.</li>
                 <li>SOP Manajemen Grease Trap.</li>
@@ -1516,7 +1529,7 @@
             <th style="width: 170px">Jenis Sayur</th>
             <th style="width: 130px">Metode Masak</th>
             <th style="width: 80px">Suhu Minimal</th>
-            <th style="width: 80px">Waktu</th>
+            <th style="width: 70px">Waktu</th>
             <th>Indikator Kematangan</th>
           </tr>
         </thead>
@@ -1526,7 +1539,8 @@
             <td>Sayuran berdaun (bayam, kangkung, sawi)</td>
             <td>Tumis / rebus singkat</td>
             <td>70&nbsp;°C</td>
-            <td>3–5 menit</td>
+            <!-- PERBAIKAN #6: waktu dipisah baris -->
+            <td>3–5<br />menit</td>
             <td>Warna hijau cerah, tekstur lembut namun tidak lembek</td>
           </tr>
           <tr>
@@ -1534,7 +1548,7 @@
             <td>Sayuran buah (tomat, terong, labu siam)</td>
             <td>Tumis / kuah</td>
             <td>70&nbsp;°C</td>
-            <td>7–10 menit</td>
+            <td>7–10<br />menit</td>
             <td>Tekstur lunak merata, warna cerah, tidak berair berlebih</td>
           </tr>
           <tr>
@@ -1542,7 +1556,7 @@
             <td>Sayuran umbi (wortel, kentang, bengkuang)</td>
             <td>Rebus / tumis / sup</td>
             <td>75&nbsp;°C</td>
-            <td>10–15 menit</td>
+            <td>10–15<br />menit</td>
             <td>Empuk saat ditusuk, tidak hancur, warna tetap cerah</td>
           </tr>
           <tr>
@@ -1550,7 +1564,7 @@
             <td>Sayuran polong (buncis, kacang panjang)</td>
             <td>Tumis / rebus</td>
             <td>75&nbsp;°C</td>
-            <td>7–10 menit</td>
+            <td>7–10<br />menit</td>
             <td>Empuk namun masih renyah, warna hijau merata</td>
           </tr>
           <tr>
@@ -1558,7 +1572,7 @@
             <td>Sayuran bunga (brokoli, kembang kol)</td>
             <td>Rebus / tumis</td>
             <td>75&nbsp;°C</td>
-            <td>5–7 menit</td>
+            <td>5–7<br />menit</td>
             <td>Tekstur lembut, warna tidak menguning</td>
           </tr>
           <tr>
@@ -1566,7 +1580,7 @@
             <td>Sayuran campur (capcay, sop sayur)</td>
             <td>Tumis / kuah</td>
             <td>75&nbsp;°C</td>
-            <td>10–12 menit</td>
+            <td>10–12<br />menit</td>
             <td>Seluruh komponen matang merata, kuah tidak keruh</td>
           </tr>
         </tbody>
@@ -1752,10 +1766,11 @@
       <h2 class="section-title">I.4 FORMULIR PERSIAPAN SAYURAN</h2>
       <div class="tabel-caption">Formulir Persiapan Sayuran</div>
 
+      <!-- PERBAIKAN #5: mengikuti layout header PDF — 3 baris × 2 pasang label:nilai -->
       <table>
         <tr>
           <td class="label-cell" style="width: 22%">No. Dokumen</td>
-          <td style="width: 28%">022/05/00/SOP.22/09/2026</td>
+          <td style="width: 28%; height: 28px"></td>
           <td class="label-cell" style="width: 22%">Tgl</td>
           <td style="height: 28px"></td>
         </tr>
@@ -1763,7 +1778,7 @@
           <td class="label-cell">Hari / Tanggal</td>
           <td style="height: 28px"></td>
           <td class="label-cell">Shift / Regu Kerja</td>
-          <td>Pagi / Siang / Malam</td>
+          <td style="height: 28px"></td>
         </tr>
         <tr>
           <td class="label-cell">Menu Hari Ini</td>
@@ -1932,7 +1947,7 @@
       <table>
         <tr>
           <td class="label-cell" style="width: 22%">No. Dokumen</td>
-          <td style="width: 28%">022/05/00/SOP.22/09/2026</td>
+          <td style="width: 28%; height: 28px"></td>
           <td class="label-cell" style="width: 22%">Tgl</td>
           <td style="height: 28px"></td>
         </tr>
@@ -1940,7 +1955,7 @@
           <td class="label-cell">Hari / Tanggal</td>
           <td style="height: 28px"></td>
           <td class="label-cell">Shift / Regu Kerja</td>
-          <td>Pagi / Siang / Malam</td>
+          <td style="height: 28px"></td>
         </tr>
         <tr>
           <td class="label-cell">Menu Hari Ini</td>
@@ -2446,6 +2461,8 @@
         </tbody>
       </table>
 
+      <!-- PERBAIKAN #2: pertahankan <br /> sebelum K -->
+      <br />
       <h2 class="section-title">K. DAFTAR LAMPIRAN</h2>
       <ol class="legal">
         <li>
@@ -2492,6 +2509,8 @@
         </li>
       </ol>
 
+      <!-- PERBAIKAN #1 & #2: Lembar Pengesahan mengikuti format HTML referensi
+           (hanya 3 kolom TTD, tanpa blok "Disahkan oleh Deputi ...") -->
       <br />
       <h2 class="section-title">L. LEMBAR PENGESAHAN</h2>
       <div class="pengesahan">
@@ -2522,10 +2541,6 @@
             </tr>
           </table>
         </div>
-        <p style="text-align: center; margin-top: 12px">
-          Disahkan oleh,<br />
-          <strong>Deputi Bidang Sistem dan Tata Kelola</strong>
-        </p>
       </div>
 
       <div class="footer-dokumen">
