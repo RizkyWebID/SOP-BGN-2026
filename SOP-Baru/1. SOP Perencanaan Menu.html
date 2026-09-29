@@ -2,433 +2,391 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="#0369a1" />
     <title>
-      Laporan Perencanaan Menu MBG - SPPG Kota Pekanbaru Binawidya Tobekgodang
+      Laporan Perencanaan Menu MBG — SPPG Kota Pekanbaru Binawidya Tobekgodang
     </title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-      @page {
-        size: A4 portrait;
-        margin: 15mm 15mm 15mm 20mm;
+      /* ============================================================
+   RESET & BASE
+   ============================================================ */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: "Times New Roman", Times, Georgia, serif;
+        font-size: 10.5pt;
+        line-height: 1.4;
+        color: #0f172a;
+        background: #e5e7eb; /* abu lembut */
+        -webkit-font-smoothing: antialiased;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
       }
 
-      body {
-        font-family: "Times New Roman", Times, serif;
-        font-size: 10.5pt;
-        color: #000;
-        line-height: 1.4;
-        background: #e5e7eb;
+      /* ============================================================
+   VARIABEL TEMA — ubah sekali, berlaku semua
+   ============================================================ */
+      :root {
+        --biru-utama: #0369a1; /* header, judul */
+        --biru-gelap: #0c4a6e; /* border tabel */
+        --biru-muda: #f0f9ff; /* aksen lembut */
+        --biru-aksen: #e0f2fe; /* baris alt */
+        --kuning-lembut: #fef3c7; /* catatan */
+        --kuning-border: #f59e0b;
+        --hijau: #16a34a;
+        --merah: #dc2626;
+        --teks: #0f172a;
       }
+
+      /* ============================================================
+   HALAMAN (A4)
+   ============================================================ */
       .page {
         width: 210mm;
         min-height: 297mm;
         padding: 15mm 15mm 15mm 20mm;
         margin: 10mm auto;
         background: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 2px 12px rgba(3, 105, 161, 0.12);
       }
-      @media print {
-        body {
-          background: #fff;
-        }
-        .page {
-          margin: 0;
-          box-shadow: none;
-          width: auto;
-          min-height: auto;
-          padding: 0;
-        }
-        .no-print {
-          display: none !important;
-        }
-        .page-break {
-          page-break-before: always;
-        }
-        table {
-          page-break-inside: auto;
-        }
-        tr {
-          page-break-inside: avoid;
-        }
+
+      /* ============================================================
+   KOP SURAT
+   ============================================================ */
+      .kop {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        padding-bottom: 8px;
+      }
+      .kop-logo {
+        width: 96px;
+        height: 96px;
+        flex: 0 0 96px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .kop-teks {
+        flex: 1 1 auto;
+        text-align: center;
+        line-height: 1.25;
+      }
+      .kop-teks .l1 {
+        font-size: 13pt;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+      }
+      .kop-teks .l2 {
+        font-size: 12pt;
+        font-weight: bold;
+        margin-top: 4px;
+      }
+      .kop-teks .l3 {
+        font-size: 12.5pt;
+        font-weight: bold;
+        margin-top: 4px;
+      }
+      .kop-teks .l4,
+      .kop-teks .l5 {
+        font-size: 9.5pt;
+        margin-top: 6px;
+      }
+      .kop-spacer {
+        width: 96px;
+        flex: 0 0 96px;
       }
 
       .kop-line-1 {
-        border-top: 3px solid #000;
+        border-top: 3px solid var(--teks);
       }
       .kop-line-2 {
-        border-top: 1px solid #000;
+        border-top: 1px solid var(--teks);
         margin-top: 2px;
       }
 
-      /* Jarak konsisten antar elemen */
-      table + table,
-      .tabel-caption + table,
-      table + .tabel-caption {
-        margin-top: 6px;
+      /* Judul laporan */
+      .judul-laporan {
+        text-align: center;
+        margin: 20px 0 12px;
       }
-      table + .catatan,
-      table + .ttd-verifikasi,
-      .catatan + .ttd-verifikasi {
-        margin-top: 6px;
+      .judul-laporan .t1 {
+        font-size: 13pt;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .judul-laporan .t2 {
+        font-size: 11.5pt;
+        font-weight: bold;
       }
 
-      table.formal {
+      /* ============================================================
+   JUDUL SECTION (A, B, C, ...)
+   ============================================================ */
+      .section-title {
+        font-size: 11pt;
+        font-weight: bold;
+        background: var(--biru-utama);
+        color: #fff;
+        padding: 4px 8px;
+        margin: 12px 0 6px;
+        text-align: center;
+      }
+
+      /* ============================================================
+   TABEL — BASE (semua tabel pakai dasar ini)
+   ============================================================ */
+      table {
         width: 100%;
         border-collapse: collapse;
         font-size: 9.5pt;
       }
-      table.formal th,
-      table.formal td {
-        border: 1px solid #000;
-        padding: 4px 5px;
-        vertical-align: top;
-      }
-      table.formal th {
-        background: #e5e7eb;
-        text-align: center;
-        font-weight: bold;
-      }
-      table.formal td.center {
-        text-align: center;
-      }
-
-      /* ===== TABEL FREKUENSI BAHAN BAKU — Kompak & Rata Tengah Vertikal ===== */
-      table.frekuensi {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 9pt;
-        table-layout: fixed;
-      }
-      table.frekuensi th,
-      table.frekuensi td {
-        border: 1px solid #000;
-        padding: 2px 6px;
-        vertical-align: middle; /* ✓ kategori rowspan rata tengah vertikal */
-        line-height: 1.15;
-        height: 22px; /* ✓ tinggi seragam tiap baris */
-      }
-      table.frekuensi th {
-        background: #e5e7eb;
-        text-align: center;
-        font-weight: bold;
+      th,
+      td {
+        border: 1px solid var(--biru-gelap);
         padding: 4px 6px;
-        height: 26px;
-      }
-      table.frekuensi td.kategori {
-        background: #f3f4f6;
-        font-weight: bold;
-        text-align: center;
-        vertical-align: middle; /* ✓ pastikan tetap rata tengah */
-        width: 26%;
-        font-size: 9pt;
-        padding-left: 6px;
-        padding-right: 6px;
-      }
-      table.frekuensi td.center {
-        text-align: center;
-      }
-
-      table.matrix {
-        font-size: 8pt;
-      }
-      table.matrix td,
-      table.matrix th {
-        padding: 2px 3px;
-      }
-
-      .label-cell {
-        width: 34%;
-        background: #f3f4f6;
-        font-weight: bold;
-      }
-
-      table.keterkaitan {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 9.5pt;
-        table-layout: fixed;
-      }
-      table.keterkaitan th,
-      table.keterkaitan td {
-        border: 1px solid #000;
-        padding: 6px 8px;
         vertical-align: top;
+        line-height: 1.3;
       }
-      table.keterkaitan th {
-        background: #1e3a8a;
+      thead th {
+        background: var(--biru-utama);
         color: #fff;
         font-weight: bold;
         text-align: center;
       }
-      table.keterkaitan td.item {
-        background: #f3f4f6;
+      td.center {
+        text-align: center;
+      }
+      td.kiri {
+        text-align: left;
+        font-weight: bold;
+      }
+
+      /* Tabel tanpa header biru (mis. tabel identitas) */
+      table.t-head-abu thead th {
+        background: #e2e8f0;
+        color: var(--teks);
+      }
+
+      /* Baris selang-seling */
+      table
+        tr:nth-child(even)
+        td:not(.kategori):not(.tahap):not(.item):not(.label-cell) {
+        background: #f8fafc;
+      }
+
+      /* Sel khusus */
+      .label-cell {
+        width: 34%;
+        background: var(--biru-muda);
+        font-weight: bold;
+      }
+      td.kategori {
+        background: var(--biru-muda);
+        font-weight: bold;
+        text-align: left;
+        width: 15%;
+        padding-left: 8px;
+      }
+      td.item {
+        background: var(--biru-muda);
         font-weight: bold;
         text-align: center;
         width: 28%;
       }
-      table.keterkaitan ol {
-        padding-left: 18px;
-        margin: 0;
-      }
-
-      table.standar {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 8.5pt;
-      }
-      table.standar th,
-      table.standar td {
-        border: 1px solid #000;
-        padding: 4px 6px;
+      td.tahap {
+        background: var(--biru-muda);
+        font-weight: bold;
         text-align: center;
+        width: 85px;
+        font-size: 8pt;
+        vertical-align: middle;
       }
-      table.standar thead th {
-        background: #1e3a8a;
-        color: #fff;
+      td.no {
+        text-align: center;
+        font-weight: bold;
+        width: 32px;
+      }
+      tr.total td {
+        background: var(--kuning-lembut);
         font-weight: bold;
       }
-      table.standar td.kiri {
-        text-align: left;
-        font-weight: bold;
-      }
-      table.standar tr.total td {
-        background: #fef9c3;
-        font-weight: bold;
-      }
-      table.standar tr.header-row td {
+      tr.header-row td {
         background: #93c5fd;
         font-weight: bold;
         color: #000;
       }
 
+      /* ============================================================
+   MODIFIKATOR TABEL
+   ============================================================ */
+      /* Tabel frekuensi (compact) */
+      table.t-frekuensi {
+        font-size: 9pt;
+        table-layout: fixed;
+      }
+      table.t-frekuensi th,
+      table.t-frekuensi td {
+        padding: 2px 6px;
+        height: 22px;
+        vertical-align: middle;
+      }
+      table.t-frekuensi th {
+        padding: 4px 6px;
+        height: 26px;
+      }
+
+      /* Tabel matrix (rapat) */
+      table.t-matrix {
+        font-size: 8pt;
+      }
+      table.t-matrix th,
+      table.t-matrix td {
+        padding: 2px 3px;
+      }
+
+      /* Tabel workflow */
+      table.t-workflow {
+        font-size: 8.5pt;
+        table-layout: fixed;
+      }
+      table.t-workflow th,
+      table.t-workflow td {
+        padding: 6px 7px;
+      }
+      table.t-workflow tr.tahap-akhir td {
+        background: var(--biru-aksen);
+      }
+
+      /* Tabel menu (20 hari) */
+      table.t-menu {
+        font-size: 10pt;
+        table-layout: fixed;
+      }
+      table.t-menu th,
+      table.t-menu td {
+        padding: 5px 6px;
+        text-align: center;
+        height: 34px;
+        vertical-align: middle;
+        word-wrap: break-word;
+      }
+      table.t-menu th {
+        height: 30px;
+      }
+
+      /* Tabel keterkaitan */
+      table.t-keterkaitan {
+        font-size: 9.5pt;
+        table-layout: fixed;
+      }
+      table.t-keterkaitan th,
+      table.t-keterkaitan td {
+        padding: 6px 8px;
+      }
+      table.t-keterkaitan ol {
+        padding-left: 18px;
+        margin: 0;
+      }
+
+      /* Tabel jadwal (mingguan) */
+      table.t-jadwal {
+        font-size: 8pt;
+      }
+      table.t-jadwal th,
+      table.t-jadwal td {
+        padding: 3px 5px;
+        vertical-align: middle;
+      }
+
+      /* Baris tinggi seragam */
+      .row-h {
+        height: 30px;
+      }
+
+      /* ============================================================
+   JARAK ANTAR-ELEMEN (6px konsisten)
+   ============================================================ */
+      table + table,
+      .section-title + table,
+      .tabel-caption + table,
+      table + .tabel-caption,
+      table + .catatan,
+      table + .ttd-verifikasi,
+      .catatan + .ttd-verifikasi,
+      .flow-chain + table,
+      table + .flow-chain,
+      .flow-chain + .catatan {
+        margin-top: 6px;
+      }
+
+      /* ============================================================
+   TABEL CAPTION
+   ============================================================ */
       .tabel-caption {
         font-size: 10pt;
         font-weight: bold;
         text-align: center;
-        margin: 6px 0 0 0;
-        background: #f3f4f6;
-        padding: 3px;
-        border-top: 2px solid #1e3a8a;
-        border-bottom: 2px solid #1e3a8a;
+        margin: 6px 0 0;
+        background: var(--biru-muda);
+        padding: 4px;
+        border-top: 2px solid var(--biru-utama);
+        border-bottom: 2px solid var(--biru-utama);
       }
 
-      table.menu {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 10pt;
-        table-layout: fixed;
-      }
-      table.menu th,
-      table.menu td {
-        border: 1px solid #000;
-        padding: 5px 6px;
-        vertical-align: middle;
-        text-align: center;
-        word-wrap: break-word;
-        height: 34px;
-        line-height: 1.25;
-        font-size: 10pt;
-      }
-      table.menu th {
-        background: #1e3a8a;
-        color: #fff;
-        font-weight: bold;
-        height: 30px;
-        font-size: 10pt;
-      }
-      table.menu td.kategori {
-        background: #e5e7eb;
-        font-weight: bold;
-        width: 15%;
-        text-align: left;
-        font-size: 9.5pt;
-        padding-left: 8px;
-      }
-      table.menu tr:nth-child(even) td:not(.kategori) {
-        background: #fafafa;
-      }
-
-      table.jadwal {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 8pt;
-      }
-      table.jadwal th,
-      table.jadwal td {
-        border: 1px solid #000;
-        padding: 3px 5px;
-        vertical-align: middle;
-      }
-      table.jadwal th {
-        background: #1e3a8a;
-        color: #fff;
-        text-align: center;
-        font-weight: bold;
-        font-size: 8pt;
-      }
-      table.jadwal td.center {
-        text-align: center;
-      }
-
-      /* ===== DIAGRAM ALIR VISUAL ===== */
-      .flow-chain {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
-        padding: 10px;
-        background: #f8fafc;
-        border: 1px solid #cbd5e1;
-        border-radius: 4px;
-        margin-bottom: 6px;
-      }
-      .flow-item {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 5px 10px;
-        background: #dbeafe;
-        border: 1.5px solid #1e3a8a;
-        border-radius: 20px;
-        font-size: 8pt;
-        font-weight: bold;
-        color: #1e3a8a;
-        white-space: nowrap;
-      }
-      .flow-item .fn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 16px;
-        height: 16px;
-        background: #1e3a8a;
-        color: #fff;
-        border-radius: 50%;
-        font-size: 7.5pt;
-      }
-      .flow-item.start,
-      .flow-item.end {
-        background: #16a34a;
-        border-color: #14532d;
-        color: #fff;
-      }
-      .flow-item.end {
-        background: #dc2626;
-        border-color: #7f1d1d;
-      }
-      .flow-conn {
-        color: #1e3a8a;
-        font-size: 12pt;
-        font-weight: bold;
-        padding: 0 2px;
-      }
-
-      /* ===== TABEL WORKFLOW — Lebih Lega & Terstruktur ===== */
-      table.workflow {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 8.5pt;
-        table-layout: fixed;
-      }
-      table.workflow th,
-      table.workflow td {
-        border: 1px solid #000;
-        padding: 6px 7px;
-        vertical-align: top;
-        line-height: 1.35;
-      }
-      table.workflow th {
-        background: #1e3a8a;
-        color: #fff;
-        text-align: center;
-        font-weight: bold;
-        padding: 7px 7px;
-      }
-      table.workflow td.no {
-        text-align: center;
-        font-weight: bold;
-        width: 32px;
-      }
-      table.workflow td.tahap {
-        background: #f3f4f6;
-        font-weight: bold;
-        width: 85px;
-        text-align: center;
-        vertical-align: middle;
-        font-size: 8pt;
-      }
-      table.workflow tbody tr:nth-child(even) td:not(.tahap) {
-        background: #fafafa;
-      }
-      table.workflow tbody tr.tahap-akhir td.no,
-      table.workflow tbody tr.tahap-akhir td.tahap {
-        background: #dbeafe;
-      }
-
-      h2.section-title {
-        font-size: 11pt;
-        font-weight: bold;
-        background: #1e3a8a;
-        color: #fff;
-        padding: 4px 8px;
-        margin-top: 12px;
-        margin-bottom: 6px;
-        text-align: center;
-      }
-
-      ol.legal {
-        list-style: decimal;
-        padding-left: 20px;
-      }
-      ol.legal li {
-        margin-bottom: 2px;
-        text-align: justify;
-      }
-
+      /* ============================================================
+   CATATAN (kuning lembut)
+   ============================================================ */
       .catatan {
         font-size: 8pt;
         font-style: italic;
-        background: #fef9c3;
-        border: 1px solid #eab308;
+        background: var(--kuning-lembut);
+        border: 1px solid var(--kuning-border);
         padding: 6px 10px;
         margin-top: 6px;
-        margin-bottom: 0;
       }
       .catatan strong {
         font-style: normal;
       }
 
+      /* ============================================================
+   TANDA TANGAN / VERIFIKASI
+   ============================================================ */
       .ttd-verifikasi {
         margin-top: 6px;
         padding: 6px 10px;
       }
-      .ttd-verifikasi .ttd-title {
-        font-weight: bold;
-        font-size: 9pt;
-        text-align: center;
-        background: #1e3a8a;
-        color: #fff;
-        padding: 3px;
-        margin: -6px -10px 6px -10px;
-        border-bottom: 1px solid #000;
-      }
       .ttd-verifikasi table {
-        width: 100%;
         border: none;
+        width: 100%;
       }
       .ttd-verifikasi td {
-        vertical-align: top;
-        text-align: center;
-        padding: 3px;
         border: none;
+        text-align: center;
+        vertical-align: top;
+        padding: 3px;
       }
       .ttd-space {
         height: 70px;
       }
       .ttd-name-line {
-        border-top: 1px solid #000;
+        border-top: 1px solid var(--teks);
         display: block;
         min-width: 80%;
         margin: 0 auto;
@@ -437,66 +395,285 @@
       .signature-box {
         height: 80px;
       }
-      .row-h {
-        height: 30px;
+
+      /* ============================================================
+   LIST
+   ============================================================ */
+      ol.legal {
+        list-style: decimal;
+        padding-left: 20px;
+        margin: 0;
+      }
+      ol.legal li {
+        margin-bottom: 2px;
+        text-align: justify;
       }
 
-      /* List bernomor di dalam sel tabel */
       .list-nomor {
         text-align: left;
         padding: 6px 10px;
         line-height: 1.8;
         font-size: 9.5pt;
       }
+
+      /* List justify flex (pengganti Tailwind) */
+      .list-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .list-flex .kanan {
+        font-weight: bold;
+        white-space: nowrap;
+      }
+
+      /* ============================================================
+   DIAGRAM ALIR VISUAL
+   ============================================================ */
+      .flow-chain {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        padding: 10px;
+        background: var(--biru-muda);
+        border: 1px solid #bae6fd;
+        border-radius: 4px;
+      }
+      .flow-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        background: var(--biru-aksen);
+        border: 1.5px solid var(--biru-utama);
+        border-radius: 20px;
+        font-size: 8pt;
+        font-weight: bold;
+        color: var(--biru-utama);
+        white-space: nowrap;
+      }
+      .flow-item .fn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        background: var(--biru-utama);
+        color: #fff;
+        border-radius: 50%;
+        font-size: 7.5pt;
+      }
+      .flow-item.start,
+      .flow-item.end {
+        background: var(--hijau);
+        border-color: #14532d;
+        color: #fff;
+      }
+      .flow-item.end {
+        background: var(--merah);
+        border-color: #7f1d1d;
+      }
+      .flow-conn {
+        color: var(--biru-utama);
+        font-size: 12pt;
+        font-weight: bold;
+        padding: 0 2px;
+      }
+
+      /* ============================================================
+   FOOTER DOKUMEN
+   ============================================================ */
+      .footer-dokumen {
+        margin-top: 24px;
+        font-size: 9pt;
+        font-style: italic;
+        color: #475569;
+        border-top: 1px solid #cbd5e1;
+        padding-top: 8px;
+        text-align: justify;
+        text-justify: inter-word;
+      }
+
+      /* ============================================================
+   TOMBOL CETAK (hanya layar)
+   ============================================================ */
+      .btn-cetak {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        padding: 12px 24px;
+        background: var(--biru-utama);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font: bold 1rem/1 inherit;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(3, 105, 161, 0.3);
+        z-index: 100;
+      }
+      .btn-cetak:hover {
+        background: var(--biru-gelap);
+      }
+
+      /* ============================================================
+   RESPONSIVE — MOBILE & TABLET
+   ============================================================ */
+      @media screen and (max-width: 1024px) {
+        body {
+          font-size: 11pt;
+          padding: 8px;
+        }
+        .page {
+          width: 100%;
+          min-height: auto;
+          padding: 16px;
+          margin: 8px 0;
+        }
+        .kop {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 8px;
+        }
+        .kop-logo,
+        .kop-spacer {
+          width: 72px;
+          flex-basis: 72px;
+          height: 72px;
+        }
+        .kop-teks .l1 {
+          font-size: 12pt;
+        }
+        .kop-teks .l2 {
+          font-size: 11pt;
+        }
+        .kop-teks .l3 {
+          font-size: 11.5pt;
+        }
+        table {
+          font-size: 10pt;
+        }
+        th,
+        td {
+          padding: 6px 8px;
+        }
+        .flow-item {
+          font-size: 9pt;
+          padding: 6px 12px;
+        }
+        .btn-cetak {
+          bottom: 12px;
+          right: 12px;
+          padding: 10px 20px;
+          font-size: 0.95rem;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        .page {
+          padding: 12px 10px;
+        }
+        table {
+          font-size: 9pt;
+        }
+        th,
+        td {
+          padding: 4px 5px;
+        }
+        .section-title {
+          font-size: 10pt;
+          padding: 3px 6px;
+        }
+        .tabel-caption {
+          font-size: 9pt;
+        }
+      }
+
+      /* ============================================================
+   CETAK / PDF
+   ============================================================ */
+      @page {
+        size: A4 portrait;
+        margin: 15mm 15mm 15mm 20mm;
+      }
+
+      @media print {
+        body {
+          background: #fff;
+          font-size: 10.5pt;
+        }
+        .page {
+          width: auto;
+          min-height: auto;
+          padding: 0;
+          margin: 0;
+          box-shadow: none;
+        }
+        .page-break {
+          page-break-before: always;
+        }
+        table {
+          page-break-inside: auto;
+        }
+        tr,
+        .flow-chain,
+        .catatan {
+          page-break-inside: avoid;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .flow-item {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        thead {
+          display: table-header-group;
+        }
+      }
     </style>
   </head>
   <body>
-    <!-- ============================================================ -->
-    <!-- HALAMAN 1: KOP + A. IDENTITAS + B. DASAR HUKUM               -->
-    <!-- ============================================================ -->
+    <!-- ════════════════════════════════════════════════════════════
+     HALAMAN 1 — KOP + A. IDENTITAS + B. DASAR HUKUM
+     ════════════════════════════════════════════════════════════ -->
     <div class="page">
-      <div class="flex items-start gap-4 pb-2">
-        <div class="w-24 h-24 flex items-center justify-center">
+      <!-- KOP SURAT (dibiarkan komentar, mudah diubah jika perlu) -->
+      <div class="kop">
+        <div class="kop-logo">
           <img
             alt="Logo BGN"
-            src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='white' stroke='%231e3a8a' stroke-width='4'/><text x='50' y='58' font-family='Times New Roman' font-size='14' text-anchor='middle' fill='%231e3a8a'>BGN</text></svg>"
-            class="w-24 h-24"
+            src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='white' stroke='%230369a1' stroke-width='4'/><text x='50' y='58' font-family='Times New Roman' font-size='14' text-anchor='middle' fill='%230369a1'>BGN</text></svg>"
           />
         </div>
-        <div class="flex-1 text-center leading-tight">
-          <div class="text-[13pt] font-bold tracking-wide">
-            BADAN GIZI NASIONAL
-          </div>
-          <div class="text-[12pt] font-bold tracking-wide mt-1">
-            SATUAN PELAYANAN PEMENUHAN GIZI (SPPG)
-          </div>
-          <div class="text-[12.5pt] font-bold tracking-wide mt-1">
-            KOTA PEKANBARU BINAWIDYA TOBEKGODANG
-          </div>
-          <div class="text-[9.5pt] mt-2">
+        <div class="kop-teks">
+          <div class="l1">BADAN GIZI NASIONAL</div>
+          <div class="l2">SATUAN PELAYANAN PEMENUHAN GIZI (SPPG)</div>
+          <div class="l3">KOTA PEKANBARU BINAWIDYA TOBEKGODANG</div>
+          <div class="l4">
             Jl. Rajawali Sakti / Jl. Gereja (SMK Taruna Mandiri)
           </div>
-          <div class="text-[9.5pt]">
+          <div class="l5">
             Telp: +62 813 9131 6060 &nbsp; Email: SPPG.Rajawali@GMail.Com
           </div>
         </div>
-        <div class="w-24"></div>
+        <div class="kop-spacer"></div>
       </div>
 
       <div class="kop-line-1"></div>
       <div class="kop-line-2"></div>
 
-      <div class="text-center mt-5 mb-3">
-        <div class="text-[13pt] font-bold underline">
-          LAPORAN PERENCANAAN MENU
-        </div>
-        <div class="text-[11.5pt] font-bold">
-          PROGRAM MAKAN BERGIZI GRATIS (MBG)
-        </div>
+      <div class="judul-laporan">
+        <div class="t1">LAPORAN PERENCANAAN MENU</div>
+        <div class="t2">PROGRAM MAKAN BERGIZI GRATIS (MBG)</div>
       </div>
 
+      <!-- A. IDENTITAS DOKUMEN -->
       <h2 class="section-title">A. IDENTITAS DOKUMEN</h2>
-      <table class="formal">
+      <table class="t-head-abu">
         <tr>
           <td class="label-cell">Nomor SOP</td>
           <td>010/05/00/SOP.10/09/2026</td>
@@ -515,6 +692,7 @@
         </tr>
       </table>
 
+      <!-- B. DASAR HUKUM -->
       <h2 class="section-title">B. DASAR HUKUM</h2>
       <ol class="legal">
         <li>
@@ -579,14 +757,14 @@
       </ol>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- HALAMAN 2: C. KETERKAITAN + D. KUALIFIKASI PELAKSANA         -->
-    <!-- ============================================================ -->
+    <!-- ════════════════════════════════════════════════════════════
+     HALAMAN 2 — C. KETERKAITAN + D. KUALIFIKASI PELAKSANA
+     ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">
         C. KETERKAITAN, PERALATAN, PERINGATAN, DAN PENCATATAN
       </h2>
-      <table class="keterkaitan">
+      <table class="t-keterkaitan">
         <thead>
           <tr>
             <th style="width: 28%">Item</th>
@@ -649,7 +827,7 @@
       </table>
 
       <h2 class="section-title">D. KUALIFIKASI PELAKSANA</h2>
-      <table class="formal">
+      <table class="t-head-abu">
         <thead>
           <tr>
             <th style="width: 50px">No</th>
@@ -680,44 +858,28 @@
           </tr>
           <tr>
             <td class="center">5</td>
-            <td>Penanggung Jawab<br />Satuan Pendidikan PAUD - SMA/K</td>
+            <td>Penanggung Jawab Satuan Pendidikan PAUD - SMA/K</td>
             <td class="list-nomor">
-              1. <br />
-              2. <br />
-              3. <br />
-              4. <br />
-              5. <br />
-              6. <br />
-              7. <br />
-              8. <br />
-              9. <br />
-              10.
+              1.<br />2.<br />3.<br />4.<br />5.<br />6.<br />7.<br />8.<br />9.<br />10.
             </td>
           </tr>
           <tr>
             <td class="center">6</td>
-            <td>Penanggung Jawab<br />Balita, Ibu Hamil, Ibu Menyusui</td>
-            <td class="list-nomor">
-              1. <br />
-              2. <br />
-              3. <br />
-              4. <br />
-              5.
-            </td>
+            <td>Penanggung Jawab Balita, Ibu Hamil, Ibu Menyusui</td>
+            <td class="list-nomor">1.<br />2.<br />3.<br />4.<br />5.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- HALAMAN 3: E. PROSEDUR KERJA PERENCANAAN MENU (DIAGRAM ALIR) -->
-    <!-- ============================================================ -->
+    <!-- ════════════════════════════════════════════════════════════
+     HALAMAN 3 — E. PROSEDUR KERJA (DIAGRAM ALIR)
+     ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">
         E. PROSEDUR KERJA PERENCANAAN MENU (DIAGRAM ALIR)
       </h2>
-      <br />
-      <!-- ====== VISUAL DIAGRAM ALIR ====== -->
+
       <div class="flow-chain">
         <div class="flow-item start">MULAI</div>
         <div class="flow-conn">→</div>
@@ -751,9 +913,8 @@
         <div class="flow-conn">→</div>
         <div class="flow-item end">SELESAI</div>
       </div>
-      <br />
-      <!-- ====== TABEL WORKFLOW ====== -->
-      <table class="workflow">
+
+      <table class="t-workflow t-matrix">
         <thead>
           <tr>
             <th style="width: 32px">No</th>
@@ -776,8 +937,8 @@
             </td>
             <td>Kepala SPPG</td>
             <td>Data sekolah, Data posyandu</td>
-            <td class="center" style="text-align: center">1<br />Hari</td>
-            <td>Formulir Pendataan Peserta Didik &amp; 3B</td>
+            <td class="center">1 Hari</td>
+            <td>Formulir Pendataan Peserta Didik & 3B</td>
             <td></td>
           </tr>
           <tr>
@@ -785,7 +946,7 @@
             <td>Memutakhirkan data penerima manfaat</td>
             <td>Kepala SPPG</td>
             <td>Formulir Pendataan Penerima Manfaat</td>
-            <td style="text-align: center">30<br />Hari</td>
+            <td class="center">30 Hari</td>
             <td>Data Penerima Manfaat Terlaksana</td>
             <td></td>
           </tr>
@@ -794,11 +955,10 @@
             <td>Mencatat dan melaporkan kondisi khusus penerima manfaat</td>
             <td>Kepala SPPG</td>
             <td>Formulir Pendataan Penerima Manfaat</td>
-            <td style="text-align: center">1<br />Hari</td>
+            <td class="center">1 Hari</td>
             <td>Laporan Kondisi Khusus Penerima Manfaat</td>
             <td></td>
           </tr>
-
           <tr>
             <td class="no">4</td>
             <td class="tahap" rowspan="3">Penyusunan</td>
@@ -808,16 +968,16 @@
             </td>
             <td>Pengawas Ahli Gizi</td>
             <td>Formulir Pendataan, Daftar bahan baku</td>
-            <td style="text-align: center">1<br />Hari</td>
+            <td class="center">1 Hari</td>
             <td>Jenis bahan baku teridentifikasi</td>
             <td></td>
           </tr>
           <tr>
             <td class="no">5</td>
             <td>Menyusun resep standar berdasarkan beberapa referensi</td>
-            <td>Pengawas Ahli Gizi &amp; Jurutama Masak</td>
+            <td>Pengawas Ahli Gizi & Jurutama Masak</td>
             <td>Buku Referensi, Dokumen AKG</td>
-            <td style="text-align: center">1<br />Hari</td>
+            <td class="center">1 Hari</td>
             <td>Standar Resep tersusun</td>
             <td></td>
           </tr>
@@ -828,18 +988,17 @@
             </td>
             <td>Pengawas Ahli Gizi</td>
             <td>Formulir, Daftar bahan baku, AKG</td>
-            <td style="text-align: center">1<br />Hari</td>
+            <td class="center">1 Hari</td>
             <td>Siklus Menu 20 Hari</td>
             <td></td>
           </tr>
-
           <tr>
             <td class="no">7</td>
             <td class="tahap" rowspan="4">Finalisasi</td>
             <td>Mengoordinasikan master menu antar SPPG</td>
             <td>Kepala SPPG</td>
             <td>Whatsapp Group</td>
-            <td style="text-align: center">1<br />Hari</td>
+            <td class="center">1 Hari</td>
             <td>Siklus menu disepakati</td>
             <td></td>
           </tr>
@@ -848,7 +1007,7 @@
             <td>Mensosialisasikan siklus menu</td>
             <td>Pengawas Ahli Gizi</td>
             <td>Dokumen siklus menu</td>
-            <td style="text-align: center">1<br />Hari</td>
+            <td class="center">1 Hari</td>
             <td>Informasi tersampaikan</td>
             <td></td>
           </tr>
@@ -857,23 +1016,22 @@
             <td>Mengunggah perencanaan satu siklus menu</td>
             <td>Pengawas Ahli Gizi</td>
             <td>Komputer, Internet, Akun SIPGN</td>
-            <td style="text-align: center">1<br />Jam</td>
+            <td class="center">1 Jam</td>
             <td>Siklus Menu terunggah</td>
             <td></td>
           </tr>
-          <tr>
+          <tr class="tahap-akhir">
             <td class="no">10</td>
             <td>Memastikan siklus menu berhasil terunggah</td>
             <td>Pengawas Ahli Gizi</td>
             <td>Komputer/Gadget, Internet, Akun SIPGN</td>
-            <td style="text-align: center">30<br />Menit</td>
+            <td class="center">30 Menit</td>
             <td>Siklus Menu terunggah</td>
-            <td style="text-align: center"></td>
+            <td class="center">✓</td>
           </tr>
         </tbody>
       </table>
 
-      <!-- ====== CATATAN ALUR ====== -->
       <div class="catatan">
         <strong>Catatan Alur:</strong> Prosedur kerja perencanaan menu dibagi
         dalam 3 tahap utama. <strong>Tahap A (Persiapan)</strong> berfokus pada
@@ -881,16 +1039,16 @@
         <strong>Tahap B (Penyusunan)</strong> mencakup identifikasi bahan baku,
         penyusunan resep standar, dan penentuan frekuensi bahan pangan dalam
         siklus 20 hari. <strong>Tahap C (Finalisasi)</strong> mencakup
-        koordinasi antar SPPG, sosialisasi ke tim produksi &amp; penyaluran,
-        unggah ke SIPGN, dan verifikasi akhir. Setiap tahap wajib
-        didokumentasikan pada formulir terkait dan diarsipkan sebagai acuan
-        pembanding pada tahap pencatatan produksi dan penyaluran harian.
+        koordinasi antar SPPG, sosialisasi ke tim produksi & penyaluran, unggah
+        ke SIPGN, dan verifikasi akhir. Setiap tahap wajib didokumentasikan pada
+        formulir terkait dan diarsipkan sebagai acuan pembanding pada tahap
+        pencatatan produksi dan penyaluran harian.
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- HALAMAN 4: Laporan 1. Kelompok Bahan Pangan, Jenis, dan Frekuensi Bahan Baku (20 Hari) -->
-    <!-- ============================================================ -->
+    <!-- ════════════════════════════════════════════════════════════
+     HALAMAN 4 — F.1 FREKUENSI BAHAN BAKU
+     ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
 
@@ -898,7 +1056,7 @@
         Kelompok Bahan Pangan, Jenis, dan Frekuensi Bahan Baku (20 Hari)
       </div>
 
-      <table class="frekuensi">
+      <table class="t-frekuensi t-head-abu">
         <thead>
           <tr>
             <th style="width: 200px">Kelompok Bahan Pangan</th>
@@ -1049,9 +1207,9 @@
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- HALAMAN 5: Laporan 2. Siklus Menu Penerima Manfaat Peserta Didik - 3B (Hari 01-10) -->
-    <!-- ============================================================ -->
+    <!-- ════════════════════════════════════════════════════════════
+     HALAMAN 5 — F.2 SIKLUS MENU PESERTA DIDIK - 3B (HARI 1-10)
+     ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
       <div class="tabel-caption">
@@ -1059,7 +1217,7 @@
         Halaman dapat lebih dari satu jika ada perbedaan maupun alergi
       </div>
 
-      <table class="menu">
+      <table class="t-menu">
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
@@ -1114,7 +1272,7 @@
         </tbody>
       </table>
 
-      <table class="menu">
+      <table class="t-menu">
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
@@ -1199,9 +1357,9 @@
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- HALAMAN 6: Laporan 2. Siklus Menu Penerima Manfaat Peserta Didik - 3B (Hari 11-20) -->
-    <!-- ============================================================ -->
+    <!-- ════════════════════════════════════════════════════════════
+     HALAMAN 6 — F.2 SIKLUS MENU PESERTA DIDIK - 3B (HARI 11-20)
+     ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
       <div class="tabel-caption">
@@ -1209,7 +1367,7 @@
         Halaman dapat lebih dari satu jika ada perbedaan maupun alergi
       </div>
 
-      <table class="menu">
+      <table class="t-menu">
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
@@ -1264,7 +1422,7 @@
         </tbody>
       </table>
 
-      <table class="menu">
+      <table class="t-menu">
         <thead>
           <tr>
             <th style="width: 15%">Kelompok</th>
@@ -1349,24 +1507,25 @@
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- HALAMAN 7: Laporan 3. Standar Menu Makanan Harian Peserta Didik - 3B (20 Hari) -->
-    <!-- ============================================================ -->
+    <!-- ════════════════════════════════════════════════════════════
+     HALAMAN 7 — F.3 STANDAR MENU MAKANAN HARIAN
+     ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
       <div class="tabel-caption">
         Standar Menu Makanan Harian Peserta Didik - 3B (20 Hari)<br />
         Halaman dapat lebih dari satu jika ada perbedaan maupun alergi
       </div>
-      <table class="standar">
+
+      <table class="t-head-abu">
         <thead>
           <tr>
             <th>Sumber Pangan</th>
-            <th style="width: 100px">Satuan Penukar<br />(SP)</th>
-            <th style="width: 100px">Energi<br />(kkal)</th>
-            <th style="width: 100px">Protein<br />(g)</th>
-            <th style="width: 100px">Lemak<br />(g)</th>
-            <th style="width: 100px">Karbohidrat<br />(g)</th>
+            <th style="width: 100px">Satuan Penukar (SP)</th>
+            <th style="width: 100px">Energi (kkal)</th>
+            <th style="width: 100px">Protein (g)</th>
+            <th style="width: 100px">Lemak (g)</th>
+            <th style="width: 100px">Karbohidrat (g)</th>
           </tr>
         </thead>
         <tbody>
@@ -1429,13 +1588,13 @@
         </tbody>
       </table>
 
-      <table class="standar">
+      <table class="t-head-abu">
         <thead>
           <tr>
             <th>Bahan Pangan</th>
-            <th style="width: 100px">Berat Bersih<br />(gram)</th>
-            <th style="width: 100px">BDD<br />(%)</th>
-            <th style="width: 100px">Berat Kotor<br />(gram)</th>
+            <th style="width: 100px">Berat Bersih (gram)</th>
+            <th style="width: 100px">BDD (%)</th>
+            <th style="width: 100px">Berat Kotor (gram)</th>
             <th style="width: 100px">Jumlah Peserta Didik</th>
             <th style="width: 100px">Kebutuhan Bahan Pangan</th>
           </tr>
@@ -1538,9 +1697,9 @@
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- HALAMAN 8: Laporan 4. Hasil Perencanaan Data Sasaran Peserta Didik - 3B (20 Hari) -->
-    <!-- ============================================================ -->
+    <!-- ════════════════════════════════════════════════════════════
+     HALAMAN 8 — F.4 HASIL PERENCANAAN DATA SASARAN
+     ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
       <div class="tabel-caption">
@@ -1548,7 +1707,7 @@
         Halaman dapat lebih dari satu jika ada perbedaan maupun alergi
       </div>
 
-      <table class="formal">
+      <table class="t-head-abu">
         <thead>
           <tr>
             <th style="width: 45px">No</th>
@@ -1602,7 +1761,7 @@
         </tbody>
       </table>
 
-      <table class="formal">
+      <table class="t-head-abu">
         <thead>
           <tr>
             <th style="width: 45px">No</th>
@@ -1686,16 +1845,18 @@
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- HALAMAN 9: Laporan 5. Jadwal Jenis Paket dan Jalur Penyaluran Peserta Didik - 3B (20 Hari) -->
-    <!-- ============================================================ -->
+    <!-- ════════════════════════════════════════════════════════════
+     HALAMAN 9 — F.5 JADWAL JENIS PAKET & JALUR PENYALURAN
+     (4 tabel: Minggu 1–4, masing-masing 5 hari kerja)
+     ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">POSISI LETAK KOP SURAT</h2>
       <div class="tabel-caption">
         Jadwal Jenis Paket dan Jalur Penyaluran Peserta Didik - 3B (20 Hari)
       </div>
 
-      <table class="jadwal">
+      <!-- Minggu 1 -->
+      <table class="t-jadwal">
         <thead>
           <tr>
             <th style="width: 60px">Hari</th>
@@ -1744,7 +1905,8 @@
         </tbody>
       </table>
 
-      <table class="jadwal">
+      <!-- Minggu 2 -->
+      <table class="t-jadwal">
         <thead>
           <tr>
             <th style="width: 60px">Hari</th>
@@ -1793,7 +1955,8 @@
         </tbody>
       </table>
 
-      <table class="jadwal">
+      <!-- Minggu 3 -->
+      <table class="t-jadwal">
         <thead>
           <tr>
             <th style="width: 60px">Hari</th>
@@ -1842,7 +2005,8 @@
         </tbody>
       </table>
 
-      <table class="jadwal">
+      <!-- Minggu 4 -->
+      <table class="t-jadwal">
         <thead>
           <tr>
             <th style="width: 60px">Hari</th>
@@ -1921,12 +2085,12 @@
       </div>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- HALAMAN 10: G. VERIFIKASI + H. DAFTAR LAMPIRAN + I. PENGESAHAN -->
-    <!-- ============================================================ -->
+    <!-- ════════════════════════════════════════════════════════════
+     HALAMAN 10 — G. VERIFIKASI + H. LAMPIRAN + I. PENGESAHAN
+     ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">G. VERIFIKASI DAN PERSETUJUAN DOKUMEN</h2>
-      <table class="formal">
+      <table class="t-head-abu">
         <tr>
           <td class="label-cell">Diverifikasi oleh</td>
           <td>Pengawas Gizi</td>
@@ -1960,80 +2124,94 @@
       <h2 class="section-title">H. DAFTAR LAMPIRAN</h2>
       <ol class="legal">
         <li>
-          <span class="flex justify-between items-baseline">
-            <span
+          <span class="list-flex"
+            ><span
               >Laporan. Kelompok Bahan Pangan, Jenis, dan Frekuensi Bahan
               Baku</span
-            >
-            <span class="font-bold">( 20 Hari )</span>
-          </span>
+            ><span class="kanan">( 20 Hari )</span></span
+          >
         </li>
         <li>
-          <span class="flex justify-between items-baseline">
-            <span
+          <span class="list-flex"
+            ><span
               >Laporan. Siklus Menu Penerima Manfaat Peserta Didik - 3B</span
-            >
-            <span class="font-bold">( 20 Hari )</span>
-          </span>
+            ><span class="kanan">( 20 Hari )</span></span
+          >
         </li>
         <li>
-          <span class="flex justify-between items-baseline">
-            <span>Laporan. Standar Menu Makanan Harian Peserta Didik - 3B</span>
-            <span class="font-bold">( 20 Hari )</span>
-          </span>
+          <span class="list-flex"
+            ><span>Laporan. Standar Menu Makanan Harian Peserta Didik - 3B</span
+            ><span class="kanan">( 20 Hari )</span></span
+          >
         </li>
         <li>
-          <span class="flex justify-between items-baseline">
-            <span
+          <span class="list-flex"
+            ><span
               >Laporan. Hasil Perencanaan Data Sasaran Peserta Didik - 3B</span
-            >
-            <span class="font-bold">( 20 Hari )</span>
-          </span>
+            ><span class="kanan">( 20 Hari )</span></span
+          >
         </li>
         <li>
-          <span class="flex justify-between items-baseline">
-            <span
+          <span class="list-flex"
+            ><span
               >Laporan. Jadwal Jenis Paket dan Jalur Penyaluran Peserta Didik -
               3B</span
-            >
-            <span class="font-bold">( 20 Hari )</span>
-          </span>
+            ><span class="kanan">( 20 Hari )</span></span
+          >
         </li>
       </ol>
 
       <h2 class="section-title">I. LEMBAR PENGESAHAN</h2>
-      <div class="mt-2 text-[10.5pt]">
-        <div class="text-right mb-2">
+      <div style="font-size: 10.5pt; margin-top: 8px">
+        <div style="text-align: right; margin-bottom: 8px">
           Pekanbaru, .............................. 20.........
         </div>
-        <table class="w-full text-center" style="border: none">
+        <table style="border: none; text-align: center">
           <tr>
-            <td style="width: 33%; vertical-align: top; padding: 6px">
-              <div class="font-bold">Dibuat oleh,</div>
+            <td
+              style="
+                width: 33%;
+                vertical-align: top;
+                padding: 6px;
+                border: none;
+              "
+            >
+              <div style="font-weight: bold">Dibuat oleh,</div>
               <div>Tim Perencanaan Menu</div>
               <div class="signature-box"></div>
-              <div class="border-t border-black"></div>
+              <div style="border-top: 1px solid #000"></div>
             </td>
-            <td style="width: 33%; vertical-align: top; padding: 6px">
-              <div class="font-bold">Diperiksa oleh,</div>
+            <td
+              style="
+                width: 33%;
+                vertical-align: top;
+                padding: 6px;
+                border: none;
+              "
+            >
+              <div style="font-weight: bold">Diperiksa oleh,</div>
               <div>Pengawas Gizi</div>
               <div class="signature-box"></div>
-              <div class="border-t border-black"></div>
+              <div style="border-top: 1px solid #000"></div>
             </td>
-            <td style="width: 33%; vertical-align: top; padding: 6px">
-              <div class="font-bold">Disetujui oleh,</div>
+            <td
+              style="
+                width: 33%;
+                vertical-align: top;
+                padding: 6px;
+                border: none;
+              "
+            >
+              <div style="font-weight: bold">Disetujui oleh,</div>
               <div>Kepala SPPG</div>
               <div class="signature-box"></div>
-              <div class="border-t border-black"></div>
+              <div style="border-top: 1px solid #000"></div>
             </td>
           </tr>
         </table>
       </div>
 
-      <div
-        class="mt-6 text-[9pt] italic text-gray-700 border-t border-gray-400 pt-2"
-        style="text-align: justify; text-justify: inter-word"
-      >
+      <div class="footer-dokumen">
         Dokumen ini merupakan bagian dari pelaksanaan SOP Nomor
         010/05/00/SOP.10/09/2026 tentang Perencanaan Menu pada Program Makan
         Bergizi Gratis (MBG) di lingkungan Badan Gizi Nasional. Dokumen bersifat
@@ -2042,14 +2220,11 @@
       </div>
     </div>
 
-    <!-- TOMBOL CETAK -->
-    <div class="no-print fixed bottom-6 right-6 flex gap-3">
-      <button
-        onclick="window.print()"
-        class="bg-blue-700 hover:bg-blue-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg"
-      >
-        🖨️ Cetak / Simpan PDF
-      </button>
-    </div>
+    <!-- ════════════════════════════════════════════════════════════
+     TOMBOL CETAK (hanya tampil di layar, tidak di-print)
+     ════════════════════════════════════════════════════════════ -->
+    <button class="btn-cetak no-print" onclick="window.print()">
+      🖨️ Cetak / Simpan PDF
+    </button>
   </body>
 </html>
