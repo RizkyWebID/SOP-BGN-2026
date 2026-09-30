@@ -14,8 +14,11 @@
 
     <!-- ════════════════════════════════════════════════════════════════
      STYLE GLOBAL — JANGAN DIUBAH PER-FILE
+     Salin sama persis di setiap SOP SPPG.
+     Nanti bisa dipindah ke file eksternal: sop-global.css
      ════════════════════════════════════════════════════════════════ -->
     <style id="style-global">
+      /* RESET & BASE */
       *,
       *::before,
       *::after {
@@ -39,6 +42,7 @@
         display: block;
       }
 
+      /* VARIABEL TEMA */
       :root {
         --biru-utama: #0369a1;
         --biru-gelap: #0c4a6e;
@@ -53,6 +57,7 @@
         --indent-tab: 1.27cm;
       }
 
+      /* HALAMAN */
       .page {
         width: 210mm;
         min-height: 297mm;
@@ -62,6 +67,7 @@
         box-shadow: 0 2px 12px rgba(3, 105, 161, 0.12);
       }
 
+      /* KOP SURAT */
       .kop {
         display: flex;
         align-items: flex-start;
@@ -113,6 +119,7 @@
         margin-top: 2px;
       }
 
+      /* JUDUL LAPORAN */
       .judul-laporan {
         text-align: center;
         margin: 20px 0 12px;
@@ -127,6 +134,7 @@
         font-weight: bold;
       }
 
+      /* JUDUL SECTION */
       .section-title {
         font-size: 12pt;
         font-weight: bold;
@@ -137,6 +145,7 @@
         text-align: center;
       }
 
+      /* TABEL BASE */
       table {
         width: 100%;
         border-collapse: collapse;
@@ -163,6 +172,7 @@
         color: var(--teks);
       }
 
+      /* Sel penekanan */
       td.center {
         text-align: center;
       }
@@ -191,6 +201,7 @@
         width: 32px;
       }
 
+      /* MODIFIKATOR TABEL */
       table.t-workflow {
         font-size: 9pt;
         table-layout: fixed;
@@ -234,6 +245,7 @@
         text-align: center;
       }
 
+      /* FORM HEADER */
       table.form-header {
         table-layout: fixed;
         width: 100%;
@@ -264,6 +276,7 @@
         vertical-align: middle;
       }
 
+      /* TABEL CAPTION */
       .tabel-caption {
         font-size: 11pt;
         font-weight: bold;
@@ -275,6 +288,7 @@
         border-bottom: 2px solid var(--biru-utama);
       }
 
+      /* CATATAN */
       .catatan {
         font-size: 9pt;
         font-style: italic;
@@ -290,6 +304,7 @@
         margin-top: 1.5em;
       }
 
+      /* TANDA TANGAN / VERIFIKASI */
       .ttd-verifikasi {
         margin-top: var(--jarak-blok);
         padding: 6px 10px;
@@ -321,6 +336,7 @@
         height: 80px;
       }
 
+      /* LIST */
       ol.legal {
         list-style: decimal;
         padding-left: 22px;
@@ -345,6 +361,7 @@
         white-space: nowrap;
       }
 
+      /* DIAGRAM ALIR */
       .flow-chain {
         display: flex;
         flex-wrap: wrap;
@@ -398,6 +415,7 @@
         padding: 0 2px;
       }
 
+      /* FOOTER & NARASI SOP */
       .footer-dokumen {
         margin-top: 24px;
         font-size: 10pt;
@@ -427,6 +445,7 @@
         margin-bottom: 6px;
       }
 
+      /* LEMBAR PENGESAHAN */
       .pengesahan {
         font-size: 12pt;
         margin-top: var(--jarak-blok);
@@ -439,6 +458,7 @@
         border-top: 1px solid var(--teks);
       }
 
+      /* TOOLBAR */
       .toolbar {
         position: fixed;
         bottom: 16px;
@@ -520,6 +540,7 @@
         transform: translateY(1px);
       }
 
+      /* RESPONSIVE */
       @media screen and (max-width: 1024px) {
         body {
           font-size: 11pt;
@@ -589,6 +610,7 @@
         }
       }
 
+      /* CETAK / PDF */
       @media print {
         body {
           background: #fff;
@@ -627,17 +649,22 @@
 
     <!-- ════════════════════════════════════════════════════════════════
      STYLE SOP 10 — KHUSUS FILE INI
+     Boleh diubah tanpa memengaruhi SOP lain.
+     Nanti bisa dipindah ke file eksternal: sop-10.css
      ════════════════════════════════════════════════════════════════ -->
     <style id="style-sop">
+      /* Workflow H: baris dipatok 32px agar 9 langkah muat 1 halaman */
       table.t-workflow tbody td {
         height: 32px;
         vertical-align: middle;
       }
 
+      /* Lebar kolom kategori khusus SOP 10 */
       td.kategori {
         width: 18%;
       }
 
+      /* I.1 Standar: kolom kategori tetap rata kiri, baris 42px */
       table.t-standar td.kategori {
         text-align: left;
       }
@@ -646,11 +673,15 @@
         vertical-align: middle;
       }
 
+      /* Tanda tangan 4 kolom (I.1) */
       table.ttd-4 td {
         width: 25%;
       }
+      table.ttd-4 {
+        table-layout: fixed;
+      }
 
-      /* Formulir 10 kolom baris isian */
+      /* Formulir I.2 — 10 kolom baris isian */
       table.t-form col.c-no {
         width: 4%;
       }
@@ -690,7 +721,7 @@
         font-size: 9pt;
       }
 
-      /* Form formulir pengolahan (I.3) */
+      /* Formulir I.3 — pengolahan buah */
       table.t-form-olah col.c-no {
         width: 5%;
       }
@@ -725,6 +756,7 @@
       }
     </style>
 
+    <!-- @page default — margin kiri 3 cm (ruang jilid), diubah JS bila perlu -->
     <style id="dynamic-page-style">
       @page {
         size: A4 portrait;
@@ -788,20 +820,10 @@
 
       <h2 class="section-title">B. DASAR HUKUM</h2>
       <ol class="legal legal-dasar-hukum">
-        <li>
-          Undang-Undang Nomor 18 Tahun 2012 tentang Pangan sebagaimana telah
-          beberapa kali diubah, terakhir dengan Undang-Undang Nomor 6 Tahun 2023
-          tentang Penetapan Peraturan Pemerintah Pengganti Undang-Undang Nomor 2
-          Tahun 2022 tentang Cipta Kerja menjadi Undang-Undang.
-        </li>
+        <li>Undang-Undang Nomor 18 Tahun 2012 tentang Pangan.</li>
         <li>Undang-Undang Nomor 17 Tahun 2023 tentang Kesehatan.</li>
         <li>
-          Peraturan Pemerintah Nomor 86 Tahun 2019 tentang Keamanan Pangan
-          sebagaimana telah diubah dengan Peraturan Pemerintah Nomor 1 Tahun
-          2026.
-        </li>
-        <li>
-          Peraturan Presiden Nomor 83 Tahun 2024 tentang Badan Gizi Nasional.
+          Peraturan Pemerintah Nomor 86 Tahun 2019 tentang Keamanan Pangan.
         </li>
         <li>
           Peraturan Presiden Nomor 115 Tahun 2025 tentang Tata Kelola
@@ -1009,6 +1031,7 @@
                 <li>SOP Pembersihan Meja Produksi.</li>
                 <li>SOP Penggunaan Talenan dan Pisau.</li>
                 <li>SOP Kontrol Air Bersih.</li>
+                <li>SOP Penggunaan Talenan dan Pisau.</li>
                 <li>SOP Manajemen Sampah.</li>
               </ol>
             </td>
@@ -1035,19 +1058,14 @@
           <tr>
             <td class="tahap">PERINGATAN</td>
             <td>
-              <ol>
-                <li>
-                  Jika SOP ini tidak dijalankan, buah-buahan yang tidak dicuci
-                  atau dipersiapkan dengan benar berpotensi mengandung residu
-                  pestisida, bakteri patogen, jamur, serta kotoran fisik yang
-                  dapat langsung terpapar ke penerima manfaat.
-                </li>
-                <li>
-                  Produk buah yang disajikan berisiko tidak aman dikonsumsi dan
-                  dapat menimbulkan gangguan kesehatan serius hingga Kejadian
-                  Luar Biasa (KLB) keracunan pangan.
-                </li>
-              </ol>
+              <p style="margin: 0; text-align: justify">
+                Jika SOP ini tidak dijalankan, buah-buahan yang tidak dicuci
+                atau dipersiapkan dengan benar berpotensi mengandung residu
+                pestisida, bakteri patogen, jamur, serta kotoran fisik yang
+                dapat langsung terpapar ke penerima manfaat. Akibatnya, produk
+                yang disajikan tidak aman dikonsumsi dan berisiko menimbulkan
+                gangguan kesehatan serius.
+              </p>
             </td>
           </tr>
           <tr>
@@ -1056,7 +1074,6 @@
               <ol>
                 <li>Formulir Penerimaan Bahan Makanan.</li>
                 <li>Formulir Perencanaan Menu.</li>
-                <li>Formulir Persiapan Bahan Baku SPPG.</li>
               </ol>
             </td>
           </tr>
@@ -1075,21 +1092,16 @@
         <tbody>
           <tr>
             <td class="center">1</td>
-            <td>Kepala SPPG</td>
-            <td style="height: 34px"></td>
-          </tr>
-          <tr>
-            <td class="center">2</td>
             <td>Pengawas Gizi</td>
             <td style="height: 34px"></td>
           </tr>
           <tr>
-            <td class="center">3</td>
+            <td class="center">2</td>
             <td>Tim Persiapan</td>
             <td style="height: 34px"></td>
           </tr>
           <tr>
-            <td class="center">4</td>
+            <td class="center">3</td>
             <td>Tim Pengolahan</td>
             <td style="height: 34px"></td>
           </tr>
@@ -1204,12 +1216,13 @@
             <td class="no">4</td>
             <td>
               Pilih buah segar yang telah diperiksa dan bersihkan dari seluruh
-              kotoran, tanah, serta debu mengacu pada panduan di Lampiran I.1,
-              dengan ketentuan penggunaan air kemasan berizin edar atau air isi
-              ulang tersertifikasi (memiliki NIB, hasil uji laboratorium air,
-              dan Sertifikat Laik Higiene Sanitasi) khusus untuk buah potong,
-              serta air bersih mengalir yang memenuhi standar baku mutu air
-              minum untuk buah utuh dan dilap menggunakan kain lap mikrofiber.
+              kotoran, tanah, serta debu mengacu pada panduan di Lampiran II dan
+              Lampiran III, dengan ketentuan penggunaan air kemasan berizin edar
+              atau air isi ulang tersertifikasi (memiliki NIB, hasil uji
+              laboratorium air, dan Sertifikat Laik Higiene Sanitasi) khusus
+              untuk buah potong, serta air bersih mengalir yang memenuhi standar
+              baku mutu air minum untuk buah utuh dan dilap menggunakan kain lap
+              mikrofiber.
             </td>
             <td>Tim Persiapan</td>
             <td>Bak pencucian, lap mikrofiber</td>
@@ -1308,6 +1321,8 @@
 
     <!-- ════════════════════════════════════════════════════════════
          HALAMAN 5 — I.1 LAMPIRAN GABUNGAN
+         - Lampiran II  : Buah yang Dicuci dengan Air Mengalir
+         - Lampiran III : Buah yang Dibersihkan Tanpa Air
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">
@@ -1393,6 +1408,48 @@
               tetap bersih.
             </td>
           </tr>
+          <tr>
+            <td class="no">7</td>
+            <td class="kategori">Mangga</td>
+            <td>
+              Dicuci di bawah air mengalir sebelum dikupas untuk menghilangkan
+              getah dan kotoran pada kulit.
+            </td>
+            <td>
+              Dicuci di bawah air mengalir sebelum dikupas untuk menghilangkan
+              getah dan kotoran pada kulit.
+            </td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td class="kategori">Pepaya</td>
+            <td>
+              Dicuci di bawah air mengalir sebelum dikupas dan dipotong agar
+              pisau tidak membawa cemaran kulit ke daging buah.
+            </td>
+            <td>
+              Dicuci di bawah air mengalir sebelum dikupas dan dipotong agar
+              pisau tidak membawa cemaran kulit ke daging buah.
+            </td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td class="kategori">Buah Naga</td>
+            <td>Dicuci di bawah air mengalir sebelum dikupas dan dipotong.</td>
+            <td>Dicuci di bawah air mengalir sebelum dikupas dan dipotong.</td>
+          </tr>
+          <tr>
+            <td class="no">10</td>
+            <td class="kategori">Jambu Biji</td>
+            <td>
+              Dicuci di bawah air mengalir sebelum dipotong karena kulit
+              dikonsumsi langsung.
+            </td>
+            <td>
+              Dicuci di bawah air mengalir sebelum dipotong karena kulit
+              dikonsumsi langsung.
+            </td>
+          </tr>
         </tbody>
       </table>
 
@@ -1442,6 +1499,42 @@
             <td>Cukup dilap kain bersih.</td>
             <td>Cukup dilap kain bersih.</td>
           </tr>
+          <tr>
+            <td class="no">4</td>
+            <td class="kategori">Rambutan</td>
+            <td>
+              Cukup dilap kain bersih karena kulit dikupas dan dibuang sebelum
+              dikonsumsi.
+            </td>
+            <td>
+              Cukup dilap kain bersih karena kulit dikupas dan dibuang sebelum
+              dikonsumsi.
+            </td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td class="kategori">Manggis</td>
+            <td>
+              Cukup dilap kain bersih karena kulit keras dikupas dan dibuang
+              sebelum dikonsumsi.
+            </td>
+            <td>
+              Cukup dilap kain bersih karena kulit keras dikupas dan dibuang
+              sebelum dikonsumsi.
+            </td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td class="kategori">Duku</td>
+            <td>
+              Cukup dilap kain bersih karena kulit dikupas dan dibuang sebelum
+              dikonsumsi.
+            </td>
+            <td>
+              Cukup dilap kain bersih karena kulit dikupas dan dibuang sebelum
+              dikonsumsi.
+            </td>
+          </tr>
         </tbody>
       </table>
 
@@ -1451,10 +1544,41 @@
         Penggunaan lap mikrofiber bersih wajib dilakukan sebelum buah dikupas
         dan/atau dikemas.
       </div>
+
+      <div class="ttd-verifikasi">
+        <table class="ttd-4">
+          <tr>
+            <td>
+              <div>Dibaca oleh,</div>
+              <div><strong>Tim Persiapan</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diketahui oleh,</div>
+              <div><strong>Jurutama Masak</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diperiksa oleh,</div>
+              <div><strong>Pengawas Gizi</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Disetujui oleh,</div>
+              <div><strong>Kepala SPPG</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
 
     <!-- ════════════════════════════════════════════════════════════
-         HALAMAN 6 — I.2 FORMULIR PERSIAPAN SAYURAN
+         HALAMAN 6 — I.2 FORMULIR PERSIAPAN BAHAN BAKU BUAH
          Layout header via colgroup 22/28/22/28 → proporsional
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
@@ -1702,7 +1826,7 @@
             <td class="no">5</td>
             <td>
               Pencucian buah dilakukan sesuai jenis (air mengalir atau tanpa
-              air) mengacu pada Lampiran I.1.
+              air) mengacu pada Lampiran II dan Lampiran III.
             </td>
             <td></td>
             <td></td>
@@ -1761,13 +1885,15 @@
       <ol class="legal">
         <li>
           <span class="list-flex"
-            ><span>I.1 Diagram Alur & Standar Prosedur Persiapan Buah</span
+            ><span
+              >I.1 Lampiran. Standar Pembersihan Buah (Lampiran II — Dicuci Air
+              Mengalir &amp; Lampiran III — Dibersihkan Tanpa Air)</span
             ><span class="kanan">( 1 Halaman )</span></span
           >
         </li>
         <li>
           <span class="list-flex"
-            ><span>I.2 Formulir. Persiapan Bahan Baku SPPG</span
+            ><span>I.2 Formulir. Persiapan Bahan Baku Buah</span
             ><span class="kanan">( Harian )</span></span
           >
         </li>
@@ -1847,6 +1973,7 @@
 
     <!-- ════════════════════════════════════════════════════════════════
      JS GLOBAL — JANGAN DIUBAH PER-FILE
+     Nanti bisa dipindah ke file eksternal: sop-global.js
      ════════════════════════════════════════════════════════════════ -->
     <script id="js-global">
       (function () {
