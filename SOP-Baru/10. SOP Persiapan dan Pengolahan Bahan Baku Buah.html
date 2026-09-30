@@ -1,1131 +1,2189 @@
 <!doctype html>
 <html lang="id">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SOP Persiapan dan Pengolahan Bahan Baku Buah — SPPG Kota Pekanbaru Binawidya Tobekgodang</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0369a1" />
+    <title>
+      SOP Persiapan dan Pengolahan Bahan Baku Buah — SPPG Kota Pekanbaru
+      Binawidya Tobekgodang
+    </title>
 
-<!-- ═══════════ STYLE GLOBAL ═══════════ -->
-<style id="style-global">
-/* RESET & BASE */
-*, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12pt;
-  line-height: 1.5;
-  color: #0f172a;
-  background: #e0f2fe;
-  -webkit-font-smoothing: antialiased;
-}
-img { max-width: 100%; height: auto; display: block; }
+    <!-- ════════════════════════════════════════════════════════════════
+     STYLE GLOBAL — JANGAN DIUBAH PER-FILE
+     Salin sama persis di setiap SOP SPPG.
+     Nanti bisa dipindah ke file eksternal: sop-global.css
+     ════════════════════════════════════════════════════════════════ -->
+    <style id="style-global">
+      /* RESET & BASE */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12pt;
+        line-height: 1.5;
+        color: #0f172a;
+        background: #e0f2fe;
+        -webkit-font-smoothing: antialiased;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
 
-/* VARIABEL TEMA */
-:root {
-  --biru-utama: #0369a1;
-  --biru-gelap: #0c4a6e;
-  --biru-muda: #f0f9ff;
-  --biru-aksen: #e0f2fe;
-  --kuning-lembut: #fef3c7;
-  --kuning-border: #f59e0b;
-  --hijau: #16a34a;
-  --merah: #dc2626;
-  --teks: #0f172a;
-  --jarak-blok: 8px;
-  --indent-tab: 1.27cm;
-}
+      /* VARIABEL TEMA */
+      :root {
+        --biru-utama: #0369a1;
+        --biru-gelap: #0c4a6e;
+        --biru-muda: #f0f9ff;
+        --biru-aksen: #e0f2fe;
+        --kuning-lembut: #fef3c7;
+        --kuning-border: #f59e0b;
+        --hijau: #16a34a;
+        --merah: #dc2626;
+        --teks: #0f172a;
+        --jarak-blok: 8px;
+        --indent-tab: 1.27cm;
+      }
 
-/* HALAMAN */
-.page {
-  width: 210mm;
-  min-height: 297mm;
-  padding: 15mm 15mm 15mm 30mm;
-  margin: 10mm auto;
-  background: #fff;
-  box-shadow: 0 2px 12px rgba(3, 105, 161, 0.12);
-}
+      /* HALAMAN */
+      .page {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 15mm 15mm 15mm 30mm;
+        margin: 10mm auto;
+        background: #fff;
+        box-shadow: 0 2px 12px rgba(3, 105, 161, 0.12);
+      }
 
-/* KOP SURAT */
-.kop { display: flex; align-items: flex-start; gap: 16px; padding-bottom: 8px; }
-.kop-logo { width: 96px; height: 96px; flex: 0 0 96px; display: flex; align-items: center; justify-content: center; }
-.kop-teks { flex: 1 1 auto; text-align: center; line-height: 1.25; }
-.kop-teks .l1 { font-size: 14pt; font-weight: bold; letter-spacing: 0.5px; }
-.kop-teks .l2 { font-size: 13pt; font-weight: bold; margin-top: 4px; }
-.kop-teks .l3 { font-size: 13.5pt; font-weight: bold; margin-top: 4px; }
-.kop-teks .l4, .kop-teks .l5 { font-size: 10pt; margin-top: 6px; }
-.kop-spacer { width: 96px; flex: 0 0 96px; }
-.kop-line-1 { border-top: 3px solid var(--teks); }
-.kop-line-2 { border-top: 1px solid var(--teks); margin-top: 2px; }
+      /* KOP SURAT */
+      .kop {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        padding-bottom: 8px;
+      }
+      .kop-logo {
+        width: 96px;
+        height: 96px;
+        flex: 0 0 96px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .kop-teks {
+        flex: 1 1 auto;
+        text-align: center;
+        line-height: 1.25;
+      }
+      .kop-teks .l1 {
+        font-size: 14pt;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+      }
+      .kop-teks .l2 {
+        font-size: 13pt;
+        font-weight: bold;
+        margin-top: 4px;
+      }
+      .kop-teks .l3 {
+        font-size: 13.5pt;
+        font-weight: bold;
+        margin-top: 4px;
+      }
+      .kop-teks .l4,
+      .kop-teks .l5 {
+        font-size: 10pt;
+        margin-top: 6px;
+      }
+      .kop-spacer {
+        width: 96px;
+        flex: 0 0 96px;
+      }
+      .kop-line-1 {
+        border-top: 3px solid var(--teks);
+      }
+      .kop-line-2 {
+        border-top: 1px solid var(--teks);
+        margin-top: 2px;
+      }
 
-/* JUDUL LAPORAN */
-.judul-laporan { text-align: center; margin: 20px 0 12px; }
-.judul-laporan .t1 { font-size: 14pt; font-weight: bold; text-decoration: underline; }
-.judul-laporan .t2 { font-size: 12.5pt; font-weight: bold; }
+      /* JUDUL LAPORAN */
+      .judul-laporan {
+        text-align: center;
+        margin: 20px 0 12px;
+      }
+      .judul-laporan .t1 {
+        font-size: 14pt;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .judul-laporan .t2 {
+        font-size: 12.5pt;
+        font-weight: bold;
+      }
 
-/* JUDUL SECTION */
-.section-title {
-  font-size: 12pt;
-  font-weight: bold;
-  background: var(--biru-utama);
-  color: #fff;
-  padding: 5px 10px;
-  margin: var(--jarak-blok) 0;
-  text-align: center;
-}
+      /* JUDUL SECTION */
+      .section-title {
+        font-size: 12pt;
+        font-weight: bold;
+        background: var(--biru-utama);
+        color: #fff;
+        padding: 5px 10px;
+        margin: var(--jarak-blok) 0;
+        text-align: center;
+      }
 
-/* TABEL BASE */
-table { width: 100%; border-collapse: collapse; font-size: 10pt; line-height: 1.3; margin: var(--jarak-blok) 0; }
-th, td { border: 1px solid var(--biru-gelap); padding: 4px 6px; vertical-align: middle; }
-th, thead th { background: var(--biru-utama); color: #fff; font-weight: bold; text-align: center; vertical-align: middle; }
-td { background: #fff; color: var(--teks); }
+      /* TABEL BASE */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10pt;
+        line-height: 1.3;
+        margin: var(--jarak-blok) 0;
+      }
+      th,
+      td {
+        border: 1px solid var(--biru-gelap);
+        padding: 4px 6px;
+        vertical-align: middle;
+      }
+      th,
+      thead th {
+        background: var(--biru-utama);
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        vertical-align: middle;
+      }
+      td {
+        background: #fff;
+        color: var(--teks);
+      }
 
-td.center { text-align: center; }
-td.kiri { text-align: left; font-weight: bold; }
-.label-cell { width: 34%; font-weight: bold; }
-td.kategori { font-weight: bold; text-align: left; padding-left: 8px; }
-td.tahap { font-weight: bold; text-align: center; width: 85px; font-size: 9pt; }
-td.no { text-align: center; font-weight: bold; width: 32px; }
+      /* Sel penekanan */
+      td.center {
+        text-align: center;
+      }
+      td.kiri {
+        text-align: left;
+        font-weight: bold;
+      }
+      .label-cell {
+        width: 34%;
+        font-weight: bold;
+      }
+      td.kategori {
+        font-weight: bold;
+        text-align: left;
+        padding-left: 8px;
+      }
+      td.tahap {
+        font-weight: bold;
+        text-align: center;
+        width: 85px;
+        font-size: 9pt;
+      }
+      td.no {
+        text-align: center;
+        font-weight: bold;
+        width: 32px;
+      }
+      tr.total td {
+        font-weight: bold;
+      }
+      tr.header-row td {
+        font-weight: bold;
+      }
 
-/* MODIFIKATOR TABEL */
-table.t-workflow { font-size: 9pt; table-layout: fixed; }
-table.t-workflow th,
-table.t-workflow td { padding: 5px 6px; }
+      /* ⚠️ URUTAN MATRIX → WORKFLOW HARUS DIPERTAHANKAN
+     (agar t-workflow menang pada <table class="t-workflow t-matrix">) */
+      table.t-matrix {
+        font-size: 8.5pt;
+      }
+      table.t-matrix th,
+      table.t-matrix td {
+        padding: 2px 3px;
+      }
 
-table.t-menu { font-size: 10pt; table-layout: fixed; }
-table.t-menu th,
-table.t-menu td { padding: 5px 6px; text-align: center; height: 32px; word-wrap: break-word; }
-table.t-menu th { height: 28px; }
+      table.t-workflow {
+        font-size: 9pt;
+        table-layout: fixed;
+      }
+      table.t-workflow th,
+      table.t-workflow td {
+        padding: 5px 6px;
+      }
 
-table.t-keterkaitan { font-size: 10pt; table-layout: fixed; }
-table.t-keterkaitan th,
-table.t-keterkaitan td { padding: 6px 8px; }
-table.t-keterkaitan ol { padding-left: 18px; margin: 0; }
+      table.t-menu {
+        font-size: 10pt;
+        table-layout: fixed;
+      }
+      table.t-menu th,
+      table.t-menu td {
+        padding: 5px 6px;
+        text-align: center;
+        height: 32px;
+        word-wrap: break-word;
+      }
+      table.t-menu th {
+        height: 28px;
+      }
 
-table.t-standar td,
-table.t-standar td.kiri,
-table.t-standar th { text-align: center; }
+      table.t-keterkaitan {
+        font-size: 10pt;
+        table-layout: fixed;
+      }
+      table.t-keterkaitan th,
+      table.t-keterkaitan td {
+        padding: 6px 8px;
+      }
+      table.t-keterkaitan ol {
+        padding-left: 18px;
+        margin: 0;
+      }
 
-/* FORM HEADER */
-table.form-header { table-layout: fixed; width: 100%; }
-table.form-header col.c-label { width: 22%; }
-table.form-header col.c-value { width: 28%; }
-table.form-header td {
-  height: 38px;
-  vertical-align: middle;
-  text-align: left;
-  padding: 6px 10px;
-  background: #fff;
-}
-table.form-header td.flabel {
-  font-weight: bold;
-  background: var(--biru-muda);
-  padding-left: 10px;
-  text-align: left;
-  vertical-align: middle;
-}
-table.form-header td.fvalue { background: #fff; text-align: left; vertical-align: middle; }
+      /* Standar menu — rata tengah (dasar) */
+      table.t-standar td,
+      table.t-standar td.kiri,
+      table.t-standar th {
+        text-align: center;
+      }
 
-/* TABEL CAPTION */
-.tabel-caption {
-  font-size: 11pt;
-  font-weight: bold;
-  text-align: center;
-  margin: var(--jarak-blok) 0;
-  background: var(--biru-muda);
-  padding: 4px;
-  border-top: 2px solid var(--biru-utama);
-  border-bottom: 2px solid var(--biru-utama);
-}
+      /* FORM HEADER */
+      table.form-header {
+        table-layout: fixed;
+        width: 100%;
+      }
+      table.form-header col.c-label {
+        width: 22%;
+      }
+      table.form-header col.c-value {
+        width: 28%;
+      }
+      table.form-header td {
+        height: 38px;
+        vertical-align: middle;
+        text-align: left;
+        padding: 6px 10px;
+        background: #fff;
+      }
+      table.form-header td.flabel {
+        font-weight: bold;
+        background: var(--biru-muda);
+        padding-left: 10px;
+        text-align: left;
+        vertical-align: middle;
+      }
+      table.form-header td.fvalue {
+        background: #fff;
+        text-align: left;
+        vertical-align: middle;
+      }
 
-/* CATATAN */
-.catatan {
-  font-size: 9pt;
-  font-style: italic;
-  background: var(--kuning-lembut);
-  border: 1px solid var(--kuning-border);
-  padding: 6px 10px;
-  margin: var(--jarak-blok) 0 0;
-}
-.catatan strong { font-style: normal; }
-.catatan + .ttd-verifikasi { margin-top: 1.5em; }
+      /* TABEL CAPTION */
+      .tabel-caption {
+        font-size: 11pt;
+        font-weight: bold;
+        text-align: center;
+        margin: var(--jarak-blok) 0;
+        background: var(--biru-muda);
+        padding: 4px;
+        border-top: 2px solid var(--biru-utama);
+        border-bottom: 2px solid var(--biru-utama);
+      }
 
-/* TANDA TANGAN / VERIFIKASI */
-.ttd-verifikasi { margin-top: var(--jarak-blok); padding: 6px 10px; }
-.ttd-verifikasi table { border: none; width: 100%; margin: 0; }
-.ttd-verifikasi td {
-  width: 33.333%;
-  border: none;
-  background: transparent;
-  text-align: center;
-  vertical-align: top;
-  padding: 3px;
-}
-.ttd-space { height: 90px; }
-.ttd-name-line { border-top: 1px solid var(--teks); display: block; min-width: 80%; margin: 0 auto; height: 1px; }
-.signature-box { height: 80px; }
+      /* CATATAN */
+      .catatan {
+        font-size: 9pt;
+        font-style: italic;
+        background: var(--kuning-lembut);
+        border: 1px solid var(--kuning-border);
+        padding: 6px 10px;
+        margin: var(--jarak-blok) 0 0;
+      }
+      .catatan strong {
+        font-style: normal;
+      }
+      .catatan + .ttd-verifikasi {
+        margin-top: 1.5em;
+      }
 
-/* LIST */
-ol.legal { list-style: decimal; padding-left: 22px; margin: 0; }
-ol.legal-dasar-hukum { font-size: 11pt; }
-ol.legal li { margin-bottom: 3px; text-align: justify; line-height: 1.5; }
-.list-flex { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.list-flex .kanan { font-weight: bold; white-space: nowrap; }
+      /* TANDA TANGAN / VERIFIKASI */
+      .ttd-verifikasi {
+        margin-top: var(--jarak-blok);
+        padding: 6px 10px;
+      }
+      .ttd-verifikasi table {
+        border: none;
+        width: 100%;
+        margin: 0;
+      }
+      .ttd-verifikasi td {
+        width: 33.333%;
+        border: none;
+        background: transparent;
+        text-align: center;
+        vertical-align: top;
+        padding: 3px;
+      }
+      .ttd-space {
+        height: 90px;
+      }
+      .ttd-name-line {
+        border-top: 1px solid var(--teks);
+        display: block;
+        min-width: 80%;
+        margin: 0 auto;
+        height: 1px;
+      }
+      .signature-box {
+        height: 80px;
+      }
 
-/* DIAGRAM ALIR */
-.flow-chain {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 4px;
-  padding: 10px;
-  background: var(--biru-muda);
-  border: 1px solid #bae6fd;
-  border-radius: 4px;
-  margin: var(--jarak-blok) 0;
-}
-.flow-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
-  background: var(--biru-aksen);
-  border: 1.5px solid var(--biru-utama);
-  border-radius: 20px;
-  font-size: 9pt;
-  font-weight: bold;
-  color: var(--biru-utama);
-  white-space: nowrap;
-}
-.flow-item .fn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  background: var(--biru-utama);
-  color: #fff;
-  border-radius: 50%;
-  font-size: 8pt;
-}
-.flow-item.start,
-.flow-item.end { background: var(--hijau); border-color: #14532d; color: #fff; }
-.flow-item.end { background: var(--merah); border-color: #7f1d1d; }
-.flow-conn { color: var(--biru-utama); font-size: 12pt; font-weight: bold; padding: 0 2px; }
+      /* LIST */
+      ol.legal {
+        list-style: decimal;
+        padding-left: 22px;
+        margin: 0;
+      }
+      ol.legal-dasar-hukum {
+        font-size: 11pt;
+      }
+      ol.legal li {
+        margin-bottom: 3px;
+        text-align: justify;
+        line-height: 1.5;
+      }
+      .list-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .list-flex .kanan {
+        font-weight: bold;
+        white-space: nowrap;
+      }
 
-/* FOOTER & NARASI SOP */
-.footer-dokumen {
-  margin-top: 24px;
-  font-size: 10pt;
-  font-style: italic;
-  color: #475569;
-  border-top: 1px solid #cbd5e1;
-  padding-top: 8px;
-  text-align: justify;
-  text-justify: inter-word;
-}
-.narasi-sop {
-  font-size: 12pt;
-  line-height: 1.5;
-  text-align: justify;
-  text-justify: inter-word;
-  padding: 4px 0;
-}
-.narasi-sop p { margin: 0 0 8px; text-indent: var(--indent-tab); }
-.narasi-sop ol { padding-left: 22px; margin: 0; }
-.narasi-sop ol li { margin-bottom: 6px; }
+      /* DIAGRAM ALIR */
+      .flow-chain {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        padding: 10px;
+        background: var(--biru-muda);
+        border: 1px solid #bae6fd;
+        border-radius: 4px;
+        margin: var(--jarak-blok) 0;
+      }
+      .flow-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 5px 10px;
+        background: var(--biru-aksen);
+        border: 1.5px solid var(--biru-utama);
+        border-radius: 20px;
+        font-size: 9pt;
+        font-weight: bold;
+        color: var(--biru-utama);
+        white-space: nowrap;
+      }
+      .flow-item .fn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 16px;
+        height: 16px;
+        background: var(--biru-utama);
+        color: #fff;
+        border-radius: 50%;
+        font-size: 8pt;
+      }
+      .flow-item.start,
+      .flow-item.end {
+        background: var(--hijau);
+        border-color: #14532d;
+        color: #fff;
+      }
+      .flow-item.end {
+        background: var(--merah);
+        border-color: #7f1d1d;
+      }
+      .flow-conn {
+        color: var(--biru-utama);
+        font-size: 12pt;
+        font-weight: bold;
+        padding: 0 2px;
+      }
 
-/* LEMBAR PENGESAHAN */
-.pengesahan { font-size: 12pt; margin-top: var(--jarak-blok); }
-.pengesahan-tanggal { text-align: right; margin: var(--jarak-blok) 0; }
-.pengesahan-garis { border-top: 1px solid var(--teks); }
+      /* FOOTER & NARASI SOP */
+      .footer-dokumen {
+        margin-top: 24px;
+        font-size: 10pt;
+        font-style: italic;
+        color: #475569;
+        border-top: 1px solid #cbd5e1;
+        padding-top: 8px;
+        text-align: justify;
+        text-justify: inter-word;
+      }
+      .narasi-sop {
+        font-size: 12pt;
+        line-height: 1.5;
+        text-align: justify;
+        text-justify: inter-word;
+        padding: 4px 0;
+      }
+      .narasi-sop p {
+        margin: 0 0 8px;
+        text-indent: var(--indent-tab);
+      }
+      .narasi-sop ol {
+        padding-left: 22px;
+        margin: 0;
+      }
+      .narasi-sop ol li {
+        margin-bottom: 6px;
+      }
 
-/* TOOLBAR */
-.toolbar {
-  position: fixed;
-  bottom: 16px;
-  right: 16px;
-  width: 180px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 10px;
-  background: #fff;
-  border: 2px solid var(--biru-utama, #0369a1);
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(3, 105, 161, 0.2);
-  z-index: 100;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
-  box-sizing: border-box;
-}
-.toolbar-group { display: flex; flex-direction: column; gap: 3px; align-items: center; }
-.toolbar-label {
-  font-weight: bold;
-  color: var(--biru-gelap, #0c4a6e);
-  font-size: 9.5pt;
-  line-height: 1.2;
-  text-align: center;
-  width: 100%;
-}
-.toolbar-select {
-  width: 100%;
-  padding: 6px 22px 6px 8px;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 6px;
-  background-color: #fff;
-  font-family: inherit;
-  font-size: 9.5pt;
-  color: var(--teks, #0f172a);
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230c4a6e' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-  background-repeat: no-repeat;
-  background-position: right 7px center;
-  background-size: 11px 11px;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  text-align: center;
-}
-.toolbar-select:focus {
-  outline: none;
-  border-color: var(--biru-utama, #0369a1);
-  box-shadow: 0 0 0 2px rgba(3, 105, 161, 0.15);
-}
-.toolbar .btn-print {
-  width: 100%;
-  padding: 8px 10px;
-  margin-top: 0;
-  background: var(--biru-utama, #0369a1);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-family: inherit;
-  font-weight: bold;
-  font-size: 10pt;
-  cursor: pointer;
-  text-align: center;
-  transition: background 0.15s;
-}
-.toolbar .btn-print:hover { background: var(--biru-gelap, #0c4a6e); }
-.toolbar .btn-print:active { transform: translateY(1px); }
+      /* LEMBAR PENGESAHAN */
+      .pengesahan {
+        font-size: 12pt;
+        margin-top: var(--jarak-blok);
+      }
+      .pengesahan-tanggal {
+        text-align: right;
+        margin: var(--jarak-blok) 0;
+      }
+      .pengesahan-garis {
+        border-top: 1px solid var(--teks);
+      }
 
-/* RESPONSIVE */
-@media screen and (max-width: 1024px) {
-  body { font-size: 11pt; padding: 8px; }
-  .page { width: 100%; min-height: auto; padding: 16px; margin: 8px 0; }
-  .kop { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
-  .kop-logo, .kop-spacer { width: 72px; flex-basis: 72px; height: 72px; }
-  .kop-teks .l1 { font-size: 13pt; }
-  .kop-teks .l2 { font-size: 12pt; }
-  .kop-teks .l3 { font-size: 12.5pt; }
-  table { font-size: 10pt; }
-  th, td { padding: 6px 8px; }
-  .toolbar { width: auto; left: 10px; right: 10px; }
-}
-@media screen and (max-width: 600px) {
-  .page { padding: 12px 10px; }
-  table { font-size: 9pt; }
-  th, td { padding: 4px 5px; }
-  .section-title { font-size: 11pt; padding: 4px 6px; }
-  .tabel-caption { font-size: 10pt; }
-  .toolbar { font-size: 9pt; bottom: 10px; }
-}
+      /* TOOLBAR */
+      .toolbar {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        width: 180px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 10px;
+        background: #fff;
+        border: 2px solid var(--biru-utama, #0369a1);
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(3, 105, 161, 0.2);
+        z-index: 100;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 10pt;
+        box-sizing: border-box;
+      }
+      .toolbar-group {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        align-items: center;
+      }
+      .toolbar-label {
+        font-weight: bold;
+        color: var(--biru-gelap, #0c4a6e);
+        font-size: 9.5pt;
+        line-height: 1.2;
+        text-align: center;
+        width: 100%;
+      }
+      .toolbar-select {
+        width: 100%;
+        padding: 6px 22px 6px 8px;
+        border: 1.5px solid #cbd5e1;
+        border-radius: 6px;
+        background-color: #fff;
+        font-family: inherit;
+        font-size: 9.5pt;
+        color: var(--teks, #0f172a);
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230c4a6e' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 7px center;
+        background-size: 11px 11px;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+        text-align: center;
+      }
+      .toolbar-select:focus {
+        outline: none;
+        border-color: var(--biru-utama, #0369a1);
+        box-shadow: 0 0 0 2px rgba(3, 105, 161, 0.15);
+      }
+      .toolbar .btn-print {
+        width: 100%;
+        padding: 8px 10px;
+        margin-top: 0;
+        background: var(--biru-utama, #0369a1);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-family: inherit;
+        font-weight: bold;
+        font-size: 10pt;
+        cursor: pointer;
+        text-align: center;
+        transition: background 0.15s;
+      }
+      .toolbar .btn-print:hover {
+        background: var(--biru-gelap, #0c4a6e);
+      }
+      .toolbar .btn-print:active {
+        transform: translateY(1px);
+      }
 
-/* CETAK / PDF */
-@media print {
-  body { background: #fff; font-size: 12pt; }
-  .page { width: auto; min-height: auto; padding: 0; margin: 0; box-shadow: none; }
-  .page-break { page-break-before: always; }
-  table { page-break-inside: auto; }
-  tr, .flow-chain, .catatan { page-break-inside: avoid; }
-  .no-print { display: none !important; }
-  .flow-item { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  thead { display: table-header-group; }
-}
-</style>
+      /* RESPONSIVE */
+      @media screen and (max-width: 1024px) {
+        body {
+          font-size: 11pt;
+          padding: 8px;
+        }
+        .page {
+          width: 100%;
+          min-height: auto;
+          padding: 16px;
+          margin: 8px 0;
+        }
+        .kop {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 8px;
+        }
+        .kop-logo,
+        .kop-spacer {
+          width: 72px;
+          flex-basis: 72px;
+          height: 72px;
+        }
+        .kop-teks .l1 {
+          font-size: 13pt;
+        }
+        .kop-teks .l2 {
+          font-size: 12pt;
+        }
+        .kop-teks .l3 {
+          font-size: 12.5pt;
+        }
+        table {
+          font-size: 10pt;
+        }
+        th,
+        td {
+          padding: 6px 8px;
+        }
+        .toolbar {
+          width: auto;
+          left: 10px;
+          right: 10px;
+        }
+      }
+      @media screen and (max-width: 600px) {
+        .page {
+          padding: 12px 10px;
+        }
+        table {
+          font-size: 9pt;
+        }
+        th,
+        td {
+          padding: 4px 5px;
+        }
+        .section-title {
+          font-size: 11pt;
+          padding: 4px 6px;
+        }
+        .tabel-caption {
+          font-size: 10pt;
+        }
+        .toolbar {
+          font-size: 9pt;
+          bottom: 10px;
+        }
+      }
 
-<!-- ═══════════ STYLE SOP (KHUSUS) ═══════════ -->
-<style id="style-sop">
-  /* Workflow H: 9 langkah muat 1 halaman */
-  table.t-workflow tbody td { height: 34px; vertical-align: middle; }
-  td.kategori { width: 18%; }
+      /* CETAK / PDF */
+      @media print {
+        body {
+          background: #fff;
+          font-size: 12pt;
+        }
+        .page {
+          width: auto;
+          min-height: auto;
+          padding: 0;
+          margin: 0;
+          box-shadow: none;
+        }
+        .page-break {
+          page-break-before: always;
+        }
+        table {
+          page-break-inside: auto;
+        }
+        tr,
+        .flow-chain,
+        .catatan {
+          page-break-inside: avoid;
+        }
+        .no-print {
+          display: none !important;
+        }
+        .flow-item {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        thead {
+          display: table-header-group;
+        }
+      }
+    </style>
 
-  /* I.1 Standar: kategori rata kiri, baris 40px */
-  table.t-standar td.kategori { text-align: left; }
-  table.t-standar tbody td { height: 40px; vertical-align: middle; }
+    <!-- ════════════════════════════════════════════════════════════════
+     STYLE SOP BUAH — KHUSUS FILE INI
+     Boleh diubah tanpa memengaruhi SOP lain.
+     Nanti bisa dipindah ke file eksternal: sop-buah.css
+     ════════════════════════════════════════════════════════════════ -->
+    <style id="style-sop">
+      /* Workflow H: 9 langkah muat 1 halaman */
+      table.t-workflow tbody td {
+        height: 34px;
+        vertical-align: middle;
+      }
 
-  /* Tanda tangan 4 kolom (I.1) */
-  table.ttd-4 td { width: 25%; }
-  table.ttd-4 { table-layout: fixed; }
+      /* Lebar kolom kategori khusus SOP Buah */
+      td.kategori {
+        width: 18%;
+      }
 
-  /* Logo SVG bulat BGN */
-  .kop-logo svg { width: 96px; height: 96px; }
+      /* I.1 Standar: kolom kategori tetap rata kiri, baris 42px */
+      table.t-standar td.kategori {
+        text-align: left;
+      }
+      table.t-standar tbody td {
+        height: 42px;
+        vertical-align: middle;
+      }
 
-  /* Formulir 10 kolom baris isian */
-  table.t-menu col.c-no      { width: 4%; }
-  table.t-menu col.c-nama    { width: 20%; }
-  table.t-menu col.c-beratk  { width: 8%; }
-  table.t-menu col.c-beratb  { width: 8%; }
-  table.t-menu col.c-mulai   { width: 8%; }
-  table.t-menu col.c-selesai { width: 8%; }
-  table.t-menu col.c-suhu    { width: 8%; }
-  table.t-menu col.c-warna   { width: 8%; }
-  table.t-menu col.c-aroma   { width: 8%; }
-  table.t-menu col.c-catatan { width: 20%; }
-</style>
+      /* Tanda tangan 4 kolom (I.1) */
+      table.ttd-4 td {
+        width: 25%;
+      }
 
-<!-- ═══════════ DYNAMIC PAGE STYLE (DEFAULT) ═══════════ -->
-<style id="dynamic-page-style">
-  @page {
-    size: A4 portrait;
-    margin: 15mm 15mm 15mm 30mm;
-  }
-</style>
-</head>
-<body>
+      /* Formulir 10 kolom baris isian (I.2, I.3) */
+      table.t-menu col.c-no      { width: 4%; }
+      table.t-menu col.c-nama    { width: 18%; }
+      table.t-menu col.c-beratk  { width: 8%; }
+      table.t-menu col.c-beratb  { width: 8%; }
+      table.t-menu col.c-mulai   { width: 7%; }
+      table.t-menu col.c-selesai { width: 7%; }
+      table.t-menu col.c-suhu    { width: 7%; }
+      table.t-menu col.c-warna   { width: 7%; }
+      table.t-menu col.c-aroma   { width: 7%; }
+      table.t-menu col.c-catatan { width: 27%; }
+    </style>
 
-<!-- ═══════════════════════════════════════════════════
-     HALAMAN 1 — KOP SURAT, A. IDENTITAS, B. DASAR HUKUM
-     ═══════════════════════════════════════════════════ -->
-<section class="page">
+    <style id="dynamic-page-style">
+      @page {
+        size: A4 portrait;
+        margin: 15mm 15mm 15mm 30mm;
+      }
+    </style>
+  </head>
 
-  <div class="kop">
-    <div class="kop-logo">
-      <svg viewBox="0 0 100 100" role="img" aria-label="Logo Badan Gizi Nasional">
-        <circle cx="50" cy="50" r="46" fill="#f0f9ff" stroke="#0369a1" stroke-width="3"/>
-        <circle cx="50" cy="50" r="38" fill="none" stroke="#0369a1" stroke-width="1.5"/>
-        <path d="M50 16 L60 34 L78 38 L65 52 L68 72 L50 63 L32 72 L35 52 L22 38 L40 34 Z"
-              fill="#0369a1" opacity="0.9"/>
-        <text x="50" y="58" text-anchor="middle" font-family="Arial" font-size="14"
-              font-weight="bold" fill="#ffffff">BGN</text>
-        <text x="50" y="88" text-anchor="middle" font-family="Arial" font-size="7"
-              font-weight="bold" fill="#0c4a6e">BADAN GIZI NASIONAL</text>
-      </svg>
+  <body>
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 1 — KOP + A. IDENTITAS + B. DASAR HUKUM
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page">
+      <div class="kop">
+        <div class="kop-logo">
+          <img
+            alt="Logo BGN"
+            src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='white' stroke='%230369a1' stroke-width='4'/><text x='50' y='58' font-family='Arial' font-size='14' font-weight='bold' text-anchor='middle' fill='%230369a1'>BGN</text></svg>"
+          />
+        </div>
+        <div class="kop-teks">
+          <div class="l1">BADAN GIZI NASIONAL</div>
+          <div class="l2">SATUAN PELAYANAN PEMENUHAN GIZI (SPPG)</div>
+          <div class="l3">KOTA PEKANBARU BINAWIDYA TOBEKGODANG</div>
+          <div class="l4">
+            Jl. Rajawali Sakti / Jl. Gereja (SMK Taruna Mandiri)
+          </div>
+          <div class="l5">
+            Telp: +62 813 9131 6061 &nbsp; Email: SPPG.Rajawali@GMail.Com
+          </div>
+        </div>
+        <div class="kop-spacer"></div>
+      </div>
+      <div class="kop-line-1"></div>
+      <div class="kop-line-2"></div>
+
+      <div class="judul-laporan">
+        <div class="t1">LAPORAN PERSIAPAN DAN PENGOLAHAN BAHAN BAKU BUAH</div>
+        <div class="t2">PROGRAM MAKAN BERGIZI GRATIS (MBG)</div>
+      </div>
+
+      <h2 class="section-title">A. IDENTITAS DOKUMEN</h2>
+      <table>
+        <tr>
+          <td class="label-cell">Nomor SOP</td>
+          <td>023/05/00/SOP.23/09/2026</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Nama SOP</td>
+          <td>Persiapan dan Pengolahan Bahan Baku Buah</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Nama SPPG</td>
+          <td>SPPG Kota Pekanbaru Binawidya Tobekgodang</td>
+        </tr>
+        <tr>
+          <td class="label-cell">Tanggal Laporan</td>
+          <td style="height: 28px"></td>
+        </tr>
+      </table>
+
+      <h2 class="section-title">B. DASAR HUKUM</h2>
+      <ol class="legal legal-dasar-hukum">
+        <li>
+          Undang-Undang Nomor 18 Tahun 2012 tentang Pangan sebagaimana telah
+          beberapa kali diubah, terakhir dengan Undang-Undang Nomor 6 Tahun 2023
+          tentang Penetapan Peraturan Pemerintah Pengganti Undang-Undang Nomor 2
+          Tahun 2022 tentang Cipta Kerja menjadi Undang-Undang.
+        </li>
+        <li>Undang-Undang Nomor 17 Tahun 2023 tentang Kesehatan.</li>
+        <li>
+          Peraturan Pemerintah Nomor 86 Tahun 2019 tentang Keamanan Pangan
+          sebagaimana telah diubah dengan Peraturan Pemerintah Nomor 1 Tahun
+          2026 tentang Perubahan Atas Peraturan Pemerintah Nomor 86 Tahun 2019
+          tentang Keamanan Pangan.
+        </li>
+        <li>
+          Peraturan Presiden Nomor 83 Tahun 2024 tentang Badan Gizi Nasional.
+        </li>
+        <li>
+          Peraturan Presiden Nomor 115 Tahun 2025 tentang Tata Kelola
+          Penyelenggaraan Program Makan Bergizi Gratis.
+        </li>
+        <li>
+          Peraturan Menteri Kesehatan Nomor 1096/Menkes/PER/VI/2011 tentang
+          Higiene Sanitasi Jasaboga.
+        </li>
+        <li>
+          Peraturan Menteri Kesehatan Nomor 2 Tahun 2013 tentang Kejadian Luar
+          Biasa Keracunan Pangan.
+        </li>
+        <li>
+          Peraturan Menteri Pendayagunaan Aparatur Negara dan Reformasi
+          Birokrasi Nomor 35 Tahun 2012 tentang Pedoman Penyusunan Standar
+          Operasional Prosedur Administrasi Pemerintahan.
+        </li>
+        <li>
+          Peraturan Badan Pengawas Obat dan Makanan Nomor 13 Tahun 2023 tentang
+          Kategori Pangan.
+        </li>
+        <li>
+          Peraturan Badan Pangan Nasional Nomor 15 Tahun 2024 tentang Batas
+          Maksimal Residu Pestisida dalam Pangan Segar Asal Tumbuhan.
+        </li>
+        <li>
+          Peraturan Badan Gizi Nasional Nomor 4 Tahun 2026 tentang Sistem
+          Penjaminan Keamanan Pangan dan Mutu Pangan di Lingkungan Badan Gizi
+          Nasional.
+        </li>
+        <li>
+          Peraturan Badan Gizi Nasional Nomor 5 Tahun 2026 tentang Standar Gizi
+          dalam Pelaksanaan Program Makan Bergizi Gratis.
+        </li>
+        <li>
+          Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang
+          Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi
+          Gratis Tahun Anggaran 2026.
+        </li>
+      </ol>
     </div>
-    <div class="kop-teks">
-      <div class="l1">BADAN GIZI NASIONAL</div>
-      <div class="l2">SATUAN PELAYANAN PEMENUHAN GIZI (SPPG)</div>
-      <div class="l3">KOTA PEKANBARU BINAWIDYA TOBEKGODANG</div>
-      <div class="l4">Program Makan Bergizi Gratis (MBG)</div>
-      <div class="l5">Sekretariat: Jl. Binawidya, Kec. Tampan, Kota Pekanbaru, Riau 28292</div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 2 — C. TUJUAN + D. RUANG LINGKUP + E. DEFINISI
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">C. TUJUAN</h2>
+      <div class="narasi-sop">
+        <p>
+          Standar Operasional Prosedur (SOP) Persiapan dan Pengolahan Bahan Baku
+          Buah ini disusun sebagai acuan baku bagi seluruh pelaksana di
+          lingkungan SPPG Kota Pekanbaru Binawidya Tobekgodang dengan tujuan
+          sebagai berikut:
+        </p>
+        <ol>
+          <li>
+            Memastikan bahan baku buah dipersiapkan dan diolah sesuai kebutuhan
+            menu dan perencanaan yang berlaku.
+          </li>
+          <li>
+            Memastikan kondisi bahan baku buah diperiksa sebelum dilakukan
+            proses pengolahan.
+          </li>
+          <li>
+            Menetapkan tahapan penyortiran, pembersihan atau pencucian,
+            penirisan, pengupasan, dan pemotongan sesuai kebutuhan.
+          </li>
+          <li>
+            Mencegah terjadinya kontaminasi silang selama proses persiapan dan
+            pengolahan.
+          </li>
+          <li>
+            Menetapkan mekanisme penanganan apabila ditemukan bahan baku buah
+            yang tidak sesuai.
+          </li>
+          <li>
+            Menjamin kegiatan persiapan didukung oleh pencatatan yang dapat
+            ditelusuri.
+          </li>
+        </ol>
+      </div>
+
+      <h2 class="section-title">D. RUANG LINGKUP</h2>
+      <div class="narasi-sop">
+        <p>
+          Prosedur ini berlaku untuk kegiatan persiapan dan pengolahan bahan
+          baku buah di lingkungan Satuan Pelayanan Pemenuhan Gizi (SPPG) Kota
+          Pekanbaru Binawidya Tobekgodang. Ruang lingkup meliputi pengambilan
+          bahan baku dari tempat penyimpanan, penyortiran, pencucian dengan air
+          mengalir atau pembersihan tanpa air, penirisan, pengupasan (jika
+          diperlukan), pemotongan, penimbangan, pengemasan, hingga penyerahan
+          buah kepada tahapan pemorsian, pengemasan, dan/atau penyajian sesuai
+          dengan SOP terkait.
+        </p>
+      </div>
+
+      <h2 class="section-title">E. DEFINISI</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 50px">No</th>
+            <th style="width: 180px">Istilah</th>
+            <th>Pengertian</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="center">1</td>
+            <td class="kiri">Persiapan Buah</td>
+            <td>
+              Serangkaian kegiatan yang dilakukan untuk menyiapkan buah sebelum
+              diolah atau disajikan, meliputi proses penerimaan, penyortiran,
+              pencucian, pengupasan (jika diperlukan), pemotongan, hingga
+              penyimpanan sementara sesuai dengan standar higiene dan sanitasi
+              pangan, di mana tahap penyortiran secara khusus memilah buah
+              berdasarkan tingkat kematangan yang sesuai, keutuhan fisik bebas
+              luka atau pembusukan, tekstur padat, aroma segar, serta
+              keseragaman ukuran dan kebersihan fisik.
+            </td>
+          </tr>
+          <tr>
+            <td class="center">2</td>
+            <td class="kiri">Pencucian Buah-buahan</td>
+            <td>
+              Proses membersihkan buah menggunakan air bersih yang memenuhi
+              persyaratan kualitas air untuk menghilangkan kotoran, residu bahan
+              kimia, dan mengurangi cemaran mikrobiologi sehingga buah aman
+              untuk diolah atau dikonsumsi.
+            </td>
+          </tr>
+          <tr>
+            <td class="center">3</td>
+            <td class="kiri">Pemotongan Buah-buahan</td>
+            <td>
+              Proses memotong buah utuh yang telah dibersihkan menjadi
+              bagian-bagian yang lebih kecil secara rapi, seragam, dan higienis,
+              dengan kriteria yang meliputi kesesuaian bentuk potongan
+              <em>bite-size</em> (dadu ukuran 1,5–2 cm atau irisan setebal 1 cm)
+              dan ketepatan berat porsi yang mengacu pada standar Angka
+              Kecukupan Gizi (AKG) sesuai kelompok usia sasaran, penggunaan
+              peralatan terstandar yang higienis, penanganan yang tepat agar
+              tekstur buah tidak memar atau hancur, serta pembatasan durasi
+              pemotongan di suhu ruang agar buah siap diolah, dikemas, atau
+              disajikan.
+            </td>
+          </tr>
+          <tr>
+            <td class="center">4</td>
+            <td class="kiri">
+              FIFO (<em>First In, First Out</em>)
+            </td>
+            <td>
+              Metode pengelolaan persediaan yang memastikan barang yang pertama
+              kali diterima atau disimpan digunakan atau didistribusikan terlebih
+              dahulu. Penerapan metode ini bertujuan untuk menjaga kualitas
+              barang, meminimalkan risiko kedaluwarsa atau penurunan mutu, serta
+              mengoptimalkan pengelolaan persediaan.
+            </td>
+          </tr>
+          <tr>
+            <td class="center">5</td>
+            <td class="kiri">
+              Kontaminasi Silang<br />(<em>Cross-Contamination</em>)
+            </td>
+            <td>
+              Perpindahan mikroba atau cemaran berbahaya dari bahan mentah lain
+              (seperti daging/ikan) ke buah melalui penggunaan peralatan kerja
+              (pisau, talenan, wadah) yang sama tanpa proses pembersihan dan
+              sanitasi terlebih dahulu.
+            </td>
+          </tr>
+          <tr>
+            <td class="center">6</td>
+            <td class="kiri">Suhu <em>Chiller</em></td>
+            <td>
+              Suhu penyimpanan dingin berkisar 2–8&nbsp;°C yang digunakan untuk
+              menjaga kesegaran buah sebelum dan sesudah proses persiapan,
+              sekaligus mencegah pertumbuhan bakteri patogen.
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="kop-spacer"></div>
-  </div>
-  <div class="kop-line-1"></div>
-  <div class="kop-line-2"></div>
 
-  <div class="judul-laporan">
-    <div class="t1">LAPORAN PERSIAPAN DAN PENGOLAHAN BAHAN BAKU BUAH</div>
-    <div class="t2">PROGRAM MAKAN BERGIZI GRATIS (MBG)</div>
-  </div>
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 3 — F. KETERKAITAN + G. KUALIFIKASI PELAKSANA
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">
+        F. KETERKAITAN, PERALATAN, PERINGATAN, DAN PENCATATAN
+      </h2>
+      <table class="t-keterkaitan">
+        <thead>
+          <tr>
+            <th style="width: 28%">Item</th>
+            <th>Uraian</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tahap">KETERKAITAN</td>
+            <td>
+              <ol>
+                <li>SOP Penerimaan dan Penyimpanan Sayur dan Buah.</li>
+                <li>SOP Perencanaan Menu.</li>
+                <li>SOP Pemorsian dan Pelabelan Ompreng.</li>
+                <li>SOP Personal Higiene.</li>
+                <li>SOP Pengolahan MBG untuk balita usia 6–11 bulan.</li>
+                <li>SOP Pengolahan MBG untuk balita usia 12–59 bulan.</li>
+                <li>SOP Pembersihan Meja Produksi.</li>
+                <li>SOP Penggunaan Talenan dan Pisau.</li>
+                <li>SOP Kontrol Air Bersih.</li>
+                <li>SOP Manajemen Sampah.</li>
+              </ol>
+            </td>
+          </tr>
+          <tr>
+            <td class="tahap">PERALATAN / PERLENGKAPAN</td>
+            <td>
+              <ol>
+                <li>Alat Pelindung Diri (APD) lengkap</li>
+                <li>Pulpen dan formulir pencatatan</li>
+                <li>Timbangan</li>
+                <li>Pisau khusus buah (<em>stainless steel</em>)</li>
+                <li>Talenan khusus buah</li>
+                <li>Wadah peniris <em>stainless</em></li>
+                <li>Wadah tertutup <em>stainless</em></li>
+                <li>Plastik sampah</li>
+                <li>Tempat sampah organik</li>
+                <li>Larutan disinfektan</li>
+                <li>Lap mikrofiber</li>
+                <li><em>Chiller</em></li>
+              </ol>
+            </td>
+          </tr>
+          <tr>
+            <td class="tahap">PERINGATAN</td>
+            <td>
+              <ol>
+                <li>
+                  Jika SOP ini tidak dijalankan, buah-buahan yang tidak dicuci
+                  atau dipersiapkan dengan benar berpotensi mengandung residu
+                  pestisida, bakteri patogen, jamur, serta kotoran fisik yang
+                  dapat langsung terpapar ke penerima manfaat. Akibatnya, produk
+                  yang disajikan tidak aman dikonsumsi dan berisiko menimbulkan
+                  gangguan kesehatan serius.
+                </li>
+              </ol>
+            </td>
+          </tr>
+          <tr>
+            <td class="tahap">PENCATATAN DAN PENDATAAN</td>
+            <td>
+              <ol>
+                <li>Formulir Penerimaan Bahan Makanan.</li>
+                <li>Formulir Perencanaan Menu.</li>
+                <li>Formulir Persiapan Bahan Baku SPPG.</li>
+              </ol>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-  <div class="section-title">A. IDENTITAS</div>
-  <table>
-    <tr><td class="label-cell">Nomor SOP</td>       <td>023/05/00/SOP.23/09/2026</td></tr>
-    <tr><td class="label-cell">Nama SOP</td>        <td>Persiapan dan Pengolahan Bahan Baku Buah</td></tr>
-    <tr><td class="label-cell">Nama SPPG</td>       <td>SPPG Kota Pekanbaru Binawidya Tobekgodang</td></tr>
-    <tr><td class="label-cell">Tanggal Laporan</td> <td style="height: 28px">30 September 2026</td></tr>
-  </table>
+      <h2 class="section-title">G. KUALIFIKASI PELAKSANA</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 50px">No</th>
+            <th style="width: 250px">Kualifikasi Pelaksana</th>
+            <th>Nama / Jabatan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="center">1</td>
+            <td>Kepala SPPG</td>
+            <td style="height: 34px"></td>
+          </tr>
+          <tr>
+            <td class="center">2</td>
+            <td>Pengawas Gizi</td>
+            <td style="height: 34px"></td>
+          </tr>
+          <tr>
+            <td class="center">3</td>
+            <td>Asisten Lapangan</td>
+            <td style="height: 34px"></td>
+          </tr>
+          <tr>
+            <td class="center">4</td>
+            <td>Jurutama Masak</td>
+            <td style="height: 34px"></td>
+          </tr>
+          <tr>
+            <td class="center">5</td>
+            <td>Tim Persiapan</td>
+            <td style="height: 34px"></td>
+          </tr>
+          <tr>
+            <td class="center">6</td>
+            <td>Tim Pengolahan</td>
+            <td style="height: 34px"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <div class="section-title">B. DASAR HUKUM</div>
-  <ol class="legal legal-dasar-hukum">
-    <li>Undang-Undang Nomor 18 Tahun 2012 tentang Pangan (sebagaimana diubah dengan Undang-Undang Nomor 6 Tahun 2023 tentang Cipta Kerja);</li>
-    <li>Undang-Undang Nomor 17 Tahun 2023 tentang Kesehatan;</li>
-    <li>Peraturan Pemerintah Nomor 86 Tahun 2019 tentang Keamanan Pangan;</li>
-    <li>Peraturan Presiden Nomor 83 Tahun 2024 tentang Badan Gizi Nasional;</li>
-    <li>Peraturan Presiden Nomor 115 Tahun 2025 tentang Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis;</li>
-    <li>Peraturan Menteri Kesehatan Nomor 1096/Menkes/PER/VI/2011 tentang Higiene Sanitasi Jasaboga;</li>
-    <li>Peraturan Menteri Kesehatan Nomor 2 Tahun 2013 tentang Kejadian Luar Biasa Keracunan Pangan;</li>
-    <li>Peraturan Badan Pengawas Obat dan Makanan Nomor 13 Tahun 2023 tentang Kategori Pangan;</li>
-    <li>Peraturan Badan Pangan Nasional Nomor 15 Tahun 2024 tentang Batas Maksimal Residu Pestisida dalam Pangan Segar Asal Tumbuhan;</li>
-    <li>Peraturan Badan Gizi Nasional Nomor 4 Tahun 2026 tentang Sistem Penjaminan Keamanan Pangan dan Mutu Pangan di Lingkungan Badan Gizi Nasional;</li>
-    <li>Keputusan Kepala Badan Gizi Nasional Nomor 401.1 Tahun 2025 tentang Petunjuk Teknis Tata Kelola Penyelenggaraan Program Makan Bergizi Gratis Tahun Anggaran 2026.</li>
-  </ol>
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 4 — H. PROSEDUR KERJA (DIAGRAM ALIR + WORKFLOW)
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">
+        H. PROSEDUR KERJA PERSIAPAN DAN PENGOLAHAN BUAH (DIAGRAM ALIR)
+      </h2>
 
-</section>
+      <div class="flow-chain">
+        <div class="flow-item start">MULAI</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">1</span>Siapkan APD &amp; Meja Terpisah
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">2</span>Ambil Buah Sesuai FIFO
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">3</span>Periksa Kualitas Buah
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">4</span>Cuci / Lap Buah
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">5</span>Simpan di Chiller
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item">
+          <span class="fn">6</span>Potong &amp; Timbang
+        </div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item"><span class="fn">7</span>Kemas Higienis</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item"><span class="fn">8</span>Bersihkan Meja</div>
+        <div class="flow-conn">→</div>
+        <div class="flow-item end">SELESAI</div>
+      </div>
 
-<!-- ═══════════════════════════════════════════════════
-     HALAMAN 2 — C. TUJUAN, D. RUANG LINGKUP, E. DEFINISI
-     ═══════════════════════════════════════════════════ -->
-<section class="page page-break">
+      <table class="t-workflow">
+        <thead>
+          <tr>
+            <th style="width: 32px">No</th>
+            <th style="width: 85px">Tahap</th>
+            <th>Uraian Kegiatan</th>
+            <th style="width: 90px">Pelaksana</th>
+            <th style="width: 100px">Kelengkapan</th>
+            <th style="width: 50px">Waktu</th>
+            <th style="width: 120px">Output</th>
+            <th style="width: 40px">Ket</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td class="tahap" rowspan="5">Persiapan</td>
+            <td>
+              Gunakan seluruh Alat Pelindung Diri (APD) seperti seragam, masker
+              medis, <em>safety shoes</em>, penutup kepala (<em>haimet</em>),
+              apron, dan sarung tangan dengan benar sebelum bekerja serta selama
+              proses pekerjaan berlangsung. Pilihlah jenis sarung tangan yang
+              sesuai dengan bahan baku, dan bedakan sarung tangan yang digunakan
+              untuk proses pencucian dan proses pemorsian.
+            </td>
+            <td>Tim Persiapan</td>
+            <td>APD lengkap</td>
+            <td class="center">5 mnt</td>
+            <td>APD terpasang lengkap</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td>
+              Siapkan dan pastikan meja kerja persiapan buah-buahan wajib dalam
+              kondisi bersih serta terpisah dari meja kerja persiapan bahan baku
+              hewani (unggas, daging, dan produk perikanan).
+            </td>
+            <td>Tim Persiapan</td>
+            <td>Meja kerja terpisah</td>
+            <td class="center">5 mnt</td>
+            <td>Meja kerja siap pakai</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td>
+              Ambil bahan baku buah berdasarkan prinsip FIFO (<em
+                >First In, First Out</em
+              >). Lakukan pemeriksaan fisik kesesuaian jumlah dan kualitas bahan
+              baku dengan mengacu pada Dokumen Perencanaan Menu Mingguan serta
+              Formulir Persiapan Bahan Baku. Pastikan warna kulit/daging buah
+              sesuai tingkat kematangan, tekstur padat dan tidak memar, aroma
+              segar khas buah, serta bebas dari benda asing.
+            </td>
+            <td>Tim Persiapan &amp; Pengawas Gizi</td>
+            <td>Formulir menu &amp; penerimaan</td>
+            <td class="center">10 mnt</td>
+            <td>Buah lolos seleksi; tidak sesuai dicatat</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td>
+              Pilih buah segar yang telah diperiksa dan bersihkan dari seluruh
+              kotoran, tanah, serta debu mengacu pada panduan Lampiran I.1,
+              dengan ketentuan penggunaan air kemasan berizin edar atau air isi
+              ulang tersertifikasi khusus untuk buah potong, serta air bersih
+              mengalir yang memenuhi standar baku mutu air minum untuk buah utuh
+              dan dilap menggunakan kain lap mikrofiber.
+            </td>
+            <td>Tim Persiapan</td>
+            <td>Air bersih, lap mikrofiber</td>
+            <td class="center">15 mnt</td>
+            <td>Buah bersih, bebas kotoran fisik</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td>
+              Masukkan buah yang telah dibersihkan ke dalam wadah tertutup, lalu
+              simpan ke dalam <em>chiller</em> dengan aman sebelum digunakan
+              pada tahap pengolahan selanjutnya.
+            </td>
+            <td>Tim Persiapan</td>
+            <td>Wadah tertutup, <em>chiller</em></td>
+            <td class="center">5 mnt</td>
+            <td>Buah tersimpan pada suhu terkendali</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td class="tahap" rowspan="4">Pengolahan</td>
+            <td>
+              Ambil buah dari <em>chiller</em>, lalu potong dan timbang buah
+              sesuai dengan ukuran dan berat porsi yang ditentukan menggunakan
+              pisau <em>stainless steel</em>, talenan khusus buah, wadah, dan
+              timbangan yang bersih. Batasi durasi pemotongan buah potong
+              maksimal 15 menit di suhu ruang; potong sampel terlebih dahulu
+              sebagai acuan bentuk <em>bite-size</em> 1,5–2 cm atau irisan 1 cm;
+              khusus paket buah utuh, langsung sajikan atau kemas setelah
+              pencucian tanpa melalui tahap pemotongan.
+            </td>
+            <td>Tim Pengolahan</td>
+            <td>Pisau, talenan, timbangan</td>
+            <td class="center">30 mnt</td>
+            <td>Buah terpotong seragam sesuai berat porsi</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">7</td>
+            <td>
+              Kemas buah yang telah dibersihkan (buah utuh) dan/atau dipotong
+              rapi menggunakan plastik <em>cling wrap</em> di dalam wadah yang
+              higienis sebelum dimasukkan ke dalam ompreng.
+            </td>
+            <td>Tim Pengolahan</td>
+            <td><em>Cling wrap</em>, wadah higienis</td>
+            <td class="center">10 mnt</td>
+            <td>Buah terkemas higienis siap masuk ompreng</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td>
+              Kumpulkan sisa kulit, biji, dan limbah potongan buah ke dalam
+              kantong plastik sampah, lalu segera buang ke tempat sampah
+              organik.
+            </td>
+            <td>Tim Pengolahan</td>
+            <td>Tempat sampah organik</td>
+            <td class="center">5 mnt</td>
+            <td>Limbah organik terkelola sesuai SOP</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td>
+              Bersihkan kembali meja kerja setelah selesai digunakan dengan
+              menggunakan air mengalir dan larutan disinfektan.
+            </td>
+            <td>Tim Pengolahan</td>
+            <td>Air mengalir, disinfektan</td>
+            <td class="center">10 mnt</td>
+            <td>Meja kerja bersih siap digunakan kembali</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
 
-  <div class="section-title">C. TUJUAN</div>
-  <div class="narasi-sop">
-    <p>SOP Persiapan dan Pengolahan Bahan Baku Buah bertujuan sebagai pedoman dalam pelaksanaan persiapan dan pengolahan bahan baku buah agar dilakukan secara konsisten, higienis, terkendali, dan terdokumentasi mulai dari pengambilan buah dari tempat penyimpanan sampai dengan buah siap diserahkan untuk tahapan pemorsian, pengemasan, dan/atau penyajian sesuai dengan SOP terkait. Secara khusus, tujuan SOP ini adalah:</p>
-    <ol>
-      <li>Memastikan bahan baku buah dipersiapkan dan diolah sesuai kebutuhan menu dan perencanaan yang berlaku.</li>
-      <li>Memastikan kondisi bahan baku buah diperiksa sebelum dilakukan proses pengolahan.</li>
-      <li>Menetapkan tahapan penyortiran, pembersihan atau pencucian, penirisan, pengupasan, dan pemotongan sesuai kebutuhan.</li>
-      <li>Mencegah terjadinya kontaminasi silang selama proses persiapan dan pengolahan.</li>
-      <li>Menjamin kegiatan persiapan didukung oleh pencatatan yang dapat ditelusuri.</li>
-    </ol>
-  </div>
+      <div class="catatan">
+        <strong>Catatan Alur:</strong> Prosedur kerja persiapan dan pengolahan
+        buah dibagi dalam 2 tahap utama.
+        <strong>Tahap Persiapan (1–5)</strong> berfokus pada penyiapan APD dan
+        area kerja, pengambilan bahan baku sesuai FIFO, pemeriksaan kualitas,
+        pencucian/pembersihan sesuai jenis buah, hingga penyimpanan sementara di
+        <em>chiller</em>. <strong>Tahap Pengolahan (6–9)</strong> mencakup
+        pemotongan dan penimbangan dengan durasi maksimal 15 menit di suhu
+        ruang, pengemasan higienis menggunakan <em>cling wrap</em>, pengelolaan
+        limbah organik, dan pembersihan area kerja. Setiap tahap wajib
+        didokumentasikan pada Formulir Persiapan Bahan Baku SPPG dan diverifikasi
+        oleh Pengawas Gizi sebelum buah diserahkan ke tahap pemorsian.
+      </div>
+    </div>
 
-  <div class="section-title">D. RUANG LINGKUP</div>
-  <div class="narasi-sop">
-    <p>SOP ini berlaku untuk kegiatan persiapan dan pengolahan bahan baku buah di lingkungan Satuan Pelayanan Pemenuhan Gizi (SPPG) Kota Pekanbaru Binawidya Tobekgodang.</p>
-    <p>SOP ini dimulai sejak bahan baku buah diambil dari tempat penyimpanan untuk dipersiapkan, diolah, dan kemudian berakhir ketika buah yang telah selesai diolah diserahkan kepada tahapan pemorsian, pengemasan, dan/atau penyajian sesuai dengan SOP terkait.</p>
-  </div>
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 5 — I.1 LAMPIRAN GABUNGAN STANDAR PEMBERSIHAN BUAH
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">I.1 STANDAR PEMBERSIHAN BUAH</h2>
 
-  <div class="section-title">E. DEFINISI</div>
-  <div class="narasi-sop">
-    <ol>
-      <li><strong>Persiapan Buah</strong> adalah serangkaian kegiatan yang dilakukan untuk menyiapkan buah sebelum diolah atau disajikan, meliputi proses penerimaan, penyortiran, pencucian, pengupasan (jika diperlukan), pemotongan, hingga penyimpanan sementara sesuai dengan standar higiene dan sanitasi pangan, di mana tahap penyortiran secara khusus memilah buah berdasarkan tingkat kematangan yang sesuai, keutuhan fisik bebas luka atau pembusukan, tekstur padat, aroma segar, serta keseragaman ukuran dan kebersihan fisik.</li>
-      <li><strong>Pencucian Buah-buahan</strong> adalah proses membersihkan buah menggunakan air bersih yang memenuhi persyaratan kualitas air untuk menghilangkan kotoran, residu bahan kimia, dan mengurangi cemaran mikrobiologi sehingga buah aman untuk diolah atau dikonsumsi.</li>
-      <li><strong>Pemotongan Buah-buahan</strong> adalah proses memotong buah utuh yang telah dibersihkan menjadi bagian-bagian yang lebih kecil secara rapi, seragam, dan higienis, dengan kriteria yang meliputi kesesuaian bentuk potongan <em>bite-size</em> (dadu ukuran 1,5–2 cm atau irisan setebal 1 cm) dan ketepatan berat porsi yang mengacu pada standar Angka Kecukupan Gizi (AKG) sesuai kelompok usia sasaran, penggunaan peralatan terstandar yang higienis, penanganan yang tepat agar tekstur buah tidak memar atau hancur, serta pembatasan durasi pemotongan di suhu ruang agar buah siap diolah, dikemas, atau disajikan.</li>
-      <li><strong>FIFO (First In, First Out)</strong> adalah metode pengelolaan persediaan yang memastikan barang yang pertama kali diterima atau disimpan digunakan atau didistribusikan terlebih dahulu. Penerapan metode ini bertujuan untuk menjaga kualitas barang, meminimalkan risiko kedaluwarsa atau penurunan mutu, serta mengoptimalkan pengelolaan persediaan.</li>
-    </ol>
-  </div>
+      <div class="tabel-caption">Tabel 1. Buah yang Dicuci dengan Air Mengalir</div>
+      <table class="t-standar">
+        <thead>
+          <tr>
+            <th style="width: 6%">NO</th>
+            <th style="width: 20%">JENIS BUAH</th>
+            <th style="width: 44%">CARA PEMBERSIHAN</th>
+            <th style="width: 30%">KETERANGAN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td class="kategori">Apel</td>
+            <td>
+              Dicuci di bawah air mengalir sebelum dimakan langsung dengan
+              kulitnya.
+            </td>
+            <td>
+              Dicuci di bawah air mengalir sebelum dimakan langsung dengan
+              kulitnya.
+            </td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td class="kategori">Anggur</td>
+            <td>
+              Direndam sebentar lalu dibilas air mengalir untuk menghilangkan
+              residu pestisida/lilin.
+            </td>
+            <td>
+              Direndam sebentar lalu dibilas air mengalir untuk menghilangkan
+              residu pestisida/lilin.
+            </td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td class="kategori">Pir</td>
+            <td>Dicuci bersih karena kulitnya dikonsumsi langsung.</td>
+            <td>Dicuci bersih karena kulitnya dikonsumsi langsung.</td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td class="kategori">Stroberi</td>
+            <td>
+              Dicuci cepat (tidak direndam lama) tepat sebelum disajikan agar
+              tidak lembek.
+            </td>
+            <td>
+              Dicuci cepat (tidak direndam lama) tepat sebelum disajikan agar
+              tidak lembek.
+            </td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td class="kategori">Jeruk</td>
+            <td>
+              Dicuci sebelum dipotong agar pisau tidak menarik kotoran kulit ke
+              bagian dalam.
+            </td>
+            <td>
+              Dicuci sebelum dipotong agar pisau tidak menarik kotoran kulit ke
+              bagian dalam.
+            </td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td class="kategori">Melon / Semangka</td>
+            <td>
+              Kulit dibersihkan dengan air mengalir sebelum dipotong agar pisau
+              tetap bersih.
+            </td>
+            <td>
+              Kulit dibersihkan dengan air mengalir sebelum dipotong agar pisau
+              tetap bersih.
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-</section>
+      <div class="catatan">
+        <strong>Catatan:</strong> Khusus buah potong, air yang digunakan harus
+        memenuhi persyaratan air minum (air kemasan berizin edar atau air isi
+        ulang tersertifikasi dengan NIB, hasil uji laboratorium air, dan
+        Sertifikat Laik Higiene Sanitasi). Untuk buah utuh yang tidak dikonsumsi
+        kulitnya, dapat digunakan air bersih mengalir yang memenuhi baku mutu
+        air minum.
+      </div>
 
-<!-- ═══════════════════════════════════════════════════
-     HALAMAN 3 — F. KETERKAITAN/PERALATAN/PERINGATAN/
-     PENCATATAN + G. KUALIFIKASI PELAKSANA
-     ═══════════════════════════════════════════════════ -->
-<section class="page page-break">
+      <div class="tabel-caption">
+        Tabel 2. Buah yang Dibersihkan Tanpa Air (Dilap / Disikat Kering)
+      </div>
+      <table class="t-standar">
+        <thead>
+          <tr>
+            <th style="width: 6%">NO</th>
+            <th style="width: 20%">JENIS BUAH</th>
+            <th style="width: 44%">CARA PEMBERSIHAN</th>
+            <th style="width: 30%">KETERANGAN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td class="kategori">Pisang</td>
+            <td>Cukup dilap kain bersih.</td>
+            <td>Cukup dilap kain bersih.</td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td class="kategori">Salak</td>
+            <td>
+              Cukup disikat/dilap karena kulit bersisik keras dikupas dan
+              dibuang.
+            </td>
+            <td>
+              Cukup disikat/dilap karena kulit bersisik keras dikupas dan
+              dibuang.
+            </td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td class="kategori">Kelengkeng</td>
+            <td>Cukup dilap kain bersih.</td>
+            <td>Cukup dilap kain bersih.</td>
+          </tr>
+        </tbody>
+      </table>
 
-  <div class="section-title">F. KETERKAITAN, PERALATAN, PERINGATAN, DAN PENCATATAN</div>
+      <div class="catatan">
+        <strong>Catatan:</strong> Buah golongan ini tidak boleh direndam air
+        karena dapat mempercepat pembusukan dan menurunkan mutu tekstur.
+        Penggunaan lap mikrofiber bersih wajib dilakukan sebelum buah dikupas
+        dan/atau dikemas.
+      </div>
 
-  <table class="t-keterkaitan">
-    <thead>
-      <tr>
-        <th style="width: 34%">KETERKAITAN</th>
-        <th style="width: 33%">PERALATAN / PERLENGKAPAN</th>
-        <th style="width: 33%">PERINGATAN &amp; PENCATATAN</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <ol>
-            <li>SOP Penerimaan dan Penyimpanan Bahan Baku: Sayur dan Buah</li>
-            <li>SOP Perencanaan Menu</li>
-            <li>SOP Pemorsian dan Pelabelan Ompreng</li>
-            <li>SOP Personal Higiene</li>
-            <li>SOP Pengolahan MBG untuk balita usia 6–11 bulan</li>
-            <li>SOP Pengolahan MBG untuk balita usia 12–59 bulan</li>
-            <li>SOP Pembersihan Meja Produksi</li>
-            <li>SOP Penggunaan Talenan dan Pisau</li>
-            <li>SOP Kontrol Air Bersih</li>
-            <li>SOP Manajemen Sampah</li>
-          </ol>
-        </td>
-        <td>
-          <ol>
-            <li>APD (seragam, masker medis, <em>safety shoes</em>, penutup kepala, apron, sarung tangan)</li>
-            <li>Pulpen</li>
-            <li>Timbangan</li>
-            <li>Pisau khusus buah (<em>stainless steel</em>)</li>
-            <li>Talenan khusus buah</li>
-            <li>Wadah peniris <em>stainless</em></li>
-            <li>Wadah tertutup <em>stainless</em></li>
-            <li>Plastik sampah</li>
-            <li>Tempat sampah organik</li>
-            <li>Larutan disinfektan</li>
-            <li>Lap mikrofiber</li>
-            <li><em>Chiller</em></li>
-          </ol>
-        </td>
-        <td>
-          <p style="margin:0 0 6px; text-align: justify;"><strong>PERINGATAN:</strong> Jika SOP ini tidak dijalankan, buah-buahan yang tidak dicuci atau dipersiapkan dengan benar berpotensi mengandung residu pestisida, bakteri patogen, jamur, serta kotoran fisik yang dapat langsung terpapar ke penerima manfaat. Akibatnya, produk yang disajikan tidak aman dikonsumsi dan berisiko menimbulkan gangguan kesehatan serius.</p>
-          <p style="margin:0; text-align: justify;"><strong>PENCATATAN DAN PENDATAAN:</strong></p>
-          <ol>
-            <li>Formulir Penerimaan Bahan Makanan</li>
-            <li>Formulir Perencanaan Menu</li>
-            <li>Formulir Persiapan Bahan Baku SPPG</li>
-          </ol>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+      <div class="ttd-verifikasi">
+        <table class="ttd-4">
+          <tr>
+            <td>
+              <div>Dibaca oleh,</div>
+              <div><strong>Tim Persiapan</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diketahui oleh,</div>
+              <div><strong>Jurutama Masak</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diperiksa oleh,</div>
+              <div><strong>Pengawas Gizi</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Disetujui oleh,</div>
+              <div><strong>Kepala SPPG</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
 
-  <div class="section-title">G. KUALIFIKASI PELAKSANA</div>
-  <table>
-    <thead>
-      <tr>
-        <th style="width: 8%">No.</th>
-        <th style="width: 42%">Nama / Jabatan</th>
-        <th style="width: 50%">Uraian Tugas Pokok</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="no">1</td>
-        <td style="height: 34px">Kepala SPPG</td>
-        <td>Bertanggung jawab penuh atas terselenggaranya proses persiapan dan pengolahan bahan baku buah serta mengesahkan laporan harian.</td>
-      </tr>
-      <tr>
-        <td class="no">2</td>
-        <td style="height: 34px">Pengawas Gizi</td>
-        <td>Memverifikasi kesesuaian berat porsi, standar AKG, dan mutu gizi buah sebelum diserahkan ke tahap pemorsian.</td>
-      </tr>
-      <tr>
-        <td class="no">3</td>
-        <td style="height: 34px">Tim Persiapan</td>
-        <td>Melaksanakan penyortiran, pencucian, penirisan, pengupasan, dan penyimpanan sementara buah di <em>chiller</em>.</td>
-      </tr>
-      <tr>
-        <td class="no">4</td>
-        <td style="height: 34px">Tim Pengolahan</td>
-        <td>Melaksanakan pemotongan, penimbangan, pengemasan, dan penyerahan buah ke tahap pemorsian/pengemasan.</td>
-      </tr>
-    </tbody>
-  </table>
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 6 — I.2 FORMULIR PERSIAPAN BAHAN BAKU SPPG
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">I.2 FORMULIR PERSIAPAN BAHAN BAKU SPPG</h2>
+      <div class="tabel-caption">Formulir Persiapan Bahan Baku SPPG</div>
 
-</section>
+      <table class="form-header">
+        <colgroup>
+          <col class="c-label" />
+          <col class="c-value" />
+          <col class="c-label" />
+          <col class="c-value" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="flabel">No. Dokumen</td>
+            <td class="fvalue" colspan="3">
+              023/05/00/SOP.23/09/2026
+            </td>
+          </tr>
+          <tr>
+            <td class="flabel">Hari / Tanggal</td>
+            <td class="fvalue"></td>
+            <td class="flabel">Shift / Regu Kerja</td>
+            <td class="fvalue">Pagi / Siang / Malam</td>
+          </tr>
+          <tr>
+            <td class="flabel">Menu Hari Ini</td>
+            <td class="fvalue"></td>
+            <td class="flabel">Jumlah Porsi</td>
+            <td class="fvalue"></td>
+          </tr>
+          <tr>
+            <td class="flabel">Nama SPPG</td>
+            <td class="fvalue">
+              SPPG Kota Pekanbaru Binawidya Tobekgodang
+            </td>
+            <td class="flabel">Petugas</td>
+            <td class="fvalue"></td>
+          </tr>
+        </tbody>
+      </table>
 
-<!-- ═══════════════════════════════════════════════════
-     HALAMAN 4 — H. PROSEDUR KERJA
-     ═══════════════════════════════════════════════════ -->
-<section class="page page-break">
+      <table class="t-menu">
+        <colgroup>
+          <col class="c-no" />
+          <col class="c-nama" />
+          <col class="c-beratk" />
+          <col class="c-beratb" />
+          <col class="c-mulai" />
+          <col class="c-selesai" />
+          <col class="c-suhu" />
+          <col class="c-warna" />
+          <col class="c-aroma" />
+          <col class="c-catatan" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama Bahan Baku</th>
+            <th>Berat Kotor (Kg)</th>
+            <th>Berat Bersih (Kg)</th>
+            <th>Jam Mulai</th>
+            <th>Jam Selesai</th>
+            <th>Suhu <em>Thawing</em></th>
+            <th>Warna (N/TB)</th>
+            <th>Aroma (N/TB)</th>
+            <th>Catatan / Potongan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">7</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">10</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
 
-  <div class="section-title">H. PROSEDUR KERJA</div>
+      <div class="catatan">
+        <strong>Catatan:</strong> N = Normal; TB = Tidak Biasa / Menyimpang.
+        Kolom Warna dan Aroma diisi dengan kode <strong>N</strong> (Normal) atau
+        <strong>TB</strong> (Tidak Baik). Buah yang ditolak wajib dicatat
+        alasannya pada kolom Catatan dan dilaporkan kepada pemasok. Formulir ini
+        wajib ditandatangani oleh Petugas dan diverifikasi oleh Pengawas Gizi
+        sebelum bahan baku diproses lebih lanjut.
+      </div>
 
-  <div class="flow-chain">
-    <div class="flow-item start">MULAI</div>
-    <div class="flow-conn">→</div>
-    <div class="flow-item"><span class="fn">1</span>APD</div>
-    <div class="flow-conn">→</div>
-    <div class="flow-item"><span class="fn">2</span>Meja Kerja Bersih</div>
-    <div class="flow-conn">→</div>
-    <div class="flow-item"><span class="fn">3</span>Ambil Buah (FIFO)</div>
-    <div class="flow-conn">→</div>
-    <div class="flow-item"><span class="fn">4</span>Pemeriksaan Fisik</div>
-    <div class="flow-conn">→</div>
-    <div class="flow-item"><span class="fn">5</span>Pencucian</div>
-    <div class="flow-conn">→</div>
-    <div class="flow-item"><span class="fn">6</span>Simpan Chiller</div>
-    <div class="flow-conn">→</div>
-    <div class="flow-item"><span class="fn">7</span>Potong &amp; Timbang</div>
-    <div class="flow-conn">→</div>
-    <div class="flow-item"><span class="fn">8</span>Kemas</div>
-    <div class="flow-conn">→</div>
-    <div class="flow-item end">SELESAI</div>
-  </div>
+      <div class="ttd-verifikasi">
+        <table>
+          <tr>
+            <td>
+              <div>Dibuat oleh,</div>
+              <div><strong>Tim Persiapan</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diperiksa oleh,</div>
+              <div><strong>Pengawas Gizi</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Disetujui oleh,</div>
+              <div><strong>Kepala SPPG</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
 
-  <table class="t-workflow">
-    <thead>
-      <tr>
-        <th style="width: 22%">TAHAP</th>
-        <th style="width: 6%">NO</th>
-        <th style="width: 46%">AKTIVITAS</th>
-        <th style="width: 26%">OUTPUT</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="tahap" rowspan="5">Tahap Persiapan<br>(Langkah 1–5)</td>
-        <td class="no">1</td>
-        <td>Gunakan seluruh Alat Pelindung Diri (APD) seperti seragam, masker medis, <em>safety shoes</em>, penutup kepala (<em>haimet</em>), apron, dan sarung tangan dengan benar sebelum bekerja serta selama proses pekerjaan berlangsung. Pilihlah jenis sarung tangan yang sesuai dengan bahan baku, dan bedakan sarung tangan yang digunakan untuk proses pencucian dan proses pemorsian.</td>
-        <td>Seluruh personel menggunakan APD lengkap</td>
-      </tr>
-      <tr>
-        <td class="no">2</td>
-        <td>Siapkan dan pastikan meja kerja persiapan buah-buahan wajib dalam kondisi bersih serta terpisah dari meja kerja persiapan bahan baku hewani (unggas, daging, dan produk perikanan).</td>
-        <td>Meja kerja bersih dan terpisah</td>
-      </tr>
-      <tr>
-        <td class="no">3</td>
-        <td>Ambil bahan baku buah berdasarkan prinsip FIFO (<em>First In, First Out</em>). Lakukan pemeriksaan fisik kesesuaian jumlah dan kualitas bahan baku dengan mengacu pada Dokumen Perencanaan Menu Mingguan serta Formulir Persiapan Bahan Baku. Pastikan warna kulit/daging buah sesuai tingkat kematangan, tekstur padat dan tidak memar, aroma segar khas buah, serta bebas dari benda asing (tanah, pasir, daun/tangkai, getah, serangga).</td>
-        <td>Buah lolos seleksi; buah tidak sesuai dipisahkan dan dicatat</td>
-      </tr>
-      <tr>
-        <td class="no">4</td>
-        <td>Pilih buah segar yang telah diperiksa dan bersihkan dari seluruh kotoran, tanah, serta debu mengacu pada panduan Lampiran I.1, dengan ketentuan penggunaan air kemasan berizin edar atau air isi ulang tersertifikasi (memiliki NIB, hasil uji laboratorium air, dan Sertifikat Laik Higiene Sanitasi) khusus untuk buah potong, serta air bersih mengalir yang memenuhi standar baku mutu air minum untuk buah utuh dan dilap menggunakan kain lap mikrofiber.</td>
-        <td>Buah bersih dan bebas kotoran fisik</td>
-      </tr>
-      <tr>
-        <td class="no">5</td>
-        <td>Masukkan buah yang telah dibersihkan ke dalam wadah tertutup, lalu simpan ke dalam <em>chiller</em> dengan aman sebelum digunakan pada tahap pengolahan selanjutnya.</td>
-        <td>Buah tersimpan pada suhu <em>chiller</em> yang terkendali</td>
-      </tr>
-      <tr>
-        <td class="tahap" rowspan="4">Tahap Pengolahan<br>(Langkah 6–9)</td>
-        <td class="no">6</td>
-        <td>Ambil buah dari <em>chiller</em>, lalu potong dan timbang buah sesuai dengan ukuran dan berat porsi yang ditentukan menggunakan pisau <em>stainless steel</em>, talenan khusus buah, wadah, dan timbangan yang bersih. Batasi durasi pemotongan buah potong maksimal 15 menit di suhu ruang; potong sampel terlebih dahulu sebagai acuan bentuk <em>bite-size</em> 1,5–2 cm atau irisan 1 cm; khusus paket buah utuh, langsung sajikan atau kemas setelah pencucian tanpa melalui tahap pemotongan.</td>
-        <td>Buah terpotong seragam sesuai berat porsi</td>
-      </tr>
-      <tr>
-        <td class="no">7</td>
-        <td>Kemas buah yang telah dibersihkan (buah utuh) dan/atau dipotong rapi menggunakan plastik <em>cling wrap</em> di dalam wadah yang higienis sebelum dimasukkan ke dalam ompreng.</td>
-        <td>Buah terkemas higienis siap masuk ompreng</td>
-      </tr>
-      <tr>
-        <td class="no">8</td>
-        <td>Kumpulkan sisa kulit, biji, dan limbah potongan buah ke dalam kantong plastik sampah, lalu segera buang ke tempat sampah organik.</td>
-        <td>Limbah organik terbuang sesuai SOP Manajemen Sampah</td>
-      </tr>
-      <tr>
-        <td class="no">9</td>
-        <td>Bersihkan kembali meja kerja setelah selesai digunakan dengan menggunakan air mengalir dan larutan disinfektan.</td>
-        <td>Meja kerja bersih siap digunakan kembali</td>
-      </tr>
-    </tbody>
-  </table>
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 7 — I.3 FORMULIR PENGOLAHAN DAN PENIMBANGAN BUAH
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">
+        I.3 FORMULIR PENGOLAHAN DAN PENIMBANGAN BUAH
+      </h2>
+      <div class="tabel-caption">Formulir Pengolahan dan Penimbangan Buah</div>
 
-  <div class="catatan">
-    <strong>Catatan:</strong> Seluruh aktivitas pada Tahap Persiapan dan Tahap Pengolahan wajib dicatat pada Formulir Persiapan Bahan Baku SPPG (Lampiran I.2) dan diverifikasi oleh Pengawas Gizi sebelum buah diserahkan ke tahap pemorsian. Pelanggaran terhadap SOP ini berpotensi menimbulkan risiko keamanan pangan dan dikenakan tindakan korektif sesuai ketentuan yang berlaku.
-  </div>
+      <table class="form-header">
+        <colgroup>
+          <col class="c-label" />
+          <col class="c-value" />
+          <col class="c-label" />
+          <col class="c-value" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td class="flabel">No. Dokumen</td>
+            <td class="fvalue" colspan="3">
+              023/05/00/SOP.23/09/2026-L2
+            </td>
+          </tr>
+          <tr>
+            <td class="flabel">Hari / Tanggal</td>
+            <td class="fvalue"></td>
+            <td class="flabel">Shift / Regu Kerja</td>
+            <td class="fvalue">Pagi / Siang / Malam</td>
+          </tr>
+          <tr>
+            <td class="flabel">Menu Hari Ini</td>
+            <td class="fvalue"></td>
+            <td class="flabel">Jumlah Porsi</td>
+            <td class="fvalue"></td>
+          </tr>
+          <tr>
+            <td class="flabel">Nama SPPG</td>
+            <td class="fvalue">
+              SPPG Kota Pekanbaru Binawidya Tobekgodang
+            </td>
+            <td class="flabel">Petugas</td>
+            <td class="fvalue"></td>
+          </tr>
+        </tbody>
+      </table>
 
-</section>
+      <table class="t-menu">
+        <colgroup>
+          <col class="c-no" />
+          <col class="c-nama" />
+          <col class="c-beratk" />
+          <col class="c-beratb" />
+          <col class="c-mulai" />
+          <col class="c-selesai" />
+          <col class="c-suhu" />
+          <col class="c-warna" />
+          <col class="c-aroma" />
+          <col class="c-catatan" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama Bahan Baku</th>
+            <th>Berat Kotor (Kg)</th>
+            <th>Berat Bersih (Kg)</th>
+            <th>Jam Mulai</th>
+            <th>Jam Selesai</th>
+            <th>Suhu <em>Thawing</em></th>
+            <th>Warna (N/TB)</th>
+            <th>Aroma (N/TB)</th>
+            <th>Catatan / Potongan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">7</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">10</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
 
-<!-- ═══════════════════════════════════════════════════
-     HALAMAN 5 — I.1 LAMPIRAN GABUNGAN
-     ═══════════════════════════════════════════════════ -->
-<section class="page page-break">
+      <div class="catatan">
+        <strong>Catatan:</strong> Formulir ini digunakan pada tahap pengolahan
+        (pemotongan dan penimbangan). Durasi pemotongan buah potong maksimal 15
+        menit di suhu ruang. Berat bersih wajib mengacu pada standar AKG sesuai
+        kelompok usia sasaran. Potongan buah yang tidak memenuhi kriteria
+        <em>bite-size</em> 1,5–2 cm atau irisan 1 cm wajib dicatat pada kolom
+        Catatan.
+      </div>
 
-  <div class="section-title">I.1 LAMPIRAN GABUNGAN — STANDAR PEMBERSIHAN BUAH</div>
+      <div class="ttd-verifikasi">
+        <table>
+          <tr>
+            <td>
+              <div>Dibuat oleh,</div>
+              <div><strong>Tim Pengolahan</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Diperiksa oleh,</div>
+              <div><strong>Pengawas Gizi</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+            <td>
+              <div>Disetujui oleh,</div>
+              <div><strong>Kepala SPPG</strong></div>
+              <div class="ttd-space"></div>
+              <div class="ttd-name-line"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
 
-  <div class="tabel-caption">Tabel 1. Buah yang Dicuci dengan Air Mengalir</div>
-  <table class="t-standar">
-    <thead>
-      <tr>
-        <th style="width: 6%">NO</th>
-        <th style="width: 20%">JENIS BUAH</th>
-        <th style="width: 44%">CARA PEMBERSIHAN</th>
-        <th style="width: 30%">KETERANGAN</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="no">1</td>
-        <td class="kategori">Apel</td>
-        <td>Dicuci di bawah air mengalir sebelum dimakan langsung dengan kulitnya.</td>
-        <td>Dicuci di bawah air mengalir sebelum dimakan langsung dengan kulitnya.</td>
-      </tr>
-      <tr>
-        <td class="no">2</td>
-        <td class="kategori">Anggur</td>
-        <td>Direndam sebentar lalu dibilas air mengalir untuk menghilangkan residu pestisida/lilin.</td>
-        <td>Direndam sebentar lalu dibilas air mengalir untuk menghilangkan residu pestisida/lilin.</td>
-      </tr>
-      <tr>
-        <td class="no">3</td>
-        <td class="kategori">Pir</td>
-        <td>Dicuci bersih karena kulitnya dikonsumsi langsung.</td>
-        <td>Dicuci bersih karena kulitnya dikonsumsi langsung.</td>
-      </tr>
-      <tr>
-        <td class="no">4</td>
-        <td class="kategori">Stroberi</td>
-        <td>Dicuci cepat (tidak direndam lama) tepat sebelum disajikan agar tidak lembek.</td>
-        <td>Dicuci cepat (tidak direndam lama) tepat sebelum disajikan agar tidak lembek.</td>
-      </tr>
-      <tr>
-        <td class="no">5</td>
-        <td class="kategori">Jeruk</td>
-        <td>Dicuci sebelum dipotong agar pisau tidak menarik kotoran kulit ke bagian dalam.</td>
-        <td>Dicuci sebelum dipotong agar pisau tidak menarik kotoran kulit ke bagian dalam.</td>
-      </tr>
-      <tr>
-        <td class="no">6</td>
-        <td class="kategori">Melon / Semangka</td>
-        <td>Kulit dibersihkan dengan air mengalir sebelum dipotong agar pisau tetap bersih.</td>
-        <td>Kulit dibersihkan dengan air mengalir sebelum dipotong agar pisau tetap bersih.</td>
-      </tr>
-    </tbody>
-  </table>
+    <!-- ════════════════════════════════════════════════════════════
+         HALAMAN 8 — J. VERIFIKASI + K. DAFTAR LAMPIRAN + L. PENGESAHAN
+         ════════════════════════════════════════════════════════════ -->
+    <div class="page page-break">
+      <h2 class="section-title">J. VERIFIKASI DAN PERSETUJUAN DOKUMEN</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 36px">No</th>
+            <th>Butir Verifikasi</th>
+            <th style="width: 80px">Sesuai</th>
+            <th style="width: 80px">Tidak Sesuai</th>
+            <th style="width: 150px">Keterangan</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="no">1</td>
+            <td>
+              Seluruh pelaksana telah memahami isi dan urutan prosedur SOP ini.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">2</td>
+            <td>
+              Meja kerja persiapan buah terpisah dari meja kerja bahan baku
+              hewani dan dalam kondisi bersih.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">3</td>
+            <td>
+              Bahan baku buah diambil berdasarkan prinsip FIFO dan diperiksa
+              kesesuaian mutunya.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">4</td>
+            <td>
+              Pencucian/pembersihan buah dilakukan sesuai jenisnya (air
+              mengalir untuk buah tertentu, dilap/disikat kering untuk buah
+              lainnya).
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">5</td>
+            <td>
+              Buah yang telah dibersihkan disimpan dalam wadah tertutup di
+              <em>chiller</em> sebelum diolah.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">6</td>
+            <td>
+              Durasi pemotongan buah potong tidak melebihi 15 menit di suhu
+              ruang dan bentuk potongan <em>bite-size</em> 1,5–2 cm atau irisan
+              1 cm.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">7</td>
+            <td>
+              Berat porsi sesuai standar AKG sesuai kelompok usia sasaran.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">8</td>
+            <td>
+              Limbah organik dikumpulkan dan dibuang sesuai SOP Manajemen
+              Sampah.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">9</td>
+            <td>
+              Meja kerja dibersihkan kembali menggunakan air mengalir dan
+              larutan disinfektan setelah selesai.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="no">10</td>
+            <td>
+              Seluruh formulir pencatatan terisi lengkap dan terverifikasi.
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
 
-  <div class="catatan">
-    <strong>Catatan:</strong> Khusus buah potong, air yang digunakan harus memenuhi persyaratan air minum (air kemasan berizin edar atau air isi ulang tersertifikasi dengan NIB, hasil uji laboratorium air, dan Sertifikat Laik Higiene Sanitasi). Untuk buah utuh yang tidak dikonsumsi kulitnya, dapat digunakan air bersih mengalir yang memenuhi baku mutu air minum.
-  </div>
+      <br />
+      <h2 class="section-title">K. DAFTAR LAMPIRAN</h2>
+      <ol class="legal">
+        <li>
+          <span class="list-flex"
+            ><span
+              >I.1 Standar Pembersihan Buah (Dicuci Air Mengalir &amp;
+              Dibersihkan Tanpa Air)</span
+            ><span class="kanan">( 1 Halaman )</span></span
+          >
+        </li>
+        <li>
+          <span class="list-flex"
+            ><span>I.2 Formulir. Persiapan Bahan Baku SPPG</span
+            ><span class="kanan">( 20 Hari )</span></span
+          >
+        </li>
+        <li>
+          <span class="list-flex"
+            ><span>I.3 Formulir. Pengolahan dan Penimbangan Buah</span
+            ><span class="kanan">( 20 Hari )</span></span
+          >
+        </li>
+      </ol>
 
-  <div class="tabel-caption">Tabel 2. Buah yang Dibersihkan Tanpa Air (Dilap / Disikat Kering)</div>
-  <table class="t-standar">
-    <thead>
-      <tr>
-        <th style="width: 6%">NO</th>
-        <th style="width: 20%">JENIS BUAH</th>
-        <th style="width: 44%">CARA PEMBERSIHAN</th>
-        <th style="width: 30%">KETERANGAN</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="no">1</td>
-        <td class="kategori">Pisang</td>
-        <td>Cukup dilap kain bersih.</td>
-        <td>Cukup dilap kain bersih.</td>
-      </tr>
-      <tr>
-        <td class="no">2</td>
-        <td class="kategori">Salak</td>
-        <td>Cukup disikat/dilap karena kulit bersisik keras dikupas dan dibuang.</td>
-        <td>Cukup disikat/dilap karena kulit bersisik keras dikupas dan dibuang.</td>
-      </tr>
-      <tr>
-        <td class="no">3</td>
-        <td class="kategori">Kelengkeng</td>
-        <td>Cukup dilap kain bersih.</td>
-        <td>Cukup dilap kain bersih.</td>
-      </tr>
-    </tbody>
-  </table>
+      <br />
+      <h2 class="section-title">L. LEMBAR PENGESAHAN</h2>
+      <div class="pengesahan">
+        <p>
+          Laporan SOP Persiapan dan Pengolahan Bahan Baku Buah pada SPPG Kota
+          Pekanbaru Binawidya Tobekgodang disusun sebagai pedoman operasional
+          dalam rangka menjamin keamanan pangan dan mutu gizi pada Program
+          Makan Bergizi Gratis (MBG).
+        </p>
+        <div class="pengesahan-tanggal">
+          Pekanbaru, .............................. 20.........
+        </div>
+        <div class="ttd-verifikasi">
+          <table>
+            <tr>
+              <td>
+                <div><strong>Dibuat oleh,</strong></div>
+                <div>Tim Persiapan</div>
+                <div class="signature-box"></div>
+                <div class="pengesahan-garis"></div>
+              </td>
+              <td>
+                <div><strong>Diperiksa oleh,</strong></div>
+                <div>Pengawas Gizi</div>
+                <div class="signature-box"></div>
+                <div class="pengesahan-garis"></div>
+              </td>
+              <td>
+                <div><strong>Disetujui oleh,</strong></div>
+                <div>Kepala SPPG</div>
+                <div class="signature-box"></div>
+                <div class="pengesahan-garis"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
 
-  <div class="catatan">
-    <strong>Catatan:</strong> Buah golongan ini tidak boleh direndam air karena dapat mempercepat pembusukan dan menurunkan mutu tekstur. Penggunaan lap mikrofiber bersih wajib dilakukan sebelum buah dikupas dan/atau dikemas.
-  </div>
+      <div class="footer-dokumen">
+        Dokumen ini merupakan bagian dari pelaksanaan SOP Nomor
+        023/05/00/SOP.23/09/2026 tentang Persiapan dan Pengolahan Bahan Baku
+        Buah pada Program Makan Bergizi Gratis (MBG) di lingkungan Badan Gizi
+        Nasional. Dokumen mencakup: (A) Identitas, (B) Dasar Hukum, (C) Tujuan,
+        (D) Ruang Lingkup, (E) Definisi, (F) Keterkaitan, (G) Kualifikasi
+        Pelaksana, (H) Prosedur Kerja, (I) Lampiran Kerja, (J) Verifikasi, (K)
+        Daftar Lampiran, dan (L) Lembar Pengesahan. Dokumen bersifat resmi dan
+        wajib diarsipkan sebagai acuan pembanding pada tahap pencatatan produksi
+        dan penyaluran harian.
+      </div>
+    </div>
 
-  <div class="ttd-verifikasi">
-    <table class="ttd-4">
-      <tr>
-        <td>Dibaca,</td>
-        <td>Diketahui,</td>
-        <td>Diperiksa,</td>
-        <td>Disetujui,</td>
-      </tr>
-      <tr>
-        <td><div class="ttd-space"></div></td>
-        <td><div class="ttd-space"></div></td>
-        <td><div class="ttd-space"></div></td>
-        <td><div class="ttd-space"></div></td>
-      </tr>
-      <tr>
-        <td><span class="ttd-name-line"></span>Tim Persiapan</td>
-        <td><span class="ttd-name-line"></span>Pengawas Gizi</td>
-        <td><span class="ttd-name-line"></span>Asisten Lapangan</td>
-        <td><span class="ttd-name-line"></span>Kepala SPPG</td>
-      </tr>
-    </table>
-  </div>
+    <!-- ════════════════════════════════════════════════════════════
+         TOOLBAR — Pilihan Kertas, Margin, & Cetak
+         ════════════════════════════════════════════════════════════ -->
+    <div class="toolbar no-print">
+      <div class="toolbar-group">
+        <label class="toolbar-label" for="paperSelect">Ukuran Kertas</label>
+        <select id="paperSelect" class="toolbar-select">
+          <option value="A4">A4 (210 × 297 mm)</option>
+          <option value="F4">F4 (215 × 330 mm)</option>
+          <option value="Letter">Letter (216 × 279 mm)</option>
+          <option value="Legal">Legal (216 × 356 mm)</option>
+        </select>
+      </div>
 
-</section>
+      <div class="toolbar-group">
+        <label class="toolbar-label" for="marginSelect">Margin Kiri</label>
+        <select id="marginSelect" class="toolbar-select">
+          <option value="30mm" selected>Kiri 3 cm</option>
+          <option value="40mm">Kiri 4 cm</option>
+          <option value="20mm">Kiri 2 cm (non-standar)</option>
+          <option value="25mm">Kiri 2,5 cm (non-standar)</option>
+        </select>
+      </div>
 
-<!-- ═══════════════════════════════════════════════════
-     HALAMAN 6 — I.2 FORMULIR 1
-     ═══════════════════════════════════════════════════ -->
-<section class="page page-break">
+      <button class="btn-print" onclick="window.print()">🖨️ Cetak PDF</button>
+    </div>
 
-  <div class="section-title">I.2 FORMULIR PERSIAPAN BAHAN BAKU SPPG</div>
+    <!-- ════════════════════════════════════════════════════════════════
+     JS GLOBAL — JANGAN DIUBAH PER-FILE
+     Nanti bisa dipindah ke file eksternal: sop-global.js
+     ════════════════════════════════════════════════════════════════ -->
+    <script id="js-global">
+      (function () {
+        "use strict";
+        const PAPER = {
+          A4: { cssSize: "A4 portrait", width: "210mm", height: "297mm" },
+          F4: { cssSize: "215mm 330mm", width: "215mm", height: "330mm" },
+          Letter: {
+            cssSize: "Letter portrait",
+            width: "216mm",
+            height: "279mm",
+          },
+          Legal: { cssSize: "Legal portrait", width: "216mm", height: "356mm" },
+        };
+        const state = { paper: "A4", marginLeft: "30mm" };
+        const styleEl = document.getElementById("dynamic-page-style");
+        const paperSelect = document.getElementById("paperSelect");
+        const marginSelect = document.getElementById("marginSelect");
+        if (!styleEl || !paperSelect || !marginSelect) return;
 
-  <table class="form-header">
-    <colgroup>
-      <col class="c-label">
-      <col class="c-value">
-      <col class="c-label">
-      <col class="c-value">
-    </colgroup>
-    <tbody>
-      <tr>
-        <td class="flabel">No. Dokumen</td>
-        <td class="fvalue">023/05/00/SOP.23/09/2026</td>
-        <td class="flabel">Tanggal</td>
-        <td class="fvalue">30 September 2026</td>
-      </tr>
-      <tr>
-        <td class="flabel">Hari / Tanggal</td>
-        <td class="fvalue"></td>
-        <td class="flabel">Shift / Regu Kerja</td>
-        <td class="fvalue">Pagi / Siang / Malam</td>
-      </tr>
-      <tr>
-        <td class="flabel">Menu Hari Ini</td>
-        <td class="fvalue"></td>
-        <td class="flabel">Jumlah Porsi</td>
-        <td class="fvalue"></td>
-      </tr>
-      <tr>
-        <td class="flabel">Nama SPPG</td>
-        <td class="fvalue">SPPG Kota Pekanbaru Binawidya Tobekgodang</td>
-        <td class="flabel">Petugas</td>
-        <td class="fvalue"></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="t-menu">
-    <colgroup>
-      <col class="c-no">
-      <col class="c-nama">
-      <col class="c-beratk">
-      <col class="c-beratb">
-      <col class="c-mulai">
-      <col class="c-selesai">
-      <col class="c-suhu">
-      <col class="c-warna">
-      <col class="c-aroma">
-      <col class="c-catatan">
-    </colgroup>
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Nama Bahan Baku</th>
-        <th>Berat Kotor (Kg)</th>
-        <th>Berat Bersih (Kg)</th>
-        <th>Jam Mulai</th>
-        <th>Jam Selesai</th>
-        <th>Suhu <em>Thawing</em></th>
-        <th>Warna (N/TB)</th>
-        <th>Aroma (N/TB)</th>
-        <th>Catatan / Potongan</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td class="no">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">8</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">9</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">10</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    </tbody>
-  </table>
-
-  <div class="catatan">
-    <strong>Catatan:</strong> Kolom Warna dan Aroma diisi dengan kode <strong>N</strong> (Normal) atau <strong>TB</strong> (Tidak Baik). Buah yang ditolak wajib dicatat alasannya pada kolom Catatan dan dilaporkan kepada pemasok. Formulir ini wajib ditandatangani oleh Petugas dan diverifikasi oleh Pengawas Gizi sebelum bahan baku diproses lebih lanjut.
-  </div>
-
-  <div class="ttd-verifikasi">
-    <table>
-      <tr>
-        <td>Dibuat oleh,</td>
-        <td>Diperiksa oleh,</td>
-        <td>Disetujui oleh,</td>
-      </tr>
-      <tr>
-        <td><div class="ttd-space"></div></td>
-        <td><div class="ttd-space"></div></td>
-        <td><div class="ttd-space"></div></td>
-      </tr>
-      <tr>
-        <td><span class="ttd-name-line"></span>Tim Persiapan</td>
-        <td><span class="ttd-name-line"></span>Pengawas Gizi</td>
-        <td><span class="ttd-name-line"></span>Kepala SPPG</td>
-      </tr>
-    </table>
-  </div>
-
-</section>
-
-<!-- ═══════════════════════════════════════════════════
-     HALAMAN 7 — I.3 FORMULIR 2
-     ═══════════════════════════════════════════════════ -->
-<section class="page page-break">
-
-  <div class="section-title">I.3 FORMULIR PENGOLAHAN DAN PENIMBANGAN BUAH</div>
-
-  <table class="form-header">
-    <colgroup>
-      <col class="c-label">
-      <col class="c-value">
-      <col class="c-label">
-      <col class="c-value">
-    </colgroup>
-    <tbody>
-      <tr>
-        <td class="flabel">No. Dokumen</td>
-        <td class="fvalue">023/05/00/SOP.23/09/2026-L2</td>
-        <td class="flabel">Tanggal</td>
-        <td class="fvalue">30 September 2026</td>
-      </tr>
-      <tr>
-        <td class="flabel">Hari / Tanggal</td>
-        <td class="fvalue"></td>
-        <td class="flabel">Shift / Regu Kerja</td>
-        <td class="fvalue">Pagi / Siang / Malam</td>
-      </tr>
-      <tr>
-        <td class="flabel">Menu Hari Ini</td>
-        <td class="fvalue"></td>
-        <td class="flabel">Jumlah Porsi</td>
-        <td class="fvalue"></td>
-      </tr>
-      <tr>
-        <td class="flabel">Nama SPPG</td>
-        <td class="fvalue">SPPG Kota Pekanbaru Binawidya Tobekgodang</td>
-        <td class="flabel">Petugas</td>
-        <td class="fvalue"></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table class="t-menu">
-    <colgroup>
-      <col class="c-no">
-      <col class="c-nama">
-      <col class="c-beratk">
-      <col class="c-beratb">
-      <col class="c-mulai">
-      <col class="c-selesai">
-      <col class="c-suhu">
-      <col class="c-warna">
-      <col class="c-aroma">
-      <col class="c-catatan">
-    </colgroup>
-    <thead>
-      <tr>
-        <th>No</th>
-        <th>Nama Bahan Baku</th>
-        <th>Berat Kotor (Kg)</th>
-        <th>Berat Bersih (Kg)</th>
-        <th>Jam Mulai</th>
-        <th>Jam Selesai</th>
-        <th>Suhu <em>Thawing</em></th>
-        <th>Warna (N/TB)</th>
-        <th>Aroma (N/TB)</th>
-        <th>Catatan / Potongan</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td class="no">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">8</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">9</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td class="no">10</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-    </tbody>
-  </table>
-
-  <div class="catatan">
-    <strong>Catatan:</strong> Formulir ini digunakan pada tahap pengolahan (pemotongan dan penimbangan). Durasi pemotongan buah potong maksimal 15 menit di suhu ruang. Berat bersih wajib mengacu pada standar AKG sesuai kelompok usia sasaran. Potongan buah yang tidak memenuhi kriteria <em>bite-size</em> 1,5–2 cm atau irisan 1 cm wajib dicatat pada kolom Catatan.
-  </div>
-
-  <div class="ttd-verifikasi">
-    <table>
-      <tr>
-        <td>Dibuat oleh,</td>
-        <td>Diperiksa oleh,</td>
-        <td>Disetujui oleh,</td>
-      </tr>
-      <tr>
-        <td><div class="ttd-space"></div></td>
-        <td><div class="ttd-space"></div></td>
-        <td><div class="ttd-space"></div></td>
-      </tr>
-      <tr>
-        <td><span class="ttd-name-line"></span>Tim Pengolahan</td>
-        <td><span class="ttd-name-line"></span>Pengawas Gizi</td>
-        <td><span class="ttd-name-line"></span>Kepala SPPG</td>
-      </tr>
-    </table>
-  </div>
-
-</section>
-
-<!-- ═══════════════════════════════════════════════════
-     HALAMAN 8 — J. VERIFIKASI, K. DAFTAR LAMPIRAN,
-     L. LEMBAR PENGESAHAN + FOOTER
-     ═══════════════════════════════════════════════════ -->
-<section class="page page-break">
-
-  <div class="section-title">J. VERIFIKASI</div>
-  <table>
-    <thead>
-      <tr>
-        <th style="width: 8%">No.</th>
-        <th style="width: 46%">Uraian Verifikasi</th>
-        <th style="width: 23%">Hasil</th>
-        <th style="width: 23%">Keterangan</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td class="no">1</td><td>Kelengkapan APD dan higiene personel</td><td class="center">Sesuai</td><td>Terpenuhi</td></tr>
-      <tr><td class="no">2</td><td>Kesesuaian jumlah dan mutu bahan baku buah</td><td class="center">Sesuai</td><td>Terpenuhi</td></tr>
-      <tr><td class="no">3</td><td>Penerapan prinsip FIFO pada pengambilan bahan baku</td><td class="center">Sesuai</td><td>Terpenuhi</td></tr>
-      <tr><td class="no">4</td><td>Pencucian buah sesuai jenis (air mengalir / tanpa air)</td><td class="center">Sesuai</td><td>Terpenuhi</td></tr>
-      <tr><td class="no">5</td><td>Berat porsi potongan sesuai standar AKG</td><td class="center">Sesuai</td><td>Terpenuhi</td></tr>
-      <tr><td class="no">6</td><td>Kelengkapan pencatatan pada Formulir Persiapan Bahan Baku</td><td class="center">Sesuai</td><td>Terpenuhi</td></tr>
-    </tbody>
-  </table>
-
-  <div class="section-title">K. DAFTAR LAMPIRAN</div>
-  <table>
-    <thead>
-      <tr>
-        <th style="width: 8%">No.</th>
-        <th style="width: 62%">Judul Lampiran</th>
-        <th style="width: 30%">Kode</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td class="no">1</td><td>Standar Pembersihan Buah (Dicuci Air Mengalir &amp; Dibersihkan Tanpa Air)</td><td class="center">Lampiran I.1</td></tr>
-      <tr><td class="no">2</td><td>Formulir Persiapan Bahan Baku SPPG</td><td class="center">Lampiran I.2</td></tr>
-      <tr><td class="no">3</td><td>Formulir Pengolahan dan Penimbangan Buah</td><td class="center">Lampiran I.3</td></tr>
-    </tbody>
-  </table>
-
-  <div class="section-title">L. LEMBAR PENGESAHAN</div>
-  <div class="pengesahan">
-    <p>Laporan SOP Persiapan dan Pengolahan Bahan Baku Buah pada SPPG Kota Pekanbaru Binawidya Tobekgodang disusun sebagai pedoman operasional dalam rangka menjamin keamanan pangan dan mutu gizi pada Program Makan Bergizi Gratis (MBG).</p>
-    <div class="pengesahan-tanggal">Pekanbaru, 30 September 2026</div>
-    <table style="border:none; width:100%; margin:0;">
-      <tr>
-        <td style="border:none; width:50%; text-align:center; background:transparent;">
-          <div>Disusun oleh,</div>
-          <div class="signature-box"></div>
-          <span class="ttd-name-line"></span>
-          <div><strong>Pengawas Gizi</strong></div>
-        </td>
-        <td style="border:none; width:50%; text-align:center; background:transparent;">
-          <div>Disahkan oleh,</div>
-          <div class="signature-box"></div>
-          <span class="ttd-name-line"></span>
-          <div><strong>Kepala SPPG Kota Pekanbaru Binawidya Tobekgodang</strong></div>
-        </td>
-      </tr>
-    </table>
-  </div>
-
-  <div class="footer-dokumen">
-    Dokumen ini merupakan bagian dari Sistem Penjaminan Keamanan Pangan dan Mutu Pangan di lingkungan Badan Gizi Nasional. Setiap perubahan terhadap SOP ini wajib melalui mekanisme reviu dan pengesahan oleh Kepala SPPG Kota Pekanbaru Binawidya Tobekgodang dan dilaporkan kepada Deputi Bidang Sistem dan Tata Kelola Badan Gizi Nasional.
-  </div>
-
-</section>
-
-<!-- ═══════════════ TOOLBAR (NO PRINT) ═══════════════ -->
-<div class="toolbar no-print">
-  <div class="toolbar-group">
-    <label class="toolbar-label" for="paperSelect">Ukuran Kertas</label>
-    <select id="paperSelect" class="toolbar-select">
-      <option value="A4">A4</option>
-      <option value="F4">F4 / Folio</option>
-      <option value="Letter">Letter</option>
-      <option value="Legal">Legal</option>
-    </select>
-  </div>
-  <div class="toolbar-group">
-    <label class="toolbar-label" for="marginSelect">Margin Kiri</label>
-    <select id="marginSelect" class="toolbar-select">
-      <option value="20mm">20 mm</option>
-      <option value="25mm">25 mm</option>
-      <option value="30mm" selected>30 mm</option>
-      <option value="40mm">40 mm</option>
-    </select>
-  </div>
-  <button class="btn-print" onclick="window.print()">🖨️ Cetak PDF</button>
-</div>
-
-<!-- ═══════════ JAVASCRIPT GLOBAL ═══════════ -->
-<script id="js-global">
-  (function () {
-    "use strict";
-    const PAPER = {
-      A4: { cssSize: "A4 portrait", width: "210mm", height: "297mm" },
-      F4: { cssSize: "215mm 330mm", width: "215mm", height: "330mm" },
-      Letter: { cssSize: "Letter portrait", width: "216mm", height: "279mm" },
-      Legal: { cssSize: "Legal portrait", width: "216mm", height: "356mm" },
-    };
-    const state = { paper: "A4", marginLeft: "30mm" };
-    const styleEl = document.getElementById("dynamic-page-style");
-    const paperSelect = document.getElementById("paperSelect");
-    const marginSelect = document.getElementById("marginSelect");
-    if (!styleEl || !paperSelect || !marginSelect) return;
-
-    function render() {
-      const p = PAPER[state.paper] || PAPER.A4;
-      const m = state.marginLeft;
-      styleEl.textContent = `
+        function render() {
+          const p = PAPER[state.paper] || PAPER.A4;
+          const m = state.marginLeft;
+          styleEl.textContent = `
         @page { size: ${p.cssSize}; margin: 15mm 15mm 15mm ${m}; }
         @media screen and (min-width: 1025px) {
           .page { width: ${p.width}; min-height: ${p.height}; padding: 15mm 15mm 15mm ${m}; }
@@ -1137,11 +2195,17 @@ ol.legal li { margin-bottom: 3px; text-align: justify; line-height: 1.5; }
           .page { width: auto; min-height: auto; padding: 0; margin: 0; }
         }
       `;
-    }
-    paperSelect.addEventListener("change", function () { state.paper = this.value; render(); });
-    marginSelect.addEventListener("change", function () { state.marginLeft = this.value; render(); });
-    render();
-  })();
-</script>
-</body>
+        }
+        paperSelect.addEventListener("change", function () {
+          state.paper = this.value;
+          render();
+        });
+        marginSelect.addEventListener("change", function () {
+          state.marginLeft = this.value;
+          render();
+        });
+        render();
+      })();
+    </script>
+  </body>
 </html>
