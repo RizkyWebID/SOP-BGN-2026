@@ -200,8 +200,23 @@
         font-weight: bold;
         width: 32px;
       }
+      tr.total td {
+        font-weight: bold;
+      }
+      tr.header-row td {
+        font-weight: bold;
+      }
 
-      /* MODIFIKATOR TABEL */
+      /* ⚠️ URUTAN MATRIX → WORKFLOW HARUS DIPERTAHANKAN
+     (agar t-workflow menang pada <table class="t-workflow t-matrix">) */
+      table.t-matrix {
+        font-size: 8.5pt;
+      }
+      table.t-matrix th,
+      table.t-matrix td {
+        padding: 2px 3px;
+      }
+
       table.t-workflow {
         font-size: 9pt;
         table-layout: fixed;
@@ -239,6 +254,7 @@
         margin: 0;
       }
 
+      /* Standar menu — rata tengah (dasar) */
       table.t-standar td,
       table.t-standar td.kiri,
       table.t-standar th {
@@ -677,83 +693,6 @@
       table.ttd-4 td {
         width: 25%;
       }
-      table.ttd-4 {
-        table-layout: fixed;
-      }
-
-      /* Formulir I.2 — 10 kolom baris isian */
-      table.t-form col.c-no {
-        width: 4%;
-      }
-      table.t-form col.c-nama {
-        width: 18%;
-      }
-      table.t-form col.c-beratk {
-        width: 8%;
-      }
-      table.t-form col.c-beratb {
-        width: 8%;
-      }
-      table.t-form col.c-mulai {
-        width: 8%;
-      }
-      table.t-form col.c-selesai {
-        width: 8%;
-      }
-      table.t-form col.c-suhu {
-        width: 8%;
-      }
-      table.t-form col.c-warna {
-        width: 8%;
-      }
-      table.t-form col.c-aroma {
-        width: 8%;
-      }
-      table.t-form col.c-catatan {
-        width: 22%;
-      }
-      table.t-form td {
-        height: 30px;
-      }
-      table.t-form th {
-        height: 40px;
-        padding: 4px 4px;
-        font-size: 9pt;
-      }
-
-      /* Formulir I.3 — pengolahan buah */
-      table.t-form-olah col.c-no {
-        width: 5%;
-      }
-      table.t-form-olah col.c-menu {
-        width: 22%;
-      }
-      table.t-form-olah col.c-metode {
-        width: 12%;
-      }
-      table.t-form-olah col.c-mulai {
-        width: 9%;
-      }
-      table.t-form-olah col.c-selesai {
-        width: 9%;
-      }
-      table.t-form-olah col.c-suhu {
-        width: 8%;
-      }
-      table.t-form-olah col.c-uji {
-        width: 15%;
-      }
-      table.t-form-olah col.c-catatan {
-        width: 20%;
-      }
-      table.t-form-olah td {
-        height: 30px;
-      }
-      table.t-form-olah th {
-        height: 40px;
-        padding: 4px 4px;
-        font-size: 9pt;
-      }
     </style>
 
     <!-- @page default — margin kiri 3 cm (ruang jilid), diubah JS bila perlu -->
@@ -1031,7 +970,6 @@
                 <li>SOP Pembersihan Meja Produksi.</li>
                 <li>SOP Penggunaan Talenan dan Pisau.</li>
                 <li>SOP Kontrol Air Bersih.</li>
-                <li>SOP Penggunaan Talenan dan Pisau.</li>
                 <li>SOP Manajemen Sampah.</li>
               </ol>
             </td>
@@ -1771,7 +1709,7 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════════════
-         HALAMAN 8 — J. VERIFIKASI + K. DAFTAR LAMPIRAN + L. PENGESAHAN
+         HALAMAN 7 — J. VERIFIKASI + K. DAFTAR LAMPIRAN + L. PENGESAHAN
          ════════════════════════════════════════════════════════════ -->
     <div class="page page-break">
       <h2 class="section-title">J. VERIFIKASI DAN PERSETUJUAN DOKUMEN</h2>
@@ -1885,9 +1823,7 @@
       <ol class="legal">
         <li>
           <span class="list-flex"
-            ><span
-              >I.1 Lampiran. Standar Pembersihan Buah (Lampiran II — Dicuci Air
-              Mengalir &amp; Lampiran III — Dibersihkan Tanpa Air)</span
+            ><span>I.1 Lampiran. Standar Pembersihan Buah</span
             ><span class="kanan">( 1 Halaman )</span></span
           >
         </li>
