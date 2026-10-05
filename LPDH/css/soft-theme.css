@@ -1,0 +1,87 @@
+/* ============================================================
+ * SAAS — LAPORAN KEUANGAN SPPG LPDH
+ * File     : soft-theme.css
+ * Fungsi   : Tema dasar terang lembut (tidak menyilaukan) +
+ *            variabel warna & tipografi global.
+ * Catatan  : Dipakai untuk SEMUA browser (termasuk lama).
+ * ============================================================ */
+
+:root {
+  /* -------- Palet warna terang lembut -------- */
+  --c-bg:         #f6f5f1;   /* latar utama, off-white hangat */
+  --c-surface:    #fdfcf9;   /* kartu/panel */
+  --c-surface-2:  #f1efe9;   /* panel sekunder */
+  --c-border:     #e2ddd3;
+  --c-text:       #2c3338;
+  --c-text-muted: #6b7280;
+  --c-primary:    #4a7c59;   /* hijau tenang */
+  --c-primary-2:  #3e6a4b;
+  --c-accent:     #6b8fb5;   /* biru lembut */
+  --c-danger:     #b35656;
+  --c-warn:       #c08a3e;
+  --c-ok:         #4a7c59;
+  --c-focus:      #9db9a6;
+
+  /* -------- Radius, shadow, transition -------- */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.06);
+  --t-fast: .15s ease;
+}
+
+/* Reset ringan (hindari normalisasi berat agar ramah browser lama) */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+
+body.saas-body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Container responsif ringan */
+.container {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+/* Header & footer */
+.saas-header {
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+  box-shadow: var(--shadow-sm);
+}
+.saas-title { font-size: 16px; margin: 0; font-weight: 700; }
+.saas-subtitle { font-size: 12px; margin: 0; color: var(--c-text-muted); }
+
+.saas-logo {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: var(--r-md);
+  background: var(--c-primary); color: #fff; font-weight: 700;
+  font-size: 13px; letter-spacing: .5px;
+}
+
+.saas-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--c-border);
+  color: var(--c-text-muted);
+  background: var(--c-surface);
+}
+
+/* Focus state lembut */
+:focus-visible {
+  outline: 2px solid var(--c-focus);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}

@@ -1,0 +1,114 @@
+/* ============================================================
+ * SAAS — LAPORAN KEUANGAN SPPG LPDH
+ * File     : components.css
+ * Fungsi   : Komponen UI dasar (card, button, form, table, toast).
+ * ============================================================ */
+
+/* ---- Card ---- */
+.saas-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.saas-card__title {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--c-text);
+}
+
+/* ---- Button ---- */
+.saas-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-text);
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  cursor: pointer;
+  transition: var(--t-fast);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.saas-btn:hover { filter: brightness(0.98); }
+.saas-btn:active { transform: translateY(1px); }
+
+.saas-btn--primary {
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+  color: #fff;
+}
+.saas-btn--primary:hover { background: var(--c-primary-2); }
+
+.saas-btn--accent {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: #fff;
+}
+
+/* ---- Field / Input ---- */
+.saas-field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.saas-field > span { color: var(--c-text-muted); }
+
+.saas-input {
+  padding: 8px 10px;
+  font-size: 14px;
+  color: var(--c-text);
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  transition: var(--t-fast);
+}
+.saas-input:focus {
+  border-color: var(--c-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 124, 89, .15);
+}
+
+/* ---- Hint ---- */
+.saas-hint { color: var(--c-text-muted); font-size: 12px; margin: 0; }
+
+/* ---- Table host ---- */
+.saas-table-host {
+  overflow-x: auto;
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-md);
+  background: #fff;
+}
+.saas-table-host table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.saas-table-host th, .saas-table-host td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--c-border);
+}
+.saas-table-host th { background: var(--c-surface-2); font-weight: 700; }
+
+/* ---- Toast ---- */
+.saas-toast-host {
+  position: fixed; right: 16px; bottom: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  z-index: 9999; pointer-events: none;
+}
+.saas-toast {
+  padding: 10px 14px;
+  font-size: 13px;
+  border-radius: var(--r-md);
+  background: var(--c-surface);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  box-shadow: var(--shadow-md);
+  transform: translateY(8px);
+  opacity: 0;
+  transition: var(--t-fast);
+}
+.saas-toast.is-show { transform: translateY(0); opacity: 1; }
+.saas-toast--ok    { border-color: var(--c-ok);    }
+.saas-toast--warn  { border-color: var(--c-warn);  }
+.saas-toast--error { border-color: var(--c-danger);}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Viewport responsif untuk HP kecil hingga desktop -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f6f5f1" />
+  <title>Laporan Keuangan SPPG LPDH — SAAS</title>
+
+  <!-- CSS inti: soft theme + utility ala-Tailwind + komponen -->
+  <link rel="stylesheet" href="css/soft-theme.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+<body class="saas-body">
+
+  <!-- ============ HEADER ============ -->
+  <header class="saas-header">
+    <div class="container flex items-center justify-between gap-3 py-3">
+      <div class="flex items-center gap-2">
+        <span class="saas-logo" aria-hidden="true">SPPG</span>
+        <div>
+          <h1 class="saas-title">Laporan Keuangan SPPG LPDH</h1>
+          <p class="saas-subtitle" id="saas-version">Versi: —</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2" id="saas-user-area">
+        <!-- Nanti diisi lewat JS: nama user aktif / ganti user -->
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ MAIN ============ -->
+  <main class="container py-4">
+
+    <!-- Kartu sesi aktif -->
+    <section class="saas-card mb-4">
+      <h2 class="saas-card__title">Sesi Aktif</h2>
+      <div class="grid grid-cols-1 md-grid-cols-3 gap-3">
+        <label class="saas-field">
+          <span>Nama Pengguna</span>
+          <input id="input-user" class="saas-input" placeholder="contoh: Budi" />
+        </label>
+        <label class="saas-field">
+          <span>ID Sesi (otomatis)</span>
+          <input id="input-session" class="saas-input" readonly />
+        </label>
+        <div class="flex items-end gap-2">
+          <button id="btn-new-session" class="saas-btn saas-btn--primary">Buat Sesi Baru</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Aksi utama -->
+    <section class="saas-card mb-4">
+      <h2 class="saas-card__title">Aksi</h2>
+      <div class="flex flex-wrap gap-2">
+        <button id="btn-import-master" class="saas-btn">Baca Struktur Master (XLSX)</button>
+        <button id="btn-import-data"   class="saas-btn">Import Data Kerjaan (XLSX)</button>
+        <button id="btn-input-manual"  class="saas-btn saas-btn--primary">Input Manual</button>
+        <button id="btn-export"        class="saas-btn saas-btn--accent">Export XLSX</button>
+      </div>
+      <p class="saas-hint mt-2">
+        Catatan: file master TIDAK pernah diubah oleh aplikasi ini.
+        Export menghasilkan file BARU dengan struktur mengikuti master.
+      </p>
+    </section>
+
+    <!-- Tabel data -->
+    <section class="saas-card">
+      <h2 class="saas-card__title">Data Tersimpan (DB Lokal)</h2>
+      <div id="table-host" class="saas-table-host">
+        <p class="saas-hint">Belum ada data. Buat sesi lalu tambah data.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="saas-footer">
+    <div class="container py-3 text-center">
+      <small>© <span id="saas-year"></span> SPPG LPDH — SaaS Foundation</small>
+    </div>
+  </footer>
+
+  <!-- JS inti -->
+  <script src="js/saas-config.js"></script>
+  <script src="js/db-local.js"></script>
+  <script src="js/ui-helpers.js"></script>
+  <script src="js/import-xlsx.js"></script>
+  <script src="js/export-xlsx.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
