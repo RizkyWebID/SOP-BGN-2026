@@ -78,12 +78,23 @@
       case "d-insentif":
         return SAAS_FORM_DINSENTIF.render(v, sid);
       case "e-saldo":
-        return SAAS_FORM_GENERIC_TABLE.render(v, sid, {
-          sheet: "E_Saldo",
-          title: "E. Saldo & Penerimaan Top Up",
-          hint: "Baris top up (5 baris). Saldo awal diisi manual.",
-          maxRows: 5,
-        });
+        // Render bagian flat (saldo awal + VA) dulu
+        v.innerHTML = `
+          <h2 class="saas-card__title">E. Saldo & Penerimaan Top Up</h2>
+          <h3 class="saas-card__title">Saldo Awal & Saldo VA</h3>
+          <div id="saas-esaldo-flat"></div>
+          <h3 class="saas-card__title" style="margin-top:24px">Penerimaan Top Up</h3>
+          <div id="saas-esaldo-table"></div>
+        `;
+        SAAS_FORM_BUILDER.renderFlat('E_Saldo', sid,
+          v.querySelector('#saas-esaldo-flat'), { rowIndex: 0 });
+        return SAAS_FORM_GENERIC_TABLE.render(
+          v.querySelector('#saas-esaldo-table'), sid, {
+            sheet: 'E_Saldo',
+            title: '',
+            hint: 'Baris top up (maksimal 5).',
+            maxRows: 5,
+          });
       case "f-topup":
         return renderViewTopUpInfo(v);
       case "export":
@@ -217,15 +228,6 @@
     });
   }
 
-  // ---------- View: Export (placeholder batch 1) ----------
-  function renderViewExport(root) {
-    root.innerHTML = `
-      <h2 class="saas-card__title">Export XLSX</h2>
-      <p class="saas-hint">
-        Fitur export akan aktif di batch 2 setelah xlsx engine terpasang.
-        Saat ini belum ada file yang bisa diunduh.
-      </p>
-    `;
   }
 
   // ---------- Render awal ----------
