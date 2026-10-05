@@ -1,6 +1,7 @@
 /* ============================================================
  * SAAS — LAPORAN KEUANGAN SPPG LPDH
  * File     : forms/form-d-insentif.js
+ * Fungsi   : Form input sheet D_Insentif.
  * ============================================================ */
 
 const SAAS_FORM_DINSENTIF = {

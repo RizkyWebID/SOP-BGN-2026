@@ -9,19 +9,16 @@
  *      a) Ambil template dari IndexedDB.
  *      b) Muat dengan ExcelJS (formula, style, merged tetap utuh).
  *      c) Tulis data input user ke sel target (hanya sel input).
- *      d) REWRITE formula duplikat: $C$5:$C$130 → $C$5:$C$125
- *         di semua sheet (sesuai permintaan terbaru).
+ *      d) REWRITE formula duplikat: $C$5:$C$130 → $C$5:$C$125.
  *      e) writeBuffer() → Blob → unduh.
  *
  * JAMINAN:
  *   - File master ASLI di disk tidak pernah disentuh.
  *   - Struktur kolom, header, merged cell, validation tetap.
- *   - Hanya sel input (kuning) yang ditulis.
  * ============================================================ */
 
 const SAAS_XLSX = (() => {
 
-  /* ---------- Muat template dari IndexedDB ---------- */
   async function loadTemplate() {
     const t = await SAAS_DB.getTemplate();
     if (!t || !t.arrayBuffer) {
@@ -30,7 +27,6 @@ const SAAS_XLSX = (() => {
     return t.arrayBuffer;
   }
 
-  /* ---------- Muat workbook ExcelJS dari ArrayBuffer ---------- */
   async function loadWorkbook(arrayBuffer) {
     if (typeof ExcelJS === 'undefined') {
       throw new Error('ExcelJS belum ter-load. Periksa index.html.');
@@ -40,12 +36,7 @@ const SAAS_XLSX = (() => {
     return wb;
   }
 
-  /* ---------- Rewrite formula register di seluruh workbook ---------- */
-  /**
-   * Ubah semua formula yang mengandung `$C$5:$C$130` menjadi `$C$5:$C$125`.
-   * Alasan: baris 126–130 di I_RegisterBukti adalah baris ringkasan,
-   *         bukan baris data (per revisi dari user/PPK).
-   */
+  /* Rewrite formula register bukti di seluruh workbook */
   function rewriteRegisterRange(wb) {
     const OLD = SAAS_APP.export.REGISTER_RANGE_OLD;
     const NEW = SAAS_APP.export.REGISTER_RANGE_NEW;
@@ -58,7 +49,6 @@ const SAAS_XLSX = (() => {
           if (v && typeof v === 'object' && typeof v.formula === 'string'
               && v.formula.indexOf(OLD) !== -1) {
             const newFormula = v.formula.split(OLD).join(NEW);
-            // ExcelJS: tulis balik dengan formula baru, result = result lama
             cell.value = { formula: newFormula, result: v.result };
             count++;
           }
@@ -70,7 +60,6 @@ const SAAS_XLSX = (() => {
     return count;
   }
 
-  /* ---------- Helper: ubah tanggal ISO/string → Date Excel ---------- */
   function toExcelDate(val) {
     if (!val) return null;
     if (val instanceof Date) return val;
@@ -78,15 +67,7 @@ const SAAS_XLSX = (() => {
     return isNaN(d.getTime()) ? null : d;
   }
 
-  /* ---------- Tulis data input user ke sel target ---------- */
-  /**
-   * @param {Workbook} wb
-   * @param {Array}    rows   — daftar record dari DB
-   *                            { sheet, rowIndex, data: {key: value} }
-   * @param {Object}   map    — SAAS_CELL_MAP
-   */
   function applyInputData(wb, rows, map) {
-    // Kelompokkan per sheet untuk akses cepat
     const bySheet = {};
     rows.forEach((r) => {
       (bySheet[r.sheet] = bySheet[r.sheet] || []).push(r);
@@ -102,17 +83,15 @@ const SAAS_XLSX = (() => {
       if (!mapSheet) return;
 
       bySheet[sheetName].forEach((rec) => {
-        const idx = rec.rowIndex;  // nomor baris master (1-based)
+        const idx = rec.rowIndex;
         const data = rec.data || {};
 
         mapSheet.forEach((def) => {
           if (def.cell) {
-            // Skema sel tunggal (mis. Identitas!B6)
             if (Object.prototype.hasOwnProperty.call(data, def.key)) {
               writeCell(ws, def.cell, data[def.key], def);
             }
           } else if (def.range && def.cols) {
-            // Skema baris berulang (mis. B_BahanBaku rows 6..45)
             if (idx < def.range.from || idx > def.range.to) return;
             def.cols.forEach((c) => {
               const addr = c.col + idx;
@@ -126,7 +105,6 @@ const SAAS_XLSX = (() => {
     });
   }
 
-  /* ---------- Tulis satu sel (dengan normalisasi tipe) ---------- */
   function writeCell(ws, addr, value, def) {
     const cell = ws.getCell(addr);
     if (value === '' || value === null || value === undefined) {
@@ -141,7 +119,6 @@ const SAAS_XLSX = (() => {
         cell.value = Number(value);
         break;
       case 'url':
-        // Simpan sebagai teks (master pun menyimpan link sebagai teks biasa)
         cell.value = String(value);
         break;
       default:
@@ -149,11 +126,6 @@ const SAAS_XLSX = (() => {
     }
   }
 
-  /* ---------- Export: rakit & unduh ---------- */
-  /**
-   * @param {string} sessionId
-   * @returns {Promise<Blob>}
-   */
   async function exportSession(sessionId) {
     SAAS_UI.showBusy('Menyiapkan export…');
     try {
@@ -161,13 +133,9 @@ const SAAS_XLSX = (() => {
       const wb = await loadWorkbook(template);
       const rows = await SAAS_DB.rowsBySession(sessionId);
 
-      // Tulis data user
       applyInputData(wb, rows, SAAS_CELL_MAP);
-
-      // Rewrite formula (per permintaan terbaru)
       rewriteRegisterRange(wb);
 
-      // Serialisasi
       SAAS_UI.showBusy('Menulis file XLSX…');
       const buffer = await wb.xlsx.writeBuffer();
       return new Blob([buffer], {
@@ -178,7 +146,6 @@ const SAAS_XLSX = (() => {
     }
   }
 
-  /* ---------- Unduh Blob sebagai file ---------- */
   function downloadBlob(blob, filename) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -192,20 +159,13 @@ const SAAS_XLSX = (() => {
     }, 800);
   }
 
-  /* ---------- Bangun nama file sesuai master ──────────────── */
-  /**
-   * Master punya formula di Identitas!B29:
-   *   =B6 & "_" & B7 & "_LPDH_" & TEXT(B15,"yyyymmdd")
-   * Kita replikasi di sini agar nama file konsisten dengan isi.
-   */
   async function buildFileName(sessionId) {
     const rows = await SAAS_DB.rowsBySession(sessionId);
-    const ident = rows.find((r) => r.sheet === 'Identitas')?.data || {};
+    const identRec = rows.find((r) => r.sheet === 'Identitas' && r.rowIndex === 0);
+    const ident = (identRec && identRec.data) || {};
     const id   = ident.id_sppg || 'SPPG';
     const nama = ident.nama_sppg || 'SPPG';
-    const tgl  = ident.tgl_layanan
-      ? new Date(ident.tgl_layanan)
-      : new Date();
+    const tgl  = ident.tgl_layanan ? new Date(ident.tgl_layanan) : new Date();
     const pad  = (n) => String(n).padStart(2, '0');
     const tglStr = `${tgl.getFullYear()}${pad(tgl.getMonth()+1)}${pad(tgl.getDate())}`;
     return `${id}_${nama}_LPDH_${tglStr}.xlsx`;
@@ -216,7 +176,7 @@ const SAAS_XLSX = (() => {
     exportSession,
     downloadBlob,
     buildFileName,
-    rewriteRegisterRange,  // diekspos untuk unit test
+    rewriteRegisterRange,
   };
 })();
 

@@ -7,7 +7,6 @@
 
 const SAAS_FORM_APM = {
 
-  /* Kode & nama kelompok sasaran (baris 6..15 di master) */
   KELOMPOK: [
     { kode: 'KS-01', nama: 'PAUD/TK/RA' },
     { kode: 'KS-02', nama: 'SD/MI Kelas 1–3' },
@@ -45,7 +44,6 @@ const SAAS_FORM_APM = {
     const mapA = SAAS_CELL_MAP.A_PM.find((x) => x.range);
     const cols = mapA.cols;
 
-    // Header
     const thead = root.querySelector('#saas-apm-table thead tr');
     const thKode = document.createElement('th'); thKode.textContent = 'Kode'; thead.appendChild(thKode);
     const thNama = document.createElement('th'); thNama.textContent = 'Kelompok'; thead.appendChild(thNama);
@@ -53,16 +51,14 @@ const SAAS_FORM_APM = {
       const th = document.createElement('th'); th.textContent = c.label; thead.appendChild(th);
     });
 
-    // Body: 10 baris
     const tbody = root.querySelector('#saas-apm-table tbody');
     for (let i = 0; i < this.KELOMPOK.length; i++) {
-      const rowIndex = 6 + i;   // baris master
+      const rowIndex = 6 + i;
       const tr = document.createElement('tr');
 
       const tdKode = document.createElement('td'); tdKode.textContent = this.KELOMPOK[i].kode; tr.appendChild(tdKode);
       const tdNama = document.createElement('td'); tdNama.textContent = this.KELOMPOK[i].nama; tr.appendChild(tdNama);
 
-      // Ambil record tersimpan untuk baris ini
       const rec = await SAAS_DB.getRow(sessionId, 'A_PM', rowIndex);
       const data = (rec && rec.data) || {};
 
@@ -76,7 +72,6 @@ const SAAS_FORM_APM = {
       tbody.appendChild(tr);
     }
 
-    // Ringkasan produksi (baris C19..C24)
     const sumHost = root.querySelector('#saas-apm-summary');
     const sumDefs = SAAS_CELL_MAP.A_PM.filter((d) => d.cell);
     const sumRec = await SAAS_DB.getRow(sessionId, 'A_PM', 0);

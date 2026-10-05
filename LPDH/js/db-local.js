@@ -2,49 +2,41 @@
  * SAAS — LAPORAN KEUANGAN SPPG LPDH
  * File     : db-local.js
  * Fungsi   : Wrapper IndexedDB (offline-first).
- *            Menyimpan sesi, baris data input, dan blob
- *            template XLSX master (read-only).
- * Catatan  : TIDAK menyentuh file master XLSX di disk.
- *            File master hanya disimpan sebagai salinan blob
- *            agar struktur & formula terjaga saat export.
  * ============================================================ */
 
 const SAAS_DB = (() => {
   let _dbPromise = null;
 
-  /* Buka database, buat store jika belum ada */
   function open() {
     if (_dbPromise) return _dbPromise;
     _dbPromise = new Promise((resolve, reject) => {
       const req = indexedDB.open(SAAS_APP.db.name, SAAS_APP.db.version);
 
+      req.onblocked = () => {
+        reject(new Error('Database sedang dipakai tab lain. Tutup semua tab lalu refresh.'));
+      };
+
       req.onupgradeneeded = (e) => {
         const db = e.target.result;
+        const stores = SAAS_APP.stores;
 
-        // sessions: metadata tiap workspace user
-        if (!db.objectStoreNames.contains(SAAS_APP.stores.sessions)) {
-          const s = db.createObjectStore(SAAS_APP.stores.sessions, { keyPath: 'id' });
+        if (!db.objectStoreNames.contains(stores.sessions)) {
+          const s = db.createObjectStore(stores.sessions, { keyPath: 'id' });
           s.createIndex('byUser', 'userName');
           s.createIndex('bySavedAt', 'savedAt');
         }
-
-        // records: satu baris data input (per sheet per sesi)
-        // keyPath = rowId = `${sessionId}::${sheet}::${rowIndex}`
-        if (!db.objectStoreNames.contains(SAAS_APP.stores.records)) {
-          const r = db.createObjectStore(SAAS_APP.stores.records, { keyPath: 'rowId' });
+        if (!db.objectStoreNames.contains(stores.records)) {
+          const r = db.createObjectStore(stores.records, { keyPath: 'rowId' });
           r.createIndex('bySession', 'sessionId');
           r.createIndex('bySheet', ['sessionId', 'sheet']);
         }
-
-        // template: salinan blob master (satu entri, id = 'master')
-        if (!db.objectStoreNames.contains(SAAS_APP.stores.template)) {
-          db.createObjectStore(SAAS_APP.stores.template, { keyPath: 'id' });
+        if (!db.objectStoreNames.contains(stores.template)) {
+          db.createObjectStore(stores.template, { keyPath: 'id' });
         }
-
-        // meta: preferensi umum (sesi aktif, versi template, dll)
-        if (!db.objectStoreNames.contains(SAAS_APP.stores.meta)) {
-          db.createObjectStore(SAAS_APP.stores.meta, { keyPath: 'key' });
+        if (!db.objectStoreNames.contains(stores.meta)) {
+          db.createObjectStore(stores.meta, { keyPath: 'key' });
         }
+        console.info('[SAAS-DB] Skema IndexedDB versi', SAAS_APP.db.version, 'siap.');
       };
 
       req.onsuccess = () => resolve(req.result);
@@ -53,7 +45,6 @@ const SAAS_DB = (() => {
     return _dbPromise;
   }
 
-  /* Helper transaksi generik */
   async function tx(storeName, mode, fn) {
     const db = await open();
     return new Promise((resolve, reject) => {
@@ -68,14 +59,24 @@ const SAAS_DB = (() => {
   }
 
   return {
-    /* ---------- API umum ---------- */
     put:   (store, value) => tx(store, 'readwrite', (s) => s.put(value)),
     get:   (store, key)   => tx(store, 'readonly',  (s) => s.get(key)),
     del:   (store, key)   => tx(store, 'readwrite', (s) => s.delete(key)),
     clear: (store)        => tx(store, 'readwrite', (s) => s.clear()),
     all:   (store)        => tx(store, 'readonly',  (s) => s.getAll()),
 
-    /* ---------- Sesi ---------- */
+    async resetDatabase() {
+      const db = await open();
+      db.close();
+      _dbPromise = null;
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.deleteDatabase(SAAS_APP.db.name);
+        req.onsuccess = () => resolve(true);
+        req.onerror   = () => reject(req.error);
+        req.onblocked = () => reject(new Error('Tutup tab lain lalu refresh.'));
+      });
+    },
+
     async createSession(userName) {
       const now = new Date();
       const id = SAAS_APP.namespace.buildSessionId(userName, now, now);
@@ -97,8 +98,6 @@ const SAAS_DB = (() => {
       return s;
     },
 
-    /* ---------- Records (baris data) ---------- */
-    // rowId = `${sessionId}::${sheet}::${rowIndex}`
     rowId(sessionId, sheet, rowIndex) {
       return `${sessionId}::${sheet}::${rowIndex}`;
     },
@@ -123,8 +122,7 @@ const SAAS_DB = (() => {
       const db = await open();
       return new Promise((resolve, reject) => {
         const t = db.transaction(SAAS_APP.stores.records, 'readonly');
-        const idx = t.objectStore(SAAS_APP.stores.records)
-          .index('bySheet');
+        const idx = t.objectStore(SAAS_APP.stores.records).index('bySheet');
         const req = idx.getAll(IDBKeyRange.only([sessionId, sheet]));
         req.onsuccess = () => resolve(req.result || []);
         req.onerror   = () => reject(req.error);
@@ -142,12 +140,11 @@ const SAAS_DB = (() => {
       });
     },
 
-    /* ---------- Template master ---------- */
     async saveTemplate(arrayBuffer, fileName) {
       return this.put(SAAS_APP.stores.template, {
         id: 'master',
         fileName,
-        arrayBuffer,   // Uint8Array / ArrayBuffer
+        arrayBuffer,
         savedAt: new Date().toISOString(),
       });
     },
@@ -158,7 +155,6 @@ const SAAS_DB = (() => {
       return !!(await this.getTemplate());
     },
 
-    /* ---------- Meta ---------- */
     async setMeta(key, value) {
       return this.put(SAAS_APP.stores.meta, { key, value });
     },

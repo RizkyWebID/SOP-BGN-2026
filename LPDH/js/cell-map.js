@@ -4,7 +4,7 @@
  * Fungsi   : Peta lengkap sel input user (sel KUNING di master).
  *
  * ATURAN:
- *   - Hanya sel di sini yang ditulis saat export.
+ *   - Hanya sel di sini yang ditulis saat export / dibaca saat import.
  *   - Sheet G_CekPPK, H_RekapPPK, I_RegisterBukti, J_Pengesahan,
  *     Ref → TIDAK ADA input (read-only murni).
  *   - Sheet F_TopUp → kolom PPK di-skip; hanya info read-only.
@@ -13,7 +13,7 @@
 const SAAS_CELL_MAP = {
 
   /* ------------------------------------------------------------
-   * IDENTITAS (sheet: Identitas)
+   * IDENTITAS
    * ------------------------------------------------------------ */
   Identitas: [
     { cell: 'B5',  key: 'no_lpdh',      label: 'Nomor LPDH',            type: 'text' },
@@ -49,7 +49,7 @@ const SAAS_CELL_MAP = {
   ],
 
   /* ------------------------------------------------------------
-   * A_PM — baris 6..15 (10 kelompok sasaran) + ringkasan produksi
+   * A_PM — 10 kelompok sasaran + ringkasan produksi
    * ------------------------------------------------------------ */
   A_PM: [
     {
@@ -68,7 +68,6 @@ const SAAS_CELL_MAP = {
         { col: 'M', key: 'link_bast',          label: 'Link Bukti BAST',     type: 'url' },
       ],
     },
-    // Ringkasan produksi (C19..C24) — 5 baris a..e
     { cell: 'C19', key: 'total_produksi',     label: 'Total porsi diproduksi', type: 'number' },
     { cell: 'C21', key: 'uji_organoleptik',   label: 'Uji organoleptik',       type: 'number' },
     { cell: 'C22', key: 'sampel_makanan',     label: 'Sampel makanan',         type: 'number' },
@@ -77,7 +76,7 @@ const SAAS_CELL_MAP = {
   ],
 
   /* ------------------------------------------------------------
-   * B_BahanBaku — baris 6..45 (40 transaksi)
+   * B_BahanBaku — 40 transaksi
    * ------------------------------------------------------------ */
   B_BahanBaku: [
     {
@@ -117,7 +116,7 @@ const SAAS_CELL_MAP = {
   ],
 
   /* ------------------------------------------------------------
-   * C1_Relawan — baris 6..65 (60 relawan)
+   * C1_Relawan — 60 relawan
    * ------------------------------------------------------------ */
   C1_Relawan: [
     {
@@ -136,7 +135,7 @@ const SAAS_CELL_MAP = {
   ],
 
   /* ------------------------------------------------------------
-   * D_Insentif — syarat + pembayaran
+   * D_Insentif
    * ------------------------------------------------------------ */
   D_Insentif: [
     { cell: 'B6',  key: 'kontaminasi',   label: 'Terjadi kontaminasi/gagal salur', type: 'select', options:['Ya','Tidak'] },
@@ -156,7 +155,7 @@ const SAAS_CELL_MAP = {
   ],
 
   /* ------------------------------------------------------------
-   * E_Saldo — saldo awal + top up (baris 19..23)
+   * E_Saldo — saldo awal + top up
    * ------------------------------------------------------------ */
   E_Saldo: [
     { cell: 'B5',  key: 'saldo_bahan', label: 'Saldo awal Bahan Baku (Rp)',  type: 'number' },
@@ -179,14 +178,9 @@ const SAAS_CELL_MAP = {
   ],
 
   /* ------------------------------------------------------------
-   * F_TopUp — kolom PPK (biru) di-skip. Usulan SPPG sudah
-   * otomatis dari sheet lain, jadi tidak ada input user di sini.
+   * Read-only / tanpa input
    * ------------------------------------------------------------ */
-  F_TopUp: [],
-
-  /* ------------------------------------------------------------
-   * Read-only (tidak ada input)
-   * ------------------------------------------------------------ */
+  F_TopUp:        [],
   Petunjuk:       [],
   G_CekPPK:       [],
   H_RekapPPK:     [],

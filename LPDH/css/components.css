@@ -81,7 +81,7 @@
   transition: var(--t-fast);
   font-family: inherit;
 }
-/* Input yang "kunig lembut" = sel input user di workbook */
+/* Input yang "kuning lembut" = sel input user di workbook */
 .saas-input--yellow {
   background: var(--c-input-bg);
 }

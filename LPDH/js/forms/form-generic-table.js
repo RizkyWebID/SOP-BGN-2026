@@ -19,11 +19,11 @@ const SAAS_FORM_GENERIC_TABLE = {
     const cols = defs.cols;
 
     root.innerHTML = `
-      <h2 class="saas-card__title">${title}</h2>
-      <p class="saas-hint mb-3">${hint}</p>
+      ${title ? `<h2 class="saas-card__title">${title}</h2>` : ''}
+      ${hint ? `<p class="saas-hint mb-3">${hint}</p>` : ''}
       <div class="flex items-center gap-2 mb-2">
-        <button id="saas-add-row" class="saas-btn saas-btn--primary">+ Tambah Baris</button>
-        <span class="saas-hint" id="saas-row-count"></span>
+        <button class="saas-btn saas-btn--primary saas-add-row">+ Tambah Baris</button>
+        <span class="saas-hint saas-row-count"></span>
       </div>
       <div class="saas-table-wrap">
         <table class="saas-table"><thead><tr></tr></thead><tbody></tbody></table>
@@ -37,16 +37,16 @@ const SAAS_FORM_GENERIC_TABLE = {
     });
 
     const tbody = root.querySelector('tbody');
-    const addRowBtn = root.querySelector('#saas-add-row');
-    const rowCountEl = root.querySelector('#saas-row-count');
+    const addRowBtn = root.querySelector('.saas-add-row');
+    const rowCountEl = root.querySelector('.saas-row-count');
 
     // Cari baris terakhir yang terisi
     const saved = await SAAS_DB.rowsBySheet(sessionId, sheet);
-    const usedIdx = saved.map((r) => r.rowIndex).sort((a, b) => a - b);
+    const usedIdx = saved.map((r) => r.rowIndex).filter((i) => i >= defs.range.from).sort((a, b) => a - b);
     const nextIdx = usedIdx.length ? Math.max(...usedIdx) + 1 : defs.range.from;
     const startFrom = Math.min(nextIdx, defs.range.to);
 
-    // Selalu tampilkan minimal 1 baris (baris kosong pun boleh)
+    // Render minimal 1 baris
     const rowsToRender = [];
     for (let i = defs.range.from; i <= startFrom && i <= defs.range.to; i++) {
       rowsToRender.push(i);
@@ -70,7 +70,8 @@ const SAAS_FORM_GENERIC_TABLE = {
 
   async _renderRow(tbody, sessionId, sheet, cols, rowIndex) {
     const tr = document.createElement('tr');
-    const tdNo = document.createElement('td'); tdNo.textContent = rowIndex - 5;
+    const tdNo = document.createElement('td');
+    tdNo.textContent = rowIndex - 5;
     tr.appendChild(tdNo);
 
     const rec = await SAAS_DB.getRow(sessionId, sheet, rowIndex);

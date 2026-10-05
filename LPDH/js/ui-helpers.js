@@ -46,13 +46,12 @@ const SAAS_UI = (() => {
     }, ms);
   }
 
-  /* Konfirmasi berbasis Promise (pakai confirm bawaan dulu; bisa
-     diganti modal kustom nanti tanpa mengubah pemanggil). */
+  /* Konfirmasi berbasis Promise */
   function confirmDialog(message) {
     return new Promise((resolve) => resolve(window.confirm(message)));
   }
 
-  /* Tampilkan spinner overlay (blokir interaksi sementara) */
+  /* Spinner overlay (blokir interaksi sementara) */
   function showBusy(message = 'Memproses…') {
     let el = document.getElementById('saas-busy');
     if (!el) {
@@ -66,8 +65,8 @@ const SAAS_UI = (() => {
       document.body.appendChild(el);
     } else {
       el.querySelector('.saas-busy__msg').textContent = message;
-      el.style.display = 'flex';
     }
+    el.style.display = 'flex';
   }
   function hideBusy() {
     const el = document.getElementById('saas-busy');

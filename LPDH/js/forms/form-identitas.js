@@ -24,7 +24,6 @@ const SAAS_FORM_IDENTITAS = {
     const body = document.createElement('div');
     root.appendChild(body);
 
-    // Row index 0 dipakai sebagai penanda untuk sheet flat (Identitas).
     await SAAS_FORM_BUILDER.renderFlat('Identitas', sessionId, body, { rowIndex: 0 });
   },
 };
