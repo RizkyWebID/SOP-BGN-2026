@@ -1,7 +1,7 @@
 /* ============================================================
  * SAAS — LAPORAN KEUANGAN SPPG LPDH
  * File     : components.css
- * Fungsi   : Komponen UI dasar (card, button, form, table, toast).
+ * Fungsi   : Card, tombol, form, tabel, tab, toast, busy overlay.
  * ============================================================ */
 
 /* ---- Card ---- */
@@ -11,6 +11,7 @@
   border-radius: var(--r-lg);
   padding: 16px;
   box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
 }
 .saas-card__title {
   font-size: 14px;
@@ -19,7 +20,7 @@
   color: var(--c-text);
 }
 
-/* ---- Button ---- */
+/* ---- Tombol ---- */
 .saas-btn {
   display: inline-flex;
   align-items: center;
@@ -37,8 +38,9 @@
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
-.saas-btn:hover { filter: brightness(0.98); }
+.saas-btn:hover  { filter: brightness(0.98); }
 .saas-btn:active { transform: translateY(1px); }
+.saas-btn[disabled] { opacity: .55; cursor: not-allowed; }
 
 .saas-btn--primary {
   background: var(--c-primary);
@@ -46,18 +48,30 @@
   color: #fff;
 }
 .saas-btn--primary:hover { background: var(--c-primary-2); }
-
 .saas-btn--accent {
   background: var(--c-accent);
   border-color: var(--c-accent);
   color: #fff;
 }
+.saas-btn--danger {
+  background: #fff;
+  border-color: var(--c-danger);
+  color: var(--c-danger);
+}
 
 /* ---- Field / Input ---- */
-.saas-field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
-.saas-field > span { color: var(--c-text-muted); }
-
-.saas-input {
+.saas-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+.saas-field > span {
+  color: var(--c-text-muted);
+}
+.saas-input,
+.saas-select,
+.saas-textarea {
   padding: 8px 10px;
   font-size: 14px;
   color: var(--c-text);
@@ -65,30 +79,105 @@
   border: 1px solid var(--c-border);
   border-radius: var(--r-md);
   transition: var(--t-fast);
+  font-family: inherit;
 }
-.saas-input:focus {
+/* Input yang "kunig lembut" = sel input user di workbook */
+.saas-input--yellow {
+  background: var(--c-input-bg);
+}
+.saas-input:focus,
+.saas-select:focus,
+.saas-textarea:focus {
   border-color: var(--c-primary);
   outline: none;
   box-shadow: 0 0 0 3px rgba(74, 124, 89, .15);
 }
+.saas-input--readonly,
+.saas-input[readonly] {
+  background: var(--c-surface-2);
+  color: var(--c-text-muted);
+  cursor: not-allowed;
+}
 
 /* ---- Hint ---- */
-.saas-hint { color: var(--c-text-muted); font-size: 12px; margin: 0; }
+.saas-hint {
+  color: var(--c-text-muted);
+  font-size: 12px;
+  margin: 0;
+}
 
-/* ---- Table host ---- */
-.saas-table-host {
+/* ---- Tabel ---- */
+.saas-table-wrap {
   overflow-x: auto;
   border: 1px solid var(--c-border);
   border-radius: var(--r-md);
   background: #fff;
 }
-.saas-table-host table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.saas-table-host th, .saas-table-host td {
+.saas-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.saas-table th,
+.saas-table td {
   padding: 8px 10px;
   text-align: left;
   border-bottom: 1px solid var(--c-border);
+  vertical-align: top;
 }
-.saas-table-host th { background: var(--c-surface-2); font-weight: 700; }
+.saas-table th {
+  background: var(--c-surface-2);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ---- Tab nav ---- */
+.saas-tabs {
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+.saas-tabs__scroll {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding-top: 6px;
+  padding-bottom: 0;
+  scrollbar-width: thin;
+}
+.saas-tab {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-top-left-radius: var(--r-md);
+  border-top-right-radius: var(--r-md);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.saas-tab:hover { color: var(--c-text); }
+.saas-tab.is-active {
+  color: var(--c-primary);
+  background: var(--c-bg);
+  border-color: var(--c-border);
+  border-bottom: 1px solid var(--c-bg);
+  margin-bottom: -1px;
+}
+
+/* ---- View container ---- */
+.saas-view {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
 
 /* ---- Toast ---- */
 .saas-toast-host {
@@ -107,8 +196,35 @@
   transform: translateY(8px);
   opacity: 0;
   transition: var(--t-fast);
+  max-width: 320px;
 }
-.saas-toast.is-show { transform: translateY(0); opacity: 1; }
-.saas-toast--ok    { border-color: var(--c-ok);    }
-.saas-toast--warn  { border-color: var(--c-warn);  }
-.saas-toast--error { border-color: var(--c-danger);}
+.saas-toast.is-show   { transform: translateY(0); opacity: 1; }
+.saas-toast--ok       { border-color: var(--c-ok); }
+.saas-toast--warn     { border-color: var(--c-warn); }
+.saas-toast--error    { border-color: var(--c-danger); }
+
+/* ---- Busy overlay ---- */
+.saas-busy {
+  position: fixed; inset: 0;
+  background: rgba(44, 51, 56, .25);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+}
+.saas-busy__box {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 18px 22px;
+  display: flex; align-items: center; gap: 12px;
+  box-shadow: var(--shadow-md);
+}
+.saas-busy__spin {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 3px solid var(--c-border);
+  border-top-color: var(--c-primary);
+  animation: saas-spin .8s linear infinite;
+}
+.saas-busy__msg { font-size: 14px; }
+@keyframes saas-spin { to { transform: rotate(360deg); } }

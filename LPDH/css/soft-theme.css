@@ -1,28 +1,27 @@
 /* ============================================================
  * SAAS — LAPORAN KEUANGAN SPPG LPDH
  * File     : soft-theme.css
- * Fungsi   : Tema dasar terang lembut (tidak menyilaukan) +
- *            variabel warna & tipografi global.
- * Catatan  : Dipakai untuk SEMUA browser (termasuk lama).
+ * Fungsi   : Palet warna terang lembut, tipografi, reset ringan.
+ * Catatan  : Ramah browser lama; hindari CSS modern di sini.
  * ============================================================ */
 
 :root {
-  /* -------- Palet warna terang lembut -------- */
-  --c-bg:         #f6f5f1;   /* latar utama, off-white hangat */
-  --c-surface:    #fdfcf9;   /* kartu/panel */
-  --c-surface-2:  #f1efe9;   /* panel sekunder */
+  /* Palet terang lembut (tidak menyilaukan) */
+  --c-bg:         #f6f5f1;
+  --c-surface:    #fdfcf9;
+  --c-surface-2:  #f1efe9;
   --c-border:     #e2ddd3;
   --c-text:       #2c3338;
   --c-text-muted: #6b7280;
-  --c-primary:    #4a7c59;   /* hijau tenang */
+  --c-primary:    #4a7c59;
   --c-primary-2:  #3e6a4b;
-  --c-accent:     #6b8fb5;   /* biru lembut */
+  --c-accent:     #6b8fb5;
   --c-danger:     #b35656;
   --c-warn:       #c08a3e;
   --c-ok:         #4a7c59;
   --c-focus:      #9db9a6;
+  --c-input-bg:   #fffdf7;   /* sel "kuning" versi lembut */
 
-  /* -------- Radius, shadow, transition -------- */
   --r-sm: 6px;
   --r-md: 10px;
   --r-lg: 14px;
@@ -31,13 +30,14 @@
   --t-fast: .15s ease;
 }
 
-/* Reset ringan (hindari normalisasi berat agar ramah browser lama) */
+/* Reset ringan (hindari normalisasi berat) */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 html { -webkit-text-size-adjust: 100%; }
 
 body.saas-body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
   background: var(--c-bg);
   color: var(--c-text);
   font-size: 15px;
@@ -47,10 +47,10 @@ body.saas-body {
   flex-direction: column;
 }
 
-/* Container responsif ringan */
+/* Container responsif */
 .container {
   width: 100%;
-  max-width: 1080px;
+  max-width: 1120px;
   margin: 0 auto;
   padding-left: 12px;
   padding-right: 12px;
@@ -62,8 +62,8 @@ body.saas-body {
   border-bottom: 1px solid var(--c-border);
   box-shadow: var(--shadow-sm);
 }
-.saas-title { font-size: 16px; margin: 0; font-weight: 700; }
-.saas-subtitle { font-size: 12px; margin: 0; color: var(--c-text-muted); }
+.saas-title   { font-size: 16px; margin: 0; font-weight: 700; }
+.saas-subtitle{ font-size: 12px; margin: 0; color: var(--c-text-muted); }
 
 .saas-logo {
   display: inline-flex; align-items: center; justify-content: center;
@@ -79,7 +79,7 @@ body.saas-body {
   background: var(--c-surface);
 }
 
-/* Focus state lembut */
+/* Focus state lembut (bukan outline keras) */
 :focus-visible {
   outline: 2px solid var(--c-focus);
   outline-offset: 2px;

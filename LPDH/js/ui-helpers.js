@@ -1,22 +1,32 @@
 /* ============================================================
  * SAAS — LAPORAN KEUANGAN SPPG LPDH
  * File     : ui-helpers.js
- * Fungsi   : Helper UI ringan (toast, format angka/tanggal, dialog).
+ * Fungsi   : Helper UI ringan — toast, formatter angka/tanggal,
+ *            dialog konfirmasi berbasis Promise, escape HTML.
  * ============================================================ */
 
 const SAAS_UI = (() => {
-  /* Format angka gaya Indonesia: 1.234.567 */
-  const fmtNumber = (n) => new Intl.NumberFormat(SAAS_APP.ui.locale).format(Number(n) || 0);
 
-  /* Format rupiah ringkas */
+  /* Format angka gaya Indonesia: 1.234.567 */
+  const fmtNumber = (n) =>
+    new Intl.NumberFormat(SAAS_APP.ui.locale).format(Number(n) || 0);
+
+  /* Format rupiah */
   const fmtIDR = (n) => 'Rp ' + fmtNumber(n);
 
   /* Format tanggal DD MMM YYYY */
   const fmtDate = (d) => new Date(d).toLocaleDateString(SAAS_APP.ui.locale, {
-    day: '2-digit', month: 'short', year: 'numeric'
+    day: '2-digit', month: 'short', year: 'numeric',
   });
 
-  /* Toast ringan tanpa library — otomatis hilang */
+  /* Escape HTML untuk pencegahan XSS sederhana */
+  const escapeHtml = (str) =>
+    String(str ?? '').replace(/[&<>"']/g, (m) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;',
+      '"': '&quot;', "'": '&#39;',
+    }[m]));
+
+  /* Toast ringan (tanpa library) */
   function toast(msg, type = 'info', ms = 2600) {
     let host = document.getElementById('saas-toast-host');
     if (!host) {
@@ -36,15 +46,38 @@ const SAAS_UI = (() => {
     }, ms);
   }
 
-  /* Konfirmasi sederhana berbasis Promise (tanpa alert bawaan) */
+  /* Konfirmasi berbasis Promise (pakai confirm bawaan dulu; bisa
+     diganti modal kustom nanti tanpa mengubah pemanggil). */
   function confirmDialog(message) {
-    return new Promise((resolve) => {
-      const ok = window.confirm(message); // fallback simpel dulu
-      resolve(ok);
-    });
+    return new Promise((resolve) => resolve(window.confirm(message)));
   }
 
-  return { fmtNumber, fmtIDR, fmtDate, toast, confirmDialog };
+  /* Tampilkan spinner overlay (blokir interaksi sementara) */
+  function showBusy(message = 'Memproses…') {
+    let el = document.getElementById('saas-busy');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'saas-busy';
+      el.className = 'saas-busy';
+      el.innerHTML = `<div class="saas-busy__box">
+        <div class="saas-busy__spin" aria-hidden="true"></div>
+        <div class="saas-busy__msg">${escapeHtml(message)}</div>
+      </div>`;
+      document.body.appendChild(el);
+    } else {
+      el.querySelector('.saas-busy__msg').textContent = message;
+      el.style.display = 'flex';
+    }
+  }
+  function hideBusy() {
+    const el = document.getElementById('saas-busy');
+    if (el) el.style.display = 'none';
+  }
+
+  return {
+    fmtNumber, fmtIDR, fmtDate, escapeHtml,
+    toast, confirmDialog, showBusy, hideBusy,
+  };
 })();
 
 window.SAAS_UI = SAAS_UI;
