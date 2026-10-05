@@ -1,68 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#f6f5f1" />
-  <title>Laporan Keuangan SPPG LPDH — SAAS</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f5f1" />
+    <title>Laporan Keuangan SPPG LPDH — SAAS</title>
 
-  <link rel="stylesheet" href="css/soft-theme.css" />
-  <link rel="stylesheet" href="css/utilities.css" />
-  <link rel="stylesheet" href="css/components.css" />
-</head>
-<body class="saas-body">
+    <link rel="stylesheet" href="css/soft-theme.css" />
+    <link rel="stylesheet" href="css/utilities.css" />
+    <link rel="stylesheet" href="css/components.css" />
 
-  <!-- ============ HEADER ============ -->
-  <header class="saas-header">
-    <div class="container flex items-center justify-between gap-3 py-3">
-      <div class="flex items-center gap-2">
-        <span class="saas-logo" aria-hidden="true">SPPG</span>
-        <div>
-          <h1 class="saas-title">Laporan Keuangan SPPG LPDH</h1>
-          <p class="saas-subtitle" id="saas-version">Versi: —</p>
+    <!-- (di bagian atas <head>, tambahkan setelah CSS) -->
+
+    <!-- ExcelJS — CDN dulu, fallback ke vendor/ lokal -->
+    <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+    <script>
+      // Fallback bila CDN gagal (offline / blokir)
+      if (typeof ExcelJS === "undefined") {
+        document.write('<script src="vendor/exceljs.min.js"><\/script>');
+      }
+    </script>
+  </head>
+  <body class="saas-body">
+    <!-- ============ HEADER ============ -->
+    <header class="saas-header">
+      <div class="container flex items-center justify-between gap-3 py-3">
+        <div class="flex items-center gap-2">
+          <span class="saas-logo" aria-hidden="true">SPPG</span>
+          <div>
+            <h1 class="saas-title">Laporan Keuangan SPPG LPDH</h1>
+            <p class="saas-subtitle" id="saas-version">Versi: —</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2" id="saas-user-area">
+          <span class="saas-hint" id="saas-active-user">Belum ada sesi</span>
         </div>
       </div>
-      <div class="flex items-center gap-2" id="saas-user-area">
-        <span class="saas-hint" id="saas-active-user">Belum ada sesi</span>
+    </header>
+
+    <!-- ============ TAB NAV ============ -->
+    <nav class="saas-tabs" id="saas-tabs">
+      <div class="container saas-tabs__scroll">
+        <button class="saas-tab is-active" data-tab="sesi">Sesi</button>
+        <button class="saas-tab" data-tab="identitas">Identitas</button>
+        <button class="saas-tab" data-tab="a-pm">A_PM</button>
+        <button class="saas-tab" data-tab="b-bahan">B_BahanBaku</button>
+        <button class="saas-tab" data-tab="c-ops">C_Operasional</button>
+        <button class="saas-tab" data-tab="c1-relawan">C1_Relawan</button>
+        <button class="saas-tab" data-tab="d-insentif">D_Insentif</button>
+        <button class="saas-tab" data-tab="e-saldo">E_Saldo</button>
+        <button class="saas-tab" data-tab="f-topup">F_TopUp</button>
+        <button class="saas-tab" data-tab="export">Export</button>
       </div>
-    </div>
-  </header>
+    </nav>
 
-  <!-- ============ TAB NAV ============ -->
-  <nav class="saas-tabs" id="saas-tabs">
-    <div class="container saas-tabs__scroll">
-      <button class="saas-tab is-active" data-tab="sesi">Sesi</button>
-      <button class="saas-tab" data-tab="identitas">Identitas</button>
-      <button class="saas-tab" data-tab="a-pm">A_PM</button>
-      <button class="saas-tab" data-tab="b-bahan">B_BahanBaku</button>
-      <button class="saas-tab" data-tab="c-ops">C_Operasional</button>
-      <button class="saas-tab" data-tab="c1-relawan">C1_Relawan</button>
-      <button class="saas-tab" data-tab="d-insentif">D_Insentif</button>
-      <button class="saas-tab" data-tab="e-saldo">E_Saldo</button>
-      <button class="saas-tab" data-tab="f-topup">F_TopUp</button>
-      <button class="saas-tab" data-tab="export">Export</button>
-    </div>
-  </nav>
+    <!-- ============ MAIN ============ -->
+    <main class="container py-4" id="saas-main">
+      <div id="saas-view" class="saas-view">
+        <!-- Konten per tab dirender oleh app.js -->
+        <p class="saas-hint">Memuat…</p>
+      </div>
+    </main>
 
-  <!-- ============ MAIN ============ -->
-  <main class="container py-4" id="saas-main">
-    <div id="saas-view" class="saas-view">
-      <!-- Konten per tab dirender oleh app.js -->
-      <p class="saas-hint">Memuat…</p>
-    </div>
-  </main>
+    <!-- ============ FOOTER ============ -->
+    <footer class="saas-footer">
+      <div class="container py-3 text-center">
+        <small
+          >© <span id="saas-year"></span> SPPG LPDH — SaaS Foundation</small
+        >
+      </div>
+    </footer>
 
-  <!-- ============ FOOTER ============ -->
-  <footer class="saas-footer">
-    <div class="container py-3 text-center">
-      <small>© <span id="saas-year"></span> SPPG LPDH — SaaS Foundation</small>
-    </div>
-  </footer>
+    <!-- JS inti (batch 1) -->
+    <script src="js/saas-config.js"></script>
+    <script src="js/db-local.js"></script>
+    <script src="js/ui-helpers.js"></script>
 
-  <!-- JS inti (batch 1) -->
-  <script src="js/saas-config.js"></script>
-  <script src="js/db-local.js"></script>
-  <script src="js/ui-helpers.js"></script>
-  <script src="js/app.js"></script>
-</body>
+    <!-- (di bagian bawah, sebelum </body>, tambahkan setelah js/ui-helpers.js) -->
+    <script src="js/cell-map.js"></script>
+    <script src="js/xlsx-engine.js"></script>
+    <script src="js/forms/_form-builder.js"></script>
+    <script src="js/forms/form-generic-table.js"></script>
+    <script src="js/forms/form-identitas.js"></script>
+    <script src="js/forms/form-a-pm.js"></script>
+    <script src="js/forms/form-d-insentif.js"></script>
+
+    <script src="js/app.js"></script>
+  </body>
 </html>

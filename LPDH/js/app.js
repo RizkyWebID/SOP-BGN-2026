@@ -8,46 +8,128 @@
  * ============================================================ */
 
 (function bootstrap() {
-  'use strict';
+  "use strict";
 
   // ---------- Info versi & tahun ----------
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
-  $('#saas-version').textContent = 'Versi: ' + SAAS_APP.brand.version;
-  $('#saas-year').textContent = new Date().getFullYear();
+  $("#saas-version").textContent = "Versi: " + SAAS_APP.brand.version;
+  $("#saas-year").textContent = new Date().getFullYear();
 
   // ---------- State ----------
   const state = {
-    activeSession: null,   // objek sesi aktif (dari SAAS_DB)
-    activeTab: 'sesi',
+    activeSession: null, // objek sesi aktif (dari SAAS_DB)
+    activeTab: "sesi",
   };
 
   // ---------- Routing tab ----------
-  $$('.saas-tab').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      $$('.saas-tab').forEach((b) => b.classList.remove('is-active'));
-      btn.classList.add('is-active');
+  $$(".saas-tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      $$(".saas-tab").forEach((b) => b.classList.remove("is-active"));
+      btn.classList.add("is-active");
       state.activeTab = btn.dataset.tab;
       renderView();
     });
   });
 
-  // ---------- View dispatcher ----------
+  /* ---------- View dispatcher ---------- */
   function renderView() {
-    const v = $('#saas-view');
-    v.innerHTML = '';
+    const v = $("#saas-view");
+    v.innerHTML = "";
+
+    if (!state.activeSession) {
+      if (state.activeTab !== "sesi") {
+        v.innerHTML = '<p class="saas-hint">Buat sesi dulu di tab Sesi.</p>';
+        return;
+      }
+    }
+
+    const sid = state.activeSession && state.activeSession.id;
 
     switch (state.activeTab) {
-      case 'sesi':       return renderViewSesi(v);
-      case 'export':     return renderViewExport(v);
-      // Tab input (batch 2): cukup placeholder
+      case "sesi":
+        return renderViewSesi(v);
+      case "identitas":
+        return SAAS_FORM_IDENTITAS.render(v, sid);
+      case "a-pm":
+        return SAAS_FORM_APM.render(v, sid);
+      case "b-bahan":
+        return SAAS_FORM_GENERIC_TABLE.render(v, sid, {
+          sheet: "B_BahanBaku",
+          title: "B. Rincian Belanja Bahan Baku Pangan",
+          hint: "Satu baris = satu transaksi. Nomor bukti wajib unik.",
+          maxRows: 40,
+        });
+      case "c-ops":
+        return SAAS_FORM_GENERIC_TABLE.render(v, sid, {
+          sheet: "C_Operasional",
+          title: "C. Rincian Biaya Operasional",
+          hint: "Baris insentif relawan terisi otomatis dari C1_Relawan.",
+          maxRows: 15,
+        });
+      case "c1-relawan":
+        return SAAS_FORM_GENERIC_TABLE.render(v, sid, {
+          sheet: "C1_Relawan",
+          title: "C1. Daftar Nominatif Insentif Relawan",
+          hint: "Nama, tugas, tanggal, dan link bukti bayar.",
+          maxRows: 60,
+        });
+      case "d-insentif":
+        return SAAS_FORM_DINSENTIF.render(v, sid);
+      case "e-saldo":
+        return SAAS_FORM_GENERIC_TABLE.render(v, sid, {
+          sheet: "E_Saldo",
+          title: "E. Saldo & Penerimaan Top Up",
+          hint: "Baris top up (5 baris). Saldo awal diisi manual.",
+          maxRows: 5,
+        });
+      case "f-topup":
+        return renderViewTopUpInfo(v);
+      case "export":
+        return renderViewExport(v);
       default:
-        v.innerHTML = `
-          <h2 class="saas-card__title">${SAAS_UI.escapeHtml(state.activeTab)}</h2>
-          <p class="saas-hint">Form akan tersedia di batch 2 (xlsx engine + form).</p>
-        `;
+        v.innerHTML = '<p class="saas-hint">Tab tidak dikenal.</p>';
     }
+  }
+
+  /* Info F_TopUp (read-only untuk SPPG) */
+  function renderViewTopUpInfo(root) {
+    root.innerHTML = `
+      <h2 class="saas-card__title">F. Usulan & Persetujuan Top Up</h2>
+      <p class="saas-hint mb-3">
+        Bagian ini <strong>diisi Tim PPK</strong> (kolom biru di master).
+        Usulan SPPG terisi otomatis dari total B_BahanBaku + C_Operasional + D_Insentif
+        saat file dibuka di Excel. Anda tidak perlu mengisi apa pun di sini.
+      </p>
+    `;
+  }
+
+  /* Export — versi aktif */
+  function renderViewExport(root) {
+    root.innerHTML = `
+      <h2 class="saas-card__title">Export XLSX</h2>
+      <p class="saas-hint mb-3">
+        File yang diunduh dibuat BARU dari template master yang Anda tanam.
+        File master asli tidak pernah diubah.
+      </p>
+      <button id="saas-btn-export" class="saas-btn saas-btn--accent">Export Sekarang</button>
+    `;
+    root
+      .querySelector("#saas-btn-export")
+      .addEventListener("click", async () => {
+        if (!state.activeSession)
+          return SAAS_UI.toast("Buat sesi dulu.", "warn");
+        try {
+          const blob = await SAAS_XLSX.exportSession(state.activeSession.id);
+          const fname = await SAAS_XLSX.buildFileName(state.activeSession.id);
+          SAAS_XLSX.downloadBlob(blob, fname);
+          SAAS_UI.toast("Export berhasil: " + fname, "ok", 4000);
+        } catch (err) {
+          console.error(err);
+          SAAS_UI.toast("Export gagal: " + err.message, "error", 5000);
+        }
+      });
   }
 
   // ---------- View: Sesi ----------
@@ -84,12 +166,12 @@
     `;
 
     // Simpan referensi
-    const elUser   = $('#saas-input-user');
-    const elSess   = $('#saas-input-session');
-    const btnNew   = $('#saas-btn-new-session');
-    const elMaster = $('#saas-input-master');
-    const btnUp    = $('#saas-btn-upload-master');
-    const elStatus = $('#saas-template-status');
+    const elUser = $("#saas-input-user");
+    const elSess = $("#saas-input-session");
+    const btnNew = $("#saas-btn-new-session");
+    const elMaster = $("#saas-input-master");
+    const btnUp = $("#saas-btn-upload-master");
+    const elStatus = $("#saas-template-status");
 
     // Isi status template
     SAAS_DB.hasTemplate().then((has) => {
@@ -98,36 +180,37 @@
           elStatus.textContent = `Template tersedia (${t.fileName}, ditanam ${SAAS_UI.fmtDate(t.savedAt)})`;
         });
       } else {
-        elStatus.textContent = 'Belum ada template. Silakan tanam master XLSX.';
+        elStatus.textContent = "Belum ada template. Silakan tanam master XLSX.";
       }
     });
 
     // Buat sesi baru
-    btnNew.addEventListener('click', async () => {
-      const name = (elUser.value || '').trim();
-      if (!name) return SAAS_UI.toast('Isi nama pengguna dulu.', 'warn');
+    btnNew.addEventListener("click", async () => {
+      const name = (elUser.value || "").trim();
+      if (!name) return SAAS_UI.toast("Isi nama pengguna dulu.", "warn");
       const s = await SAAS_DB.createSession(name);
       state.activeSession = s;
       elSess.value = s.id;
-      $('#saas-active-user').textContent = `Sesi: ${s.userName}`;
-      SAAS_UI.toast('Sesi dibuat: ' + s.id, 'ok');
+      $("#saas-active-user").textContent = `Sesi: ${s.userName}`;
+      SAAS_UI.toast("Sesi dibuat: " + s.id, "ok");
     });
 
     // Tanam template
-    btnUp.addEventListener('click', async () => {
+    btnUp.addEventListener("click", async () => {
       const file = elMaster.files?.[0];
-      if (!file) return SAAS_UI.toast('Pilih file master XLSX dulu.', 'warn');
-      if (!/\.xlsx$/i.test(file.name)) return SAAS_UI.toast('File harus .xlsx', 'warn');
+      if (!file) return SAAS_UI.toast("Pilih file master XLSX dulu.", "warn");
+      if (!/\.xlsx$/i.test(file.name))
+        return SAAS_UI.toast("File harus .xlsx", "warn");
 
       try {
-        SAAS_UI.showBusy('Membaca master XLSX…');
+        SAAS_UI.showBusy("Membaca master XLSX…");
         const buf = await file.arrayBuffer();
         await SAAS_DB.saveTemplate(buf, file.name);
-        SAAS_UI.toast('Template berhasil ditanam.', 'ok');
+        SAAS_UI.toast("Template berhasil ditanam.", "ok");
         elStatus.textContent = `Template tersedia (${file.name})`;
       } catch (err) {
         console.error(err);
-        SAAS_UI.toast('Gagal menanam template: ' + err.message, 'error');
+        SAAS_UI.toast("Gagal menanam template: " + err.message, "error");
       } finally {
         SAAS_UI.hideBusy();
       }
@@ -148,6 +231,9 @@
   // ---------- Render awal ----------
   renderView();
 
-  console.info('[SAAS] %s v%s siap.',
-    SAAS_APP.brand.name, SAAS_APP.brand.version);
+  console.info(
+    "[SAAS] %s v%s siap.",
+    SAAS_APP.brand.name,
+    SAAS_APP.brand.version,
+  );
 })();
